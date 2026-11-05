@@ -1,0 +1,28 @@
+# ClaimSense eval gate: change control from M0.
+#
+# M0 (now): every push/PR validates the eval suite (shape, coverage, deterministic facts recomputed
+#           in code) and re-scores the legacy rule-table baseline. Both are stdlib-only and $0.
+# M2 (W15): add a job that scores the co-pilot on the same suite and BLOCKS the image push unless
+#           overall >= 85%, adversarial = 100% and every verdict is model-produced (DECISIONS D-007).
+name: eval-gate
+on:
+  push:
+  pull_request:
+
+jobs:
+  eval-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate eval suite (fails on any shape, coverage or computed-fact error)
+        working-directory: M0/evals
+        run: python3 -I validate_cases.py
+      - name: Harness self-tests (gate passes a perfect system, blocks injection / leakage / fallback)
+        working-directory: M0/evals
+        run: python3 test_harness.py -v
+      - name: Score legacy rule-table baseline (informational; expected to be BLOCKED)
+        working-directory: M0/evals
+        run: python3 -I score.py --verbose || echo "baseline is below the gate, as expected"
