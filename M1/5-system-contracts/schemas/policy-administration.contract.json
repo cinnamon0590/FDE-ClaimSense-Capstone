@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/policy-administration",
+  "title": "Policy administration system contract",
+  "$defs": {
+    "GetPolicyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "pattern": "^POL-AU-\\d{5}$"
+        }
+      }
+    },
+    "SearchClausesRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query"
+      ],
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 3
+        },
+        "loss_type": {
+          "enum": [
+            "collision",
+            "glass",
+            "hail",
+            "theft",
+            "vandalism"
+          ]
+        },
+        "top_k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        }
+      }
+    },
+    "SearchClausesResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query",
+        "hits",
+        "quarantined"
+      ],
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "hits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "clause_id",
+              "title",
+              "text",
+              "score",
+              "manifest_sha256"
+            ],
+            "properties": {
+              "clause_id": {
+                "type": "string",
+                "pattern": "^CLS-[A-Z]{2,4}-\\d{3}$"
+              },
+              "title": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "manifest_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        },
+        "quarantined": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "chunks dropped for failing manifest provenance (logged, never returned)"
+        }
+      }
+    }
+  }
+}

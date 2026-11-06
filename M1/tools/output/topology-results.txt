@@ -1,0 +1,20 @@
+==============================================================================
+ClaimSense pilot: 3 systems, request/reply first pass, 5-week ship
+==============================================================================
+  P2P (point-to-point)     score=5   (few systems (<=4); tight ship deadline; synchronous request/reply)
+  iPaaS (managed hub)      score=1   (high growth ahead)
+  Event mesh (pub/sub)     score=1   (high growth ahead)
+  → P2P (point-to-point)
+  Implementation: point-to-point, but every call funnels through the ONE data boundary (MCP server),
+  so the pilot still has a single governed door for RBAC + audit.
+
+==============================================================================
+Expansion: FNOL events pushed from claims mgmt, + payments, SIU case mgmt, telematics, repair network, CRM
+==============================================================================
+  P2P (point-to-point)     score=0   (—)
+  iPaaS (managed hub)      score=5   (many systems -> N^2 wiring; central governance needed; high growth ahead)
+  Event mesh (pub/sub)     score=4   (real-time / event-driven flows; high growth ahead)
+  → iPaaS (managed hub)
+  Revisit trigger (DECISIONS D-010): when a 5th system joins the boundary or claims management starts
+  pushing FNOL events, re-run this selector. At full expansion it picks a managed hub: AutoSure's iPaaS
+  if it has one, otherwise EventBridge + Step Functions on AWS, still behind the same governed door.

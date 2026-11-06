@@ -1,7 +1,8 @@
-# ClaimSense eval gate: change control from M0.
+# ClaimSense eval gate + design checks: change control from M0.
 #
-# M0 (now): every push/PR validates the eval suite (shape, coverage, deterministic facts recomputed
-#           in code) and re-scores the legacy rule-table baseline. Both are stdlib-only and $0.
+# M0: validate the eval suite (shape, coverage, computed facts) and score the legacy baseline.
+# M1: the synthetic fixtures must equal what the generator produces from the eval cases (no drift),
+#     the data must validate, and the data-boundary contract tests must pass.
 # M2 (W15): add a job that scores the co-pilot on the same suite and BLOCKS the image push unless
 #           overall >= 85%, adversarial = 100% and every verdict is model-produced (DECISIONS D-007).
 name: eval-gate
@@ -12,11 +13,14 @@ on:
 jobs:
   eval-suite:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.14"]   # brief minimum + the project venv's version
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: Validate eval suite (fails on any shape, coverage or computed-fact error)
         working-directory: M0/evals
         run: python3 -I validate_cases.py
@@ -26,3 +30,34 @@ jobs:
       - name: Score legacy rule-table baseline (informational; expected to be BLOCKED)
         working-directory: M0/evals
         run: python3 -I score.py --verbose || echo "baseline is below the gate, as expected"
+
+  design-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.14"]   # brief minimum + the project venv's version
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Fixtures match the generator (no drift from the eval cases)
+        working-directory: M1/6-synthetic-data
+        run: |
+          python3 -I generate_fixtures.py
+          git diff --exit-code -- fixtures/ || { echo "fixtures differ from generator output; regenerate and commit"; exit 1; }
+      - name: Validate synthetic data (schemas, integrity, M0-case consistency, clause provenance)
+        working-directory: M1/6-synthetic-data
+        run: python3 -I validate_data.py
+      - name: Data-boundary contract tests (idempotency, human-only confirm, anti-enumeration, audit)
+        working-directory: M1/5-system-contracts
+        run: python3 test_contracts.py -v
+      - name: Guardrail tests (G1-G7 on the M0 adversarial cases, graded by the M0 scorer)
+        working-directory: M1/2-architecture
+        run: python3 test_guardrails.py -v
+      - name: Pricing, stack and topology tools run
+        working-directory: M1/tools
+        run: |
+          python3 -I pricing.py > /dev/null
+          python3 -I stack_matrix.py > /dev/null
+          python3 -I topology.py > /dev/null

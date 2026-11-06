@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/user",
+  "title": "User (synthetic directory entry; maps to a Cognito user + groups)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "user_id",
+    "display_name",
+    "groups",
+    "entitled_claim_scope"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "groups": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "adjuster",
+          "senior-adjuster",
+          "fraud-investigator",
+          "total-loss-appraiser",
+          "customer-service"
+        ]
+      }
+    },
+    "entitled_claim_scope": {
+      "type": "string"
+    }
+  }
+}

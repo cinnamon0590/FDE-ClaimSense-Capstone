@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/document",
+  "title": "Document (document store record)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "doc_id",
+    "claim_id",
+    "doc_type",
+    "title",
+    "source_system",
+    "received_date",
+    "content_text",
+    "metadata",
+    "trust",
+    "sha256"
+  ],
+  "properties": {
+    "doc_id": {
+      "type": "string",
+      "pattern": "^DOC-\\d{4}-\\d{4}-[A-Z-]+$"
+    },
+    "claim_id": {
+      "type": "string",
+      "pattern": "^CLM-\\d{4}-\\d{4}$"
+    },
+    "doc_type": {
+      "enum": [
+        "fnol_form",
+        "police_report",
+        "repair_estimate",
+        "repair_invoice",
+        "glass_invoice",
+        "photos",
+        "medical_note",
+        "er_discharge_summary",
+        "driver_statement",
+        "tow_receipt",
+        "third_party_note",
+        "authorisation_letter",
+        "renewal_confirmation_email"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "source_system": {
+      "enum": [
+        "claims_management",
+        "document_store"
+      ]
+    },
+    "received_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "content_text": {
+      "type": "string",
+      "description": "UNTRUSTED: scanned for injection before model context"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "exif_dates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "trust": {
+      "const": "untrusted"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

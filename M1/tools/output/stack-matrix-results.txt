@@ -1,0 +1,18 @@
+weights: brief_standard=0.25, client_platform=0.2, typed_output=0.15, data_path_control=0.15, identity_rbac=0.1, cost=0.05, ecosystem_maturity=0.1
+
+====================================================================================================
+STACK-CHOICE MATRIX — ClaimSense at AutoSure (AWS-hosted motor insurer)
+====================================================================================================
+Stack                                                      brief_stan client_pla typed_outp data_path_ identity_r       cost ecosystem_    WTD
+OpenAI Agents SDK + OpenAI API, hosted on AWS (ECS, Lambd           5          5          5          3          5          4          5   4.65
+OpenAI Agents SDK + Claude on Amazon Bedrock (LiteLLM bri           3          5          4          5          5          4          4   4.20
+OpenAI Agents SDK + Azure OpenAI / Foundry, hosted on Azu           3          2          5          4          4          3          5   3.55
+Google ADK + Gemini, hosted on GCP                                  1          2          4          4          3          5          4   2.80
+→ winner: OpenAI Agents SDK + OpenAI API, hosted on AWS (ECS, Lambda, S3, OpenSearch, Cognito)  (4.65)
+
+WHEN THE ANSWER FLIPS (same candidates, one changed condition):
+  Security forbids an external model provider (data_path_control weight 0.40) → OpenAI Agents SDK + Claude on Amazon Bedrock (LiteLLM bridge  (4.55)
+  AutoSure is M365/Entra-first and hosts on Azure                     → OpenAI Agents SDK + Azure OpenAI / Foundry, hosted on Azure  (4.15)
+
+The harness (OpenAI Agents SDK, the deterministic boundary, the eval gate) is portable across
+all four; the model provider and cloud are a client-fit decision. Flip trigger is logged in DECISIONS D-009.

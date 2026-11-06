@@ -1,0 +1,172 @@
+ClaimSense AI × AutoSure — cloud resource inventory
+captured: 2026-11-05T17:43:30Z · region: us-east-1 · account: 4747****8384
+identity:
+arn:aws:iam::4747****8384:user/FDE_PROJECT_ADMIN
+
+$ aws resourcegroupstaggingapi get-resources --tag-filters Key=Project,Values=ClaimSense --query ResourceTagMappingList[].ResourceARN --output table
+-------------------------------------------------------------------------------------------
+|                                      GetResources                                       |
++-----------------------------------------------------------------------------------------+
+|  arn:aws:resource-groups:us-east-1:4747****8384:group/ClaimSense-pilot                  |
+|  arn:aws:cognito-idp:us-east-1:4747****8384:userpool/us-east-1_xhmobmkut                |
+|  arn:aws:secretsmanager:us-east-1:4747****8384:secret:claimsense/openai-api-key-qGJst7  |
+|  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/orchestrator                 |
+|  arn:aws:ecr:us-east-1:4747****8384:repository/claimsense/orchestrator                  |
+|  arn:aws:dynamodb:us-east-1:4747****8384:table/claimsense-idempotency                   |
+|  arn:aws:dynamodb:us-east-1:4747****8384:table/claimsense-audit                         |
+|  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/data-boundary                |
+|  arn:aws:s3:::claimsense-autosure-docs-4747****8384-us-east-1                           |
+|  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/audit                        |
++-----------------------------------------------------------------------------------------+
+
+$ aws s3api get-public-access-block --bucket claimsense-autosure-docs-4747****8384-us-east-1 --output table
+-------------------------------------
+|       GetPublicAccessBlock        |
++-----------------------------------+
+|| PublicAccessBlockConfiguration  ||
+|+-------------------------+-------+|
+||  BlockPublicAcls        |  True ||
+||  BlockPublicPolicy      |  True ||
+||  IgnorePublicAcls       |  True ||
+||  RestrictPublicBuckets  |  True ||
+|+-------------------------+-------+|
+
+$ aws s3api get-bucket-encryption --bucket claimsense-autosure-docs-4747****8384-us-east-1 --query ServerSideEncryptionConfiguration.Rules[0].ApplyServerSideEncryptionByDefault --output table
+----------------------------
+|    GetBucketEncryption   |
++---------------+----------+
+|  SSEAlgorithm |  AES256  |
++---------------+----------+
+
+$ aws s3api get-bucket-versioning --bucket claimsense-autosure-docs-4747****8384-us-east-1 --output table
+-----------------------
+| GetBucketVersioning |
++---------+-----------+
+|  Status |  Enabled  |
++---------+-----------+
+
+$ aws ecr describe-repositories --repository-names claimsense/orchestrator --query repositories[0].{name:repositoryName,uri:repositoryUri,tags:imageTagMutability,scanOnPush:imageScanningConfiguration.scanOnPush} --output table
+----------------------------------------------------------------------------------------
+|                                 DescribeRepositories                                 |
++------------+-------------------------------------------------------------------------+
+|  name      |  claimsense/orchestrator                                                |
+|  scanOnPush|  True                                                                   |
+|  tags      |  IMMUTABLE                                                              |
+|  uri       |  4747****8384.dkr.ecr.us-east-1.amazonaws.com/claimsense/orchestrator   |
++------------+-------------------------------------------------------------------------+
+
+$ aws cognito-idp describe-user-pool --user-pool-id us-east-1_xhmobmkut --query UserPool.{id:Id,name:Name,mfa:MfaConfiguration,adminCreateOnly:AdminCreateUserConfig.AllowAdminCreateUserOnly,minPassword:Policies.PasswordPolicy.MinimumLength} --output table
+--------------------------------------------------
+|                DescribeUserPool                |
++------------------+-----------------------------+
+|  adminCreateOnly |  True                       |
+|  id              |  us-east-1_xhmobmkut        |
+|  mfa             |  OPTIONAL                   |
+|  minPassword     |  14                         |
+|  name            |  claimsense-autosure-users  |
++------------------+-----------------------------+
+
+$ aws cognito-idp list-groups --user-pool-id us-east-1_xhmobmkut --query Groups[].GroupName --output table
+--------------------------
+|       ListGroups       |
++------------------------+
+|  adjuster              |
+|  senior-adjuster       |
+|  customer-service      |
+|  total-loss-appraiser  |
+|  fraud-investigator    |
++------------------------+
+
+$ aws dynamodb describe-table --table-name claimsense-audit --query Table.{name:TableName,status:TableStatus,billing:BillingModeSummary.BillingMode,keys:KeySchema[].AttributeName,encrypted:SSEDescription.Status} --output table
+----------------------------------------------------------------
+|                         DescribeTable                        |
++------------------+------------+--------------------+---------+
+|      billing     | encrypted  |       name         | status  |
++------------------+------------+--------------------+---------+
+|  PAY_PER_REQUEST |  ENABLED   |  claimsense-audit  |  ACTIVE |
++------------------+------------+--------------------+---------+
+||                            keys                            ||
+|+------------------------------------------------------------+|
+||  resource                                                  ||
+||  ts_request                                                ||
+|+------------------------------------------------------------+|
+
+$ aws dynamodb describe-table --table-name claimsense-idempotency --query Table.{name:TableName,status:TableStatus,billing:BillingModeSummary.BillingMode,keys:KeySchema[].AttributeName,encrypted:SSEDescription.Status} --output table
+----------------------------------------------------------------------
+|                            DescribeTable                           |
++------------------+------------+--------------------------+---------+
+|      billing     | encrypted  |          name            | status  |
++------------------+------------+--------------------------+---------+
+|  PAY_PER_REQUEST |  ENABLED   |  claimsense-idempotency  |  ACTIVE |
++------------------+------------+--------------------------+---------+
+||                               keys                               ||
+|+------------------------------------------------------------------+|
+||  scope_key                                                       ||
+|+------------------------------------------------------------------+|
+
+$ aws dynamodb describe-continuous-backups --table-name claimsense-audit --query ContinuousBackupsDescription.PointInTimeRecoveryDescription.PointInTimeRecoveryStatus --output text
+ENABLED
+
+$ aws dynamodb describe-time-to-live --table-name claimsense-idempotency --query TimeToLiveDescription --output table
+---------------------------------------
+|         DescribeTimeToLive          |
++----------------+--------------------+
+|  AttributeName | TimeToLiveStatus   |
++----------------+--------------------+
+|  expires_at    |  ENABLED           |
++----------------+--------------------+
+
+$ aws logs describe-log-groups --log-group-name-prefix /claimsense/ --query logGroups[].{name:logGroupName,retentionDays:retentionInDays} --output table
+------------------------------------------------
+|               DescribeLogGroups              |
++----------------------------+-----------------+
+|            name            |  retentionDays  |
++----------------------------+-----------------+
+|  /claimsense/audit         |  30             |
+|  /claimsense/data-boundary |  30             |
+|  /claimsense/orchestrator  |  30             |
++----------------------------+-----------------+
+
+$ aws secretsmanager describe-secret --secret-id claimsense/openai-api-key --query {name:Name,created:CreatedDate,tags:length(Tags)} --output table
+---------------------------------------------------------------------------
+|                             DescribeSecret                              |
++-----------------------------------+-----------------------------+-------+
+|              created              |            name             | tags  |
++-----------------------------------+-----------------------------+-------+
+|  2026-11-05T16:21:07.719000+00:00 |  claimsense/openai-api-key  |  5    |
++-----------------------------------+-----------------------------+-------+
+
+$ aws budgets describe-budget --account-id 4747****8384 --budget-name ClaimSense-pilot-monthly --query Budget.{name:BudgetName,limit:BudgetLimit.Amount,unit:BudgetLimit.Unit,period:TimeUnit} --output table
+----------------------------------------------------------
+|                     DescribeBudget                     |
++-------+----------------------------+----------+--------+
+| limit |           name             | period   | unit   |
++-------+----------------------------+----------+--------+
+|  25.0 |  ClaimSense-pilot-monthly  |  MONTHLY |  USD   |
++-------+----------------------------+----------+--------+
+
+$ aws resource-groups list-group-resources --group-name ClaimSense-pilot --query Resources[].Identifier.[ResourceType,ResourceArn] --output table
+--------------------------------------------------------------------------------------------------------------------------
+|                                                   ListGroupResources                                                   |
++------------------------------+-----------------------------------------------------------------------------------------+
+|  AWS::ResourceGroups::Group  |  arn:aws:resource-groups:us-east-1:4747****8384:group/ClaimSense-pilot                  |
+|  AWS::Cognito::UserPool      |  arn:aws:cognito-idp:us-east-1:4747****8384:userpool/us-east-1_xhmobmkut                |
+|  AWS::SecretsManager::Secret |  arn:aws:secretsmanager:us-east-1:4747****8384:secret:claimsense/openai-api-key-qGJst7  |
+|  AWS::Logs::LogGroup         |  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/orchestrator                 |
+|  AWS::ECR::Repository        |  arn:aws:ecr:us-east-1:4747****8384:repository/claimsense/orchestrator                  |
+|  AWS::DynamoDB::Table        |  arn:aws:dynamodb:us-east-1:4747****8384:table/claimsense-idempotency                   |
+|  AWS::DynamoDB::Table        |  arn:aws:dynamodb:us-east-1:4747****8384:table/claimsense-audit                         |
+|  AWS::Logs::LogGroup         |  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/data-boundary                |
+|  AWS::S3::Bucket             |  arn:aws:s3:::claimsense-autosure-docs-4747****8384-us-east-1                           |
+|  AWS::Logs::LogGroup         |  arn:aws:logs:us-east-1:4747****8384:log-group:/claimsense/audit                        |
++------------------------------+-----------------------------------------------------------------------------------------+
+
+$ aws budgets describe-notifications-for-budget --account-id 4747****8384 --budget-name ClaimSense-pilot-monthly --query Notifications[].{type:NotificationType,over:Threshold,unit:ThresholdType} --output table
+---------------------------------
+|DescribeNotificationsForBudget |
++-------+--------------+--------+
+| over  |    type      | unit   |
++-------+--------------+--------+
+|  100.0|  ACTUAL      |  None  |
+|  80.0 |  FORECASTED  |  None  |
++-------+--------------+--------+

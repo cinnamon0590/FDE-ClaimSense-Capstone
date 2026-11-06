@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/claims-management",
+  "title": "Claims management system contract",
+  "$defs": {
+    "GetClaimRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        }
+      }
+    },
+    "GetClaimHistoryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claimant_id"
+      ],
+      "properties": {
+        "claimant_id": {
+          "type": "string",
+          "pattern": "^CUS-[0-9A-F]{6}$"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        }
+      }
+    },
+    "ClaimHistoryResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claimant_id",
+        "claims"
+      ],
+      "properties": {
+        "claimant_id": {
+          "type": "string"
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "claim_id",
+              "loss_type",
+              "incident_date",
+              "final_outcome"
+            ],
+            "properties": {
+              "claim_id": {
+                "type": "string",
+                "pattern": "^CLM-\\d{4}-\\d{4}$"
+              },
+              "loss_type": {
+                "type": "string"
+              },
+              "incident_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "final_outcome": {
+                "enum": [
+                  "approve",
+                  "flag_review",
+                  "route",
+                  "deny",
+                  "open"
+                ]
+              },
+              "paid_amount": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "PostRecommendationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "idempotency_key",
+        "decision_card"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "idempotency_key": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decision_card": {
+          "type": "object"
+        }
+      }
+    },
+    "RecommendationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "claim_id",
+        "version",
+        "status",
+        "idempotent_replay",
+        "created_at"
+      ],
+      "properties": {
+        "recommendation_id": {
+          "type": "string",
+          "pattern": "^REC-[0-9a-f]{12}$"
+        },
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "const": "draft_pending_confirmation",
+          "description": "a recommendation is NEVER final"
+        },
+        "idempotent_replay": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ConfirmRecommendationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "action",
+        "idempotency_key"
+      ],
+      "description": "HUMAN-ONLY. Rejected with human_confirmation_required if the caller is an agent service identity.",
+      "properties": {
+        "recommendation_id": {
+          "type": "string",
+          "pattern": "^REC-[0-9a-f]{12}$"
+        },
+        "action": {
+          "enum": [
+            "confirm",
+            "override"
+          ]
+        },
+        "final_outcome": {
+          "enum": [
+            "approve",
+            "flag_review",
+            "route",
+            "deny"
+          ]
+        },
+        "override_reason": {
+          "type": "string",
+          "minLength": 5
+        },
+        "idempotency_key": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "ConfirmationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation_id",
+        "claim_id",
+        "action",
+        "final_outcome",
+        "confirmed_by",
+        "idempotent_replay",
+        "confirmed_at"
+      ],
+      "properties": {
+        "recommendation_id": {
+          "type": "string"
+        },
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "action": {
+          "enum": [
+            "confirm",
+            "override"
+          ]
+        },
+        "final_outcome": {
+          "enum": [
+            "approve",
+            "flag_review",
+            "route",
+            "deny"
+          ]
+        },
+        "confirmed_by": {
+          "type": "string"
+        },
+        "idempotent_replay": {
+          "type": "boolean"
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

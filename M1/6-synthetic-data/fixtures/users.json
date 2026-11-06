@@ -1,0 +1,46 @@
+{
+  "kind": "users",
+  "synthetic": true,
+  "records": [
+    {
+      "user_id": "alice",
+      "display_name": "Alice (synthetic)",
+      "groups": [
+        "adjuster"
+      ],
+      "entitled_claim_scope": "assigned_group:adjuster"
+    },
+    {
+      "user_id": "bob",
+      "display_name": "Bob (synthetic)",
+      "groups": [
+        "senior-adjuster"
+      ],
+      "entitled_claim_scope": "all_first_pass + flag_review"
+    },
+    {
+      "user_id": "carol",
+      "display_name": "Carol (synthetic)",
+      "groups": [
+        "fraud-investigator"
+      ],
+      "entitled_claim_scope": "routed:fraud-investigator"
+    },
+    {
+      "user_id": "eve",
+      "display_name": "Eve (synthetic)",
+      "groups": [
+        "total-loss-appraiser"
+      ],
+      "entitled_claim_scope": "routed:total-loss-appraiser"
+    },
+    {
+      "user_id": "dave",
+      "display_name": "Dave (synthetic)",
+      "groups": [
+        "customer-service"
+      ],
+      "entitled_claim_scope": "none (status lookups only; no claim files, no fraud flags)"
+    }
+  ]
+}
