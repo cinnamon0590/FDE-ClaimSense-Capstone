@@ -1,0 +1,6 @@
+# Python packages for the ClaimSense capstone.
+# Most project code is standard-library only (validators, scorer, tests, pricing, fixtures) and needs nothing here.
+# python-docx fills the course Word templates (M1/tools/fill_*_template.py).
+#
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+python-docx==1.2.0

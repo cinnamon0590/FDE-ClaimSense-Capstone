@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/common",
+  "title": "Shared contract definitions",
+  "$defs": {
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message",
+            "request_id"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "unauthenticated",
+                "not_found_or_forbidden",
+                "invalid_request",
+                "rate_limited",
+                "upstream_unavailable",
+                "idempotency_conflict",
+                "human_confirmation_required"
+              ],
+              "description": "not_found_or_forbidden is deliberately ONE code: a missing record and an unentitled record look identical (anti-enumeration)"
+            },
+            "message": {
+              "type": "string"
+            },
+            "retry_after_s": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "present only for rate_limited / upstream_unavailable"
+            },
+            "request_id": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    },
+    "AuditRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ts",
+        "request_id",
+        "user_id",
+        "groups",
+        "action",
+        "resource",
+        "decision"
+      ],
+      "description": "Append-only. Written by the data boundary for EVERY call — allowed, denied, replayed or failed.",
+      "properties": {
+        "ts": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "request_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "on_behalf_of_agent": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "agent name when an agent made the call for the user"
+        },
+        "action": {
+          "enum": [
+            "get_claim",
+            "get_claim_history",
+            "post_recommendation",
+            "confirm_recommendation",
+            "get_policy",
+            "search_clauses",
+            "list_documents",
+            "get_document"
+          ]
+        },
+        "resource": {
+          "type": "string"
+        },
+        "decision": {
+          "enum": [
+            "allow",
+            "deny",
+            "replay",
+            "error"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "DecisionCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "outcome",
+        "reasoning",
+        "citations",
+        "computed",
+        "judgment",
+        "verdict_source",
+        "guardrails_fired",
+        "adjuster_confirmation_required",
+        "model"
+      ],
+      "description": "Typed output of the Decision Draft agent (OpenAI Agents SDK structured output). Computed fields come from code; judgment fields from the model.",
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "outcome": {
+          "enum": [
+            "approve",
+            "flag_review",
+            "route",
+            "deny"
+          ]
+        },
+        "route_to": {
+          "enum": [
+            "senior-adjuster",
+            "fraud-investigator",
+            "total-loss-appraiser",
+            "injury-specialist"
+          ]
+        },
+        "reasoning": {
+          "type": "string",
+          "minLength": 20
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_id"
+            ],
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "pattern": "^(CLS-[A-Z]{2,4}-\\d{3}|DOC-\\d{4}-\\d{4}-[A-Z-]+)$"
+              },
+              "quote": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "computed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "loss_in_policy_term",
+            "net_payable",
+            "repair_to_acv_ratio",
+            "over_authority_limit"
+          ],
+          "description": "DETERMINISTIC CODE ONLY — never produced by the model",
+          "properties": {
+            "loss_in_policy_term": {
+              "type": "boolean"
+            },
+            "net_payable": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "repair_to_acv_ratio": {
+              "type": "number",
+              "minimum": 0
+            },
+            "over_authority_limit": {
+              "type": "boolean"
+            }
+          }
+        },
+        "judgment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "coverage_finding",
+            "fraud_signals",
+            "injury_exposure"
+          ],
+          "description": "MODEL JUDGMENT — each item must be supported by a citation",
+          "properties": {
+            "coverage_finding": {
+              "enum": [
+                "covered",
+                "not_covered",
+                "ambiguous"
+              ]
+            },
+            "fraud_signals": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "injury_exposure": {
+              "type": "boolean"
+            },
+            "missing_documents": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verdict_source": {
+          "enum": [
+            "model",
+            "deterministic_fallback"
+          ]
+        },
+        "guardrails_fired": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "injection_detected",
+              "poisoned_chunk_quarantined",
+              "auto_decision_blocked",
+              "uncited_claim_blocked",
+              "pii_masked",
+              "cross_record_blocked"
+            ]
+          }
+        },
+        "adjuster_confirmation_required": {
+          "const": true
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "prompt_version": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/claim",
+  "title": "Claim (claims management system record)",
+  "description": "One first-notice-of-loss claim awaiting its first-pass decision. Synthetic only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "policy_id",
+    "claimant_id",
+    "claimant_name",
+    "loss_type",
+    "incident_date",
+    "reported_date",
+    "narrative",
+    "vehicle",
+    "acv",
+    "repair_estimate",
+    "injury_reported",
+    "fraud_risk_score",
+    "status",
+    "assigned_group",
+    "document_ids"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "pattern": "^CLM-\\d{4}-\\d{4}$"
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^POL-AU-\\d{5}$"
+    },
+    "claimant_id": {
+      "type": "string",
+      "pattern": "^CUS-[0-9A-F]{6}$"
+    },
+    "claimant_name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "synthetic name; PII-class field (masked in logs)"
+    },
+    "loss_type": {
+      "enum": [
+        "collision",
+        "glass",
+        "hail",
+        "theft",
+        "vandalism"
+      ]
+    },
+    "incident_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "incident_time": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+    },
+    "reported_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "narrative": {
+      "type": "string",
+      "minLength": 1,
+      "description": "claimant free text: UNTRUSTED input"
+    },
+    "vehicle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "make",
+        "model",
+        "vin"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": 1980,
+          "maximum": 2030
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "colour": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vin": {
+          "type": "string",
+          "pattern": "^[A-HJ-NPR-Z0-9]{17}$"
+        }
+      }
+    },
+    "acv": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "actual cash value of the vehicle, whole USD"
+    },
+    "repair_estimate": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "whole US dollars"
+    },
+    "injury_reported": {
+      "type": "boolean"
+    },
+    "fraud_risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "legacy score; an input, never the decision"
+    },
+    "status": {
+      "enum": [
+        "first_pass_pending",
+        "recommendation_drafted",
+        "confirmed",
+        "overridden",
+        "routed"
+      ]
+    },
+    "assigned_group": {
+      "enum": [
+        "adjuster",
+        "senior-adjuster",
+        "fraud-investigator",
+        "total-loss-appraiser",
+        "injury-specialist"
+      ]
+    },
+    "document_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DOC-"
+      },
+      "uniqueItems": true
+    }
+  }
+}

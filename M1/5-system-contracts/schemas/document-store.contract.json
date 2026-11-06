@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/document-store",
+  "title": "Document store contract",
+  "$defs": {
+    "ListDocumentsRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        }
+      }
+    },
+    "ListDocumentsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "documents"
+      ],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "doc_id",
+              "doc_type",
+              "title",
+              "received_date",
+              "sha256"
+            ],
+            "properties": {
+              "doc_id": {
+                "type": "string",
+                "pattern": "^DOC-\\d{4}-\\d{4}-[A-Z-]+$"
+              },
+              "doc_type": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "received_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetDocumentRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_id"
+      ],
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "pattern": "^DOC-\\d{4}-\\d{4}-[A-Z-]+$"
+        }
+      }
+    },
+    "GetDocumentResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_id",
+        "claim_id",
+        "doc_type",
+        "content_text",
+        "trust",
+        "injection_scan"
+      ],
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "pattern": "^DOC-\\d{4}-\\d{4}-[A-Z-]+$"
+        },
+        "claim_id": {
+          "type": "string",
+          "pattern": "^CLM-\\d{4}-\\d{4}$"
+        },
+        "doc_type": {
+          "type": "string"
+        },
+        "content_text": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        },
+        "trust": {
+          "const": "untrusted"
+        },
+        "injection_scan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "flagged"
+          ],
+          "properties": {
+            "flagged": {
+              "type": "boolean"
+            },
+            "spans": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

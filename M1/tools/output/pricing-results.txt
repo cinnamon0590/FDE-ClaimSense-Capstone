@@ -1,0 +1,66 @@
+==============================================================================
+1. ESTIMATE — ClaimSense AI pilot (T-shirt sizes → day ranges, buffer per risk class)
+==============================================================================
+Milestone                                                      Sz risk class       low   exp  high*
+----------------------------------------------------------------------------------------------------
+M0 Discovery & scoping (W13)                                   S  low                3   4.0    5.5
+M1 SoW, architecture, contracts, data, cloud (W14)             M  low                8  10.0   13.2
+Controls review & access (Security, IT/Cloud)                  M  access_politics    8  10.0   21.6
+M2 Four agents, cited RAG, containers, CI gate (W15)           L  novel             15  20.0   37.5
+M3 Data boundary, auth on every route, RBAC, audit (W16)       L  integration       15  20.0   33.8
+M4 150-case evals, dashboard, drill, runbook, handover (W17)   L  novel             15  20.0   37.5
+----------------------------------------------------------------------------------------------------
+TOTAL (FDE-days)                                                                    64    84  149.1
+* high end carries the per-class buffer; the access/controls line carries the biggest (1.8x).
+
+Team implied by a 5-week timeline: 84 days ÷ 25 working days ≈ 3.4 FDE-equivalents
+Blended day rate $1,800 → labour low / expected / high: $115,200 / $151,200 / $268,290
+Fixed overhead:
+    $2,500  AWS pilot environment (5 weeks: ECS Fargate, API Gateway + Lambda, S3, OpenSearch, Cognito, CloudWatch)
+    $1,500  OpenAI API tokens (build, 150-case eval runs in CI, demo)
+    $6,000  Synthetic data + golden-label authoring (SME review hours)
+    $2,000  Tooling, CI minutes, project management
+EXPECTED DELIVERY COST (the floor every model must clear): $163,200  (high case: $280,290)
+
+Sensitivity: access buffer 1.8x → 2.2x moves the high case by $8,640 — the access assumption moves the number more than the code does.
+==============================================================================
+2. PRICE — same scope, four commercial wrappers (margin = (price − cost) ÷ price)
+==============================================================================
+Model                                                       low   expected       high  margin
+----------------------------------------------------------------------------------------------
+T&M with a cap                                         $187,272   $220,320   $275,400   25.9%
+Fixed price                                            $233,143   $233,143   $233,143   30.0%
+Outcome-based (thin floor + per-criterion bonus)       $171,789   $198,789   $207,789   17.9%
+Fixed floor + capped acceptance bonus (RECOMMENDED)    $204,000   $231,000   $240,000   29.4%
+----------------------------------------------------------------------------------------------
+  T&M with a cap: Low for vendor: overruns billed up to the cap
+  Fixed price: High for vendor: a 25% overrun eats most of the margin  (margin after a 25% overrun: 12.5%)
+  Outcome-based (thin floor + per-criterion bonus): High variance: thin floor, most margin rides on criteria met
+  Fixed floor + capped acceptance bonus (RECOMMENDED): Shared: floor covers cost + margin through the access fight; bonus aligns on results
+  Markup is not margin: the T&M 35% markup is a 25.9% margin.
+==============================================================================
+3. RECOMMENDED — fixed floor + capped acceptance bonus
+==============================================================================
+  Fixed floor (procurement's ceiling on the base): $204,000  (cost + 20% margin)
+  Acceptance bonus pool (capped): $36,000, paid per criterion met at the Week 5 acceptance run:
+      $9,000  SC-1 decision accuracy (≥90% clear / ≥75% edge / ≥85% overall, model verdicts only)
+      $9,000  SC-2 latency (p95 ≤ 90 s, p50 ≤ 45 s on ≥150 deployed runs)
+      $9,000  SC-3 adjuster confirmation (≥80% confirmed unchanged, ≥50 claims)
+      $9,000  SC-4 fraud routing (≥90% recall, ≤10% false-route)
+    SC-5 adversarial 100% is a GATE, not a bonus — failing it blocks acceptance outright.
+  Expected revenue (3 of 4 criteria): $231,000  · maximum: $240,000  · expected margin: 29.4%
+  WHO COUNTS: AutoSure's own CI run of the eval suite on the submitted commit (brief acceptance #4);
+  SC-2 from CloudWatch, SC-3 from adjuster confirmations in the claims system — never the agent's own report.
+  Payment schedule: 30% on M1 acceptance · 40% on M3 (two-user test passed) · 30% on M4 acceptance; bonus on M4.
+==============================================================================
+4. SANITY CHECKS
+==============================================================================
+  Price − cost − access buffer: $231,000 − $163,200 = $67,800 margin (access buffer already inside the high case; floor alone clears expected cost by $40,800)
+  High-case cost $280,290 vs floor $204,000: floor is $76,290 short of the worst case — change control protects it
+  Revenue per engineer: $231,000 ÷ 84 days × 220 days/yr ≈ $605,000/yr → inside the $0.6–1.0M band
+==============================================================================
+5. PHASE 2 OPTION — production outcome pricing (only after Security clears real data)
+==============================================================================
+  $2.50 per adjuster-confirmed first decision delivered within the SLA, capped at $30,000/month
+  At 450 claims/day (A) × 21 days × 80% confirmed ≈ $18,900/month → billed $18,900/month
+  Counted in the claims management system's confirmation records, reconciled monthly with the audit log.

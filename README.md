@@ -22,10 +22,19 @@ the eval suite on every push from M0, and from M2 it gates the build.
 | Folder | Course week | Brief milestone | Theme | Status |
 |---|---|---|---|---|
 | [`M0/`](M0/README.md) | W13 | Milestone 1 | Discovery & scoping: charter, RACI, success criteria, DECISIONS, 20 eval cases | Draft |
-| `M1/` | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | — |
+| [`M1/`](M1/README.md) | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | Draft |
 | `M2/` | W15 | Milestone 3 | Production agents, retrieval with citations, containers, CI eval gate | — |
 | `M3/` | W16 | Milestone 4 | Data boundary, auth on every route, access control before agents, audit trail | — |
 | `M4/` | W17 | Milestone 5 | 150-case eval suite, dashboard and alarm, incident drill, runbook, handover | — |
+
+## Working locally
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # python-docx (Word templates only)
+```
+
+Almost everything (validators, scorer, tests, pricing, fixtures) is standard-library Python and runs
+with any Python 3.10+ for $0. CI runs every check on Python 3.12 (the brief's minimum) and 3.14 (the project venv).
 
 Final submission (end of W17) is graded out of 100: framing 15 · design 15 · working system 25 ·
 trust boundary 20 · evidence & handover 25.
