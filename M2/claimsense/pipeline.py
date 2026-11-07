@@ -16,7 +16,7 @@ import json
 import time
 import uuid
 
-from agents import (InputGuardrailTripwireTriggered, OutputGuardrailTripwireTriggered, RunConfig, Runner,
+from agents import (AgentsException, InputGuardrailTripwireTriggered, OutputGuardrailTripwireTriggered, RunConfig, Runner,
                     trace)
 
 from . import PROMPT_VERSION, config
@@ -77,13 +77,20 @@ class Pipeline:
         name = SPECS[key][0]
         ctx.emit("agent_start", name, model=self.model_label(key, ctx.claim_id))
         t0 = time.time()
-        res = await Runner.run(self.agents[key], json.dumps(payload) if not isinstance(payload, str) else payload,
-                               context=ctx, max_turns=10,
-                               run_config=RunConfig(workflow_name="claimsense", trace_include_sensitive_data=False))
-        u = res.context_wrapper.usage
         m = self.model_label(key, ctx.claim_id)
-        usage.append({"agent": name, "model": m, "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
-                      "requests": u.requests, "usd": cost_usd(m, u.input_tokens, u.output_tokens)})
+
+        def meter(u):
+            usage.append({"agent": name, "model": m, "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
+                          "requests": u.requests, "usd": cost_usd(m, u.input_tokens, u.output_tokens)})
+        try:
+            res = await Runner.run(self.agents[key], json.dumps(payload) if not isinstance(payload, str) else payload,
+                                   context=ctx, max_turns=10,
+                                   run_config=RunConfig(workflow_name="claimsense", trace_include_sensitive_data=False))
+        except AgentsException as e:          # a tripped wire still spent tokens: meter them, then re-raise
+            if getattr(e, "run_data", None) is not None:
+                meter(e.run_data.context_wrapper.usage)
+            raise
+        meter(res.context_wrapper.usage)
         spent = sum(x["usd"] for x in usage)
         out = res.final_output
         ctx.emit("agent_end", name, seconds=round(time.time() - t0, 2), output=out.model_dump())
@@ -224,8 +231,8 @@ class Pipeline:
                "G5": "cited clause(s) that were not retrieved: " + ", ".join(info.get("not_retrieved", []))}.get(
             info.get("guardrail"), "a guardrail tripped")
         return {"claim_id": claim_id, "outcome": "flag_review", "route_to": "senior-adjuster",
-                "reasoning": f"Stopped at {where} before a decision was drafted: {why}. "
-                             "Routed to a senior adjuster with the affected text highlighted in the audit trail.",
+                "reasoning": f"Stopped at {where} before a decision was drafted" + ("." if info.get("guardrail") == "G1" else f": {why}.")
+                             + " The affected text is highlighted for the adjuster in the audit trail.",
                 "citations": [], "computed": computed,
                 "judgment": {"coverage_finding": "ambiguous", "fraud_signals": [], "injury_exposure": False,
                              "missing_documents": []},

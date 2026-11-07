@@ -1,0 +1,59 @@
+Lambda deploy ladder · image claimsense/orchestrator:7ee8f29 (pushed by CI after every gate passed) · 2026-11-07T01:31:14Z
+--- invoke CLM-2024-1800 as alice
+{
+ "claim_id": "CLM-2024-1800",
+ "decided_by": "agents",
+ "outcome": "approve",
+ "route_to": null,
+ "verdict_source": "model",
+ "guardrails_fired": [],
+ "latency_s": 11.53,
+ "cost_usd": 0.016549,
+ "brain": "live"
+}
+--- invoke CLM-2024-3602 as alice
+{
+ "claim_id": "CLM-2024-3602",
+ "decided_by": "guardrail_hold",
+ "outcome": "flag_review",
+ "route_to": "senior-adjuster",
+ "verdict_source": "model",
+ "guardrails_fired": [
+  "injection_detected"
+ ],
+ "latency_s": 2.85,
+ "cost_usd": 0,
+ "brain": "live"
+}
+--- invoke CLM-2024-4111 as alice
+{
+ "claim_id": "CLM-2024-4111",
+ "decided_by": "agents",
+ "outcome": "flag_review",
+ "route_to": "senior-adjuster",
+ "verdict_source": "model",
+ "guardrails_fired": [],
+ "latency_s": 9.25,
+ "cost_usd": 0.01799,
+ "brain": "live"
+}
+--- invoke CLM-2024-1873 as dave
+{
+ "claim_id": "CLM-2024-1873",
+ "decided_by": "boundary_refusal",
+ "outcome": "refused",
+ "route_to": null,
+ "verdict_source": "model",
+ "guardrails_fired": null,
+ "latency_s": 0.0,
+ "cost_usd": 0,
+ "brain": "live"
+}
+{
+    "StatusCode": 204
+}
+function deleted
+role deleted
+log group deleted
+verified: function gone
+verified: role gone

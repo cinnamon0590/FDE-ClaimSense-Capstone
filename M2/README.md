@@ -50,6 +50,19 @@ of what code has already verified. Golden labels were never changed. The full hi
 [`evidence/results-live-*.txt`](evidence/). The live model varies from run to run, which is why the gate floor
 is 85% and not 100%.
 
+## Evidence (`evidence/`)
+
+| File | Shows |
+|---|---|
+| [`results-live-final.txt`](evidence/results-live-final.txt) · [`cost-table-live.md`](evidence/cost-table-live.md) | Live gate PASS, 40/40, per-agent tokens and cost |
+| `results-live-v1…v7*.txt` | Every live run while tuning, including the blocked ones (nothing hidden) |
+| [`ci-red-gate-push-skipped.jpg`](evidence/ci-red-gate-push-skipped.jpg) | Branch `demo/red-gate` disables the injection scan: tests and gate fail, **live-eval and build-push skipped** (run [#9](https://github.com/cinnamon0590/FDE-ClaimSense-Capstone/actions/runs/42323422068)) |
+| [`ci-green-gate-image-pushed.jpg`](evidence/ci-green-gate-image-pushed.jpg) | Every gate green incl. the live model, then build-push to ECR via OIDC (run [#11](https://github.com/cinnamon0590/FDE-ClaimSense-Capstone/actions/runs/42324129359)) |
+| [`stack-smoke.txt`](evidence/stack-smoke.txt) | One claim per outcome through the 4 running containers; agent refused at confirm; human confirms; denials audited |
+| [`console-live-approve.jpg`](evidence/console-live-approve.jpg) · [`console-injection-guardrail-hold.jpg`](evidence/console-injection-guardrail-hold.jpg) | Live model verdict badge; CS-016 stopped at Intake and handed to a senior adjuster |
+| [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
+| [`strands-port.json`](evidence/strands-port.json) | Coverage agent on Strands: cites only retrieved clauses; planted chunk quarantined |
+
 ## How it works
 
 ```
