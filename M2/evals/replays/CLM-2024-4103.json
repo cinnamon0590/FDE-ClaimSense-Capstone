@@ -1,0 +1,154 @@
+{
+ "claim_id": "CLM-2024-4103",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4103",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured's vehicle, a 2014 Ford Focus, was involved in a collision on July 22, 2024, resulting in damage to the front end and suspension. A repair estimate of $3,800 has been provided, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1134,
+      "output_tokens": 120
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car under liability coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1100,
+      "output_tokens": 16
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1337,
+      "output_tokens": 28
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4103",
+      "coverage_finding": "not_covered",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle.",
+      "cited_clause_ids": [
+       "CLS-LIA-012"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1589,
+      "output_tokens": 67
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4103",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered under the policy as it provides liability coverage only, which does not cover damage to the insured's own vehicle. There are no fraud signals, injuries reported, or total loss conditions met."
+     },
+     "usage": {
+      "input_tokens": 827,
+      "output_tokens": 91
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4103",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage to the insured's vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1109,
+      "output_tokens": 110
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4103",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the type of coverage does not include collision damage to the insured's vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1109,
+      "output_tokens": 111
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

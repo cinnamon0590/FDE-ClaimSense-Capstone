@@ -23,7 +23,7 @@ the eval suite on every push from M0, and from M2 it gates the build.
 |---|---|---|---|---|
 | [`M0/`](M0/README.md) | W13 | Milestone 1 | Discovery & scoping: charter, RACI, success criteria, DECISIONS, 20 eval cases | Draft |
 | [`M1/`](M1/README.md) | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | Draft |
-| `M2/` | W15 | Milestone 3 | Production agents, retrieval with citations, containers, CI eval gate | — |
+| [`M2/`](M2/README.md) | W15 | Milestone 3 | Four agents on the OpenAI Agents SDK, cited retrieval, containers (one command), CI eval gate that blocks the image push | Draft |
 | `M3/` | W16 | Milestone 4 | Data boundary, auth on every route, access control before agents, audit trail | — |
 | `M4/` | W17 | Milestone 5 | 150-case eval suite, dashboard and alarm, incident drill, runbook, handover | — |
 

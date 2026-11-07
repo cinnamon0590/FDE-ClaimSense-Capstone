@@ -1,0 +1,11 @@
+.git
+.venv
+**/__pycache__
+**/*.pyc
+**/.state
+**/.env
+**/*.docx
+**/*.png
+**/*.svg
+M1/7-cloud
+M2/evidence

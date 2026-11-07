@@ -28,4 +28,5 @@ for lg in /claimsense/audit /claimsense/orchestrator /claimsense/data-boundary; 
 aws secretsmanager delete-secret --secret-id claimsense/openai-api-key --force-delete-without-recovery >/dev/null && echo "secret deleted"
 aws resource-groups delete-group --group-name ClaimSense-pilot >/dev/null && echo "resource group deleted"
 aws budgets delete-budget --account-id "$ACCOUNT" --budget-name ClaimSense-pilot-monthly && echo "budget deleted"
+"$(dirname "$0")/../../M2/cloud/oidc.sh" --delete || true      # M2: GitHub OIDC role + provider
 echo "teardown complete — run ./inventory.sh to verify nothing remains"

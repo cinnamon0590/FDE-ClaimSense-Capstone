@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2024-2019",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-2019",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "police_report",
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured's vehicle was involved in a collision on 2024-09-30, confirmed by a police report. A repair estimate of $28,400 has been provided for the damages."
+     },
+     "usage": {
+      "input_tokens": 1221,
+      "output_tokens": 109
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1143,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"settlement sign-off above authority limit\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1378,
+      "output_tokens": 61
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-2019",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The settlement amount exceeds the authority limit and requires senior adjuster sign-off.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-AUTH-010"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1877,
+      "output_tokens": 117
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2019",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "senior-adjuster",
+      "rationale": "The claim is covered, but the net payable amount exceeds the authority limit and requires senior adjuster sign-off."
+     },
+     "usage": {
+      "input_tokens": 901,
+      "output_tokens": 74
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2019",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount of $27,400 exceeds the $25,000 authority limit, requiring senior adjuster sign-off.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Settlement amount exceeds the authority limit and requires senior adjuster sign-off."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1163,
+      "output_tokens": 160
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2019",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount of $27,400 exceeds the $25,000 authority limit, requiring senior adjuster sign-off.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Settlement amount exceeds the authority limit and requires senior adjuster sign-off."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1163,
+      "output_tokens": 160
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

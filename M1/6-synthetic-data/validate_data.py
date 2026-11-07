@@ -20,6 +20,7 @@ sys.path.insert(0, str(HERE.parent / "tools"))
 from jsonschema_lite import validate  # noqa: E402
 
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
+M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"
 FILES = {"claims": "claim", "policies": "policy", "documents": "document", "clauses": "clause", "users": "user"}
 
 
@@ -67,13 +68,15 @@ def main():
 
     # 3. consistency with the M0 eval cases (the single source of truth)
     cases = json.loads(CASES.read_text())["cases"]
+    if M2_CASES.exists():
+        cases += json.loads(M2_CASES.read_text())["cases"]
     for case in cases:
         cc, cp = case["claim"], case["policy"]
         fc, fp = claims.get(cc["claim_id"]), policies.get(cp["policy_id"])
         if not fc or not fp:
             problems.append(f"{case['case_id']}: claim/policy missing from fixtures"); continue
         for k in ("incident_date", "acv", "repair_estimate", "injury_reported", "fraud_risk_score", "loss_type"):
-            if case["case_id"] != "CS-019" and fc[k] != cc[k]:
+            if case["expected"]["outcome"] != "refused" and fc[k] != cc[k]:
                 problems.append(f"{case['case_id']}: claim.{k} {fc[k]!r} != case {cc[k]!r}")
         for fk, ck in (("term_start", "term_start"), ("term_end", "term_end"), ("deductible", "deductible"),
                        ("status_field", "status_field"), ("coverages", "coverage")):

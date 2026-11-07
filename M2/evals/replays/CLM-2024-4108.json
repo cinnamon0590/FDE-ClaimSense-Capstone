@@ -1,0 +1,176 @@
+{
+ "claim_id": "CLM-2024-4108",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4108",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision where the insured clipped a bollard on 2024-08-01. All required documents are on file, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1141,
+      "output_tokens": 100
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1120,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1355,
+      "output_tokens": 59
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4108",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The loss date is confirmed to be within the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1869,
+      "output_tokens": 112
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4108",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is covered under the collision coverage clause, with no indications of fraud or injury exposure. The repair-to-ACV ratio is below 1.0, confirming it is not a total loss."
+     },
+     "usage": {
+      "input_tokens": 876,
+      "output_tokens": 90
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4108",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a collision that occurred within the policy period, and the damage is covered under the collision coverage clause. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The loss date is confirmed to be within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1157,
+      "output_tokens": 166
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4108",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a collision that occurred within the policy period, and the damage is covered under the collision coverage clause. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The loss date is confirmed to be within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1157,
+      "output_tokens": 166
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

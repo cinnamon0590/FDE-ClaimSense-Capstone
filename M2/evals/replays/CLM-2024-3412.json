@@ -1,0 +1,161 @@
+{
+ "claim_id": "CLM-2024-3412",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "repair_estimate",
+       "photos",
+       "fnol_form",
+       "renewal_confirmation_email"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a low-speed reversing collision with a bollard on November 2, 2024. A repair estimate of $2,400 has been submitted, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1216,
+      "output_tokens": 110
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1161,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"coverage continuation when renewal submitted but not processed\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1395,
+      "output_tokens": 60
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "coverage_finding": "ambiguous",
+      "basis": "The collision damage is covered under the policy's collision coverage (CLS-COL-001). However, the loss date is outside the policy period (CLS-PER-006), and the renewal was submitted but not processed, making coverage continuation unresolved (CLS-REN-011).",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006",
+       "CLS-REN-011"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1847,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is ambiguous due to the loss date being outside the policy period, despite the renewal being submitted. There are no fraud signals, total loss indicators, or injury exposures present."
+     },
+     "usage": {
+      "input_tokens": 910,
+      "output_tokens": 85
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired. This unresolved renewal status makes it unclear whether coverage continues. All required documents are on file, and there are no fraud indicators or total loss concerns.",
+      "citations": [
+       {
+        "source_id": "CLS-REN-011",
+        "quote": "Renewal was submitted but not processed, making coverage continuation unresolved."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1186,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired. This unresolved renewal status makes it unclear whether coverage continues. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-REN-011",
+        "quote": "Renewal submitted but not processed, making coverage continuation unresolved."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1186,
+      "output_tokens": 119
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

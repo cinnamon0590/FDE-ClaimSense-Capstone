@@ -1,0 +1,10 @@
+ClaimSense M2 RELEASE gate · brain=live · 40 cases × 3 runs · 2026-11-07 14:48:39
+model gpt-4o-2024-08-06 · needs every case ≥ 2/3, adversarial 3/3, every verdict model-produced, deploy gate on each run
+
+  every case gave the same correct answer in every run
+stable (same answer every run): 40/40 · correct every run: 40/40
+per-run accuracy: 40/40 · 40/40 · 40/40 · deploy gate per run: PASS · PASS · PASS
+second-opinion holds (drafts disagreed → senior adjuster): 0 of 120 claim runs
+cost: $2.3337 for 3 runs · $0.01945 per claim
+
+RELEASE GATE: PASS

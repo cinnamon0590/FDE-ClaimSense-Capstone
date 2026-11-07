@@ -1,0 +1,155 @@
+{
+ "claim_id": "CLM-2024-4109",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a low-speed collision with a gatepost at the insured's workplace on June 16, 2024. All required documents are on file, including the FNOL form and repair estimate."
+     },
+     "usage": {
+      "input_tokens": 1130,
+      "output_tokens": 107
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1096,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"coverage for losses outside the policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1330,
+      "output_tokens": 23
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1598,
+      "output_tokens": 85
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no indications of fraud or injury exposure. The repair-to-ACV ratio indicates it is not a total loss."
+     },
+     "usage": {
+      "input_tokens": 835,
+      "output_tokens": 89
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no indications of fraud or injury exposure.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "There is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
+      "output_tokens": 107
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no indications of fraud or injury exposure.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "There is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
+      "output_tokens": 107
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

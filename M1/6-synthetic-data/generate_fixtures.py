@@ -16,6 +16,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
+M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"   # added in M2 (CS-021..CS-040)
 CLAUSES = HERE / "source" / "clauses.json"
 OUT = HERE / "fixtures"
 
@@ -109,12 +110,14 @@ def default_text(dtype, case):
 
 def main():
     cases = json.loads(CASES.read_text())["cases"]
+    if M2_CASES.exists():
+        cases += json.loads(M2_CASES.read_text())["cases"]
     clause_src = json.loads(CLAUSES.read_text())
 
     claims, policies, documents = {}, {}, {}
     for case in cases:
         c, p = case["claim"], case["policy"]
-        if c["claim_id"] in claims:          # CS-019 reuses CS-008's record (entitlement test)
+        if c["claim_id"] in claims:          # refusal cases (CS-019, CS-038) reuse an existing record
             continue
         holder_id = "CUS-" + h("holder", p["policy_id"])[:6].upper()
         claim_docs = doc_entries(case)

@@ -1,0 +1,155 @@
+{
+ "claim_id": "CLM-2024-4120",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4120",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "driver_statement"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision with a parked trailer on May 29, 2024. All required documents are on file, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1123,
+      "output_tokens": 98
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1088,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date outside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1322,
+      "output_tokens": 21
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4120",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1511,
+      "output_tokens": 86
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4120",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals, total loss conditions, or injury exposures present."
+     },
+     "usage": {
+      "input_tokens": 827,
+      "output_tokens": 78
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4120",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on May 10, 2024, and the incident occurred on May 29, 2024. Therefore, there is no duty to pay for this loss.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "There is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1096,
+      "output_tokens": 116
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4120",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on May 10, 2024, and the incident occurred on May 29, 2024. Therefore, there is no duty to pay for this loss.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "There is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1096,
+      "output_tokens": 116
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

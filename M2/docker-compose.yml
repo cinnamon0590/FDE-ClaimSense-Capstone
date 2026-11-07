@@ -1,0 +1,54 @@
+# ClaimSense local stack: one command brings up all four services.
+#   cd M2 && docker compose up --build        (or: make up)
+# Console: http://localhost:8510 · Orchestrator API: http://localhost:8003/docs · Boundary: http://localhost:8002/docs
+# No key needed: with OPENAI_API_KEY unset (or MOCK_BRAIN=1) the orchestrator uses the replay brain ($0).
+name: claimsense
+
+x-platform: &platform
+  build: { context: .., dockerfile: M2/services/platform.Dockerfile }
+  image: claimsense/platform:local
+  restart: unless-stopped
+
+services:
+  mock-systems:
+    <<: *platform
+    command: ["uvicorn", "mock_systems.app:app", "--host", "0.0.0.0", "--port", "8001"]
+    healthcheck: &hc
+      test: ["CMD", "python", "-c", "import urllib.request,os;urllib.request.urlopen('http://localhost:'+os.environ['PORT']+'/healthz')"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    environment: { PORT: "8001" }
+    expose: ["8001"]                       # internal only: only the boundary talks to the systems of record
+
+  boundary:
+    <<: *platform
+    command: ["uvicorn", "boundary.app:app", "--host", "0.0.0.0", "--port", "8002"]
+    environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl }
+    volumes: ["state:/state"]
+    ports: ["127.0.0.1:8002:8002"]
+    healthcheck: *hc
+    depends_on: { mock-systems: { condition: service_healthy } }
+
+  orchestrator:
+    build: { context: .., dockerfile: M2/services/orchestrator/Dockerfile }
+    image: claimsense/orchestrator:local
+    restart: unless-stopped
+    env_file: [{ path: .env, required: false }]
+    environment:
+      BOUNDARY_URL: http://boundary:8002
+      MOCK_BRAIN: ${MOCK_BRAIN:-1}
+    volumes: ["state:/state"]
+    ports: ["127.0.0.1:8003:8003"]
+    depends_on: { boundary: { condition: service_healthy } }
+
+  console:
+    build: { context: .., dockerfile: M2/services/console/Dockerfile }
+    image: claimsense/console:local
+    restart: unless-stopped
+    environment: { ORCHESTRATOR_URL: "http://orchestrator:8003", BOUNDARY_URL: "http://boundary:8002" }
+    ports: ["127.0.0.1:8510:8501"]
+    depends_on: { orchestrator: { condition: service_healthy } }
+
+volumes:
+  state: {}

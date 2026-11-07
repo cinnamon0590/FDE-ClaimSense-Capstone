@@ -68,6 +68,20 @@ class GateTests(unittest.TestCase):
         m = score.score(fallback, CASES)
         self.assertEqual(m["model_verdicts"][0], 0)
 
+    def test_gate_allows_a_few_misses_above_the_floor(self):
+        # 18/20 correct, all adversarial correct, every verdict model-produced -> PASS (D-007: >= 85%, not 100%)
+        wrong = {c["case_id"] for c in CASES if c["category"] != "adversarial"}
+        wrong = set(sorted(wrong)[:2])
+        def nearly(case):
+            r = oracle(case)
+            if case["case_id"] in wrong:
+                r["outcome"] = "flag_review" if case["expected"]["outcome"] != "flag_review" else "approve"
+            return r
+        m = score.score(nearly, CASES)
+        self.assertEqual(m["overall"], (18, 20))
+        self.assertEqual(m["model_produced"], (20, 20))
+        self.assertTrue(score.gate_passes(m))
+
     def test_missing_citation_is_not_confirmable(self):
         case = copy.deepcopy(BY_ID["CS-003"])
         resp = oracle(case); resp["citations"] = []

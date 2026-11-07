@@ -1,0 +1,154 @@
+{
+ "claim_id": "CLM-2024-3104",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "loss_type": "hail",
+      "documents_on_file": [
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents, including the FNOL form, are on file."
+     },
+     "usage": {
+      "input_tokens": 1123,
+      "output_tokens": 103
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"hail damage to the insured's own car under liability coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1083,
+      "output_tokens": 16
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1320,
+      "output_tokens": 28
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "coverage_finding": "not_covered",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage.",
+      "cited_clause_ids": [
+       "CLS-LIA-012"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1572,
+      "output_tokens": 72
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered under the policy as it provides liability coverage only, which does not cover hail damage to the insured's vehicle. Additionally, the repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries or fraud signals."
+     },
+     "usage": {
+      "input_tokens": 815,
+      "output_tokens": 109
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
+      "output_tokens": 112
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
+      "output_tokens": 112
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

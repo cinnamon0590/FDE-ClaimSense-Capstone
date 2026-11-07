@@ -1,0 +1,160 @@
+{
+ "claim_id": "CLM-2024-3355",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "loss_type": "theft",
+      "documents_on_file": [
+       "fnol_form"
+      ],
+      "missing_documents": [
+       "police_report"
+      ],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured reported that their 2018 Kia Sportage was stolen from a supermarket car park on 2024-10-21. A police report has not yet been submitted."
+     },
+     "usage": {
+      "input_tokens": 993,
+      "output_tokens": 101
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"theft damage to the insured's own car covered by comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1169,
+      "output_tokens": 18
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on comprehensive coverage\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"reporting requirements for theft claim settlement\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1420,
+      "output_tokens": 61
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "coverage_finding": "ambiguous",
+      "basis": "The comprehensive coverage includes theft, but the claim cannot be settled until a police report reference is provided, which is currently missing.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-THF-008",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": "The claim settlement is pending the submission of a police report reference."
+     },
+     "usage": {
+      "input_tokens": 1929,
+      "output_tokens": 97
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is pending due to missing police report, but there are no fraud signals or injury exposure. The repair-to-ACV ratio indicates it is not a total loss."
+     },
+     "usage": {
+      "input_tokens": 909,
+      "output_tokens": 87
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is currently ambiguous due to the missing police report, which is required to settle the theft claim. This is not an exclusion but a pending condition. The net payable is within the authority limit, but the missing document necessitates further review.",
+      "citations": [
+       {
+        "source_id": "CLS-THF-008",
+        "quote": "The claim cannot be settled until a police report reference is provided."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1184,
+      "output_tokens": 111
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is currently ambiguous due to the missing police report, which is required to settle the theft claim. This is not an exclusion but a pending condition. The net payable is within the authority limit, but the missing document necessitates further review.",
+      "citations": [
+       {
+        "source_id": "CLS-THF-008",
+        "quote": "The claim cannot be settled until a police report reference is provided."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1184,
+      "output_tokens": 111
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

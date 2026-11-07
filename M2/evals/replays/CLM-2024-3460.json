@@ -1,0 +1,161 @@
+{
+ "claim_id": "CLM-2024-3460",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3460",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "police_report",
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision on 2024-10-09 with damage to the passenger side of a 2017 Nissan Qashqai. All required documents are on file, including a police report and repair estimate."
+     },
+     "usage": {
+      "input_tokens": 1217,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1140,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1375,
+      "output_tokens": 63
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3460",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible, up to the actual cash value of the auto. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value, and it is settled at actual cash value, less the deductible.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1896,
+      "output_tokens": 152
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3460",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is a total loss as the repair-to-ACV ratio is 1.006, and there are no fraud signals or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 931,
+      "output_tokens": 82
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3460",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is identified as a total loss because the repair-to-ACV ratio is 1.006, exceeding the threshold of 1.0. The assessment recommends routing to a total-loss appraiser, which is required by the policy.",
+      "citations": [
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "The vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1205,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3460",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is identified as a total loss because the repair-to-ACV ratio is 1.006, exceeding the threshold of 1.0. The assessment recommends routing to a total-loss appraiser, which is required by the policy.",
+      "citations": [
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "The vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1205,
+      "output_tokens": 115
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

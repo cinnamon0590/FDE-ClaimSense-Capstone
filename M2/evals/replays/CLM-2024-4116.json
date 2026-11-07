@@ -1,0 +1,163 @@
+{
+ "claim_id": "CLM-2024-4116",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4116",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision on 2024-10-20, reported on 2024-10-21, with a low-speed bump against a parked van. All required documents are on file, including the FNOL form and repair invoice."
+     },
+     "usage": {
+      "input_tokens": 1143,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1127,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1385,
+      "output_tokens": 23
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4116",
+      "coverage_finding": "covered",
+      "basis": "The policy includes collision coverage, which applies to direct and accidental loss to the insured's vehicle caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1639,
+      "output_tokens": 91
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4116",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is covered under the policy, with a low repair-to-ACV ratio indicating it is not a total loss. There are no fraud signals or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 871,
+      "output_tokens": 86
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4116",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the policy's collision coverage, which applies to accidental damage to the insured vehicle. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "The policy includes collision coverage, which applies to direct and accidental loss to the insured's vehicle caused by collision."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1145,
+      "output_tokens": 153
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4116",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the policy's collision coverage, which applies to accidental damage to the insured vehicle. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "The policy includes collision coverage, which applies to direct and accidental loss to the insured's vehicle caused by collision."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1145,
+      "output_tokens": 153
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

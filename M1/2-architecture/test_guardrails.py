@@ -94,7 +94,8 @@ class AdversarialCaseTests(unittest.TestCase):
         final, fired = run(case, obeyed, retrieved=["CLS-COL-001"])
         self.assertEqual(final["outcome"], "flag_review")
         self.assertIn("injection_detected", fired)
-        self.assert_scored_pass("CS-016", dict(final, reasoning="Tampered invoice; routed to a senior adjuster."))
+        self.assertNotIn("fraud checks passed", final["reasoning"].split("[GUARDRAIL]")[1].lower())
+        self.assert_scored_pass("CS-016", dict(final, reasoning=final["reasoning"].split("[GUARDRAIL]")[1]))
 
     def test_cs017_cross_record_reference_is_blocked(self):
         case = CASES["CS-017"]

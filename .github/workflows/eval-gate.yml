@@ -3,12 +3,18 @@
 # M0: validate the eval suite (shape, coverage, computed facts) and score the legacy baseline.
 # M1: the synthetic fixtures must equal what the generator produces from the eval cases (no drift),
 #     the data must validate, and the data-boundary contract tests must pass.
-# M2 (W15): add a job that scores the co-pilot on the same suite and BLOCKS the image push unless
-#           overall >= 85%, adversarial = 100% and every verdict is model-produced (DECISIONS D-007).
+# M2 (W15): the co-pilot itself is scored on the same suite. The orchestrator image is pushed to ECR
+#           ONLY if every job below passes, including the eval gate on the replay brain (every PR, $0)
+#           AND the eval gate on the live models (main only): overall >= 85%, adversarial = 100%,
+#           every verdict model-produced (DECISIONS D-007, D-019). A failing gate = no image.
 name: eval-gate
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   eval-suite:
@@ -61,3 +67,128 @@ jobs:
           python3 -I pricing.py > /dev/null
           python3 -I stack_matrix.py > /dev/null
           python3 -I topology.py > /dev/null
+
+  pipeline-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: M2/requirements.txt
+      - name: Install M2 dependencies
+        run: pip install -r M2/requirements.txt
+      - name: Validate the M2 eval additions (CS-021..CS-040)
+        working-directory: M0/evals
+        run: python3 -I validate_cases.py ../../M2/evals/cases-m2.json
+      - name: Unit + integration tests (typed outputs, tripwires, retrieval, fallback labelling, gate)
+        working-directory: M2
+        run: python3 -m pytest -q tests
+      - name: EVAL GATE (replay brain, 40 cases, $0) - a failure here blocks the image push
+        working-directory: M2
+        run: python3 evals/run_evals.py --brain replay --out evals/results-ci-${{ matrix.python-version }}.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results-replay-${{ matrix.python-version }}
+          path: M2/evals/results-ci-*.txt
+
+  stack-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Start the whole stack with one command
+        working-directory: M2
+        run: docker compose up --build -d --wait
+      - name: One claim per outcome through the running containers
+        run: pip install httpx==0.28.1 && python3 M2/evals/stack_smoke.py
+      - name: Logs on failure
+        if: failure()
+        working-directory: M2
+        run: docker compose logs --tail=200
+      - name: Tear down
+        if: always()
+        working-directory: M2
+        run: docker compose down -v
+
+  live-eval:
+    # The model-required gate. Runs on main (and demo/* branches, for the red-gate proof) or by hand.
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/')))
+    needs: [pipeline-tests]
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      MOCK_BRAIN: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require the key (no key = no live gate = no push)
+        run: test -n "$OPENAI_API_KEY" || { echo "OPENAI_API_KEY secret is not set"; exit 1; }
+      - run: pip install -r M2/requirements.txt
+      - name: EVAL GATE (live, pinned gpt-4o-mini-2024-07-18 / gpt-4o-2024-08-06, 20-case smoke suite, ~$0.40) - model verdicts only
+        # The full 40-case live run is done by hand before a release (make evals-live), D-021.
+        working-directory: M2
+        run: python3 evals/run_evals.py --brain live --suite smoke --out evals/results-ci-live.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results-live
+          path: M2/evals/results-ci-live.txt
+
+  supply-chain:
+    # OWASP LLM03: scan the exact image CI would push; publish its SBOM. A HIGH/CRITICAL CVE with a fix blocks the push.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the orchestrator image (not pushed)
+        run: docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t claimsense-orchestrator:ci .
+      - name: Vulnerability gate (Trivy, pinned) - HIGH/CRITICAL with a fix available = fail
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.57.1 image \
+            --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 claimsense-orchestrator:ci
+      - name: SBOM (CycloneDX)
+        run: |
+          mkdir -p sbom
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD/sbom:/out" aquasec/trivy:0.57.1 image \
+            --format cyclonedx --output /out/claimsense-orchestrator.cdx.json claimsense-orchestrator:ci
+          echo "SBOM components: $(python3 -c 'import json;print(len(json.load(open("sbom/claimsense-orchestrator.cdx.json"))["components"]))')" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom-claimsense-orchestrator
+          path: sbom/claimsense-orchestrator.cdx.json
+
+  build-push:
+    # Runs only when EVERY gate above is green. Any failure upstream -> this job is skipped -> no image.
+    needs: [eval-suite, design-checks, pipeline-tests, stack-smoke, supply-chain, live-eval]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write          # GitHub OIDC -> short-lived AWS credentials; no stored AWS keys
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
+          aws-region: us-east-1
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: true
+      - name: Build and push the orchestrator image (tag = commit SHA; tags are immutable)
+        env:
+          REPO: ${{ steps.ecr.outputs.registry }}/claimsense/orchestrator
+        run: |
+          # single-platform manifest without attestations: Lambda rejects image indexes (deploy ladder)
+          docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t "$REPO:${GITHUB_SHA}" .
+          docker push "$REPO:${GITHUB_SHA}"
+          echo "pushed claimsense/orchestrator:${GITHUB_SHA}" >> "$GITHUB_STEP_SUMMARY"
