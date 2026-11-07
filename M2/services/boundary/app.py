@@ -12,6 +12,7 @@ from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, Header, Request
+from fastapi.responses import JSONResponse
 
 from claimsense.boundary_client import LocalBoundary
 
@@ -72,17 +73,38 @@ def document(doc_id: str, x_user_id: str = Header(), x_on_behalf_of_agent: str |
     return B.document(x_user_id, doc_id, x_on_behalf_of_agent)
 
 
+async def _json_object(request):
+    """The request body as a dict, or None when it is missing or not a JSON object (answered with a 400,
+    never a crash)."""
+    try:
+        body = await request.json()
+    except ValueError:
+        return None
+    return body if isinstance(body, dict) else None
+
+
+def _bad_request(caller_id, action, target, message):
+    rid = B._audit(B.caller(caller_id), action, target, "error", "invalid_request")
+    return JSONResponse(B._error("invalid_request", message, rid), status_code=400)
+
+
 @app.post("/claims/{claim_id}/recommendations")
 async def recommend(claim_id: str, request: Request, x_user_id: str = Header(), idempotency_key: str = Header(),
                     x_on_behalf_of_agent: str = Header("agent:decision-draft")):
-    body = await request.json()
+    body = await _json_object(request)
+    if body is None or not isinstance(body.get("decision_card"), dict):
+        return _bad_request(x_user_id, "post_recommendation", claim_id, "Body must be a JSON object with a decision_card.")
     return B.recommend(x_user_id, claim_id, body["decision_card"], idempotency_key, x_on_behalf_of_agent)
 
 
 @app.post("/recommendations/{rec_id}/confirm")
-async def confirm(rec_id: str, request: Request, x_user_id: str = Header(), idempotency_key: str = Header()):
-    body = await request.json()
-    return B.confirm(x_user_id, dict(body, recommendation_id=rec_id, idempotency_key=idempotency_key))
+async def confirm(rec_id: str, request: Request, x_user_id: str = Header(), idempotency_key: str = Header(),
+                  x_on_behalf_of_agent: str | None = Header(None)):
+    body = await _json_object(request)
+    if body is None or body.get("action") not in ("confirm", "override"):
+        return _bad_request(x_user_id, "confirm_recommendation", rec_id, 'Body must be {"action": "confirm" | "override", ...}.')
+    return B.confirm(x_user_id, dict(body, recommendation_id=rec_id, idempotency_key=idempotency_key),
+                     agent=x_on_behalf_of_agent)
 
 
 @app.get("/audit")

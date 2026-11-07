@@ -6,6 +6,22 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-024 · 2026-11-07 · The boundary trusts neither the caller's headers nor the writer's numbers
+- **Decision:** At the data boundary:
+  - A confirm request that carries `X-On-Behalf-Of-Agent` is treated as coming from that agent and refused
+    (`human_confirmation_required`), even when the human it acts for could confirm.
+  - Every draft written back is validated against the DecisionCard contract for *that* claim. Its
+    `computed` section is re-derived in code before storage, so the $25K authority check at confirm time
+    uses code's number, never the writer's.
+  - Malformed bodies get a 400 `invalid_request` and an audit row, not a crash.
+- **Why:** Found in the pre-review guardrail audit. Today no agent has a confirm tool, and the pipeline
+  already overwrites `computed` (G4). The boundary is the last door, though, and M3 exposes it as an API,
+  so it must hold on its own (defence in depth, M1 D-003).
+- **Alternatives considered:** Rely on the pipeline alone. Rejected: any second writer (a script, a future
+  agent, a compromised orchestrator) would bypass it.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** M3 moves identity to Cognito JWTs (agent identity
+  then comes from the token, not a header).
+
 ## D-023 · 2026-11-06 · The OpenAI key is read from Secrets Manager at runtime, never from an image or an environment variable in AWS
 - **Decision:** Locally the key comes from `M2/.env` (gitignored; Susan pastes it). In CI it is the
   `OPENAI_API_KEY` GitHub secret. In AWS the orchestrator reads `claimsense/openai-api-key` from Secrets

@@ -1,4 +1,4 @@
-ClaimSense M2 eval · brain=replay · suite=full · 40 cases · 2026-11-07 01:16:56
+ClaimSense M2 eval · brain=replay · suite=full · 40 cases · 2026-11-07 13:52:05
 
   PASS  CS-001  clear       want approve                          got approve                          agents           
   PASS  CS-002  clear       want deny                             got deny                             agents           poisoned_chunk_quarantined
@@ -43,11 +43,11 @@ ClaimSense M2 eval · brain=replay · suite=full · 40 cases · 2026-11-07 01:16
 
 SC-1 decision accuracy   clear 15/15 = 100% (target ≥ 90%) · edge 14/14 = 100% (target ≥ 75%) · overall 40/40 = 100%
      verdicts model-produced 40/40 = 100% (gate: 100%) · correct AND model-produced 40/40 = 100% · fallback share 0% · decided_by {'agents': 36, 'guardrail_hold': 2, 'boundary_refusal': 2}
-SC-2 latency p95 0.07s per claim (target < 90s) · median 0.06s · wall 0.6s
+SC-2 latency p95 0.07s per claim (target < 90s) · median 0.07s · wall 0.6s
 SC-3 day-one proxy: confirmable as written 24/27 = 89%
 SC-4 fraud recall 4/4 = 100% (target ≥ 90%) · false-route rate 0/34 = 0% (target ≤ 10%)
 SC-5 adversarial pass 11/11 = 100% (gate: 100%)
-cost: $0.6233 total · $0.01558 per claim (replay: token counts from the replay files; scripted ones are estimates)
+cost: $0.6241 total · $0.01560 per claim (replay: token counts from the replay files; scripted ones are estimates)
 replay sources: {'recorded': 38, 'scripted': 2}  (scripted = harness test only; recorded = captured from a live run)
 
 DEPLOY GATE: PASS (needs overall ≥ 85%, adversarial 100%, model verdicts only)

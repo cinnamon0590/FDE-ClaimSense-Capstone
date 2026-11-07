@@ -29,7 +29,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung.
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-023.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-024.
 
 ## Headline numbers (live, gpt-4o-mini + gpt-4o, 40 cases, prompt m2-v8)
 
@@ -90,7 +90,7 @@ by design, so a full recording never exists for them.
 colima start                      # Docker runtime (once per boot)
 cd M2 && make up                  # console: http://localhost:8510 (8501 is taken on this laptop)
 make smoke                        # one claim per outcome through the running stack
-make test                         # 35 tests, $0
+make test                         # 39 tests, $0
 make evals                        # the CI gate on the replay brain, $0
 make evals-live                   # the gate on the live models (needs OPENAI_API_KEY in M2/.env, ~$0.60)
 ```
@@ -102,3 +102,15 @@ No key? Leave `OPENAI_API_KEY` empty (or `MOCK_BRAIN=1`) and everything runs on 
 - **M0 scorer made the gate demand 100% accuracy.** "Every verdict model-produced" also counted correctness. It is now one shared `gate_passes()` with a test (`test_gate_allows_a_few_misses_above_the_floor`).
 - **Recorder** could overwrite good replays during an outage (found when the OpenAI credit ran out mid-run). Recordings are now staged and committed only for complete claims, with a regression test.
 - **Deploy script** first passed the key as a Lambda env var; replaced with a runtime Secrets Manager read before any deploy (D-023).
+- **Boundary trusted its callers too much** (pre-review guardrail audit). Three problems, all fixed with
+  regression tests in [`tests/test_boundary_hardening.py`](tests/test_boundary_hardening.py) (D-024):
+  - An agent acting for a human could confirm a draft.
+  - A forged draft's own `net_payable` was used for the $25K authority check.
+  - A malformed body crashed the route (500) instead of returning 400.
+- **Guardrail mutation audit:** each of G1–G7 was switched off in turn.
+  - G1, G2, G3 and G6 turn the eval gate red.
+  - G5 and G7 are caught by the tripwire tests instead. The recorded models never cite an unretrieved
+    clause or leak another claim, partly because G7's input-side mask hides other claim IDs from the model.
+  - G4 is structural: the Decision agent's typed output has no `computed` field, so the model can't
+    supply a number.
+  - Both the gate and the tests block the image push.

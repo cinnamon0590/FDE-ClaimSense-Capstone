@@ -9,7 +9,10 @@ before any data reaches an agent.
 """
 import json
 
-from ._m1 import FIXTURES, boundary as ref
+from ._m1 import FIXTURES, SCHEMAS, boundary as ref, jsonschema_lite
+from .deterministic import compute
+
+_COMMON = json.loads((SCHEMAS / "common.schema.json").read_text())
 
 AGENT_IDS = {"intake": "agent:document-intake", "coverage": "agent:coverage-check",
              "assessment": "agent:claim-assessment", "decision": "agent:decision-draft"}
@@ -49,11 +52,28 @@ class LocalBoundary(ref.Boundary):
         return self.get_document(self.caller(user_id), doc_id, agent)
 
     def recommend(self, user_id, claim_id, card, idempotency_key, agent="agent:decision-draft"):
-        return self.post_recommendation(self.caller(user_id), {"claim_id": claim_id, "decision_card": card,
-                                                               "idempotency_key": idempotency_key}, agent)
+        caller = self.caller(user_id)
+        claim = self.claims.get(claim_id)
+        if claim is not None and self.entitled(caller, claim):
+            # never trust the writer's numbers: the confirm step checks the $25K authority limit against
+            # card.computed, so the boundary re-derives it in code (G4 at the door) and rejects any draft
+            # that is not a valid DecisionCard for THIS claim
+            card = dict(card, computed=compute(claim, self.policies[claim["policy_id"]]))
+            errors = jsonschema_lite.validate(card, {"$ref": "#/$defs/DecisionCard", "$defs": _COMMON["$defs"]},
+                                              root=_COMMON)
+            if card.get("claim_id") != claim_id:
+                errors.append("decision_card.claim_id does not match the claim in the path")
+            if errors:
+                rid = self._audit(caller, "post_recommendation", claim_id, "error", "invalid DecisionCard", agent)
+                return self._error("invalid_request", "The draft is not a valid DecisionCard for this claim.", rid)
+        return self.post_recommendation(caller, {"claim_id": claim_id, "decision_card": card,
+                                                 "idempotency_key": idempotency_key}, agent)
 
-    def confirm(self, user_id, request):
-        return self.confirm_recommendation(self.caller(user_id), request)
+    def confirm(self, user_id, request, agent=None):
+        # confirmation is human-only: a request made by an agent is refused even when it acts for a
+        # human who could confirm (the agent identity is the caller, so the M1 rule denies and audits it)
+        caller = {"user_id": agent, "groups": []} if agent else self.caller(user_id)
+        return self.confirm_recommendation(caller, request)
 
 
 class HttpBoundary:
@@ -86,9 +106,12 @@ class HttpBoundary:
                               headers={"X-User-Id": user_id, "X-On-Behalf-Of-Agent": agent,
                                        "Idempotency-Key": idempotency_key}).json()
 
-    def confirm(self, user_id, request):
+    def confirm(self, user_id, request, agent=None):
+        headers = {"X-User-Id": user_id, "Idempotency-Key": request["idempotency_key"]}
+        if agent:
+            headers["X-On-Behalf-Of-Agent"] = agent
         return self.http.post(f"/recommendations/{request['recommendation_id']}/confirm", json=request,
-                              headers={"X-User-Id": user_id, "Idempotency-Key": request["idempotency_key"]}).json()
+                              headers=headers).json()
 
 
 def make_boundary(url=""):
