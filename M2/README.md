@@ -25,7 +25,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 | W15 | **Traces** and **sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live; SQLite checkpoints let a crashed run resume without paying twice |
 | W15 | **Model routing + cost table** | class | [`evidence/cost-table-live.md`](evidence/cost-table-live.md) | Pinned gpt-4o-mini-2024-07-18 for the volume steps, gpt-4o-2024-08-06 for the money steps: **$0.019 per claim** (incl. second opinion and G1b), p95 19 s |
 
-### Extra credit
+### Added Features / Extra Credit
 - **Measured stability + release gate** (D-025): 3 live runs, 40/40 each, **40/40 cases gave the same answer
   every run**. `make release` blocks unless every case is right ≥ 2/3 and every adversarial case 3/3. It
   caught a real bug on its first try (below).

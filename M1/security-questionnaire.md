@@ -1,6 +1,6 @@
 # Vendor security questionnaire: ClaimSense AI answers for AutoSure Insurance
 
-**Extra-credit artifact** (the Week 14 class centrepiece). Every answer names the **control**,
+**Added Features / Extra Credit artifact** (the Week 14 class centrepiece). Every answer names the **control**,
 **where it lives** (code, integration layer or system of record, never the model), and the
 **proof** a reviewer can re-run. "We'll figure it out during the build" appears nowhere.
 
