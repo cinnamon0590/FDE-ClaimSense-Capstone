@@ -128,6 +128,7 @@ def build_agents(brain=None, record=False, store=None):
                 model = RecordingModel(model, key, model_name(tier), store)
         out[key] = Agent(name=name, instructions=instructions, model=model, output_type=otype, tools=tools,
                          input_guardrails=[untrusted_input_scan], output_guardrails=outs,
-                         model_settings=ModelSettings(temperature=0, tool_choice="required" if tools else None),
+                         model_settings=ModelSettings(temperature=0, tool_choice="required" if tools else None,
+                                                                    include_usage=True),   # LiteLLM streams omit usage otherwise
                          reset_tool_choice=True)
     return out, store

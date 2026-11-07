@@ -166,11 +166,13 @@ class Assistant:
         coverage = Agent(name="Coverage specialist", instructions=COVERAGE_PROMPT,
                          model=live_model(model_name("smart")) if live else ScriptedAssistantModel("coverage"),
                          tools=[search_clauses], output_guardrails=[answer_grounding_tripwire],
-                         model_settings=ModelSettings(temperature=0, tool_choice="required"), reset_tool_choice=True)
+                         model_settings=ModelSettings(temperature=0, tool_choice="required", include_usage=True),
+                         reset_tool_choice=True)
         self.qa = Agent(name="Ask ClaimSense", instructions=QA_PROMPT,
                         model=live_model(model_name("fast")) if live else ScriptedAssistantModel("qa"),
                         tools=[get_draft, get_claim_file], handoffs=[coverage],
-                        output_guardrails=[answer_grounding_tripwire], model_settings=ModelSettings(temperature=0))
+                        output_guardrails=[answer_grounding_tripwire],
+                        model_settings=ModelSettings(temperature=0, include_usage=True))
         self.db = config.STATE_DIR / "assistant-sessions.db"
         self.db.parent.mkdir(parents=True, exist_ok=True)
 

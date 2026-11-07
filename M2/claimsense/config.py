@@ -53,7 +53,9 @@ EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 BOUNDARY_URL = os.environ.get("BOUNDARY_URL", "")             # empty = in-process boundary
 STATE_DIR = Path(os.environ.get("CLAIMSENSE_STATE", M2 / ".state"))
 REPLAY_DIR = Path(os.environ.get("REPLAY_DIR", M2 / "evals" / "replays"))
-CASE_BUDGET_USD = float(os.environ.get("CASE_BUDGET_USD", "0.05"))   # per-claim spend cap
+# per-claim spend cap (W15: "budget per CASE"). Claude on Bedrock lists ~3x gpt-4o-mini/4o for this pipeline
+# (measured $0.048 vs $0.017 a claim), so its default cap is higher; both still stop a runaway loop.
+CASE_BUDGET_USD = float(os.environ.get("CASE_BUDGET_USD", "0.10" if MODEL_PROVIDER == "bedrock" else "0.05"))
 
 
 def brain_name():

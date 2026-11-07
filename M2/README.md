@@ -50,7 +50,9 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
   ([`evidence/cost-table-live-caching.md`](evidence/cost-table-live-caching.md)).
 - **AgentCore Runtime config written out** ([`cloud/agentcore/`](cloud/agentcore/)): entry point, toolkit config,
   least-privilege execution role; the session id resumes the claim.
-- **Claude on Bedrock option** (`MODEL_PROVIDER=bedrock`, D-028): the deck's stack, through the SDK's LiteLLM bridge.
+- **Claude on Bedrock option** (`MODEL_PROVIDER=bedrock`, D-028): the deck's stack (Haiku 4.5 + Sonnet 4.5) through the
+  SDK's LiteLLM bridge, same agents, guardrails and gate: **6/6 correct** across every outcome, the injection hold and
+  the refusal, at $0.045–0.051 per claim ([`evidence/bedrock-claude-run.txt`](evidence/bedrock-claude-run.txt)).
 - **Leaderboard-ready**: `pass rate:` line, `--suite golden --cases N`, spend ledger from SDK usage, `SPEND.txt`.
 - **Restart-survivable state, proven on every push** (D-027): kill the orchestrator mid-claim and the run
   resumes from its checkpoints; restart the boundary and drafts, idempotency, confirmations and the audit
@@ -149,6 +151,7 @@ adjuster rather than out as a confident verdict (G8).
 | [`restart-survival.txt`](evidence/restart-survival.txt) | Orchestrator killed mid-claim → restarted by Docker → run resumed (Intake and Coverage restored, not re-billed); boundary restarted twice with no duplicate draft, confirmation replayed, second decision refused, audit intact |
 | [`console-session-resume.txt`](evidence/console-session-resume.txt) · [`console-refresh-resume.gif`](evidence/console-refresh-resume.gif) | Live console: refresh mid-run joins the run in progress ($0.021, billed once); console container restarted → same URL resumes from checkpoints ($0, 0.02 s); Confirm clicked twice → original receipt replayed |
 | [`ask-claimsense-live.txt`](evidence/ask-claimsense-live.txt) · [`console-ask-and-queue.gif`](evidence/console-ask-and-queue.gif) | Ask ClaimSense live: streamed answer (139 deltas), handoff to the Coverage specialist on a policy question, grounded citation; then the adjuster queue and a confirm from it |
+| [`bedrock-claude-run.txt`](evidence/bedrock-claude-run.txt) | The same pipeline on Claude Haiku 4.5 / Sonnet 4.5 via Bedrock: 6/6 (approve, deny, route, flag, injection hold, refusal), $0.19 total |
 | [`console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg) | The adjuster queue: pending drafts with outcome, code-computed net payable and guardrail flags |
 | [`results-live-smoke-streamed.txt`](evidence/results-live-smoke-streamed.txt) · [`cost-table-live-caching.md`](evidence/cost-table-live-caching.md) | Live 20-case gate on the streamed pipeline at the 90% floor: 20/20; prompt-cache share per agent |
 | [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
