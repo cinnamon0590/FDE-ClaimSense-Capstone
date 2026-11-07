@@ -93,6 +93,10 @@ class Checkpoints:
             row = db.execute("SELECT output FROM steps WHERE run_id=? AND step=?", (run_id, step)).fetchone()
         return json.loads(row[0]) if row else None
 
+    def has(self, run_id):
+        with sqlite3.connect(self.path) as db:
+            return db.execute("SELECT 1 FROM steps WHERE run_id=? LIMIT 1", (run_id,)).fetchone() is not None
+
     def put(self, run_id, step, output):
         with sqlite3.connect(self.path) as db:
             db.execute("INSERT OR REPLACE INTO steps VALUES (?,?,?)", (run_id, step, json.dumps(output)))

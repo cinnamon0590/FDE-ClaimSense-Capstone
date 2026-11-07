@@ -25,6 +25,17 @@ money without a licensed adjuster.
    only complete claims (tested).
 4. After recovery, run `make smoke`, which should show `decided_by=agents` again.
 
+### Orchestrator crashed or was redeployed mid-claim
+1. Nothing is lost. Every finished agent step is checkpointed on the `/state` volume (D-027).
+2. Re-submit the claim with the `run_id` from the failed response or the logs:
+   `POST /claims/<id>/recommend {"user_id": ..., "run_id": ...}`. It resumes, finished agents are not re-run
+   or re-billed, and the draft write-back is idempotent (no duplicate).
+3. Never run `docker compose down -v`: `-v` deletes the state volume (checkpoints, drafts, idempotency).
+
+### Boundary restarted
+1. Drafts, idempotency records and confirmations persist in `/state/boundary.db`; the audit is reloaded.
+2. A draft is decided exactly once: a second confirm or override under a new key returns `already_confirmed`.
+
 ### Hold spike (many `guardrail_hold`)
 1. Open three held claims in the console. Is it a real attack (same garage or template), or a false positive?
 2. **Real attack:** leave the holds; notify SIU with the claim IDs (the audit log has the spans).
@@ -62,7 +73,8 @@ money without a licensed adjuster.
 3. Update `config.py` defaults and `observability.PRICES`; commit with the stability report.
 
 ## Release checklist
-- [ ] `make test`: unit, integration and guardrail fuzz tests ($0)
+- [ ] `make test`: unit, integration, guardrail fuzz and restart-survival tests ($0)
+- [ ] `make restart-test`: restart survival on the running containers ($0)
 - [ ] `make evals`: replay gate PASS ($0)
 - [ ] `make release`: 3 live runs, RELEASE GATE PASS (~$2.70)
 - [ ] CI green, including `supply-chain` (no fixable HIGH/CRITICAL CVE; SBOM attached)

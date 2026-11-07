@@ -27,7 +27,8 @@
                 "rate_limited",
                 "upstream_unavailable",
                 "idempotency_conflict",
-                "human_confirmation_required"
+                "human_confirmation_required",
+                "already_confirmed"
               ],
               "description": "not_found_or_forbidden is deliberately ONE code: a missing record and an unentitled record look identical (anti-enumeration)"
             },

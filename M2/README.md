@@ -22,7 +22,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 | 4 | **CI pipeline in which a failing eval gate blocks the image push** | assignment · W15 class | [`../.github/workflows/eval-gate.yml`](../.github/workflows/eval-gate.yml) · [`cloud/oidc.sh`](cloud/oidc.sh) | `build-push` needs every gate (replay gate on each PR, live-model gate on main); GitHub OIDC role scoped to one ECR repo; red-gate and green-gate runs in [`evidence/`](evidence/) |
 | 5 | **All four decision outcomes correct; model verdicts distinguishable from fallback** | assignment · brief M3 | [`claimsense/deterministic.py`](claimsense/deterministic.py) · `verdict_source` + `decided_by` | **Live: 40/40 in each of 3 runs, same answer every time** ([`evidence/results-live-stability.txt`](evidence/results-live-stability.txt)); fallback is labelled, never approves, never counts for the gate ([`tests/test_deterministic.py`](tests/test_deterministic.py), [`tests/test_eval_gate.py`](tests/test_eval_gate.py)) |
 | W15 | A guardrail that **trips** + **human handoff** | class M2 floor | `@input_guardrail` + 3 `@output_guardrail` tripwires | CS-016 / CS-035 stop at Intake and go to a senior adjuster; console shows the handoff |
-| W15 | **Traces** and **sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live; SQLite checkpoints let a crashed run resume without paying twice |
+| W15 | **Traces** and **restart-survivable sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) · [`evals/restart_survival.py`](evals/restart_survival.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live. **State survives restarts** (D-027): per-step checkpoints on the `/state` volume, so `POST /recommend` with the same `run_id` resumes without re-running or re-paying; the boundary persists drafts, idempotency and audit. CI kills the orchestrator mid-claim and restarts the boundary twice on every push ([`evidence/restart-survival.txt`](evidence/restart-survival.txt)) |
 | W15 | **Model routing + cost table** | class | [`evidence/cost-table-live.md`](evidence/cost-table-live.md) | Pinned gpt-4o-mini-2024-07-18 for the volume steps, gpt-4o-2024-08-06 for the money steps: **$0.019 per claim** (incl. second opinion and G1b), p95 19 s |
 
 ### Added Features / Extra Credit
@@ -39,6 +39,9 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **G1b injection classifier** (D-026): on held-out attacks written before each test and never tuned on,
   regexes alone caught 1/15; **G1 + G1b caught 13/15 with 0/15 false positives**. It can only escalate to a
   human, fails closed, and CI replays cached verdicts at $0.
+- **Restart-survivable state, proven on every push** (D-027): kill the orchestrator mid-claim and the run
+  resumes from its checkpoints; restart the boundary and drafts, idempotency, confirmations and the audit
+  trail are intact; a draft is decided exactly once.
 - **Boundary hardening** (D-024): agents can't confirm even when acting for a human; drafts are validated
   and their money re-derived at the door; malformed bodies get a 400.
 - **OWASP Top 10 for LLM Apps (2025) mapping** ([`SECURITY.md`](SECURITY.md)): every risk → control → test → residual.
@@ -52,7 +55,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung.
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-026.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-027.
 
 ## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v8)
 
@@ -95,6 +98,7 @@ adjuster rather than out as a confident verdict (G8).
 | [`stack-smoke.txt`](evidence/stack-smoke.txt) | One claim per outcome through the 4 running containers; agent refused at confirm; human confirms; denials audited |
 | [`console-live-approve.jpg`](evidence/console-live-approve.jpg) · [`console-injection-guardrail-hold.jpg`](evidence/console-injection-guardrail-hold.jpg) | Live model verdict badge; CS-016 stopped at Intake and handed to a senior adjuster |
 | [`console-demo.gif`](evidence/console-demo.gif) | Live console on the pinned models: model verdict APPROVE ($0.021), then CS-016's injected invoice held at Intake ($0.0003) |
+| [`restart-survival.txt`](evidence/restart-survival.txt) | Orchestrator killed mid-claim → restarted by Docker → run resumed (Intake and Coverage restored, not re-billed); boundary restarted twice with no duplicate draft, confirmation replayed, second decision refused, audit intact |
 | [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
 | [`strands-port.json`](evidence/strands-port.json) | Coverage agent on Strands: cites only retrieved clauses; planted chunk quarantined |
 
@@ -142,7 +146,8 @@ by design, so a full recording never exists for them.
 colima start                      # Docker runtime (once per boot)
 cd M2 && make up                  # console: http://localhost:8510 (8501 is taken on this laptop)
 make smoke                        # one claim per outcome through the running stack
-make test                         # 47 tests incl. the guardrail fuzz gate, $0
+make test                         # 51 tests incl. the guardrail fuzz gate and restart survival, $0
+make restart-test                 # kill/restart the running containers and prove nothing is lost ($0)
 make evals                        # the CI gate on the replay brain, $0
 make evals-live                   # the gate on the live models (needs OPENAI_API_KEY in M2/.env, ~$0.80)
 make release                      # RELEASE gate: 3 live runs, stability per case (~$2.70, by hand before a release)
@@ -175,3 +180,6 @@ No key? Leave `OPENAI_API_KEY` empty (or `MOCK_BRAIN=1`) and everything runs on 
   per process (`run_sync`), plus a regression test. Production was never affected: the orchestrator runs one
   long-lived loop.
 - **Recorder writes are atomic** (temp file + rename), so a reader never sees a half-written replay or cache.
+- **Resume used paraphrased quotes, and the M1 boundary allowed a second confirm** (found building D-027).
+  Checkpoints stored retrieved clause IDs but not their text, so a resumed card showed the model's wording.
+  Separately, a draft could be confirmed again under a new idempotency key. Both fixed, with tests.

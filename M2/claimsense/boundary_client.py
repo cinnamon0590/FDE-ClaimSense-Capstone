@@ -8,6 +8,8 @@ Entitlement, anti-enumeration, audit and idempotency are enforced by the boundar
 before any data reaches an agent.
 """
 import json
+import sqlite3
+from pathlib import Path
 
 from ._m1 import FIXTURES, SCHEMAS, boundary as ref, jsonschema_lite
 from .deterministic import compute
@@ -22,8 +24,63 @@ def users():
     return {u["user_id"]: u for u in json.loads((FIXTURES / "users.json").read_text())["records"]}
 
 
+class PersistentDict(dict):
+    """A dict that writes through to SQLite, so the boundary's drafts and idempotency records survive a
+    restart (D-027). Local twin of the DynamoDB tables M1 provisioned (claimsense-idempotency) for M3."""
+
+    def __init__(self, path, table, encode_key=str, decode_key=str):
+        super().__init__()
+        self.path, self.table, self._ek = Path(path), table, encode_key
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        with sqlite3.connect(self.path) as db:
+            db.execute(f"CREATE TABLE IF NOT EXISTS {table} (k TEXT PRIMARY KEY, v TEXT NOT NULL)")
+            for k, v in db.execute(f"SELECT k, v FROM {table}"):
+                super().__setitem__(decode_key(k), _untuple(json.loads(v)))
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+        self.save(key)
+
+    def save(self, key):
+        """Re-persist a value that was mutated in place."""
+        with sqlite3.connect(self.path) as db:
+            db.execute(f"INSERT OR REPLACE INTO {self.table} VALUES (?, ?)", (self._ek(key), json.dumps(self[key])))
+
+
+def _untuple(v):
+    # idempotency values are (fingerprint, response) tuples; JSON brings them back as lists
+    return tuple(v) if isinstance(v, list) and len(v) == 2 and isinstance(v[0], str) and isinstance(v[1], dict) else v
+
+
 class LocalBoundary(ref.Boundary):
-    """Reference boundary plus document reads (the Document Store contract's GET /documents/{id})."""
+    """Reference boundary plus document reads (the Document Store contract's GET /documents/{id}).
+    With `state_path`, drafts and idempotency records persist in SQLite (restart-survivable, D-027)."""
+
+    def __init__(self, state_path=None):
+        super().__init__()
+        if state_path:
+            self.persist(state_path)
+
+    def persist(self, state_path):
+        self.recommendations = PersistentDict(state_path, "recommendations")
+        self._idem = PersistentDict(state_path, "idempotency", encode_key=lambda k: json.dumps(list(k)),
+                                    decode_key=lambda s: tuple(json.loads(s)))
+
+    def confirm_recommendation(self, caller, request):
+        rid = request.get("recommendation_id")
+        rec = self.recommendations.get(rid)
+        slot = (caller["user_id"], "confirm_recommendation", request.get("idempotency_key"))
+        if rec and rec.get("confirmation") and slot not in self._idem and self.entitled(caller, self.claims[rec["claim_id"]]):
+            # a draft is decided exactly once: a second confirm/override under a NEW key is a conflict, not an overwrite
+            # (the same key still replays the original receipt, via the reference idempotency rule)
+            done = rec["confirmation"]
+            erid = self._audit(caller, "confirm_recommendation", rid, "error", "already_confirmed")
+            return self._error("already_confirmed", f"This recommendation was already {done['action']}ed by "
+                               f"{done['confirmed_by']} at {done['confirmed_at']}.", erid)
+        out = super().confirm_recommendation(caller, request)
+        if isinstance(self.recommendations, PersistentDict) and rid in self.recommendations:
+            self.recommendations.save(rid)                 # the confirmation was written into the record in place
+        return out
 
     def get_document(self, caller, doc_id, agent=None):
         doc = self.documents.get(doc_id)

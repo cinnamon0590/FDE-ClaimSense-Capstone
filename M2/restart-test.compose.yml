@@ -1,0 +1,7 @@
+# Overlay for the restart-survival proof (evals/restart_survival.py), used locally and by CI's stack-smoke job:
+#   MOCK_BRAIN=1 docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
+# Enables test-only fault injection in the orchestrator. Never used for the image CI pushes or for Lambda.
+services:
+  orchestrator:
+    environment:
+      CLAIMSENSE_FAULT_INJECTION: "1"

@@ -1,0 +1,26 @@
+ClaimSense restart-survival proof · 2026-11-07 17:29:19
+orchestrator brain=replay · fault injection enabled for this test only
+
+1 · Kill the orchestrator mid-claim (right after Coverage is checkpointed)
+     request dropped: RemoteProtocolError (process exited)
+  PASS  orchestrator process died mid-claim
+  PASS  Docker restarted it (restart policy)  (RestartCount 0 -> 1)
+
+2 · Resume the same run_id on the restarted process
+  PASS  run resumed from checkpoints
+  PASS  finished agents restored, not re-run  (restored ['Document Intake', 'Coverage Check']; ran ['Claim Assessment', 'Decision Draft', 'Decision Draft · second opinion'])
+  PASS  no usage billed for restored agents
+  PASS  claim completed with a model verdict  (approve · verdict_source=model)
+     draft written back: REC-48d2fda2c4a8
+
+3 · Restart the boundary; replay the same run
+  PASS  draft survived the boundary restart; no duplicate written  (receipt REC-48d2fda2c4a8 idempotent_replay=True)
+  PASS  fully restored run costs nothing  ($0)
+
+4 · A human confirms; restart the boundary again; the decision holds exactly once
+  PASS  alice confirms
+  PASS  same key after restart replays the original receipt
+  PASS  a second decision under a new key is refused
+  PASS  audit trail survived both restarts  (213 rows before, 215 after)
+
+RESTART SURVIVAL: PASS
