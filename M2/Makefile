@@ -1,6 +1,6 @@
 # ClaimSense M2 · one-command operations (run from M2/)
 PY ?= ../.venv/bin/python
-.PHONY: up down logs smoke test evals evals-live release fuzz report record replays fixtures
+.PHONY: up down logs smoke test evals evals-live release fuzz report restart-test record replays fixtures
 
 up:            ## build and start the whole stack (console on http://localhost:8510)
 	docker compose up --build -d && docker compose ps
@@ -18,6 +18,10 @@ evals-live:    ## eval gate on the live models (needs OPENAI_API_KEY; ~$0.85)
 	MOCK_BRAIN=0 $(PY) evals/run_evals.py --brain live
 release:       ## RELEASE gate: 3 live runs; every case right >= 2/3, adversarial 3/3 (~$2.70, run by hand)
 	MOCK_BRAIN=0 $(PY) evals/run_evals.py --brain live --repeat 3
+restart-test:  ## restart-survival proof on the containers ($0, replay brain; restarts the stack with the test overlay)
+	MOCK_BRAIN=1 docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
+	$(PY) evals/restart_survival.py
+	docker compose up -d --wait
 fuzz:          ## adversarial fuzz of G1/G1b/G3 ($0) -> evidence/guardrail-fuzz.txt
 	$(PY) evals/fuzz_guardrails.py
 report:        ## HTML eval report from the committed results -> evidence/eval-report.html

@@ -6,6 +6,40 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-027 · 2026-11-07 · Restart-survivable state: resumable runs and a persistent boundary
+- **Decision:**
+  - **Resumable runs.** Every agent step's typed output is checkpointed in SQLite on the `/state` volume,
+    keyed by `run_id`, together with the retrieval state (clause IDs **and their text**, so quotes are still
+    the retrieved wording after a resume). Every result returns its `run_id`. `POST /recommend` with the same
+    `run_id` resumes: finished agents are restored, not re-run or re-billed. The write-back idempotency key
+    is derived from `run_id` and the card, so a resumed run never stores a duplicate draft.
+  - **Persistent boundary.** Drafts and idempotency records persist in SQLite (`/state/boundary.db`, a local
+    twin of the `claimsense-idempotency` DynamoDB table provisioned in M1). The audit log is reloaded from
+    its append-only file at start-up.
+  - **Refresh-safe console sessions.** The console puts the run in its URL (`?claim=&user=&run=`). A refresh,
+    a reopened tab or a console restart picks the same run up again: a finished run comes back from
+    checkpoints at $0; an unfinished one resumes. A run **still in progress is joined**: the orchestrator
+    keeps a registry of in-flight runs, and a reconnecting request receives the buffered events, the live
+    ones and the result, so nothing runs (or is billed) twice. A closed tab never cancels the run. Only the
+    same user on the same claim can join, and a `run_id` is bound to its claim. Confirm/Override use a
+    stable idempotency key per draft, user and decision, so a resubmit replays the receipt.
+  - **Decided exactly once.** A second confirm or override under a new key is refused with
+    `already_confirmed` (added to the M1 error contract). The same key still replays the original receipt.
+  - **Proof on every push.** CI's stack-smoke job runs `evals/restart_survival.py` against the real containers.
+    It kills the orchestrator mid-claim (test-only fault injection, off unless `CLAIMSENSE_FAULT_INJECTION=1`),
+    lets Docker restart it, resumes the run, and restarts the boundary twice. Evidence:
+    [`evidence/restart-survival.txt`](evidence/restart-survival.txt).
+- **Why per-step checkpoints, not the SDK's `SQLiteSession`:** `SQLiteSession` stores conversation history
+  for multi-turn chat. ClaimSense is a fixed, code-orchestrated sequence of single-turn agents (D-018), so
+  the state worth surviving a crash is each step's validated typed output. That is what a checkpoint stores,
+  and it makes resume exact (no model call is replayed) and $0.
+- **Found while building it:** a resumed run used the model's paraphrased clause quotes, because only clause
+  IDs were checkpointed, not their text; and the M1 boundary allowed a second confirm under a new key. Both
+  fixed, with tests.
+- **AWS path:** Lambda's `/tmp` is ephemeral, so on Lambda a resume works only within a warm instance. M3
+  moves checkpoints and boundary state to DynamoDB (tables already provisioned) behind the same interfaces.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** M3 deploys the boundary to API Gateway + Lambda.
+
 ## D-026 · 2026-11-07 · Guardrails are fuzzed, and G1 gets a model-based second layer (G1b)
 - **Decision:**
   - **Fuzz suite as a CI gate** (`evals/fuzz_guardrails.py`, `tests/test_guardrail_fuzz.py`, $0). Known

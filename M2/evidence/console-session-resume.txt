@@ -1,0 +1,18 @@
+ClaimSense console session resume · browser check on the live stack · 2026-11-07
+(pinned gpt-4o-mini-2024-07-18 / gpt-4o-2024-08-06; recording: console-refresh-resume.gif)
+
+1 · Click "Run co-pilot" on CLM-2024-1800 as alice
+    URL becomes ?claim=CLM-2024-1800&user=alice&run=CLM-2024-1800:c751d02d8339 the moment the run starts
+2 · Refresh the page mid-run (Intake done, Coverage running)
+    console: "Joined the run already in progress (nothing is run twice)"
+    result: APPROVE · Model verdict · $0.0211 · "joined in progress"  -> one run, billed once
+3 · Restart the console container (docker compose restart console), reopen the same URL
+    result: APPROVE · $0.0000 · 0.02 s · "resumed from checkpoints"  -> no model call, nothing lost
+4 · Click "Confirm as drafted" twice
+    first click: confirmed_by=alice, confirmed_at=2026-11-07T17:47:47Z
+    second click: same receipt, idempotent_replay=true (stable key per draft, user and decision)
+
+Automated equivalents: tests/test_restart_survival.py (joins in progress, closed tab does not cancel the run,
+joining stream gets backlog + result, nobody can join or resume someone else's run, run bound to its claim).
+
+CONSOLE SESSION RESUME: PASS

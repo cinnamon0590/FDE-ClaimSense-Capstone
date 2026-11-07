@@ -29,7 +29,7 @@ from .deterministic import (compute, coverage_questions, fallback_card, missing_
 from .models import AssessmentResult, CoverageResult, DecisionCard, DecisionDraft, IntakeResult
 from .observability import Checkpoints, configure_tracing, cost_usd
 from .retrieval import get_index
-from .tools import RunCtx, claim_packet
+from .tools import RunCtx, claim_packet, screen_packet
 
 COMMON = json.loads((SCHEMAS / "common.schema.json").read_text())
 TYPES = {"intake": IntakeResult, "coverage": CoverageResult, "assessment": AssessmentResult, "decision": DecisionDraft,
@@ -72,10 +72,11 @@ class Pipeline:
     async def _step(self, key, payload, ctx, usage, run_id, resume):
         if resume and (saved := self.checkpoints.get(run_id, key)) is not None:
             ctx.emit("checkpoint", f"{SPECS[key][0]} restored from checkpoint")
-            if key == "intake":
-                claim_packet(ctx)                    # re-read the file through the boundary (no model call)
+            if key == "intake":                  # re-read the file through the boundary and re-screen it
+                await screen_packet(ctx, claim_packet(ctx), meter=False)    # G1b verdicts cached: no model call
             if key == "coverage" and (ret := self.checkpoints.get(run_id, "retrieval")):
                 ctx.retrieved_clause_ids, ctx.quarantined = set(ret["ids"]), ret["quarantined"]
+                ctx.retrieved_chunks = ret.get("chunks", {})
             return TYPES[key].model_validate(saved)
         name = SPECS[key][0]
         ctx.emit("agent_start", name, model=self.model_label(key, ctx.claim_id))
@@ -97,9 +98,12 @@ class Pipeline:
         spent = sum(x["usd"] for x in usage)
         out = res.final_output
         ctx.emit("agent_end", name, seconds=round(time.time() - t0, 2), output=out.model_dump())
-        self.checkpoints.put(run_id, key, out.model_dump())
         if key == "coverage":
-            self.checkpoints.put(run_id, "retrieval", {"ids": sorted(ctx.retrieved_clause_ids), "quarantined": ctx.quarantined})
+            # the retrieved TEXT too: after a resume, citation quotes must still be the retrieved wording
+            self.checkpoints.put(run_id, "retrieval", {"ids": sorted(ctx.retrieved_clause_ids), "quarantined": ctx.quarantined,
+                                                       "chunks": ctx.retrieved_chunks})
+        self.checkpoints.put(run_id, key, out.model_dump())
+        ctx.emit("checkpoint_saved", key)
         if self.brain == "live" and spent > config.CASE_BUDGET_USD:
             raise BudgetExceeded(f"case budget ${config.CASE_BUDGET_USD:.2f} exceeded (${spent:.4f})")
         return out

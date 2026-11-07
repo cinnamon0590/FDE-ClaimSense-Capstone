@@ -104,19 +104,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Start the whole stack with one command
+      - name: Start the whole stack with one command (plus the test-only fault-injection overlay)
         working-directory: M2
-        run: docker compose up --build -d --wait
+        run: docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
       - name: One claim per outcome through the running containers
         run: pip install httpx==0.28.1 && python3 M2/evals/stack_smoke.py
+      - name: Restart survival - kill the orchestrator mid-claim, restart the boundary twice (D-027)
+        run: python3 M2/evals/restart_survival.py
       - name: Logs on failure
         if: failure()
         working-directory: M2
-        run: docker compose logs --tail=200
+        run: docker compose -f docker-compose.yml -f restart-test.compose.yml logs --tail=200
       - name: Tear down
         if: always()
         working-directory: M2
-        run: docker compose down -v
+        run: docker compose -f docker-compose.yml -f restart-test.compose.yml down -v
 
   live-eval:
     # The model-required gate. Runs on main (and demo/* branches, for the red-gate proof) or by hand.

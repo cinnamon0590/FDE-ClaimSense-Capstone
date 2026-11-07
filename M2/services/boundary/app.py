@@ -18,6 +18,7 @@ from claimsense.boundary_client import LocalBoundary
 
 SYSTEMS = os.environ.get("SYSTEMS_URL", "http://mock-systems:8001")
 AUDIT_LOG = Path(os.environ.get("AUDIT_LOG", "/state/audit.jsonl"))
+STATE_DB = Path(os.environ.get("BOUNDARY_STATE", str(AUDIT_LOG.parent / "boundary.db")))
 
 
 class SourcedBoundary(LocalBoundary):
@@ -34,7 +35,10 @@ class SourcedBoundary(LocalBoundary):
                 time.sleep(1)
         else:
             raise RuntimeError(f"mock systems unreachable at {url}")
-        self.audit, self.recommendations, self._idem = [], {}, {}
+        # restart-survivable state on the /state volume (D-027): drafts + idempotency in SQLite, audit reloaded
+        self.persist(STATE_DB)
+        self.audit = [json.loads(line) for line in AUDIT_LOG.read_text().splitlines() if line.strip()] \
+            if AUDIT_LOG.exists() else []
 
     def _audit(self, *a, **kw):
         rid = super()._audit(*a, **kw)
