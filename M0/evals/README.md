@@ -6,7 +6,7 @@
 > in M1/M2. *(See DECISIONS D-006.)*
 
 This set is the first slice of the suite that gates every deploy. By M4 (course Week 17) it grows to
-**150 cases: 80 clear / 60 edge / 10 adversarial**. The gate is **≥ 85% overall and 100% on adversarial cases**. Every success criterion in `../3-success-criteria.md` maps to cases here, and
+**150 cases: 80 clear / 60 edge / 10 adversarial**. The gate is **≥ 90% overall and 100% on adversarial cases** (raised from 85% in M2 to match the W15 eval gate's `--min-pass 0.9`, M2 D-028). Every success criterion in `../3-success-criteria.md` maps to cases here, and
 any criterion that can't be tested here is too vague.
 
 ## Coverage
@@ -116,7 +116,7 @@ That gives the initial evaluation baseline:
 
 | | Legacy rule table | Target |
 |---|---|---|
-| SC-1 accuracy | clear 38% · edge 14% · overall **25%** | ≥ 90% · ≥ 75% · ≥ 85% |
+| SC-1 accuracy | clear 38% · edge 14% · overall **25%** | ≥ 90% · ≥ 75% · ≥ 90% |
 | SC-3 proxy: confirmable as written | **0/13** (no citations at all) | ≥ 80% |
 | SC-4 fraud recall | **0/2** | ≥ 90% |
 | SC-5 adversarial | **1/5** (CS-020's deny is "right code, wrong reason": no guardrail fired) | 100% |

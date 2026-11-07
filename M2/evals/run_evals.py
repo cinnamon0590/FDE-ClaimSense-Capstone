@@ -6,7 +6,7 @@
     python M2/evals/run_evals.py --suite smoke        # the 20 M0 cases only
     python M2/evals/run_evals.py --brain live --repeat 3 # RELEASE gate: stability across 3 live runs
 
-Exit code 0 = DEPLOY GATE PASS (overall >= 85% AND adversarial 100% AND every verdict model-produced),
+Exit code 0 = DEPLOY GATE PASS (overall >= 90% AND adversarial 100% AND every verdict model-produced),
 1 = BLOCKED. CI uses the exit code to block the image push.
 
 With --repeat N (run by hand before a release) the RELEASE GATE is stricter than one lucky run:
@@ -53,7 +53,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--brain", choices=["replay", "live"], default="replay")
     ap.add_argument("--record", action="store_true")
-    ap.add_argument("--suite", choices=["smoke", "full"], default="full")
+    ap.add_argument("--suite", choices=["smoke", "full", "golden"], default="full",
+                    help="smoke = the 20 M0 cases (W15 gate); full/golden = all 40 incl. every adversarial case")
+    ap.add_argument("--cases", type=int, default=None, help="score only the first N cases (leaderboard --cases)")
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--out", default=None, help="write the report here (default: results-<brain>.txt)")
     ap.add_argument("--verbose", action="store_true")
@@ -63,6 +65,8 @@ def main(argv=None):
     cases = all_cases()
     if a.suite == "smoke":
         cases = cases[:20]
+    if a.cases:
+        cases = cases[:a.cases]
     if a.repeat > 1:
         return release_gate(a, cases)
     return evaluate(a, cases, Pipeline(brain=a.brain, record=a.record),
@@ -110,7 +114,13 @@ def evaluate(a, cases, pipe, out, label=""):
     if sources:
         lines.append(f"replay sources: {dict(sources)}  (scripted = harness test only; recorded = captured from a live run)")
     gate = score.gate_passes(m)
-    lines += ["", f"DEPLOY GATE: {'PASS' if gate else 'BLOCKED'} (needs overall ≥ 85%, adversarial 100%, model verdicts only)"]
+    passed, total = m["model_verdicts"]
+    division = "mock" if a.brain == "replay" else "live"
+    to_date = record_spend(a, cost, len(results)) if division == "live" else 0.0
+    lines += ["", f"pass rate: {round(100 * passed / total)}% ({passed}/{total})",
+              f"leaderboard: division={division}  spend_to_date=${to_date:.2f}  (from traces"
+              + ("; replay brain = $0 mock division)" if division == "mock" else "; SPEND.txt at the repo root)")]
+    lines += ["", f"DEPLOY GATE: {'PASS' if gate else 'BLOCKED'} (needs overall ≥ {score.GATE_OVERALL:.0%}, adversarial 100%, model verdicts only)"]
     report = "\n".join(lines)
     print(report)
     out.write_text(report + "\n")
@@ -167,22 +177,45 @@ def release_gate(a, cases):
     return 0 if gate else 1
 
 
+LEDGER = HERE / "spend-ledger.jsonl"
+SPEND = HERE.parents[1] / "SPEND.txt"          # repo root: the leaderboard reads it as a bare number
+
+
+def record_spend(a, run_cost, n):
+    """Append this live run's cost (summed from per-run SDK usage) to the ledger; rewrite SPEND.txt as the
+    cumulative W15 spend. The ledger starts from the attested baseline of everything spent before it existed."""
+    entry = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "suite": a.suite, "cases": n, "brain": a.brain,
+             "provider": __import__("claimsense.config", fromlist=["x"]).MODEL_PROVIDER, "cost_usd": round(run_cost, 4)}
+    with LEDGER.open("a") as f:
+        f.write(json.dumps(entry) + "\n")
+    total = sum(json.loads(line)["cost_usd"] for line in LEDGER.read_text().splitlines() if line.strip())
+    SPEND.write_text(f"{total:.2f}\n")
+    return total
+
+
 def write_cost_table(results, by_id, brain):
     rows = {}
     for r in results.values():
         for u in r["usage"]:
             k = (u["agent"], u["model"])
-            agg = rows.setdefault(k, [0, 0, 0, 0.0])
-            agg[0] += 1; agg[1] += u["input_tokens"]; agg[2] += u["output_tokens"]; agg[3] += u["usd"]
+            agg = rows.setdefault(k, [0, 0, 0, 0, 0.0])
+            agg[0] += 1; agg[1] += u["input_tokens"]; agg[2] += u.get("cached_tokens", 0)
+            agg[3] += u["output_tokens"]; agg[4] += u["usd"]
     n = max(1, sum(1 for r in results.values() if r["usage"]))
     lines = [f"# Cost table ({brain} brain, {len(results)} cases)", "",
-             "| Agent | Model | Runs | Input tokens | Output tokens | USD | USD per claim |", "|---|---|--:|--:|--:|--:|--:|"]
-    total = 0.0
-    for (agent, model), (runs, i, o, usd) in rows.items():
-        total += usd
-        lines.append(f"| {agent} | {model} | {runs} | {i:,} | {o:,} | {usd:.4f} | {usd / n:.5f} |")
-    lines += [f"| **Total** | | | | | **{total:.4f}** | **{total / n:.5f}** |", "",
-              "Prices: OpenAI list prices in `claimsense/observability.py` (verify before quoting).",
+             "| Agent | Model | Runs | Input tokens | of which cached | Output tokens | USD | USD per claim |",
+             "|---|---|--:|--:|--:|--:|--:|--:|"]
+    total, tin, tcache = 0.0, 0, 0
+    for (agent, model), (runs, i, c, o, usd) in rows.items():
+        total += usd; tin += i; tcache += c
+        lines.append(f"| {agent} | {model} | {runs} | {i:,} | {c:,} ({c / i:.0%}) | {o:,} | {usd:.4f} | {usd / n:.5f} |"
+                     if i else f"| {agent} | {model} | {runs} | 0 | 0 | {o:,} | {usd:.4f} | {usd / n:.5f} |")
+    lines += [f"| **Total** | | | {tin:,} | {tcache:,} ({(tcache / tin if tin else 0):.0%}) | | **{total:.4f}** | **{total / n:.5f}** |", "",
+              "**Prompt caching** (W15 cost lever 2): every agent's static part (instructions, tool schemas) comes first and",
+              "the per-claim payload last, so repeated prefixes are served from the provider's cache. Cached input is billed",
+              "at the discounted rate (gpt-4o 50%, Claude on Bedrock 90% off). The cache applies to prefixes of 1,024+ tokens.",
+              "",
+              "Prices: list prices in `claimsense/observability.py` (verify before quoting).",
               "At 450 claims/day (discovery assumption A) the per-claim figure × 450 × 21 gives the monthly model bill."]
     (HERE / f"cost-table-{brain}.md").write_text("\n".join(lines) + "\n")
 

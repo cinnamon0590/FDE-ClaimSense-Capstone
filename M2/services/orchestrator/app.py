@@ -20,10 +20,12 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from claimsense import config
+from claimsense.assistant import Assistant
 from claimsense.pipeline import Pipeline
 
 app = FastAPI(title="ClaimSense orchestrator")
 PIPE = Pipeline()
+ASSISTANT = Assistant(PIPE.brain, PIPE.boundary, PIPE.index, PIPE.classifier)
 
 
 # Test-only fault injection for the restart-survival proof (evals/restart_survival.py). Off unless the
@@ -153,3 +155,39 @@ async def recommend_stream(claim_id: str, req: RunRequest):
         finally:
             live.subs.discard(q)
     return StreamingResponse(gen(), media_type="application/x-ndjson")
+
+
+class AskRequest(BaseModel):
+    user_id: str
+    question: str
+
+
+@app.post("/claims/{claim_id}/ask")
+async def ask(claim_id: str, req: AskRequest):
+    """Ask ClaimSense (D-028): streamed NDJSON (agent switches, tool calls, the handoff, text deltas, then the
+    answer). The conversation is an SDK SQLiteSession per adjuster per claim, so it survives restarts."""
+    if not req.question.strip() or len(req.question) > 2000:
+        return _bad("invalid_request", "Ask a question of 1 to 2,000 characters.")
+    q: asyncio.Queue = asyncio.Queue()
+
+    async def run():
+        try:
+            await ASSISTANT.ask(claim_id, req.user_id, req.question, on_event=q.put_nowait)
+        except Exception as e:  # surfaced to the console, never swallowed
+            await q.put({"kind": "error", "error": f"{type(e).__name__}: {e}"})
+        await q.put(None)
+
+    async def gen():
+        task = asyncio.create_task(run())
+        while (ev := await q.get()) is not None:
+            yield json.dumps(ev, default=str) + "\n"
+        await task
+    return StreamingResponse(gen(), media_type="application/x-ndjson")
+
+
+@app.get("/claims/{claim_id}/ask/history")
+async def ask_history(claim_id: str, user_id: str):
+    claim = PIPE.boundary.claim(user_id, claim_id, "agent:ask-claimsense")     # entitlement first
+    if "error" in claim:
+        return _bad("not_found_or_forbidden", "No conversation is available for this request.", 404)
+    return {"session_id": f"{claim_id}:{user_id}", "messages": await ASSISTANT.history(claim_id, user_id)}

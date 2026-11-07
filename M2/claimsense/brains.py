@@ -104,9 +104,33 @@ def atomic_write(path, text):
 
 
 def _usage(u):
+    from openai.types.responses.response_usage import InputTokensDetails, OutputTokensDetails
     u = u or {}
     i, o = int(u.get("input_tokens", 0)), int(u.get("output_tokens", 0))
-    return Usage(requests=1, input_tokens=i, output_tokens=o, total_tokens=i + o)
+    return Usage(requests=1, input_tokens=i, output_tokens=o, total_tokens=i + o,
+                 input_tokens_details=InputTokensDetails(cached_tokens=int(u.get("cached_tokens", 0)), cache_write_tokens=0),
+                 output_tokens_details=OutputTokensDetails(reasoning_tokens=0))
+
+
+def usage_dict(u):
+    details = getattr(u, "input_tokens_details", None)
+    return {"input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
+            "cached_tokens": int(getattr(details, "cached_tokens", 0) or 0)}
+
+
+async def completed_stream(resp: ModelResponse, model_name: str):
+    """Stream a finished ModelResponse as one `response.completed` event, so a non-streaming brain (replay,
+    scripted) runs under Runner.run_streamed exactly like a live model does (W15: stream by default)."""
+    from openai.types.responses import Response, ResponseCompletedEvent
+    from openai.types.responses.response_usage import InputTokensDetails, OutputTokensDetails, ResponseUsage
+    u = resp.usage
+    usage = ResponseUsage(input_tokens=u.input_tokens, output_tokens=u.output_tokens, total_tokens=u.total_tokens,
+                          input_tokens_details=InputTokensDetails(cached_tokens=usage_dict(u)["cached_tokens"], cache_write_tokens=0),
+                          output_tokens_details=OutputTokensDetails(reasoning_tokens=0))
+    r = Response.model_construct(id=f"resp_{uuid.uuid4().hex[:12]}", created_at=0.0, model=model_name,
+                                 object="response", output=list(resp.output), parallel_tool_calls=False,
+                                 tool_choice="auto", tools=[], usage=usage, status="completed")
+    yield ResponseCompletedEvent.model_construct(type="response.completed", response=r, sequence_number=0)
 
 
 class ReplayModel(Model):
@@ -138,8 +162,10 @@ class ReplayModel(Model):
             pass                                   # same span shape a live model call leaves in the trace
         return ModelResponse(output=out, usage=usage, response_id=None)
 
-    def stream_response(self, *a, **kw):
-        raise NotImplementedError("the replay brain runs non-streamed; the pipeline streams step events")
+    async def stream_response(self, *a, **kw):
+        resp = await self.get_response(*a, **kw)
+        async for ev in completed_stream(resp, "replay"):
+            yield ev
 
 
 class RecordingModel(Model):
@@ -154,13 +180,17 @@ class RecordingModel(Model):
             claim_id = _claim_of(system_instructions, input)
         except LookupError:
             return resp
-        calls = [{"name": it.name, "arguments": it.arguments} for it in resp.output
+        self._save(claim_id, resp.output, resp.usage)
+        return resp
+
+    def _save(self, claim_id, output, usage_obj):
+        calls = [{"name": it.name, "arguments": it.arguments} for it in output
                  if getattr(it, "type", "") == "function_call"]
-        usage = {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens}
+        usage = usage_dict(usage_obj)
         if calls:
             turn = {"tool_calls": calls, "usage": usage}
         else:
-            text = "".join(c.text for it in resp.output if getattr(it, "type", "") == "message"
+            text = "".join(c.text for it in output if getattr(it, "type", "") == "message"
                            for c in it.content if getattr(c, "type", "") == "output_text")
             try:
                 final = json.loads(text)
@@ -168,7 +198,18 @@ class RecordingModel(Model):
                 final = text
             turn = {"final": final, "usage": usage}
         self.store.save_turn(claim_id, self.agent_key, turn, self.model_name)
-        return resp
 
-    def stream_response(self, *a, **kw):
-        return self.inner.stream_response(*a, **kw)
+    async def stream_response(self, system_instructions, input, *a, **kw):
+        """Pass the live stream through untouched and record the turn from its completed response."""
+        async for ev in self.inner.stream_response(system_instructions, input, *a, **kw):
+            if getattr(ev, "type", "") == "response.completed":
+                try:
+                    claim_id = _claim_of(system_instructions, input)
+                    r = ev.response
+                    self._save(claim_id, r.output, _usage({"input_tokens": r.usage.input_tokens,
+                                                           "output_tokens": r.usage.output_tokens,
+                                                           "cached_tokens": getattr(r.usage.input_tokens_details,
+                                                                                    "cached_tokens", 0) or 0}))
+                except (LookupError, AttributeError):
+                    pass
+            yield ev

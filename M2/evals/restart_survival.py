@@ -109,6 +109,17 @@ def main():
     audit_after = len(httpx.get(f"{BOUNDARY}/audit?limit=100000", headers={"X-User-Id": "bob"}).json()["rows"])
     check("audit trail survived both restarts", audit_after >= audit_before, f"{audit_before} rows before, {audit_after} after")
 
+    out += ["", "5 · Ask ClaimSense: the SDK session survives an orchestrator restart"]
+    q = "What did ClaimSense recommend and why?"
+    lines = httpx.post(f"{ORCH}/claims/{CLAIM}/ask", json={"user_id": USER, "question": q}, timeout=120).text
+    answer = [__import__("json").loads(x) for x in lines.splitlines()][-1]
+    check("question answered (streamed)", answer.get("kind") == "answer" and answer.get("answer"))
+    sh("restart", "orchestrator")
+    wait_healthy(ORCH)
+    hist = httpx.get(f"{ORCH}/claims/{CLAIM}/ask/history", params={"user_id": USER}).json()["messages"]
+    check("conversation still there after the restart", any(m["role"] == "user" and m["text"] == q for m in hist),
+          f"{len(hist)} messages in session {CLAIM}:{USER}")
+
     out += ["", f"RESTART SURVIVAL: {'PASS' if ok else 'FAIL'}"]
     text = "\n".join(out)
     print(text)

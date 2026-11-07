@@ -98,7 +98,20 @@ ALL_SPECS = {**SPECS, **CHECK_SPECS}
 
 
 def model_name(tier):
+    if config.MODEL_PROVIDER == "bedrock":
+        return config.BEDROCK_SMART if tier == "smart" else config.BEDROCK_FAST
     return config.MODEL_SMART if tier == "smart" else config.MODEL_FAST
+
+
+def live_model(name):
+    """The ONLY provider-specific line (W15 slide 17): OpenAI natively, or Claude on Bedrock via LiteLLM."""
+    if name.startswith("bedrock/"):
+        import litellm
+        from agents.extensions.models.litellm_model import LitellmModel
+        litellm.modify_params = True        # carries tool-call history across Bedrock turns (W15 notebook §3)
+        return LitellmModel(model=name)
+    from agents.models.openai_provider import OpenAIProvider
+    return OpenAIProvider().get_model(name)
 
 
 def build_agents(brain=None, record=False, store=None):
@@ -110,8 +123,7 @@ def build_agents(brain=None, record=False, store=None):
         if brain == "replay":
             model = ReplayModel(key, store)
         else:
-            from agents.models.openai_provider import OpenAIProvider
-            model = OpenAIProvider().get_model(model_name(tier))
+            model = live_model(model_name(tier))
             if record:
                 model = RecordingModel(model, key, model_name(tier), store)
         out[key] = Agent(name=name, instructions=instructions, model=model, output_type=otype, tools=tools,

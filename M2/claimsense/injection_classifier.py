@@ -61,7 +61,23 @@ class InjectionClassifier:
         self.misses = 0
         self._dirty = False
 
+    async def _ask_bedrock(self, text):
+        """Same prompt and typed verdict on Claude (Bedrock) via LiteLLM, for MODEL_PROVIDER=bedrock."""
+        try:
+            import litellm
+            r = await litellm.acompletion(model=config.BEDROCK_FAST, temperature=0, response_format=Verdict,
+                                          messages=[{"role": "system", "content": PROMPT},
+                                                    {"role": "user", "content": f"<document>\n{text}\n</document>"}])
+            v = Verdict.model_validate_json(r.choices[0].message.content)
+            return {"category": v.category, "reason": v.reason[:200], "model": config.BEDROCK_FAST,
+                    "input_tokens": r.usage.prompt_tokens, "output_tokens": r.usage.completion_tokens}
+        except Exception as e:                              # fail closed
+            return {"category": "ai_instruction", "reason": f"classifier error, failing closed: {type(e).__name__}",
+                    "model": config.BEDROCK_FAST, "input_tokens": 0, "output_tokens": 0, "error": True}
+
     async def _ask(self, client, text):
+        if client is None:
+            return await self._ask_bedrock(text)
         try:
             r = await client.beta.chat.completions.parse(
                 model=config.MODEL_FAST, temperature=0, response_format=Verdict,
@@ -88,8 +104,10 @@ class InjectionClassifier:
                 self.misses += 1
                 out[t] = {"category": "none", "reason": "no cached verdict (replay)", "cache_miss": True}
         if todo:
-            from openai import AsyncOpenAI
-            client = AsyncOpenAI(api_key=config.OPENAI_API_KEY)
+            client = None
+            if config.MODEL_PROVIDER != "bedrock":
+                from openai import AsyncOpenAI
+                client = AsyncOpenAI(api_key=config.OPENAI_API_KEY)
             for t, v in zip(todo, await asyncio.gather(*[self._ask(client, t) for t in todo])):
                 out[t] = v
                 if not v.get("error"):

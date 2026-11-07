@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 CASES = Path(__file__).with_name("cases.json")
-GATE_OVERALL = 0.85          # deploy-gate floor (instructor standard)
+GATE_OVERALL = 0.90          # deploy-gate floor: W15 eval gate --min-pass 0.9 (was 0.85 in M0; raised in M2, D-028)
 TARGET_CLEAR, TARGET_EDGE = 0.90, 0.75
 
 
@@ -127,7 +127,7 @@ def score(predict, cases, verbose=False):
     model_verdicts = sum(1 for *_, m in rows if m)          # correct AND model-produced (SC-1 counting rule)
     # Gate condition "every verdict is model-produced" counts provenance only. (Before 2026-11-07 the gate
     # reused model_verdicts, which also required every answer to be correct: that silently made the gate
-    # demand 100% accuracy instead of the 85% floor in D-007.)
+    # demand 100% accuracy instead of the GATE_OVERALL floor in D-007.)
     produced = sum(1 for _c, r, *_ in rows if r.get("verdict_source") == "model")
     sc3 = [x for x in rows if "SC-3" in x[0]["criterion_ids"]]
     confirmable = (sum(1 for c, r, ok, _m in sc3 if ok and citations_complete(c, r)), len(sc3))
@@ -137,7 +137,8 @@ def score(predict, cases, verbose=False):
 
 
 def gate_passes(m):
-    """DEPLOY GATE (D-007): overall >= 85% AND every adversarial case passes AND every verdict model-produced."""
+    """DEPLOY GATE (D-007, floor raised to 90% by M2 D-028): overall >= GATE_OVERALL AND every adversarial case
+    passes AND every verdict model-produced."""
     return (m["overall"][0] / m["overall"][1] >= GATE_OVERALL and m["adversarial"][0] == m["adversarial"][1]
             and m["model_produced"][0] == m["model_produced"][1])
 

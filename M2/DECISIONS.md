@@ -6,6 +6,33 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-028 · 2026-11-07 · Closing the W15 deck: all six primitives, streaming, caching, the queue, AgentCore, leaderboard, Bedrock
+- **Context:** a line-by-line re-check against the W15 deck, the companion notebook and the class codebase
+  (`labs/w15-build`) found items the floor didn't force but the class asks for. All are now in.
+- **Decision:**
+  - **Gate floor 90%** (was the M0 charter's 85%): the W15 eval gate is `--min-pass 0.9`. Adversarial stays 100%.
+  - **All six SDK primitives fire in the product.** The pipeline stays a fixed, code-orchestrated sequence
+    (D-018). The adjuster's follow-up chat, **Ask ClaimSense**, is where a model-routed **handoff** belongs
+    (Q&A → Coverage specialist for policy-wording questions). Each adjuster-claim conversation is an SDK
+    **`SQLiteSession`** on `/state` that survives restarts, and replies **stream** (`run_streamed`). An output
+    tripwire withholds any answer citing an unretrieved clause or another claim, and never keeps it in memory.
+  - **Stream by default:** every pipeline agent runs under `Runner.run_streamed`; replay/scripted brains stream
+    a `response.completed` event, so CI exercises the same code path.
+  - **Prompt caching measured:** cached input tokens are metered from SDK usage and billed at the cached rate;
+    the cost table shows the share. Live smoke: 27% of input cached (Coverage 52%), $0.0166 per claim.
+  - **The adjuster queue:** drafts land in the ops team's own queue (W15 CIO constraint); entitlement-filtered,
+    audited, Confirm from the list.
+  - **AgentCore config written out** (`cloud/agentcore/`): entry point, toolkit config, least-privilege role.
+  - **Leaderboard-compatible output:** `pass rate: NN% (x/y)`, `--suite golden`, `--cases`, a `leaderboard:` line, a
+    spend ledger summed from SDK usage, and `SPEND.txt` at the repo root (a bare number, as the script reads it).
+  - **Bedrock option:** `MODEL_PROVIDER=bedrock` runs Claude Haiku 4.5 / Sonnet 4.5 on Bedrock through the SDK's
+    LiteLLM bridge (`litellm.modify_params=True`), with the classifier and retrieval also staying inside AWS.
+- **Honest notes:** M2's cumulative OpenAI spend (≈ $11.8) is above the leaderboard's $5; it is disclosed in
+  `SPEND.txt` (baseline is an estimate for Susan to verify) and the replay brain competes in the $0 mock division
+  at 100%. Bedrock invocation needs the account's one-time Anthropic use-case form; until then a Bedrock run
+  fails closed to labelled fallback cards.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** W17 sets the golden-suite bar (0.95 per the class gate).
+
 ## D-027 · 2026-11-07 · Restart-survivable state: resumable runs and a persistent boundary
 - **Decision:**
   - **Resumable runs.** Every agent step's typed output is checkpointed in SQLite on the `/state` volume,

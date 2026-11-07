@@ -33,11 +33,18 @@ if OPENAI_API_KEY:
     os.environ.setdefault("OPENAI_API_KEY", OPENAI_API_KEY)
 # The mock brain replays recorded model outputs: zero network, zero cost, deterministic.
 # It's forced on when there's no key, so nothing ever silently calls a paid API.
-MOCK_BRAIN = os.environ.get("MOCK_BRAIN", "1") == "1" or not OPENAI_API_KEY
+# Model provider (W15 deck: "the models come to THEIR cloud"): openai (default) or bedrock, where Claude runs on
+# AWS Bedrock through the Agents SDK's LiteLLM bridge, with the same agents, tools, guardrails and gates (D-028).
+MODEL_PROVIDER = os.environ.get("MODEL_PROVIDER", "openai").lower()
+MOCK_BRAIN = os.environ.get("MOCK_BRAIN", "1") == "1" or (MODEL_PROVIDER == "openai" and not OPENAI_API_KEY)
 # dated snapshots, never the moving aliases: "gpt-4o" can be repointed by OpenAI without notice, and a
 # score change must come from our prompts, not a silent model upgrade (D-025). Embeddings have no snapshot.
 MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini-2024-07-18")    # Intake, Assessment (volume steps)
 MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o-2024-08-06")       # Coverage, Decision Draft (the money steps)
+BEDROCK_FAST = os.environ.get("BEDROCK_FAST", "bedrock/converse/us.anthropic.claude-haiku-4-5-20251001-v1:0")
+BEDROCK_SMART = os.environ.get("BEDROCK_SMART", "bedrock/converse/us.anthropic.claude-sonnet-4-5-20250929-v1:0")
+if MODEL_PROVIDER == "bedrock":   # the pilot's region (M1); LiteLLM otherwise picks its own default region
+    os.environ.setdefault("AWS_REGION_NAME", os.environ.get("AWS_REGION", "us-east-1"))
 # 3 · a second, independent Decision Draft on every live claim; if the two disagree, a human decides (D-025)
 CONSISTENCY_CHECK = os.environ.get("CONSISTENCY_CHECK", "1") == "1"
 # G1b: model-based injection classifier behind the G1 regexes (D-026); replay reads cached verdicts

@@ -5,7 +5,7 @@
 #     the data must validate, and the data-boundary contract tests must pass.
 # M2 (W15): the co-pilot itself is scored on the same suite. The orchestrator image is pushed to ECR
 #           ONLY if every job below passes, including the eval gate on the replay brain (every PR, $0)
-#           AND the eval gate on the live models (main only): overall >= 85%, adversarial = 100%,
+#           AND the eval gate on the live models (main only): overall >= 90%, adversarial = 100%,
 #           every verdict model-produced (DECISIONS D-007, D-019). A failing gate = no image.
 name: eval-gate
 on:
