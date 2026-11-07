@@ -1,0 +1,2 @@
+{"ts": "2026-11-07T19:30:00", "suite": "baseline", "cases": 0, "brain": "live", "provider": "openai", "cost_usd": 11.45, "note": "ESTIMATE of all W15 OpenAI spend before this ledger (tuning runs, 2 release gates, CI live smokes, Lambda, Strands, console checks). Susan: replace with the exact figure from platform.openai.com/usage, then re-run any live eval to refresh SPEND.txt."}
+{"ts": "2026-11-07T19:00:52", "suite": "smoke", "cases": 20, "brain": "live", "provider": "openai", "cost_usd": 0.3324}

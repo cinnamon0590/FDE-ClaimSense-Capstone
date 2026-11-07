@@ -23,6 +23,7 @@ from . import PROMPT_VERSION, config
 from ._m1 import SCHEMAS, guardrails as G, jsonschema_lite
 from .agents_def import ALL_SPECS as SPECS, build_agents, model_name
 from .injection_classifier import InjectionClassifier
+from .brains import usage_dict
 from .boundary_client import AGENT_IDS, make_boundary
 from .deterministic import (compute, coverage_questions, fallback_card, missing_documents, route_priority,
                             verified_facts)
@@ -84,15 +85,20 @@ class Pipeline:
         m = self.model_label(key, ctx.claim_id)
 
         def meter(u):
+            cached = usage_dict(u)["cached_tokens"]
             usage.append({"agent": name, "model": m, "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
-                          "requests": u.requests, "usd": cost_usd(m, u.input_tokens, u.output_tokens)})
+                          "cached_tokens": cached, "requests": u.requests,
+                          "usd": cost_usd(m, u.input_tokens, u.output_tokens, cached)})
+        # stream by default (W15): every agent runs under run_streamed; tool calls and handoffs surface as events
+        res = Runner.run_streamed(self.agents[key], json.dumps(payload) if not isinstance(payload, str) else payload,
+                                  context=ctx, max_turns=10,
+                                  run_config=RunConfig(workflow_name="claimsense", trace_include_sensitive_data=False))
         try:
-            res = await Runner.run(self.agents[key], json.dumps(payload) if not isinstance(payload, str) else payload,
-                                   context=ctx, max_turns=10,
-                                   run_config=RunConfig(workflow_name="claimsense", trace_include_sensitive_data=False))
-        except AgentsException as e:          # a tripped wire still spent tokens: meter them, then re-raise
-            if getattr(e, "run_data", None) is not None:
-                meter(e.run_data.context_wrapper.usage)
+            async for ev in res.stream_events():
+                if ev.type == "run_item_stream_event" and ev.name in ("tool_called", "handoff_occured"):
+                    ctx.emit("stream", name, item=ev.name, tool=getattr(ev.item.raw_item, "name", None))
+        except AgentsException:               # a tripped wire still spent tokens: meter them, then re-raise
+            meter(res.context_wrapper.usage)
             raise
         meter(res.context_wrapper.usage)
         spent = sum(x["usd"] for x in usage)
@@ -281,7 +287,7 @@ class Pipeline:
                 "model": {"name": self.model_label("decision", claim_id), "prompt_version": PROMPT_VERSION}}
 
     def _finish(self, result, ctx, usage, t0, decided_by, response):
-        usage = [dict(u, usd=cost_usd(u["model"], u["input_tokens"], u["output_tokens"])) for u in ctx.g1b_usage] + usage
+        usage = [dict(u, cached_tokens=0, usd=cost_usd(u["model"], u["input_tokens"], u["output_tokens"])) for u in ctx.g1b_usage] + usage
         result.update(response=response, decided_by=decided_by, events=ctx.events, usage=usage,
                       cost_usd=round(sum(u["usd"] for u in usage), 6), latency_s=round(time.time() - t0, 2),
                       retrieved_clause_ids=sorted(ctx.retrieved_clause_ids), quarantined=ctx.quarantined)

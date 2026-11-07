@@ -66,6 +66,57 @@ class LocalBoundary(ref.Boundary):
         self._idem = PersistentDict(state_path, "idempotency", encode_key=lambda k: json.dumps(list(k)),
                                     decode_key=lambda s: tuple(json.loads(s)))
 
+    def post_recommendation(self, caller, request, agent="decision-draft"):
+        receipt = super().post_recommendation(caller, request, agent)
+        rid = receipt.get("recommendation_id")
+        if rid in self.recommendations and not receipt.get("idempotent_replay"):
+            # queue metadata, so the adjuster queue can list drafts without re-deriving them
+            self.recommendations[rid].update(version=receipt["version"], created_at=receipt["created_at"],
+                                             drafted_for=caller["user_id"], agent=agent)
+            if isinstance(self.recommendations, PersistentDict):
+                self.recommendations.save(rid)
+        return receipt
+
+    # ── the adjuster queue (W15: "a recommendation in her ops team's own queue") ──────────────────────
+    def list_pending(self, caller):
+        """Undecided drafts on claims the caller is entitled to, newest first. Audited like any read."""
+        rows = []
+        for rid, rec in self.recommendations.items():
+            claim = self.claims.get(rec["claim_id"])
+            if rec.get("confirmation") or claim is None or not self.entitled(caller, claim):
+                continue
+            card = rec["card"]
+            rows.append({"recommendation_id": rid, "claim_id": rec["claim_id"], "version": rec.get("version"),
+                         "created_at": rec.get("created_at"), "outcome": card.get("outcome"),
+                         "route_to": card.get("route_to"), "net_payable": card.get("computed", {}).get("net_payable"),
+                         "verdict_source": card.get("verdict_source"), "guardrails_fired": card.get("guardrails_fired", [])})
+        rows.sort(key=lambda r: r.get("created_at") or "", reverse=True)
+        self._audit(caller, "list_pending_recommendations", "queue", "allow", f"{len(rows)} drafts")
+        return {"pending": rows}
+
+    def latest_draft(self, caller, claim_id, agent=None):
+        """The newest draft for one claim (any status), entitlement first, same error for missing/forbidden."""
+        claim = self.claims.get(claim_id)
+        if claim is None or not self.entitled(caller, claim):
+            rid = self._audit(caller, "get_latest_draft", claim_id, "deny", "not_found_or_not_entitled", agent)
+            return self._error("not_found_or_forbidden", "No draft is available for this request.", rid)
+        mine = [(rid, r) for rid, r in self.recommendations.items() if r["claim_id"] == claim_id]
+        if not mine:
+            rid = self._audit(caller, "get_latest_draft", claim_id, "deny", "no_draft", agent)
+            return self._error("not_found_or_forbidden", "No draft is available for this request.", rid)
+        rid, rec = max(mine, key=lambda x: (x[1].get("version") or 0, x[1].get("created_at") or ""))
+        self._audit(caller, "get_latest_draft", claim_id, "allow", on_behalf_of_agent=agent)
+        return {"recommendation_id": rid, "version": rec.get("version"), "card": rec["card"],
+                "status": "decided" if rec.get("confirmation") else "draft_pending_confirmation",
+                "confirmation": rec.get("confirmation")}
+
+    # uniform client API for the queue
+    def pending(self, user_id):
+        return self.list_pending(self.caller(user_id))
+
+    def draft(self, user_id, claim_id, agent=None):
+        return self.latest_draft(self.caller(user_id), claim_id, agent)
+
     def confirm_recommendation(self, caller, request):
         rid = request.get("recommendation_id")
         rec = self.recommendations.get(rid)
@@ -169,6 +220,18 @@ class HttpBoundary:
             headers["X-On-Behalf-Of-Agent"] = agent
         return self.http.post(f"/recommendations/{request['recommendation_id']}/confirm", json=request,
                               headers=headers).json()
+
+
+def _http_pending(self, user_id):
+    return self.http.get("/recommendations", params={"status": "pending"}, headers={"X-User-Id": user_id}).json()
+
+
+def _http_draft(self, user_id, claim_id, agent=None):
+    h = {"X-User-Id": user_id} | ({"X-On-Behalf-Of-Agent": agent} if agent else {})
+    return self.http.get(f"/claims/{claim_id}/recommendations/latest", headers=h).json()
+
+
+HttpBoundary.pending, HttpBoundary.draft = _http_pending, _http_draft
 
 
 def make_boundary(url=""):

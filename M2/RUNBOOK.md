@@ -37,6 +37,10 @@ money without a licensed adjuster.
    going, or shows the result from checkpoints ($0). A closed tab never cancels the run.
 2. Ask the adjuster for the URL (or the `run_id` in the caption) if they need the draft again.
 
+### Ask ClaimSense gave a withheld answer ("I can't answer that reliably…")
+1. That is the grounding tripwire working: the draft answer cited a clause that wasn't retrieved, or another claim.
+2. The withheld text is not kept in the conversation. If it recurs for a sound question, add it as an eval case.
+
 ### Boundary restarted
 1. Drafts, idempotency records and confirmations persist in `/state/boundary.db`; the audit is reloaded.
 2. A draft is decided exactly once: a second confirm or override under a new key returns `already_confirmed`.

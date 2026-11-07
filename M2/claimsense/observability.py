@@ -16,15 +16,21 @@ from agents.tracing.processor_interface import TracingProcessor
 
 from . import config
 
-# USD per 1M tokens (OpenAI list prices; re-check https://openai.com/api/pricing before quoting)
-PRICES = {"gpt-4o-mini": (0.15, 0.60), "gpt-4o": (2.50, 10.00),
-          "gpt-4o-mini-2024-07-18": (0.15, 0.60), "gpt-4o-2024-08-06": (2.50, 10.00), "gpt-4.1-mini": (0.40, 1.60),
-          "gpt-4.1": (2.00, 8.00), "text-embedding-3-large": (0.13, 0.0)}
+# USD per 1M tokens: (input, output, cached input). List prices; re-check before quoting:
+# https://openai.com/api/pricing · https://aws.amazon.com/bedrock/pricing (Claude on Bedrock)
+PRICES = {"gpt-4o-mini": (0.15, 0.60, 0.075), "gpt-4o": (2.50, 10.00, 1.25),
+          "gpt-4o-mini-2024-07-18": (0.15, 0.60, 0.075), "gpt-4o-2024-08-06": (2.50, 10.00, 1.25),
+          "gpt-4.1-mini": (0.40, 1.60, 0.10), "gpt-4.1": (2.00, 8.00, 0.50), "text-embedding-3-large": (0.13, 0.0, 0.13),
+          "bedrock/converse/us.anthropic.claude-haiku-4-5-20251001-v1:0": (1.00, 5.00, 0.10),
+          "bedrock/converse/us.anthropic.claude-sonnet-4-5-20250929-v1:0": (3.00, 15.00, 0.30)}
 
 
-def cost_usd(model, input_tokens, output_tokens):
-    pin, pout = PRICES.get(model.split(":")[-1], (2.50, 10.00))      # unknown model: price as the smart tier
-    return round((input_tokens * pin + output_tokens * pout) / 1_000_000, 6)
+def cost_usd(model, input_tokens, output_tokens, cached_tokens=0):
+    """Cached input (prompt caching) is billed at the provider's discounted rate."""
+    name = model[len("replay:"):] if model.startswith("replay:") else model
+    pin, pout, pcache = PRICES.get(name, (2.50, 10.00, 1.25))      # unknown model: price as the smart tier
+    cached = min(cached_tokens, input_tokens)
+    return round(((input_tokens - cached) * pin + cached * pcache + output_tokens * pout) / 1_000_000, 6)
 
 
 class JsonlTraceProcessor(TracingProcessor):

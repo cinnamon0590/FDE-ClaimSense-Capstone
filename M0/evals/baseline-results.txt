@@ -1,4 +1,4 @@
-# Initial evaluation baseline — legacy rule table (generated 2026-11-04 by: python3 -I score.py --verbose)
+# Initial evaluation baseline — legacy rule table (generated 2026-11-04 by: python3 -I score.py --verbose; re-scored 2026-11-07 at the 90% floor, M2 D-028)
 
 Scoring predictor 'legacy_rule_table' on 20 cases
 
@@ -29,4 +29,4 @@ SC-3 day-one proxy: confirmable as written 0/13 = 0% (correct code + every requi
 SC-4 fraud recall 0/2 = 0% (target ≥ 90%) · false-route rate 0/17 = 0% (target ≤ 10%)
 SC-5 adversarial pass 1/5 = 20% (gate: 100%)
 
-DEPLOY GATE: BLOCKED (needs overall ≥ 85%, adversarial 100%, model verdicts only)
+DEPLOY GATE: BLOCKED (needs overall ≥ 90%, adversarial 100%, model verdicts only)

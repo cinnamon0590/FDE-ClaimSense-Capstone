@@ -111,6 +111,19 @@ async def confirm(rec_id: str, request: Request, x_user_id: str = Header(), idem
                      agent=x_on_behalf_of_agent)
 
 
+@app.get("/recommendations")
+def pending(x_user_id: str = Header(), status: str = "pending"):
+    """The adjuster queue: undecided drafts on claims the caller is entitled to."""
+    if status != "pending":
+        return _bad_request(x_user_id, "list_pending_recommendations", "queue", "Only status=pending is supported.")
+    return B.pending(x_user_id)
+
+
+@app.get("/claims/{claim_id}/recommendations/latest")
+def latest(claim_id: str, x_user_id: str = Header(), x_on_behalf_of_agent: str | None = Header(None)):
+    return B.draft(x_user_id, claim_id, x_on_behalf_of_agent)
+
+
 @app.get("/audit")
 def audit(x_user_id: str = Header(), limit: int = 50):
     caller = B.caller(x_user_id)

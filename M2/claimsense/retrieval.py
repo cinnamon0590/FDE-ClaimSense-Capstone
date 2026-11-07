@@ -108,7 +108,8 @@ _INDEX = {}
 
 def get_index(backend=None):
     """Embedding index when a key is configured and the brain is live; lexical otherwise."""
-    backend = backend or ("embedding" if not config.MOCK_BRAIN else "lexical")
+    # Bedrock runs stay inside AWS: no OpenAI embeddings, the local lexical index instead
+    backend = backend or ("embedding" if not config.MOCK_BRAIN and config.MODEL_PROVIDER == "openai" else "lexical")
     if backend not in _INDEX:
         chunks, manifest = load_corpus()
         idx = EmbeddingIndex(chunks) if backend == "embedding" else LexicalIndex(chunks)

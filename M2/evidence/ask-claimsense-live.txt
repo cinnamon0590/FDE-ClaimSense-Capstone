@@ -1,0 +1,23 @@
+Ask ClaimSense · live check · 2026-11-07 · pinned gpt-4o-mini-2024-07-18 (Q&A) / gpt-4o-2024-08-06 (Coverage specialist)
+Claim CLM-2024-1800 (CS-001), adjuster alice. Primitives: run_streamed (text deltas), handoff, SQLiteSession.
+
+Q: Why is the net payable $2,700?
+   trail: agent:Ask ClaimSense -> tool:get_draft
+   streamed text deltas: 139 · grounding tripwire tripped: False · $0.00372 · 4.79 s
+   A: The net payable amount of $2,700 is determined based on the following:
+      
+      1. **Coverage**: The claim is covered under the policy's collision coverage, as the insured vehicle was struck by another vehicle.
+      2. **Repair-to-ACV Ratio**: The repair-to-actual cash value (ACV) ratio is 0.1306, indicating that the vehicle is not a total loss.
+      3. **Policy Compliance**: The loss occurred within the policy period, and all required documents are on file.
+      4. **Authority Limit**: The net payable amount is within the authority limit for approval.
+      
+      This amount is calculated after applying the deductible as specified in the policy.
+
+Q: Does the policy's collision coverage apply when the other driver was at fault?
+   trail: agent:Ask ClaimSense -> handoff:Ask ClaimSense -> Coverage specialist -> agent:Coverage specialist -> tool:search_clauses
+   streamed text deltas: 58 · grounding tripwire tripped: False · $0.006958 · 4.69 s
+   A: The policy's collision coverage applies regardless of who is at fault. It covers direct and accidental loss to your covered auto caused by collision with another object or by upset, less the applicable deductible [CLS-COL-001]. 
+      
+      If you need further clarification, please consult a senior adjuster.
+
+ASK CLAIMSENSE LIVE: PASS (handoff fired on the policy question; answer cites only the retrieved clause)

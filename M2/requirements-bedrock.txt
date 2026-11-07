@@ -1,0 +1,4 @@
+# Optional: Claude on AWS Bedrock through the Agents SDK LiteLLM bridge (MODEL_PROVIDER=bedrock, D-028).
+# Not in the production image. litellm >= 1.83 (the SDK extra floor) excludes the compromised 1.82.7/1.82.8.
+openai-agents[litellm]==0.24.0
+litellm==1.108.2

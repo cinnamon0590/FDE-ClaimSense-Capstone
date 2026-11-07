@@ -1,6 +1,6 @@
 # ClaimSense M2 · one-command operations (run from M2/)
 PY ?= ../.venv/bin/python
-.PHONY: up down logs smoke test evals evals-live release fuzz report restart-test record replays fixtures
+.PHONY: up down logs smoke test evals evals-golden evals-live release fuzz report restart-test record replays fixtures
 
 up:            ## build and start the whole stack (console on http://localhost:8510)
 	docker compose up --build -d && docker compose ps
@@ -14,6 +14,8 @@ test:          ## unit + integration tests ($0, no key)
 	$(PY) -m pytest -q tests
 evals:         ## eval gate on the replay brain ($0, deterministic) — what CI runs on every PR
 	$(PY) evals/run_evals.py
+evals-golden:  ## leaderboard form ($0, mock division): prints "pass rate: NN% (x/y)" and the leaderboard line
+	$(PY) evals/run_evals.py --suite golden --cases 30
 evals-live:    ## eval gate on the live models (needs OPENAI_API_KEY; ~$0.85)
 	MOCK_BRAIN=0 $(PY) evals/run_evals.py --brain live
 release:       ## RELEASE gate: 3 live runs; every case right >= 2/3, adversarial 3/3 (~$2.70, run by hand)

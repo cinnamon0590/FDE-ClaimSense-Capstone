@@ -1,0 +1,4 @@
+# AgentCore Runtime image (ARM64). Same pins as the orchestrator, plus the AgentCore SDK and the Bedrock bridge.
+-r ../../requirements.txt
+-r ../../requirements-bedrock.txt
+bedrock-agentcore            # pin at deploy time to a release at least two weeks old

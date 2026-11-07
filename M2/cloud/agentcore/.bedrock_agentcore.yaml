@@ -1,0 +1,32 @@
+# Bedrock AgentCore starter-toolkit config for ClaimSense (what `agentcore configure --entrypoint app.py` writes),
+# committed so the deploy is reviewable before anyone runs it. Written, not deployed (D-028).
+# <ACCOUNT_ID> is filled at deploy time; never committed (repo rule).
+default_agent: claimsense_orchestrator
+agents:
+  claimsense_orchestrator:
+    name: claimsense_orchestrator
+    entrypoint: app.py
+    platform: linux/arm64                 # AgentCore Runtime runs ARM64 microVMs
+    container_runtime: docker
+    aws:
+      account: "<ACCOUNT_ID>"
+      region: us-east-1                   # the pilot region (M1)
+      execution_role: arn:aws:iam::<ACCOUNT_ID>:role/claimsense-agentcore-runtime   # policy: execution-role-policy.json
+      execution_role_auto_create: false   # least privilege, reviewed, not toolkit-generated
+      ecr_repository: <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/claimsense/agentcore
+      ecr_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC              # M3: VPC mode to reach the private boundary
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true                     # OTel -> CloudWatch (the JSONL spans, productized)
+    environment:
+      MODEL_PROVIDER: bedrock             # models come to the client's cloud (D-028); or openai + OPENAI_SECRET_ID
+      MOCK_BRAIN: "0"
+      CONSISTENCY_CHECK: "1"
+      G1B_CLASSIFIER: "1"
+    memory:
+      mode: STM_ONLY                      # short-term session memory = the SQLiteSession/checkpoint role (M3)
+    tags:
+      Project: ClaimSense
