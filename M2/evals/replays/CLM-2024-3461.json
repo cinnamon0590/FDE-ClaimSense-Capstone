@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -31,28 +31,28 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision where a delivery van reversed into the insured vehicle, causing damage to the rear quarter and boot. All required documents are on file, and no injuries were reported."
+      "summary": "The insured vehicle, a 2017 Nissan Qashqai, was damaged in a collision with a delivery van on 2024-10-12. A repair estimate of $16,700 has been provided, and there are no reported injuries."
      },
      "usage": {
       "input_tokens": 1228,
-      "output_tokens": 107
+      "output_tokens": 121
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1133,
-      "output_tokens": 14
+      "input_tokens": 1147,
+      "output_tokens": 13
      }
     },
     {
@@ -67,7 +67,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1368,
+      "input_tokens": 1405,
       "output_tokens": 63
      }
     },
@@ -75,7 +75,7 @@
      "final": {
       "claim_id": "CLM-2024-3461",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The vehicle is not a total loss as the repair-to-ACV ratio is less than 1.0.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -84,14 +84,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1889,
-      "output_tokens": 125
+      "input_tokens": 1926,
+      "output_tokens": 117
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -100,25 +100,25 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.994 indicating it is not a total loss. No injuries were reported, and there are no fraud signals present."
+      "recommended_route": null,
+      "rationale": "The claim is covered under the collision coverage clause, with no inconsistencies or fraud signals detected. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 897,
-      "output_tokens": 96
+      "input_tokens": 903,
+      "output_tokens": 97
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -126,17 +126,48 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
+        "quote": "The deductible has been correctly applied."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is not a total loss as the repair-to-ACV ratio is less than 1.0."
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1181,
-      "output_tokens": 179
+      "input_tokens": 1191,
+      "output_tokens": 173
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3461",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1191,
+      "output_tokens": 173
      }
     }
    ]

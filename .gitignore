@@ -7,3 +7,6 @@ M2/.env
 .env.*
 !.env.example
 M2/.state/
+# per-run working copies; the committed record lives in M2/evidence/
+M2/evals/results-live-run*.txt
+M2/evals/results-live-stability.txt

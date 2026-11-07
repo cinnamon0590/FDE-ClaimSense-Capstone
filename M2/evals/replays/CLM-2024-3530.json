@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -30,28 +30,28 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured reported a collision on July 14, 2024, where they clipped a wall while parking. A repair estimate of $1,900 has been provided, and no injuries were reported."
+      "summary": "The insured reported a collision on July 14, 2024, where they clipped a wall while parking. A repair estimate of $1,900 has been provided, along with photos and a completed FNOL form."
      },
      "usage": {
       "input_tokens": 1134,
-      "output_tokens": 106
+      "output_tokens": 110
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car covered by collision coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1128,
-      "output_tokens": 13
+      "input_tokens": 1132,
+      "output_tokens": 17
      }
     },
     {
@@ -62,7 +62,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1386,
+      "input_tokens": 1382,
       "output_tokens": 23
      }
     },
@@ -70,19 +70,19 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"loss date inside the policy period\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1640,
-      "output_tokens": 21
+      "input_tokens": 1636,
+      "output_tokens": 22
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3530",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the loss date is confirmed to be within the policy period.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the loss date is confirmed to be within the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -91,14 +91,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1906,
+      "input_tokens": 1903,
       "output_tokens": 110
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -111,25 +111,25 @@
       "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.1496 indicating it is not a total loss. There are no fraud signals or injury exposures."
      },
      "usage": {
-      "input_tokens": 882,
+      "input_tokens": 886,
       "output_tokens": 88
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-3530",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause. The loss occurred within the policy period, and the deductible has been correctly applied. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The loss occurred within the policy period, and the deductible has been correctly applied. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-DED-002",
@@ -142,8 +142,39 @@
       ]
      },
      "usage": {
-      "input_tokens": 1158,
-      "output_tokens": 153
+      "input_tokens": 1162,
+      "output_tokens": 155
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3530",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the incident occurred within the policy period. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The loss date is confirmed to be within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1162,
+      "output_tokens": 161
      }
     }
    ]

@@ -9,7 +9,7 @@ def test_resume_from_checkpoint_skips_completed_agents():
     pipe = Pipeline(brain="replay")
     first = asyncio.run(pipe.run("CLM-2024-1800", "alice", run_id="r1"))
     again = asyncio.run(pipe.run("CLM-2024-1800", "alice", run_id="r1", resume=True))
-    assert len([e for e in again["events"] if e["kind"] == "checkpoint"]) == 4
+    assert len([e for e in again["events"] if e["kind"] == "checkpoint"]) == 4 + pipe.wants_second_opinion("CLM-2024-1800")
     assert again["response"]["outcome"] == first["response"]["outcome"] == "approve"
     assert again["cost_usd"] == 0                                                # nothing paid twice
 
@@ -33,8 +33,9 @@ def test_every_agent_call_is_audited_on_behalf_of_an_agent():
 
 def test_cost_and_latency_are_reported_per_claim():
     r = run_claim("CLM-2024-1800", "alice", brain="replay")
-    assert [u["agent"] for u in r["usage"]] == ["Document Intake", "Coverage Check", "Claim Assessment", "Decision Draft"]
-    assert r["usage"][0]["model"] == "replay:gpt-4o-mini" and r["usage"][1]["model"] == "replay:gpt-4o"
+    agents = [u for u in r["usage"] if u["agent"] != "G1b injection classifier"]          # G1b is metered too
+    assert [u["agent"] for u in agents][:4] == ["Document Intake", "Coverage Check", "Claim Assessment", "Decision Draft"]
+    assert agents[0]["model"].startswith("replay:gpt-4o-mini") and agents[1]["model"].startswith("replay:gpt-4o")
     assert r["cost_usd"] > 0 and r["latency_s"] < 90
 
 
@@ -64,3 +65,14 @@ def test_outage_gives_labelled_fallback_without_false_guardrail_flags(monkeypatc
     card = r["response"]
     assert r["decided_by"] == "fallback" and card["verdict_source"] == "deterministic_fallback"
     assert card["outcome"] == "deny" and "uncited_claim_blocked" not in card["guardrails_fired"]
+
+
+def test_back_to_back_runs_share_one_event_loop():
+    """Regression (2026-11-07 release gate): a fresh asyncio.run() per run left the OpenAI client's pooled
+    connections on a closed loop, so the next run's first claims fell back ("Event loop is closed")."""
+    import asyncio
+    from claimsense.pipeline import run_sync
+
+    async def which():
+        return asyncio.get_running_loop()
+    assert run_sync(which()) is run_sync(which())

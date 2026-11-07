@@ -34,8 +34,14 @@ if OPENAI_API_KEY:
 # The mock brain replays recorded model outputs: zero network, zero cost, deterministic.
 # It's forced on when there's no key, so nothing ever silently calls a paid API.
 MOCK_BRAIN = os.environ.get("MOCK_BRAIN", "1") == "1" or not OPENAI_API_KEY
-MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini")      # Intake, Assessment (volume steps)
-MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o")         # Coverage, Decision Draft (the money steps)
+# dated snapshots, never the moving aliases: "gpt-4o" can be repointed by OpenAI without notice, and a
+# score change must come from our prompts, not a silent model upgrade (D-025). Embeddings have no snapshot.
+MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini-2024-07-18")    # Intake, Assessment (volume steps)
+MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o-2024-08-06")       # Coverage, Decision Draft (the money steps)
+# 3 · a second, independent Decision Draft on every live claim; if the two disagree, a human decides (D-025)
+CONSISTENCY_CHECK = os.environ.get("CONSISTENCY_CHECK", "1") == "1"
+# G1b: model-based injection classifier behind the G1 regexes (D-026); replay reads cached verdicts
+G1B_CLASSIFIER = os.environ.get("G1B_CLASSIFIER", "1") == "1"
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 BOUNDARY_URL = os.environ.get("BOUNDARY_URL", "")             # empty = in-process boundary
 STATE_DIR = Path(os.environ.get("CLAIMSENSE_STATE", M2 / ".state"))

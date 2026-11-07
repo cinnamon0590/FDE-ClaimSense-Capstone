@@ -20,6 +20,7 @@ CLAUSES = {c["clause_id"]: c for c in json.loads(open(os.environ.get(
 USERS = {"alice": "Alice · adjuster", "bob": "Bob · senior adjuster", "carol": "Carol · fraud investigator",
          "eve": "Eve · total-loss appraiser", "dave": "Dave · customer service"}
 BADGE = {"agents": ("🧠 Model verdict", "green"), "guardrail_hold": ("🛡 Guardrail hold → human", "orange"),
+         "consistency_hold": ("⚖ Model unsure (two drafts disagreed) → human", "orange"),
          "fallback": ("⚙ Deterministic fallback (not AI)", "gray"), "boundary_refusal": ("⛔ Refused at the boundary", "red")}
 
 st.set_page_config(page_title="ClaimSense · AutoSure", page_icon="🚗", layout="wide")

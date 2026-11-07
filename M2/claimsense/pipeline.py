@@ -21,7 +21,8 @@ from agents import (AgentsException, InputGuardrailTripwireTriggered, OutputGuar
 
 from . import PROMPT_VERSION, config
 from ._m1 import SCHEMAS, guardrails as G, jsonschema_lite
-from .agents_def import SPECS, build_agents, model_name
+from .agents_def import ALL_SPECS as SPECS, build_agents, model_name
+from .injection_classifier import InjectionClassifier
 from .boundary_client import AGENT_IDS, make_boundary
 from .deterministic import (compute, coverage_questions, fallback_card, missing_documents, route_priority,
                             verified_facts)
@@ -31,7 +32,8 @@ from .retrieval import get_index
 from .tools import RunCtx, claim_packet
 
 COMMON = json.loads((SCHEMAS / "common.schema.json").read_text())
-TYPES = {"intake": IntakeResult, "coverage": CoverageResult, "assessment": AssessmentResult, "decision": DecisionDraft}
+TYPES = {"intake": IntakeResult, "coverage": CoverageResult, "assessment": AssessmentResult, "decision": DecisionDraft,
+         "decision_check": DecisionDraft}
 
 
 class BudgetExceeded(RuntimeError):
@@ -55,6 +57,7 @@ class Pipeline:
         self.record = record
         self.index = index or get_index("lexical" if self.brain == "replay" else None)
         self.checkpoints = Checkpoints()
+        self.classifier = InjectionClassifier(self.brain) if config.G1B_CLASSIFIER else None
 
     def model_label(self, key, claim_id):
         tier = SPECS[key][3]
@@ -104,7 +107,8 @@ class Pipeline:
     async def run(self, claim_id, user_id, on_event=None, run_id=None, resume=False):
         t0 = time.time()
         run_id = run_id or f"{claim_id}:{uuid.uuid4().hex[:8]}"
-        ctx = RunCtx(boundary=self.boundary, user_id=user_id, claim_id=claim_id, index=self.index, on_event=on_event)
+        ctx = RunCtx(boundary=self.boundary, user_id=user_id, claim_id=claim_id, index=self.index, on_event=on_event,
+                     classifier=self.classifier)
         usage = []
         result = {"claim_id": claim_id, "user_id": user_id, "run_id": run_id, "brain": self.brain,
                   "replay_source": self.store.source(claim_id) if self.brain == "replay" else None}
@@ -153,12 +157,13 @@ class Pipeline:
                     asm = asm.model_copy(update={"recommended_route": route,
                                                  "total_loss": computed["repair_to_acv_ratio"] >= 1})
                 try:
-                    draft = await self._step("decision", {"claim_id": claim_id, "verified_facts": facts,
-                                                          "intake": intake.model_dump(), "coverage": cov.model_dump(),
-                                                          "assessment": asm.model_dump(), "computed": computed},
-                                             ctx, usage, run_id, resume)
+                    decision_in = {"claim_id": claim_id, "verified_facts": facts, "intake": intake.model_dump(),
+                                   "coverage": cov.model_dump(), "assessment": asm.model_dump(), "computed": computed}
+                    draft = await self._step("decision", decision_in, ctx, usage, run_id, resume)
                     tripped = None
+                    disagreement = await self._second_opinion(claim_id, draft, decision_in, ctx, usage, run_id, resume)
                 except OutputGuardrailTripwireTriggered as e:
+                    disagreement = None
                     draft, tripped = e.guardrail_result.agent_output, e.guardrail_result.output.output_info
                     ctx.emit("guardrail", "decision_safety_tripwire", tripped=True, **tripped)
                     ctx.emit("handoff", "Decision Draft -> senior adjuster (human)")
@@ -171,6 +176,14 @@ class Pipeline:
                     card["reasoning"] = ("Model draft withheld by the decision safety guardrail: "
                                          + "; ".join(tripped["problems"]) + ".")
                 decided_by = "agents"
+                if disagreement:
+                    # the model is not sure: a coin-flip case goes to a person, never out as a confident verdict
+                    card.update(outcome="flag_review", route_to="senior-adjuster",
+                                guardrails_fired=card["guardrails_fired"] + ["model_disagreement"],
+                                reasoning=(f"Two independent drafts disagreed ({disagreement}), so a senior adjuster decides. "
+                                           f"First draft: {card['reasoning']}")[:2000])
+                    ctx.emit("handoff", "Decision Draft disagreed with itself -> senior adjuster (human)")
+                    decided_by = "consistency_hold"
             except (InputGuardrailTripwireTriggered, OutputGuardrailTripwireTriggered) as e:
                 info = e.guardrail_result.output.output_info or {}
                 where = e.guardrail_result.agent.name if hasattr(e.guardrail_result, "agent") else "pipeline"
@@ -205,6 +218,8 @@ class Pipeline:
                                          untrusted_texts=ctx.untrusted_texts or [ctx.claim.get("narrative", "")],
                                          quarantined=len(ctx.quarantined))
             extra = (["pii_masked"] if ctx.pii_masked else []) + (["cross_record_blocked"] if ctx.foreign_claims_masked else [])
+            extra += (["injection_detected"] if any(cat == "ai_instruction" for cat, _ in ctx.g1b) else []) + \
+                     (["auto_decision_blocked"] if any(cat == "pressure_to_skip_review" for cat, _ in ctx.g1b) else [])
             card["guardrails_fired"] = sorted(set(card["guardrails_fired"]) | set(extra))
             for gname in card["guardrails_fired"]:
                 ctx.emit("guardrail", gname, fired=True)
@@ -213,6 +228,28 @@ class Pipeline:
             if errs:
                 raise ValueError(f"card failed the M1 schema: {errs}")
             return self._finish(result, ctx, usage, t0, decided_by=decided_by, response=card)
+
+    def wants_second_opinion(self, claim_id):
+        if self.brain == "live":
+            return config.CONSISTENCY_CHECK
+        try:
+            return "decision_check" in self.store.load(claim_id)["agents"]
+        except (LookupError, KeyError):
+            return False
+
+    async def _second_opinion(self, claim_id, first, payload, ctx, usage, run_id, resume):
+        """Return None when a second independent draft agrees on outcome and route, else a short description."""
+        if not self.wants_second_opinion(claim_id):
+            return None
+        try:
+            second = await self._step("decision_check", payload, ctx, usage, run_id, resume)
+        except OutputGuardrailTripwireTriggered:
+            ctx.emit("guardrail", "decision_safety_tripwire", tripped=True, agent="second opinion")
+            return "the second draft failed the decision safety check"
+        a = first.outcome + (f"→{first.route_to}" if first.route_to else "")
+        b = second.outcome + (f"→{second.route_to}" if second.route_to else "")
+        ctx.emit("consistency", "Decision Draft second opinion", agree=a == b, first=a, second=b)
+        return None if a == b else f"{a} vs {b}"
 
     def _blank_computed(self, ctx):
         return {"loss_in_policy_term": False, "net_payable": None, "repair_to_acv_ratio": 0.0, "over_authority_limit": False}
@@ -240,13 +277,27 @@ class Pipeline:
                 "model": {"name": self.model_label("decision", claim_id), "prompt_version": PROMPT_VERSION}}
 
     def _finish(self, result, ctx, usage, t0, decided_by, response):
+        usage = [dict(u, usd=cost_usd(u["model"], u["input_tokens"], u["output_tokens"])) for u in ctx.g1b_usage] + usage
         result.update(response=response, decided_by=decided_by, events=ctx.events, usage=usage,
                       cost_usd=round(sum(u["usd"] for u in usage), 6), latency_s=round(time.time() - t0, 2),
                       retrieved_clause_ids=sorted(ctx.retrieved_clause_ids), quarantined=ctx.quarantined)
         return result
 
 
+_LOOP = None
+
+
+def run_sync(coro):
+    """Run a coroutine on ONE event loop per process. asyncio.run() makes a new loop each call, but the
+    OpenAI SDK's shared HTTP client keeps pooled connections bound to the first loop, so the next run's
+    first calls fail with "Event loop is closed" and fall back (found by the 3-run release gate)."""
+    global _LOOP
+    if _LOOP is None or _LOOP.is_closed():
+        _LOOP = asyncio.new_event_loop()
+    return _LOOP.run_until_complete(coro)
+
+
 def run_claim(claim_id, user_id, **kw):
     """Synchronous convenience wrapper (CLI, tests, the eval runner)."""
     run_kw = {k: kw.pop(k) for k in ("on_event", "run_id", "resume") if k in kw}
-    return asyncio.run(Pipeline(**kw).run(claim_id, user_id, **run_kw))
+    return run_sync(Pipeline(**kw).run(claim_id, user_id, **run_kw))

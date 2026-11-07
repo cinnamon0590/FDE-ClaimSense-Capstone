@@ -6,6 +6,55 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-026 · 2026-11-07 · Guardrails are fuzzed, and G1 gets a model-based second layer (G1b)
+- **Decision:**
+  - **Fuzz suite as a CI gate** (`evals/fuzz_guardrails.py`, `tests/test_guardrail_fuzz.py`, $0). Known
+    attacks and PII values are mutated in 15 ways: case, whitespace, zero-width characters, Cyrillic
+    look-alikes, full-width text, leetspeak, punctuation, HTML/markdown wrappers, quoting, base64 and five
+    languages. The bar is 99% caught and zero false positives on all 155 benign claim texts.
+  - **G1 and G3 hardened.** Text is scanned as written, normalised and as a matching-only skeleton; base64
+    is decoded and rescanned; patterns cover paraphrases and five languages. PII masking normalises Unicode
+    first and masks VINs in any case. Result: G1 from 16.9% to 99.9%; G3 from 79% to 100%.
+  - **G1b classifier.** Signatures don't generalise: on held-out sets written before each test and never
+    tuned on, G1 caught 2/20 (v2) and 1/15 (v3) new phrasings. G1b runs inside `get_claim_file` on the
+    PII-masked text, BEFORE the Intake model sees it. `ai_instruction` withholds the text and trips the
+    Intake tripwire (human handoff); `pressure_to_skip_review` fires G6 and keeps the verdict. With
+    G1 + G1b: 13/15 (v3) and 19/20 (v2) caught; 0/15 and 1/20 false positives.
+- **Why it is safe to ask a model here** (M1 said no guardrail asks a model): G1b can only ESCALATE to a
+  human; it never approves, clears or un-flags. It fails closed (an error counts as `ai_instruction`). An
+  attacker who fools it is exactly as well off as with no G1b, because every deterministic guardrail still
+  runs. The deterministic rule from M1 still holds for every guardrail that can *allow* something.
+- **Cost:** about $0.0002 a claim (gpt-4o-mini on 3–5 short texts). Verdicts are cached by text hash
+  (`evals/g1b-cache.json`), so the replay brain and CI apply G1b at $0, and a test fails if any eval text
+  lacks a cached verdict.
+- **Residual risk:** v3 misses 2/15 (phrased as favours or "pre-cleared", classed as pressure, so G6 still
+  flags them). Held-out sets are small. M3 will add a red-team set of 100+ attacks and track both rates.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** the held-out catch rate drops below 85% or the
+  false-positive rate on real claims exceeds 2%.
+
+## D-025 · 2026-11-07 · Pinned model snapshots, a second-opinion Decision Draft, and a stability release gate
+- **Decision:** Three changes so run-to-run variation is measured and handled instead of tolerated:
+  - **Pinned snapshots.** `gpt-4o-2024-08-06` and `gpt-4o-mini-2024-07-18`, the versions the aliases pointed
+    to during tuning, never the moving aliases. A newer snapshot is adopted only after the release gate passes
+    on it. (`text-embedding-3-large` has no dated snapshot; a change there would show up in retrieval tests.)
+  - **Second opinion (G8).** Every live claim runs Decision Draft twice, independently. If the outcome or
+    route differs, the card goes to a senior adjuster (`model_disagreement`, `decided_by=consistency_hold`).
+    Only Decision is doubled: it sets the outcome and costs about $0.004 a claim. Doubling Coverage too would
+    roughly double the per-claim cost.
+  - **Release gate** (`make release`, by hand before a release): 3 live runs; every case right in at least 2
+    of 3, adversarial right 3 of 3, every verdict model-produced, and the deploy gate passing on each run.
+    CI keeps the replay gate on every PR and the 20-case live smoke on main.
+- **Why:** The earlier README said the live model "varies from run to run" without measuring it on the final
+  prompts; every earlier live run used a different prompt version. A licensed adjuster should see "the model
+  is unsure" rather than a confident coin flip.
+- **Cost:** about $0.021 a claim instead of $0.016 (+30%), roughly $200 a month at 450 claims a day.
+  `CONSISTENCY_CHECK=0` turns it off.
+- **Alternatives considered:** (a) Majority vote of 3. Rejected: 3x the Decision cost, and it hides
+  disagreement instead of surfacing it to a human. (b) Higher temperature sampling for diversity. Rejected:
+  production runs at temperature 0, and the check should measure the variation production actually has.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** a newer snapshot is evaluated, or the hold rate on
+  real claims exceeds about 5% (then the prompt, not the check, needs work).
+
 ## D-024 · 2026-11-07 · The boundary trusts neither the caller's headers nor the writer's numbers
 - **Decision:** At the data boundary:
   - A confirm request that carries `X-On-Behalf-Of-Agent` is treated as coming from that agent and refused

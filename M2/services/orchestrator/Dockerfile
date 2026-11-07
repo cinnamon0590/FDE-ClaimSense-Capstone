@@ -2,6 +2,8 @@
 # Build context: repo root.
 FROM public.ecr.aws/awsguru/aws-lambda-adapter:0.9.1 AS lambda-adapter
 FROM python:3.12-slim
+# OS security patches at build time; CI's Trivy gate blocks any HIGH/CRITICAL CVE that has a fix
+RUN apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/*
 # Lambda Web Adapter: the SAME image also runs on AWS Lambda (deploy ladder, M2/cloud/lambda/). Inert elsewhere.
 COPY --from=lambda-adapter /lambda-adapter /opt/extensions/lambda-adapter
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CLAIMSENSE_ROOT=/app PYTHONPATH=/app/M2:/app/M2/services \
@@ -18,7 +20,7 @@ COPY M1/6-synthetic-data/fixtures M1/6-synthetic-data/fixtures
 COPY M1/tools/jsonschema_lite.py M1/tools/
 COPY M2/claimsense M2/claimsense
 COPY M2/evals/replays M2/evals/replays
-COPY M2/evals/cases-m2.json M2/evals/
+COPY M2/evals/cases-m2.json M2/evals/g1b-cache.json M2/evals/
 COPY M2/services/orchestrator M2/services/orchestrator
 USER app
 EXPOSE 8003

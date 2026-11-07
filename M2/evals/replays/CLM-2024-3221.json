@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -41,25 +41,25 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
       "input_tokens": 1129,
-      "output_tokens": 13
+      "output_tokens": 14
      }
     },
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -67,7 +67,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1387,
+      "input_tokens": 1364,
       "output_tokens": 59
      }
     },
@@ -75,7 +75,7 @@
      "final": {
       "claim_id": "CLM-2024-3221",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The bodily injury claim must be handled by an injury specialist, ensuring no prejudice to the injury claim.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -84,14 +84,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1884,
-      "output_tokens": 126
+      "input_tokens": 1861,
+      "output_tokens": 120
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -101,34 +101,57 @@
       "total_loss": false,
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
-      "rationale": "The claim is covered under the collision coverage clause, with reported injuries indicating the need for an injury specialist. There are no fraud signals or inconsistencies present."
+      "rationale": "Injury exposure is indicated due to reported injuries from the collision, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 906,
-      "output_tokens": 83
+      "input_tokens": 900,
+      "output_tokens": 73
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-3221",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim involves reported injuries from a collision, which requires assessment by an injury specialist. The collision damage is covered under the policy, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim involves injury exposure due to reported injuries from the collision. All required documents are on file, and the net payable amount is within the authority limit. The policy covers collision damage, and the deductible has been correctly applied. However, the bodily injury claim must be handled by an injury specialist as per the recommended route.",
       "citations": [
        {
         "source_id": "CLS-INJ-005",
-        "quote": "Bodily injury claims must be handled by an injury specialist."
+        "quote": "The bodily injury claim must be handled by an injury specialist, ensuring no prejudice to the injury claim."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1181,
-      "output_tokens": 104
+      "input_tokens": 1165,
+      "output_tokens": 131
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3221",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The claim involves injury exposure due to reported injuries from the collision. All required documents are on file, and the net payable amount is within the authority limit. The policy covers collision damage, but the bodily injury claim must be handled by an injury specialist.",
+      "citations": [
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "The bodily injury claim must be handled by an injury specialist, ensuring no prejudice to the injury claim."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1165,
+      "output_tokens": 117
      }
     }
    ]

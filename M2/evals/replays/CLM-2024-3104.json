@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -30,17 +30,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents are on file, and no injuries were reported."
+      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents, including the FNOL form, are on file."
      },
      "usage": {
       "input_tokens": 1123,
-      "output_tokens": 102
+      "output_tokens": 103
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -50,7 +50,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1082,
+      "input_tokens": 1083,
       "output_tokens": 16
      }
     },
@@ -62,7 +62,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1319,
+      "input_tokens": 1320,
       "output_tokens": 28
      }
     },
@@ -77,14 +77,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1571,
+      "input_tokens": 1572,
       "output_tokens": 72
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -94,17 +94,17 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": null,
-      "rationale": "The claim is not covered under the policy as it provides liability coverage only, which does not cover hail damage to the insured's vehicle. There are no fraud signals, and the repair-to-ACV ratio indicates it is not a total loss."
+      "rationale": "The claim is not covered under the policy as it provides liability coverage only, which does not cover hail damage to the insured's vehicle. Additionally, the repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries or fraud signals."
      },
      "usage": {
-      "input_tokens": 814,
-      "output_tokens": 98
+      "input_tokens": 815,
+      "output_tokens": 109
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
@@ -120,7 +120,30 @@
       ]
      },
      "usage": {
-      "input_tokens": 1103,
+      "input_tokens": 1115,
+      "output_tokens": 112
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3104",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
       "output_tokens": 112
      }
     }

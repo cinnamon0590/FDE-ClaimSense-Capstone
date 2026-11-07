@@ -7,24 +7,66 @@ human-only confirmation, audit) live in ../5-system-contracts/reference_boundary
 
 Every guardrail is deterministic code. None of them asks a model whether something is safe.
 """
+import base64
 import copy
 import hashlib
 import re
+import unicodedata
 
 # ── G1 · Injection scan (input) ──────────────────────────────────────────────────────────────
 # Untrusted text (claim narratives, documents, retrieved chunks) is scanned before it reaches a
 # model. A hit doesn't silently drop the text: the case is flagged and routed to a human.
+#
+# Hardened in M2 after the adversarial fuzz suite (M2/evals/fuzz_guardrails.py) caught only 17% of
+# mutated payloads. Text is scanned in three views: as written, NORMALISED (full-width folded, invisible
+# characters removed) and as a SKELETON (look-alike letters and leetspeak mapped back, accents dropped,
+# punctuation collapsed), plus any base64 payload decoded and rescanned. Patterns cover paraphrases
+# ("disregard prior rules", "you are now") and five languages.
 INJECTION_PATTERNS = [
     r"\bignore (?:all |any )?(?:previous|prior|above|earlier) (?:instructions|constraints|rules)\b",
     r"\b(?:system|developer) (?:note|prompt|message)\b",
-    r"\b(?:to|for) (?:the )?(?:ai|model|assistant|llm|reviewer bot|ai reviewer)\b",
+    r"\b(?:to|for) (?:the )?(?:ai|model|assistant|llm|reviewer bot|ai reviewer|language model)\b",
     r"^\s*(?:assistant|system)\s*:",
     r"\bdo not (?:mention|reveal|disclose) (?:this|these)\b",
     r"\balways approve\b",
     r"\bapprove (?:this|the) claim\b",
     r"\bfraud checks? (?:passed|cleared|complete)\b",
 ]
+# matched against the SKELETON view (lower case, a-z/0-9 words separated by single spaces)
+SKELETON_PATTERNS = [
+    r"\b(?:ignore|disregard|forget|override|bypass)(?: \w+){0,3} (?:instructions?|rules|constraints|guidelines|prompts?|exclusions?|checks?)\b",
+    r"\bnew instructions? (?:for|to) (?:the )?(?:ai|model|assistant|llm|language model|reviewer)\b",
+    r"\binstructions? (?:for|to) (?:the )?(?:ai|model|assistant|llm|language model|reviewer)\b",
+    r"\b(?:message|note) (?:to|for) (?:the )?(?:ai|model|assistant|llm|language model|reviewer)\b",
+    r"\byou are now\b",
+    r"\byou must (?:approve|disregard|ignore|pay)\b",
+    r"\brespond only with\b",
+    r"\b(?:set|change) (?:the )?outcome to\b",
+    r"\boutcome (?:is )?approve\b",
+    r"\bmark (?:this|the) claim as (?:approved|covered|paid)\b",
+    r"\bapprove (?:this|the) (?:claim|payout|settlement)\b",
+    r"\balways approve\b",
+    r"\bfraud checks? (?:has |have |is |are )?(?:passed|cleared|complete)\b(?! by)",
+    r"\b(?:system|developer) (?:note|prompt|message)\b",
+    r"\bdo not (?:mention|reveal|disclose) (?:this|these)\b",
+    # directives aimed at the reviewer rather than facts about the claim (layer added after held-out set v1)
+    r"\b(?:attention|hey|dear)\b(?: \w+){0,2} (?:automated|ai|system|bot|assistant|model|claimsense|reviewer)\b",
+    r"\b(?:pretend|act as if|act as though|imagine) (?:you|that|the)\b",
+    r"\b(?:discard|disregard|forget) (?:everything|all|what) (?:you|that|i)\b",
+    r"\b(?:previous|prior|earlier|above) (?:guidance|instructions|rules|context|prompt) (?:no longer|does not|doesn t|do not|don t) appl",
+    r"\b(?:admin|administrator|root|developer|system) (?:override|mode|access)\b",
+    r"\b(?:classification|verdict|outcome) (?:is |should be |must be )?approve",
+    r"\btreat (?:this|the) claim as (?:covered|approved|valid|genuine|paid)\b",
+    r"\bsign (?:this|it) off as\b",
+    r"\bjust approve\b",
+    r"\bignore (?:what|the) (?:policy|exclusions?|rules?|clauses?)\b",
+    r"\breturn (?:the )?json\b",
+    # the same attack in Spanish, French, German, Italian, Portuguese (accents dropped in the skeleton)
+    r"\b(?:ignora|ignorez|ignoriere|ignorar|ignore)\b(?: \w+){0,3} (?:instrucciones|instructions|anweisungen|istruzioni|instrucoes)\b",
+    r"\b(?:aprueba|approuvez|genehmige|approva|aprove)\b(?: \w+){0,2} (?:reclamacion|sinistre|schaden|sinistro)\b",
+]
 _INJ = [re.compile(p, re.I | re.M) for p in INJECTION_PATTERNS]
+_SKEL = [re.compile(p) for p in SKELETON_PATTERNS]
 
 # Pressure to skip the human (a different threat from injection: the verdict may still be right,
 # but nothing may finalise it). These fire G6, not a reroute.
@@ -36,15 +78,61 @@ AUTO_DECISION_PATTERNS = [
 ]
 _AUTO = [re.compile(p, re.I) for p in AUTO_DECISION_PATTERNS]
 
+_CONFUSABLES = str.maketrans({  # Cyrillic and Greek letters that look Latin
+    "а": "a", "е": "e", "о": "o", "р": "p", "с": "c", "у": "y", "х": "x", "і": "i", "ј": "j", "ѕ": "s",
+    "ԁ": "d", "һ": "h", "ӏ": "l", "ո": "n", "ν": "v", "ο": "o", "α": "a", "ε": "e", "ι": "i", "κ": "k",
+    "τ": "t", "ρ": "p", "А": "A", "В": "B", "Е": "E", "К": "K", "М": "M", "Н": "H", "О": "O", "Р": "P",
+    "С": "C", "Т": "T", "Х": "X", "І": "I", "Ѕ": "S"})
+_LEET = str.maketrans({"4": "a", "3": "e", "1": "i", "0": "o", "5": "s", "7": "t", "@": "a", "$": "s"})
+_B64 = re.compile(r"[A-Za-z0-9+/]{16,}={0,2}")
 
-def scan_injection(text):
-    """Return the matched injection spans (empty list = clean)."""
-    return [m.group(0) for rx in _INJ for m in rx.finditer(text or "")]
+
+def normalise(text):
+    """Fold compatibility forms (full-width letters) and strip invisible format characters
+    (zero-width space/joiners, word joiner, BOM, soft hyphen). Meaning-preserving."""
+    t = unicodedata.normalize("NFKC", text or "")
+    return "".join(ch for ch in t if unicodedata.category(ch) != "Cf")
+
+
+def skeleton(text):
+    """A matching-only view: look-alikes and leetspeak mapped to letters, accents dropped, every run
+    of non-alphanumerics collapsed to one space, lower case. Never shown to anyone."""
+    t = normalise(text).translate(_CONFUSABLES)
+    t = "".join(ch for ch in unicodedata.normalize("NFKD", t) if not unicodedata.combining(ch))
+    t = t.lower().translate(_LEET)
+    return " ".join(re.findall(r"[a-z0-9]+", t))
+
+
+def _decoded_payloads(text):
+    for tok in _B64.findall(text):
+        try:
+            raw = base64.b64decode(tok + "=" * (-len(tok) % 4), validate=True).decode("utf-8")
+        except (ValueError, UnicodeDecodeError):
+            continue
+        if sum(ch.isprintable() or ch.isspace() for ch in raw) >= 0.9 * len(raw):
+            yield raw
+
+
+def scan_injection(text, _depth=0):
+    """Return the matched injection spans (empty list = clean). Spans found in the normalised or skeleton
+    view are reported as found there (the raw text may not contain them byte-for-byte)."""
+    raw = text or ""
+    hits = [m.group(0) for rx in _INJ for m in rx.finditer(raw)]
+    norm = normalise(raw)
+    if not hits and norm != raw:
+        hits = [m.group(0) for rx in _INJ for m in rx.finditer(norm)]
+    if not hits:
+        sk = skeleton(raw)
+        hits = [m.group(0) for rx in _SKEL for m in rx.finditer(sk)]
+    if not hits and _depth == 0:
+        for payload in _decoded_payloads(norm):
+            hits += [f"base64: {h}" for h in scan_injection(payload, _depth=1)]
+    return hits
 
 
 def scan_auto_decision_pressure(text):
     """Return phrases that try to bypass adjuster confirmation."""
-    return [m.group(0) for rx in _AUTO for m in rx.finditer(text or "")]
+    return [m.group(0) for rx in _AUTO for m in rx.finditer(normalise(text))]
 
 
 # ── G2 · Provenance quarantine (retrieval) ───────────────────────────────────────────────────
@@ -65,14 +153,15 @@ PII_PATTERNS = {
     "EMAIL": r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
     "PHONE": r"(?<!\d)(?:\+?1[ .-]?)?\(?\d{3}\)?[ .-]?\d{3}[ .-]?\d{4}(?!\d)",
     "SSN": r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)",
-    "VIN": r"\b[A-HJ-NPR-Z0-9]{17}\b",
+    "VIN": r"(?i)\b(?=[A-HJ-NPR-Z]*\d)(?=\d*[A-HJ-NPR-Z])[A-HJ-NPR-Z0-9]{17}\b",   # any case; letters AND digits
     "CARD": r"(?<!\d)(?:\d{4}[ -]?){3}\d{4}(?!\d)",
 }
 
 
 def mask_pii(text, names=()):
-    """Replace PII with typed placeholders. Names come from the claim record (known, not guessed)."""
-    out = text or ""
+    """Replace PII with typed placeholders. Names come from the claim record (known, not guessed).
+    Text is normalised first, so zero-width characters or full-width digits can't hide a value."""
+    out = normalise(text)
     for n in sorted(filter(None, names), key=len, reverse=True):
         out = re.sub(re.escape(n), "[NAME]", out, flags=re.I)
     for label, rx in PII_PATTERNS.items():

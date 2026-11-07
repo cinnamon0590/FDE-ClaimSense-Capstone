@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -31,7 +31,7 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a low-speed reversing collision with a bollard on November 2, 2024. A repair estimate of $2,400 has been provided, and no injuries were reported."
+      "summary": "The claim involves a low-speed reversing collision with a bollard on November 2, 2024. A repair estimate of $2,400 has been submitted, and no injuries were reported."
      },
      "usage": {
       "input_tokens": 1216,
@@ -41,7 +41,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -91,7 +91,7 @@
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -101,24 +101,47 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": null,
-      "rationale": "The claim is ambiguous due to the loss date being outside the policy period, despite a renewal being submitted. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss. No injuries were reported."
+      "rationale": "The claim is ambiguous due to the loss date being outside the policy period, despite the renewal being submitted. There are no fraud signals, total loss indicators, or injury exposures present."
      },
      "usage": {
       "input_tokens": 910,
-      "output_tokens": 100
+      "output_tokens": 85
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-3412",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired and has not yet been processed. This unresolved status requires further review to determine if coverage can be extended. All required documents are on file, and there are no fraud signals or inconsistencies.",
+      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired. This unresolved renewal status makes it unclear whether coverage continues. All required documents are on file, and there are no fraud indicators or total loss concerns.",
+      "citations": [
+       {
+        "source_id": "CLS-REN-011",
+        "quote": "Renewal was submitted but not processed, making coverage continuation unresolved."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1186,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3412",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired. This unresolved renewal status makes it unclear whether coverage continues. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
       "citations": [
        {
         "source_id": "CLS-REN-011",
@@ -127,8 +150,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1201,
-      "output_tokens": 122
+      "input_tokens": 1186,
+      "output_tokens": 119
      }
     }
    ]

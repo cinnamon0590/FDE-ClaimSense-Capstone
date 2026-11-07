@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -41,18 +41,18 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
       "input_tokens": 1125,
-      "output_tokens": 14
+      "output_tokens": 13
      }
     },
     {
@@ -63,7 +63,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1360,
+      "input_tokens": 1383,
       "output_tokens": 23
      }
     },
@@ -71,7 +71,7 @@
      "final": {
       "claim_id": "CLM-2024-4110",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the insured's own car for direct and accidental loss caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -79,14 +79,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1614,
-      "output_tokens": 92
+      "input_tokens": 1637,
+      "output_tokens": 97
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -96,28 +96,28 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.4904 indicating it is not a total loss. There are no fraud signals or injury exposures."
+      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.4904 indicating it is not a total loss. There are no fraud signals or injury exposures."
      },
      "usage": {
-      "input_tokens": 870,
-      "output_tokens": 91
+      "input_tokens": 875,
+      "output_tokens": 88
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-4110",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the policy's collision coverage, which applies to the insured's vehicle for direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "The policy includes collision coverage, which applies to the insured's own car for direct and accidental loss caused by collision."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
        },
        {
         "source_id": "CLS-DED-002",
@@ -126,8 +126,35 @@
       ]
      },
      "usage": {
-      "input_tokens": 1149,
-      "output_tokens": 160
+      "input_tokens": 1151,
+      "output_tokens": 148
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4110",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1151,
+      "output_tokens": 148
      }
     }
    ]

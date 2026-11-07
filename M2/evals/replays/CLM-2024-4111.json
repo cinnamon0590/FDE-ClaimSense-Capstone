@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -41,7 +41,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -63,12 +63,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"settlement sign-off above authority limit\"}"
+       "arguments": "{\"query\":\"settlement authority limit sign-off\"}"
       }
      ],
      "usage": {
       "input_tokens": 1384,
-      "output_tokens": 61
+      "output_tokens": 60
      }
     },
     {
@@ -84,14 +84,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1883,
+      "input_tokens": 1882,
       "output_tokens": 117
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -111,7 +111,38 @@
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4111",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount of $25,001 exceeds the $25,000 authority limit, requiring senior adjuster sign-off.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Settlement amount exceeds the authority limit and requires senior adjuster sign-off."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1170,
+      "output_tokens": 160
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -30,17 +30,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a low-speed collision with a gatepost on June 16, 2024. All required documents are on file, and no injuries were reported."
+      "summary": "The claim involves a low-speed collision with a gatepost at the insured's workplace on June 16, 2024. All required documents are on file, including the FNOL form and repair estimate."
      },
      "usage": {
       "input_tokens": 1130,
-      "output_tokens": 99
+      "output_tokens": 107
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -50,7 +50,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1088,
+      "input_tokens": 1096,
       "output_tokens": 13
      }
     },
@@ -58,34 +58,34 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"coverage for losses outside the policy period\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1322,
-      "output_tokens": 21
+      "input_tokens": 1330,
+      "output_tokens": 23
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4109",
       "coverage_finding": "not_covered",
-      "basis": "The loss date is outside the policy period, and the policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1588,
-      "output_tokens": 84
+      "input_tokens": 1598,
+      "output_tokens": 85
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -95,34 +95,57 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": null,
-      "rationale": "The claim is not covered due to the loss date being outside the policy period. There are no fraud signals, total loss indicators, or injury exposures present."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no indications of fraud or injury exposure. The repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 826,
-      "output_tokens": 80
+      "input_tokens": 835,
+      "output_tokens": 89
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-4109",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly covers only losses occurring within the specified period, which ended on June 15, 2024. Therefore, the incident on June 16, 2024, is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no indications of fraud or injury exposure.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "There is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1097,
-      "output_tokens": 109
+      "input_tokens": 1115,
+      "output_tokens": 107
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no indications of fraud or injury exposure.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "There is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1115,
+      "output_tokens": 107
      }
     }
    ]

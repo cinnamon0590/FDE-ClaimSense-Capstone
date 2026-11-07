@@ -12,8 +12,10 @@ by hand to exercise the harness before a key existed). The eval report prints th
 live gate proves the model itself.
 """
 import json
+import os
 import re
 import uuid
+from pathlib import Path
 
 from agents import ModelResponse, Usage
 from agents.tracing import generation_span
@@ -85,12 +87,20 @@ class ReplayStore:
         if prompt_version:
             data["prompt_version"] = prompt_version
         self.root.mkdir(parents=True, exist_ok=True)
-        self.path(claim_id).write_text(json.dumps(data, indent=1) + "\n")
+        atomic_write(self.path(claim_id), json.dumps(data, indent=1) + "\n")
         self._cache.pop(claim_id, None)
         return True
 
     def discard_recording(self, claim_id):
         self._staging.pop(claim_id, None)
+
+
+def atomic_write(path, text):
+    """Write via a temp file + rename, so a concurrent reader never sees a half-written file."""
+    path = Path(path)
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp.write_text(text)
+    os.replace(tmp, path)
 
 
 def _usage(u):

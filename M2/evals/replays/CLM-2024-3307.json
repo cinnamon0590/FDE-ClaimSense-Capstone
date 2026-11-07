@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -40,7 +40,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -70,7 +70,7 @@
      "final": {
       "claim_id": "CLM-2024-3307",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible has been correctly applied to the payment.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -79,13 +79,13 @@
      },
      "usage": {
       "input_tokens": 1622,
-      "output_tokens": 78
+      "output_tokens": 77
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -94,25 +94,52 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim involves a glass loss with a repair-to-ACV ratio of 0.0236, indicating it is not a total loss. There are no fraud signals or injury exposures present."
+      "recommended_route": null,
+      "rationale": "The claim involves a glass loss with no indications of fraud, injury, or total loss. The repair-to-ACV ratio is significantly below 1.0, and the fraud risk score is low."
      },
      "usage": {
-      "input_tokens": 855,
-      "output_tokens": 91
+      "input_tokens": 854,
+      "output_tokens": 90
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-3307",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1135,
+      "output_tokens": 141
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3307",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -120,13 +147,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies as specified in the policy."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1134,
-      "output_tokens": 131
+      "input_tokens": 1135,
+      "output_tokens": 133
      }
     }
    ]

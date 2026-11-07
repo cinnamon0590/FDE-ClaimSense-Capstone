@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -43,7 +43,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -81,24 +81,23 @@
      "final": {
       "claim_id": "CLM-2024-1873",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The claim involves bodily injury, which must be handled by an injury specialist, and the presence of material inconsistencies requires referral to the special investigations unit before payment.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause. The deductible has been correctly applied to the net payable amount. The claim must be referred to the special investigations unit due to material inconsistencies, but this is a procedural step and not an exclusion.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
-       "CLS-INJ-005",
        "CLS-FRD-007"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
       "input_tokens": 2245,
-      "output_tokens": 140
+      "output_tokens": 114
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -113,31 +112,70 @@
       "rationale": "Fraud is suspected due to a material inconsistency in the medical note, which raises questions about the reported injury. Additionally, there is an injury exposure as the insured claims whiplash."
      },
      "usage": {
-      "input_tokens": 1021,
+      "input_tokens": 994,
       "output_tokens": 126
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-1873",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, there is a material inconsistency in the medical note that predates the incident, raising suspicion of fraud. As per the inconsistency clause, this requires referral to the fraud investigator before any payment can be made.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to material inconsistencies in the medical documentation, the claim must be referred to the fraud investigator as required by the inconsistency clause. This is a procedural step and not an exclusion.",
       "citations": [
        {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision damage to the insured's own car is covered under the collision coverage clause."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       },
+       {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the special investigations unit before payment."
+        "quote": "The claim must be referred to the special investigations unit due to material inconsistencies."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1340,
-      "output_tokens": 123
+      "input_tokens": 1313,
+      "output_tokens": 172
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-1873",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to material inconsistencies in the medical note, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is procedural and does not affect coverage.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision damage to the insured's own car is covered under the collision coverage clause."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Material inconsistencies require referral to the fraud investigator."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1313,
+      "output_tokens": 166
      }
     }
    ]

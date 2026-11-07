@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -41,7 +41,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -86,7 +86,7 @@
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -106,7 +106,30 @@
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3655",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring within the specified period, which ended on March 30, 2024. Since the incident occurred on April 9, 2024, it is not covered.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy applies only to losses occurring during the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1151,
+      "output_tokens": 110
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {

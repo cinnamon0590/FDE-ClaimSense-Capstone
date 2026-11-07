@@ -17,7 +17,8 @@ from agents.tracing.processor_interface import TracingProcessor
 from . import config
 
 # USD per 1M tokens (OpenAI list prices; re-check https://openai.com/api/pricing before quoting)
-PRICES = {"gpt-4o-mini": (0.15, 0.60), "gpt-4o": (2.50, 10.00), "gpt-4.1-mini": (0.40, 1.60),
+PRICES = {"gpt-4o-mini": (0.15, 0.60), "gpt-4o": (2.50, 10.00),
+          "gpt-4o-mini-2024-07-18": (0.15, 0.60), "gpt-4o-2024-08-06": (2.50, 10.00), "gpt-4.1-mini": (0.40, 1.60),
           "gpt-4.1": (2.00, 8.00), "text-embedding-3-large": (0.13, 0.0)}
 
 

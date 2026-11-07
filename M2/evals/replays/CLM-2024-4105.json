@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -41,7 +41,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -91,7 +91,7 @@
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -101,34 +101,57 @@
       "total_loss": false,
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
-      "rationale": "Injury exposure is indicated due to the reported neck injury from the collision."
+      "rationale": "Injury indicated in the claim, requiring assessment by an injury specialist."
      },
      "usage": {
       "input_tokens": 899,
-      "output_tokens": 67
+      "output_tokens": 66
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-4105",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim involves a reported neck injury, which requires specialized assessment. The collision damage is covered under the policy, and the net payable amount is within the authority limit. All required documents are on file.",
+      "reasoning": "The claim involves a reported neck injury, which requires assessment by an injury specialist. The collision damage is covered under the policy, and the net payable amount is within the authority limit. All required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-INJ-005",
-        "quote": "The bodily injury claim must be handled by an injury specialist."
+        "quote": "Bodily injury claims must be handled by an injury specialist."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1158,
-      "output_tokens": 99
+      "input_tokens": 1157,
+      "output_tokens": 103
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4105",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The claim involves a reported neck injury, which requires assessment by an injury specialist. The collision damage is covered under the policy, and the net payable amount is within the authority limit. All required documents are on file.",
+      "citations": [
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1157,
+      "output_tokens": 103
      }
     }
    ]

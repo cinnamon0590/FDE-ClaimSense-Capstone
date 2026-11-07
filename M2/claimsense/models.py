@@ -12,7 +12,8 @@ Outcome = Literal["approve", "flag_review", "route", "deny"]
 RouteTo = Literal["senior-adjuster", "fraud-investigator", "total-loss-appraiser", "injury-specialist"]
 CoverageFinding = Literal["covered", "not_covered", "ambiguous"]
 GuardrailName = Literal["injection_detected", "poisoned_chunk_quarantined", "auto_decision_blocked",
-                        "uncited_claim_blocked", "pii_masked", "cross_record_blocked"]
+                        "uncited_claim_blocked", "pii_masked", "cross_record_blocked",
+                        "model_disagreement"]
 
 
 class Strict(BaseModel):

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -32,17 +32,17 @@
       "inconsistencies": [
        "Repair invoice for a 2017 Vauxhall Astra, registration KX17 PQR: a different vehicle from the insured Peugeot."
       ],
-      "summary": "The insured reported a hit-and-run incident on 2024-09-21 while parked. The repair invoice submitted is for a different vehicle than the insured's."
+      "summary": "The insured reported a hit-and-run incident on 2024-09-21 while parked, resulting in damage to the rear bumper and tailgate of a 2020 Peugeot 3008. A repair invoice for a different vehicle was submitted, indicating a potential inconsistency."
      },
      "usage": {
       "input_tokens": 1157,
-      "output_tokens": 125
+      "output_tokens": 147
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -52,7 +52,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1219,
+      "input_tokens": 1241,
       "output_tokens": 13
      }
     },
@@ -68,7 +68,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1477,
+      "input_tokens": 1499,
       "output_tokens": 63
      }
     },
@@ -76,7 +76,7 @@
      "final": {
       "claim_id": "CLM-2024-4114",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss to the covered auto caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss to the covered auto caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit before payment, but it does not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -85,14 +85,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1988,
-      "output_tokens": 131
+      "input_tokens": 2010,
+      "output_tokens": 136
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -104,34 +104,57 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the repair invoice for a different vehicle."
+      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the submission of a repair invoice for a different vehicle."
      },
      "usage": {
-      "input_tokens": 988,
-      "output_tokens": 102
+      "input_tokens": 1015,
+      "output_tokens": 105
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-4114",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim involves suspected fraud due to inconsistencies, specifically a repair invoice for a different vehicle than the insured's. The policy requires referral to the fraud investigator in such cases. Coverage is confirmed, but the investigation must proceed before any payment.",
+      "reasoning": "The claim involves suspected fraud due to material inconsistencies, specifically a repair invoice for a different vehicle than the one insured. The policy requires referral to the fraud investigator before any payment can be made. This is not an exclusion or ambiguity in coverage, but a procedural requirement.",
       "citations": [
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Inconsistencies require referral to the fraud investigator before payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1283,
-      "output_tokens": 109
+      "input_tokens": 1313,
+      "output_tokens": 114
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4114",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim involves suspected fraud due to material inconsistencies, specifically a repair invoice for a different vehicle than the one insured. According to the policy, such inconsistencies require referral to the fraud investigator before any payment can be processed. The coverage is confirmed, but the referral is necessary to address the potential fraud issue.",
+      "citations": [
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Inconsistencies require referral to the special investigations unit before payment."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1313,
+      "output_tokens": 123
      }
     }
    ]

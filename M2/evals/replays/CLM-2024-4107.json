@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -39,7 +39,7 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -84,7 +84,7 @@
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -94,17 +94,17 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is for a glass loss with a repair-to-ACV ratio of 0.0442, indicating it is not a total loss. There are no fraud signals or injury exposures present."
+      "rationale": "The claim is for glass damage with a repair-to-ACV ratio of 0.0442, indicating it is not a total loss. There are no fraud signals or injury exposures present."
      },
      "usage": {
       "input_tokens": 844,
-      "output_tokens": 92
+      "output_tokens": 91
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
@@ -124,7 +124,34 @@
       ]
      },
      "usage": {
-      "input_tokens": 1124,
+      "input_tokens": 1123,
+      "output_tokens": 128
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4107",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as per the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1123,
       "output_tokens": 128
      }
     }

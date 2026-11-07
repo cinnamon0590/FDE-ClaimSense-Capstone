@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -40,13 +40,13 @@
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
       }
      ],
      "usage": {
@@ -58,19 +58,19 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for glass damage claims\"}"
+       "arguments": "{\"query\":\"deductible application for glass damage\"}"
       }
      ],
      "usage": {
       "input_tokens": 1362,
-      "output_tokens": 24
+      "output_tokens": 23
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3640",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified, and the net payable amount has already been calculated correctly.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -78,14 +78,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1617,
-      "output_tokens": 88
+      "input_tokens": 1616,
+      "output_tokens": 85
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -95,17 +95,17 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim does not indicate any fraud risk, total loss, or injury exposure. The repair-to-ACV ratio is significantly below 1.0, indicating it is not a total loss. Therefore, the recommended route is to assess the claim further with a total-loss-appraiser."
+      "rationale": "The claim involves a glass loss with a repair-to-ACV ratio of 0.0387, indicating it is not a total loss. There are no fraud signals or injury exposures present."
      },
      "usage": {
-      "input_tokens": 859,
-      "output_tokens": 109
+      "input_tokens": 856,
+      "output_tokens": 91
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
@@ -116,17 +116,44 @@
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+        "quote": "Comprehensive coverage includes glass breakage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible."
+        "quote": "The deductible applies as specified."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1156,
-      "output_tokens": 149
+      "input_tokens": 1135,
+      "output_tokens": 127
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3640",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1135,
+      "output_tokens": 127
      }
     }
    ]

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -30,17 +30,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision on January 31, 2024, where the insured vehicle struck a pothole, resulting in damage. A repair estimate of $3,100 has been provided, along with photos and a completed FNOL form."
+      "summary": "The claim involves a collision where the insured vehicle struck a pothole, resulting in damage. All required documents are on file, including a repair estimate and FNOL form."
      },
      "usage": {
       "input_tokens": 1133,
-      "output_tokens": 115
+      "output_tokens": 100
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -50,7 +50,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1102,
+      "input_tokens": 1087,
       "output_tokens": 13
      }
     },
@@ -62,7 +62,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1336,
+      "input_tokens": 1321,
       "output_tokens": 21
      }
     },
@@ -70,22 +70,22 @@
      "final": {
       "claim_id": "CLM-2024-2822",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which is explicitly excluded from coverage.",
+      "basis": "The loss date is outside the policy period, and the policy explicitly states that coverage applies only to losses occurring within the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss outside policy period"
+      "exclusion_or_condition": "Loss date outside policy period"
      },
      "usage": {
-      "input_tokens": 1602,
-      "output_tokens": 72
+      "input_tokens": 1587,
+      "output_tokens": 84
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -95,34 +95,57 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": null,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals, total loss indicators, or injury exposures present."
+      "rationale": "The claim is not covered due to the loss date being outside the policy period. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss. Additionally, there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 828,
-      "output_tokens": 78
+      "input_tokens": 825,
+      "output_tokens": 98
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-2822",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on January 28, 2024, and the incident occurred on January 31, 2024. Therefore, the claim does not meet the coverage requirements.",
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly covers only losses occurring within the specified period, and this incident occurred after the coverage ended. Therefore, no coverage applies to this claim.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss outside policy period is excluded from coverage."
+        "quote": "Coverage applies only to losses occurring within the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1097,
-      "output_tokens": 110
+      "input_tokens": 1114,
+      "output_tokens": 99
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2822",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly covers only losses occurring within the specified period, and this incident occurred after the coverage ended. Therefore, no coverage applies to this claim.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Coverage applies only to losses occurring within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1114,
+      "output_tokens": 99
      }
     }
    ]

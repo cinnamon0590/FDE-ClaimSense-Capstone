@@ -90,6 +90,12 @@ SPECS = {
     "decision": ("Decision Draft", DECISION, DecisionDraft, "smart", [], [decision_safety_tripwire]),
 }
 
+# Not a fifth agent: a second, independent run of Decision Draft (same prompt, same type, same tripwire).
+# Run only when CONSISTENCY_CHECK is on (live) or a recording of it exists (replay).
+CHECK_SPECS = {"decision_check": ("Decision Draft · second opinion", DECISION, DecisionDraft, "smart", [],
+                                  [decision_safety_tripwire])}
+ALL_SPECS = {**SPECS, **CHECK_SPECS}
+
 
 def model_name(tier):
     return config.MODEL_SMART if tier == "smart" else config.MODEL_FAST
@@ -100,7 +106,7 @@ def build_agents(brain=None, record=False, store=None):
     brain = brain or config.brain_name()
     store = store or ReplayStore()
     out = {}
-    for key, (name, instructions, otype, tier, tools, outs) in SPECS.items():
+    for key, (name, instructions, otype, tier, tools, outs) in ALL_SPECS.items():
         if brain == "replay":
             model = ReplayModel(key, store)
         else:

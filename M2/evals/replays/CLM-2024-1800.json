@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "tool_calls": [
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured's vehicle, a 2021 Toyota Camry, was stationary at a red light when it was struck from behind by a third-party vehicle on 2024-10-02. A police report and repair estimate have been submitted, confirming the details of the incident."
+      "summary": "The insured's vehicle, a 2021 Toyota Camry, was stationary at a red light when it was struck from behind by a third-party vehicle on 2024-10-02. A police report and repair estimate have been filed, with no injuries reported."
      },
      "usage": {
       "input_tokens": 1232,
-      "output_tokens": 126
+      "output_tokens": 124
      }
     }
    ]
   },
   "coverage": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -51,7 +51,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1139,
+      "input_tokens": 1137,
       "output_tokens": 14
      }
     },
@@ -63,7 +63,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1374,
+      "input_tokens": 1372,
       "output_tokens": 23
      }
     },
@@ -71,7 +71,7 @@
      "final": {
       "claim_id": "CLM-2024-1800",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the insured's own vehicle when damaged by collision. The deductible has been correctly applied to the net payable amount.",
+      "basis": "The policy includes collision coverage, which applies to the insured's vehicle being struck by another vehicle. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -79,14 +79,14 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1628,
+      "input_tokens": 1626,
       "output_tokens": 83
      }
     }
    ]
   },
   "assessment": {
-   "model": "gpt-4o-mini",
+   "model": "gpt-4o-mini-2024-07-18",
    "turns": [
     {
      "final": {
@@ -95,29 +95,29 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.1306 indicating it is not a total loss. There are no fraud signals or injury exposures."
+      "recommended_route": null,
+      "rationale": "The claim is covered under the policy, with no indications of fraud or injury exposure. The repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 875,
-      "output_tokens": 91
+      "input_tokens": 873,
+      "output_tokens": 81
      }
     }
    ]
   },
   "decision": {
-   "model": "gpt-4o",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "final": {
       "claim_id": "CLM-2024-1800",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the policy's collision coverage, which applies to the insured's vehicle damage from the collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the policy's collision coverage, as the insured vehicle was struck by another vehicle. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "The policy includes collision coverage, which applies to the insured's own vehicle when damaged by collision."
+        "quote": "Collision coverage applies to the insured's vehicle being struck by another vehicle."
        },
        {
         "source_id": "CLS-DED-002",
@@ -126,8 +126,35 @@
       ]
      },
      "usage": {
-      "input_tokens": 1154,
-      "output_tokens": 152
+      "input_tokens": 1145,
+      "output_tokens": 145
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-1800",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the policy's collision coverage, as the insured vehicle was struck by another vehicle. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "The policy includes collision coverage, which applies to the insured's vehicle being struck by another vehicle."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1145,
+      "output_tokens": 150
      }
     }
    ]
