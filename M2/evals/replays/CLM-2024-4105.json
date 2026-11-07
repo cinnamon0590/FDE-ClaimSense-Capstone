@@ -1,0 +1,138 @@
+{
+ "claim_id": "CLM-2024-4105",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4105",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "police_report",
+       "repair_estimate",
+       "er_discharge_summary"
+      ],
+      "missing_documents": [],
+      "injury_indicated": true,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured was rear-ended at a pedestrian crossing on 2024-09-28 and reported a neck injury. A police report and repair estimate have been submitted."
+     },
+     "usage": {
+      "input_tokens": 1200,
+      "output_tokens": 106
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1130,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1388,
+      "output_tokens": 59
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4105",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-INJ-005"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1885,
+      "output_tokens": 126
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4105",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": true,
+      "recommended_route": "injury-specialist",
+      "rationale": "Injury exposure is indicated due to the reported neck injury from the collision."
+     },
+     "usage": {
+      "input_tokens": 899,
+      "output_tokens": 67
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4105",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The claim involves a reported neck injury, which requires specialized assessment. The collision damage is covered under the policy, and the net payable amount is within the authority limit. All required documents are on file.",
+      "citations": [
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "The bodily injury claim must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1158,
+      "output_tokens": 99
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

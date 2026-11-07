@@ -1,0 +1,113 @@
+{
+ "claim_id": "CLM-2024-3602",
+ "source": "scripted",
+ "case_id": "CS-016",
+ "note": "Hand-authored turns to exercise the harness. Token counts are estimates.",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 30
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3602",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "repair_invoice",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "Collision claim with 3 document(s) on file. No contradictions found in the documents."
+     },
+     "usage": {
+      "input_tokens": 1300,
+      "output_tokens": 82
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\": \"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 30
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3602",
+      "coverage_finding": "ambiguous",
+      "basis": "Cover depends on a condition that is not yet resolved.",
+      "cited_clause_ids": [],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1300,
+      "output_tokens": 46
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3602",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "Routing follows the priority fraud, injury, total loss."
+     },
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 55
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3602",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "Coverage or authority cannot be settled at first pass; a senior adjuster should review. An adjuster confirms or overrides this recommendation.",
+      "citations": []
+     },
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 65
+     }
+    }
+   ]
+  }
+ }
+}

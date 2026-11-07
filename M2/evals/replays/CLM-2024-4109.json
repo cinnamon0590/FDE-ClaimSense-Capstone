@@ -1,0 +1,132 @@
+{
+ "claim_id": "CLM-2024-4109",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a low-speed collision with a gatepost on June 16, 2024. All required documents are on file, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1130,
+      "output_tokens": 99
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1088,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1322,
+      "output_tokens": 21
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "coverage_finding": "not_covered",
+      "basis": "The loss date is outside the policy period, and the policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1588,
+      "output_tokens": 84
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered due to the loss date being outside the policy period. There are no fraud signals, total loss indicators, or injury exposures present."
+     },
+     "usage": {
+      "input_tokens": 826,
+      "output_tokens": 80
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4109",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly covers only losses occurring within the specified period, which ended on June 15, 2024. Therefore, the incident on June 16, 2024, is not covered.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Coverage applies only to losses occurring within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1097,
+      "output_tokens": 109
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

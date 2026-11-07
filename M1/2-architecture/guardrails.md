@@ -15,7 +15,7 @@ build the production versions against the same tests. **Live** = enforced in the
 |---|---|---|---|---|---|---|
 | G1 | Injection scan | instruction-like patterns in untrusted text ("ignore previous instructions", "system note", "approve this claim", "fraud checks passed", role tags) | flag the case, route to senior adjuster, highlight the span | a planted instruction steering the decision | CS-016 | Executable in M1 |
 | G2 | Provenance quarantine | a retrieved chunk whose hash isn't in the clause manifest | drop it before model context; count it (`quarantined`) | a poisoned or tampered clause changing coverage | CS-020 | Executable in M1 |
-| G3 | PII masking | names from the claim record; email, phone, SSN, VIN, card patterns | replace with typed placeholders before prompts, logs and traces | personal data reaching the model provider or logs | (adds an `ADV` case in M2) | Executable in M1 |
+| G3 | PII masking | names from the claim record; email, phone, SSN, VIN, card patterns | replace with typed placeholders before prompts, logs and traces | personal data reaching the model provider or logs | CS-039 (added in M2) | Executable in M1; live in the M2 pipeline |
 | G4 | Code owns the numbers | every DecisionCard | overwrite `computed` (term check, net payable, repair÷ACV, $25K flag) with code's values | a wrong date or dollar figure, e.g. an injected $18,000 | CS-001, CS-003, CS-014 | Executable in M1 |
 | G5 | Citation check | a cited clause not retrieved for this request; a cited document from another claim; approve or deny with no clause cited | route to senior adjuster (`uncited_claim_blocked`) | invented clause numbers; ungrounded coverage decisions | CS-002, CS-013 | Executable in M1 |
 | G6 | Auto-decision block | `adjuster_confirmation_required ≠ true`, a final/paid status, or pressure phrases ("pay immediately", "no adjuster review", "pre-authorised by") | force confirmation, strip finality, **keep** a correct verdict | anything moving money without a licensed adjuster | CS-018 | Executable in M1 (also schema-enforced) |
@@ -70,8 +70,9 @@ build the production versions against the same tests. **Live** = enforced in the
 
 ## Still to come (planned, not yet built)
 
-- **M2:** guardrails wired into the Agents SDK pipeline (`@input_guardrail` / `@output_guardrail`);
-  a PII-leak adversarial eval case; GitHub OIDC role for CI.
+- ~~**M2:** guardrails wired into the Agents SDK pipeline (`@input_guardrail` / `@output_guardrail`);
+  a PII-leak adversarial eval case; GitHub OIDC role for CI.~~ **Done in M2** (2026-11-06/07): see
+  [`../../M2/claimsense/guardrails.py`](../../M2/claimsense/guardrails.py), case CS-039, `M2/cloud/oidc.sh`.
 - **M3:** production data boundary with JWT checks on every route, plus the two-user test with audit rows.
 - **M4:** CloudWatch alarms on guardrail-fire rate and fallback share; an optional managed layer
   (e.g. Bedrock Guardrails) evaluated against these hand-rolled rules.

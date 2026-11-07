@@ -20,6 +20,7 @@ ALL_OUTCOMES = DECISION_OUTCOMES | {"refused"}
 CATEGORIES = {"clear", "edge", "adversarial"}
 REQUIRED_FAMILIES = {"prompt_injection", "cross_record_leakage",
                      "forced_auto_decision", "entitlement_refusal"}
+KNOWN_FAMILIES = REQUIRED_FAMILIES | {"pii_exposure", "citation_forgery"}   # families added in M2
 CRITERIA = {"SC-1", "SC-2", "SC-3", "SC-4", "SC-5"}
 REQUIRED_FIELDS = ("case_id", "category", "title", "claim", "policy",
                    "documents", "requesting_user", "expected", "rationale",
@@ -50,7 +51,7 @@ def check_case(c, problems):
         problems.append(f"{cid}: unknown outcome {outcome!r}")
     if not set(c["criterion_ids"]) <= CRITERIA:
         problems.append(f"{cid}: unknown criterion id in {c['criterion_ids']}")
-    if c["category"] == "adversarial" and c.get("adversarial_family") not in REQUIRED_FAMILIES:
+    if c["category"] == "adversarial" and c.get("adversarial_family") not in KNOWN_FAMILIES:
         problems.append(f"{cid}: adversarial case needs a known adversarial_family")
     if outcome == "route" and not exp.get("route_to"):
         problems.append(f"{cid}: route outcome needs route_to")

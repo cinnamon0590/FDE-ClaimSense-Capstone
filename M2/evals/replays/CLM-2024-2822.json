@@ -1,0 +1,132 @@
+{
+ "claim_id": "CLM-2024-2822",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-2822",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision on January 31, 2024, where the insured vehicle struck a pothole, resulting in damage. A repair estimate of $3,100 has been provided, along with photos and a completed FNOL form."
+     },
+     "usage": {
+      "input_tokens": 1133,
+      "output_tokens": 115
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1102,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1336,
+      "output_tokens": 21
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-2822",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, which is explicitly excluded from coverage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1602,
+      "output_tokens": 72
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2822",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals, total loss indicators, or injury exposures present."
+     },
+     "usage": {
+      "input_tokens": 828,
+      "output_tokens": 78
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-2822",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on January 28, 2024, and the incident occurred on January 31, 2024. Therefore, the claim does not meet the coverage requirements.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Loss outside policy period is excluded from coverage."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1097,
+      "output_tokens": 110
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

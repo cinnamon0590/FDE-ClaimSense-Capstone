@@ -1,0 +1,138 @@
+{
+ "claim_id": "CLM-2024-3221",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3221",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "police_report",
+       "repair_estimate",
+       "er_discharge_summary",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": true,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured vehicle was involved in a collision with a cyclist on 2024-08-27, resulting in reported injuries. All required documents are on file, including a police report and repair estimate."
+     },
+     "usage": {
+      "input_tokens": 1208,
+      "output_tokens": 113
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1129,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1387,
+      "output_tokens": 59
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3221",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-INJ-005"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1884,
+      "output_tokens": 126
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3221",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": true,
+      "recommended_route": "injury-specialist",
+      "rationale": "The claim is covered under the collision coverage clause, with reported injuries indicating the need for an injury specialist. There are no fraud signals or inconsistencies present."
+     },
+     "usage": {
+      "input_tokens": 906,
+      "output_tokens": 83
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3221",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The claim involves reported injuries from a collision, which requires assessment by an injury specialist. The collision damage is covered under the policy, and all required documents are on file. The net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1181,
+      "output_tokens": 104
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

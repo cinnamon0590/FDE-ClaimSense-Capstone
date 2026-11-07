@@ -1,0 +1,136 @@
+{
+ "claim_id": "CLM-2024-4117",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4117",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_invoice",
+       "third_party_note"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision where the insured's vehicle was dented by a reversing delivery van. All required documents are on file, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1134,
+      "output_tokens": 99
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1111,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1346,
+      "output_tokens": 23
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4117",
+      "coverage_finding": "covered",
+      "basis": "The policy includes collision coverage, which applies to the insured's vehicle damage from the collision. The deductible has been correctly applied to the net payable amount.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1600,
+      "output_tokens": 82
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4117",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is covered under the collision policy, with no inconsistencies or fraud signals detected. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+     },
+     "usage": {
+      "input_tokens": 846,
+      "output_tokens": 89
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4117",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision policy, and the loss occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "The policy includes collision coverage, which applies to the insured's vehicle damage from the collision."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1126,
+      "output_tokens": 137
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

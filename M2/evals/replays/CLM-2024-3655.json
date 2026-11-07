@@ -1,0 +1,133 @@
+{
+ "claim_id": "CLM-2024-3655",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3655",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "authorisation_letter",
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision where the insured vehicle, a 2018 Peugeot 3008, was rear-ended at a junction on April 9, 2024. All required documents are on file, including a repair estimate and FNOL form."
+     },
+     "usage": {
+      "input_tokens": 1246,
+      "output_tokens": 120
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1110,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1344,
+      "output_tokens": 21
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3655",
+      "coverage_finding": "not_covered",
+      "basis": "The loss date is outside the policy period, as confirmed by the verified facts and supported by clause CLS-PER-006, which states that the policy applies only to losses occurring during the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1610,
+      "output_tokens": 98
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3655",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered due to the loss date being outside the policy period. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss. Additionally, there are no reported injuries."
+     },
+     "usage": {
+      "input_tokens": 862,
+      "output_tokens": 98
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3655",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring within the specified period, which ended on March 30, 2024. Since the incident occurred on April 9, 2024, it is not covered.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy applies only to losses occurring during the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1151,
+      "output_tokens": 110
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

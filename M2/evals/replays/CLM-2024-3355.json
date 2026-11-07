@@ -1,0 +1,136 @@
+{
+ "claim_id": "CLM-2024-3355",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "loss_type": "theft",
+      "documents_on_file": [
+       "fnol_form"
+      ],
+      "missing_documents": [
+       "police_report"
+      ],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The insured reported that their 2018 Kia Sportage was stolen from a supermarket car park on 2024-10-21. A police report has not yet been submitted."
+     },
+     "usage": {
+      "input_tokens": 993,
+      "output_tokens": 101
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"theft damage to the insured's own car under comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1169,
+      "output_tokens": 17
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on comprehensive coverage\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"reporting requirements for theft claim settlement\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1419,
+      "output_tokens": 61
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "coverage_finding": "ambiguous",
+      "basis": "The theft damage to the insured's own car is covered under comprehensive coverage, but the claim cannot be settled until a police report reference is provided, as required by the policy.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-THF-008"
+      ],
+      "exclusion_or_condition": "Pending condition: police report required for settlement."
+     },
+     "usage": {
+      "input_tokens": 1928,
+      "output_tokens": 97
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is for theft with missing police report, making coverage ambiguous. However, the repair-to-ACV ratio is 0.0, indicating it is not a total loss. No fraud signals detected."
+     },
+     "usage": {
+      "input_tokens": 908,
+      "output_tokens": 94
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3355",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim involves a theft loss, but the required police report is missing, making the coverage ambiguous. The policy specifies that a theft claim cannot be settled without a police report reference. This pending condition needs resolution before proceeding.",
+      "citations": [
+       {
+        "source_id": "CLS-THF-008",
+        "quote": "The claim cannot be settled until a police report reference is provided."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1190,
+      "output_tokens": 106
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

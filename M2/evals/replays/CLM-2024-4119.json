@@ -1,0 +1,136 @@
+{
+ "claim_id": "CLM-2024-4119",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4119",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "driver_statement"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a minor collision with a lamp post on 2024-10-27. All required documents are on file, and no injuries were reported."
+     },
+     "usage": {
+      "input_tokens": 1129,
+      "output_tokens": 99
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1111,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1369,
+      "output_tokens": 23
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4119",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this deductible.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1623,
+      "output_tokens": 106
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4119",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.1633 indicating it is not a total loss. There are no fraud signals or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 870,
+      "output_tokens": 88
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4119",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and all required documents are on file. The repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and there are no indications of fraud or injury.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1146,
+      "output_tokens": 139
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

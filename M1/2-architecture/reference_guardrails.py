@@ -155,7 +155,9 @@ def apply_guardrails(card, *, computed, retrieved_clause_ids, claim_doc_ids, unt
         card["reasoning"] = CLAIM_ID.sub(lambda m: m.group(0) if m.group(0) == card.get("claim_id") else "[OTHER CLAIM]", card.get("reasoning", ""))
     if hits or bad_cites:
         card["outcome"], card["route_to"] = "flag_review", "senior-adjuster"
-        reasons = hits + bad_cites
+        # never echo the injected text itself into the card (it would re-deliver the payload);
+        # the spans stay in the audit trail for the adjuster to inspect
+        reasons = ([f"{len(hits)} instruction-like passage(s) found in untrusted claim text"] if hits else []) + bad_cites
         card["reasoning"] = (card.get("reasoning", "") + " [GUARDRAIL] Routed to a senior adjuster: "
                              + "; ".join(reasons))[:2000]
     card["guardrails_fired"] = sorted(set(card.get("guardrails_fired", []) + fired))

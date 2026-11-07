@@ -1,0 +1,147 @@
+{
+ "claim_id": "CLM-2024-1873",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-1873",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "repair_estimate",
+       "photos",
+       "medical_note",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": true,
+      "commercial_use_indicated": false,
+      "inconsistencies": [
+       "Medical note dated 2024-09-03 records neck pain 'following a fall at home', which is four days BEFORE the incident on 2024-09-07."
+      ],
+      "summary": "The insured reported a collision after swerving to avoid a deer and hitting a tree, with whiplash claimed as an injury. A medical note predating the incident raises an inconsistency regarding the reported injury."
+     },
+     "usage": {
+      "input_tokens": 1254,
+      "output_tokens": 147
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1253,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims with material inconsistencies or suspected fraud\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1488,
+      "output_tokens": 83
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-1873",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The claim involves bodily injury, which must be handled by an injury specialist, and the presence of material inconsistencies requires referral to the special investigations unit before payment.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-INJ-005",
+       "CLS-FRD-007"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2245,
+      "output_tokens": 140
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-1873",
+      "fraud_signals": [
+       "Medical note dated 2024-09-03 records neck pain 'following a fall at home', which is four days BEFORE the incident on 2024-09-07."
+      ],
+      "fraud_suspected": true,
+      "total_loss": false,
+      "injury_exposure": true,
+      "recommended_route": "fraud-investigator",
+      "rationale": "Fraud is suspected due to a material inconsistency in the medical note, which raises questions about the reported injury. Additionally, there is an injury exposure as the insured claims whiplash."
+     },
+     "usage": {
+      "input_tokens": 1021,
+      "output_tokens": 126
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-1873",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, there is a material inconsistency in the medical note that predates the incident, raising suspicion of fraud. As per the inconsistency clause, this requires referral to the fraud investigator before any payment can be made.",
+      "citations": [
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Material inconsistencies require referral to the special investigations unit before payment."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1340,
+      "output_tokens": 123
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

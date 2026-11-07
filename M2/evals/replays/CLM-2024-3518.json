@@ -1,0 +1,146 @@
+{
+ "claim_id": "CLM-2024-3518",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3518",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "driver_statement",
+       "repair_estimate",
+       "photos",
+       "fnol_form"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": true,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision on 2024-10-18 with a repair estimate of $5,200. The insured reported dropping off a rider from an app at the time of the incident."
+     },
+     "usage": {
+      "input_tokens": 1255,
+      "output_tokens": 109
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1122,
+      "output_tokens": 14
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1357,
+      "output_tokens": 23
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"exclusion for commercial use of vehicle\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1611,
+      "output_tokens": 23
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-3518",
+      "coverage_finding": "not_covered",
+      "basis": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes, such as ridesharing, unless the declarations show a commercial use class. The insured reported using the vehicle for a rideshare service at the time of the incident, and the policy is classified for private use.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-USE-009"
+      ],
+      "exclusion_or_condition": "Commercial use exclusion"
+     },
+     "usage": {
+      "input_tokens": 1849,
+      "output_tokens": 122
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3518",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": null,
+      "rationale": "The claim is not covered due to commercial use exclusion, and there are no fraud signals or injury exposures present."
+     },
+     "usage": {
+      "input_tokens": 899,
+      "output_tokens": 71
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-3518",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as ridesharing. The insured was using the vehicle for a rideshare service at the time of the incident, and the policy is classified for private use only.",
+      "citations": [
+       {
+        "source_id": "CLS-USE-009",
+        "quote": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes, such as ridesharing, unless the declarations show a commercial use class."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1161,
+      "output_tokens": 132
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}

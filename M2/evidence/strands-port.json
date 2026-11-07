@@ -1,0 +1,100 @@
+{
+ "CLM-2024-1800": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-1800",
+   "coverage_finding": "covered",
+   "basis": "The policy includes collision coverage, which applies to the insured's own car for direct and accidental loss caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
+   "cited_clause_ids": [
+    "CLS-COL-001",
+    "CLS-DED-002"
+   ],
+   "exclusion_or_condition": null
+  },
+  "retrieved": [
+   "CLS-CMP-003",
+   "CLS-COL-001",
+   "CLS-DED-002",
+   "CLS-LIA-012"
+  ],
+  "quarantined": [],
+  "citation_check": "PASS"
+ },
+ "CLM-2024-3412": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3412",
+   "coverage_finding": "ambiguous",
+   "basis": "The collision damage is covered under the collision coverage clause. However, the loss date is outside the policy period, and the renewal submitted has not yet been processed, making the coverage status ambiguous.",
+   "cited_clause_ids": [
+    "CLS-COL-001",
+    "CLS-PER-006",
+    "CLS-REN-011"
+   ],
+   "exclusion_or_condition": "Renewal submitted but not processed."
+  },
+  "retrieved": [
+   "CLS-CMP-003",
+   "CLS-COL-001",
+   "CLS-DED-002",
+   "CLS-PER-006",
+   "CLS-REN-011",
+   "CLS-THF-008",
+   "CLS-TL-004"
+  ],
+  "quarantined": [
+   "CLS-PER-006",
+   "CLS-PER-006"
+  ],
+  "citation_check": "PASS"
+ },
+ "CLM-2024-3518": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3518",
+   "coverage_finding": "covered",
+   "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
+   "cited_clause_ids": [
+    "CLS-COL-001",
+    "CLS-DED-002"
+   ],
+   "exclusion_or_condition": null
+  },
+  "retrieved": [
+   "CLS-CMP-003",
+   "CLS-COL-001",
+   "CLS-DED-002",
+   "CLS-THF-008"
+  ],
+  "quarantined": [],
+  "citation_check": "PASS"
+ },
+ "CLM-2024-3701": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3701",
+   "coverage_finding": "not_covered",
+   "basis": "The loss date is outside the policy period, and there is no renewal submitted or processed. Therefore, the policy does not cover this loss.",
+   "cited_clause_ids": [
+    "CLS-PER-006",
+    "CLS-REN-011"
+   ],
+   "exclusion_or_condition": "Loss occurred outside the policy period."
+  },
+  "retrieved": [
+   "CLS-CMP-003",
+   "CLS-COL-001",
+   "CLS-LIA-012",
+   "CLS-PER-006",
+   "CLS-REN-011"
+  ],
+  "quarantined": [
+   "CLS-PER-006"
+  ],
+  "citation_check": "PASS"
+ }
+}

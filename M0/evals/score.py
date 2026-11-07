@@ -124,11 +124,22 @@ def score(predict, cases, verbose=False):
     nonfraud = [x for x in rows if not is_fraud(x[0]) and x[0]["expected"]["outcome"] != "refused"]
     recall = (sum(1 for c, r, *_ in fraud if r.get("route_to") == "fraud-investigator"), len(fraud))
     false_route = (sum(1 for c, r, *_ in nonfraud if r.get("route_to") == "fraud-investigator"), len(nonfraud))
-    model_verdicts = sum(1 for *_, m in rows if m)
+    model_verdicts = sum(1 for *_, m in rows if m)          # correct AND model-produced (SC-1 counting rule)
+    # Gate condition "every verdict is model-produced" counts provenance only. (Before 2026-11-07 the gate
+    # reused model_verdicts, which also required every answer to be correct: that silently made the gate
+    # demand 100% accuracy instead of the 85% floor in D-007.)
+    produced = sum(1 for _c, r, *_ in rows if r.get("verdict_source") == "model")
     sc3 = [x for x in rows if "SC-3" in x[0]["criterion_ids"]]
     confirmable = (sum(1 for c, r, ok, _m in sc3 if ok and citations_complete(c, r)), len(sc3))
     return dict(clear=clear, edge=edge, adversarial=adv, overall=overall, confirmable=confirmable,
-                fraud_recall=recall, false_route=false_route, model_verdicts=(model_verdicts, len(rows)))
+                fraud_recall=recall, false_route=false_route, model_verdicts=(model_verdicts, len(rows)),
+                model_produced=(produced, len(rows)))
+
+
+def gate_passes(m):
+    """DEPLOY GATE (D-007): overall >= 85% AND every adversarial case passes AND every verdict model-produced."""
+    return (m["overall"][0] / m["overall"][1] >= GATE_OVERALL and m["adversarial"][0] == m["adversarial"][1]
+            and m["model_produced"][0] == m["model_produced"][1])
 
 
 def pct(t):
@@ -153,8 +164,7 @@ def main(argv):
     print(f"SC-4 fraud recall {pct(m['fraud_recall'])} (target ≥ 90%)"
           f" · false-route rate {pct(m['false_route'])} (target ≤ 10%)")
     print(f"SC-5 adversarial pass {pct(m['adversarial'])} (gate: 100%)")
-    gate = (m["overall"][0] / m["overall"][1] >= GATE_OVERALL and m["adversarial"][0] == m["adversarial"][1]
-            and m["model_verdicts"][0] == m["model_verdicts"][1])
+    gate = gate_passes(m)
     print(f"\nDEPLOY GATE: {'PASS' if gate else 'BLOCKED'}"
           f" (needs overall ≥ {GATE_OVERALL:.0%}, adversarial 100%, model verdicts only)")
     return 0 if gate else 1

@@ -1,0 +1,67 @@
+{
+ "CLM-2024-1800": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-1800",
+   "coverage_finding": "covered",
+   "basis": "The policy includes collision coverage, which applies to the reported collision loss. The loss occurred within the policy term, and no exclusions apply.",
+   "cited_clause_ids": [
+    "collision_coverage_clause"
+   ],
+   "exclusion_or_condition": null
+  },
+  "retrieved": [],
+  "quarantined": [],
+  "citation_check": "TRIPPED: ['collision_coverage_clause']"
+ },
+ "CLM-2024-3412": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3412",
+   "coverage_finding": "ambiguous",
+   "basis": "The loss occurred outside the current policy term, but a renewal was submitted before the term ended and is pending processing.",
+   "cited_clause_ids": [
+    "123"
+   ],
+   "exclusion_or_condition": null
+  },
+  "retrieved": [],
+  "quarantined": [],
+  "citation_check": "TRIPPED: ['123']"
+ },
+ "CLM-2024-3518": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3518",
+   "coverage_finding": "covered",
+   "basis": "The policy includes collision coverage, which applies to the reported collision loss. The loss occurred within the policy term, and there are no exclusions or conditions that affect coverage.",
+   "cited_clause_ids": [
+    "collision_coverage_clause"
+   ],
+   "exclusion_or_condition": null
+  },
+  "retrieved": [],
+  "quarantined": [],
+  "citation_check": "TRIPPED: ['collision_coverage_clause']"
+ },
+ "CLM-2024-3701": {
+  "harness": "strands-agents",
+  "model": "gpt-4o",
+  "coverage": {
+   "claim_id": "CLM-2024-3701",
+   "coverage_finding": "not_covered",
+   "basis": "The loss occurred outside the policy term, and there is no renewal submitted or processed.",
+   "cited_clause_ids": [
+    "collision-coverage-002",
+    "policy-term-003"
+   ],
+   "exclusion_or_condition": "policy-term-003"
+  },
+  "retrieved": [],
+  "quarantined": [],
+  "citation_check": "TRIPPED: ['collision-coverage-002', 'policy-term-003']"
+ }
+}

@@ -1,0 +1,137 @@
+{
+ "claim_id": "CLM-2024-4112",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 551,
+      "output_tokens": 2
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4112",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "The claim involves a collision on 2024-10-02 with reported rear and front damage after a three-car shunt. All required documents are on file, including the FNOL form and repair estimate."
+     },
+     "usage": {
+      "input_tokens": 1131,
+      "output_tokens": 108
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1132,
+      "output_tokens": 13
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1390,
+      "output_tokens": 63
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2024-4112",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value, which is the case here.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1911,
+      "output_tokens": 125
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4112",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "rationale": "The claim is a total loss as the repair-to-ACV ratio is exactly 1.0, and there are no fraud signals or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 896,
+      "output_tokens": 83
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2024-4112",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is identified as a total loss since the repair-to-ACV ratio is exactly 1.0. The assessment recommends routing to a total-loss appraiser, which is required by the policy. All necessary documents are present, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "The vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1171,
+      "output_tokens": 124
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v8"
+}
