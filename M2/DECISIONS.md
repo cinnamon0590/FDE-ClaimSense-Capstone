@@ -29,8 +29,10 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
     LiteLLM bridge (`litellm.modify_params=True`), with the classifier and retrieval also staying inside AWS.
 - **Honest notes:** M2's cumulative OpenAI spend ($10.25, verified on the OpenAI usage page) is above the leaderboard's $5; it is disclosed in
   `SPEND.txt` and the replay brain competes in the $0 mock division
-  at 100%. Bedrock invocation needs the account's one-time Anthropic use-case form; until then a Bedrock run
-  fails closed to labelled fallback cards.
+  at 100%. Bedrock needed the account's one-time Anthropic use-case form (submitted by Susan); then 6/6 claims
+  passed on Claude. Claude lists ~3x the OpenAI path here ($0.048 vs $0.017 a claim), so the per-claim budget cap
+  is provider-aware ($0.10 on Bedrock): at $0.05 one claim ($0.0506) would have fallen back. LiteLLM streams need
+  `include_usage=True` or the cost meter reads $0 (found and fixed while gathering the evidence).
 - **Owner:** Susan Wellington (FDE) · **Revisit when:** W17 sets the golden-suite bar (0.95 per the class gate).
 
 ## D-027 · 2026-11-07 · Restart-survivable state: resumable runs and a persistent boundary
