@@ -14,6 +14,10 @@ REPO_SLUG="cinnamon0590/FDE-ClaimSense-Capstone"
 ROLE=claimsense-github-ci
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 PROVIDER_ARN="arn:aws:iam::${ACCOUNT}:oidc-provider/token.actions.githubusercontent.com"
+# GitHub may issue "immutable" subjects that embed owner/repo IDs (repo:owner@id/name@id:...). Read the
+# repo's actual prefix so the trust policy matches what its tokens really say; fall back to the classic form.
+SUB_PREFIX=$(gh api "repos/${REPO_SLUG}/actions/oidc/customization/sub" --jq '.sub_claim_prefix // empty' 2>/dev/null || true)
+SUB_PREFIX="${SUB_PREFIX:-repo:${REPO_SLUG}}"
 ECR_ARN="arn:aws:ecr:${REGION}:${ACCOUNT}:repository/claimsense/orchestrator"
 
 if [[ "${1:-}" == "--delete" ]]; then
@@ -36,8 +40,8 @@ TRUST=$(cat <<JSON
   "Condition":{
     "StringEquals":{"token.actions.githubusercontent.com:aud":"sts.amazonaws.com"},
     "StringLike":{"token.actions.githubusercontent.com:sub":[
-      "repo:${REPO_SLUG}:ref:refs/heads/main",
-      "repo:${REPO_SLUG}:ref:refs/heads/demo/*"]}}}]}
+      "${SUB_PREFIX}:ref:refs/heads/main",
+      "${SUB_PREFIX}:ref:refs/heads/demo/*"]}}}]}
 JSON
 )
 POLICY=$(cat <<JSON

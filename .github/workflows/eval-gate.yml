@@ -166,6 +166,7 @@ jobs:
         env:
           REPO: ${{ steps.ecr.outputs.registry }}/claimsense/orchestrator
         run: |
-          docker build -f M2/services/orchestrator/Dockerfile -t "$REPO:${GITHUB_SHA}" .
+          # single-platform manifest without attestations: Lambda rejects image indexes (deploy ladder)
+          docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t "$REPO:${GITHUB_SHA}" .
           docker push "$REPO:${GITHUB_SHA}"
           echo "pushed claimsense/orchestrator:${GITHUB_SHA}" >> "$GITHUB_STEP_SUMMARY"
