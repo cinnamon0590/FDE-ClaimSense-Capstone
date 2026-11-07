@@ -27,7 +27,7 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
     spend ledger summed from SDK usage, and `SPEND.txt` at the repo root (a bare number, as the script reads it).
   - **Bedrock option:** `MODEL_PROVIDER=bedrock` runs Claude Haiku 4.5 / Sonnet 4.5 on Bedrock through the SDK's
     LiteLLM bridge (`litellm.modify_params=True`), with the classifier and retrieval also staying inside AWS.
-- **Honest notes:** M2's cumulative OpenAI spend ($10.25, verified on the OpenAI usage page) is above the leaderboard's $5; it is disclosed in
+- **Honest notes:** M2's cumulative OpenAI spend ($10.62, verified on the OpenAI usage page after the last CI live gate) is above the leaderboard's $5; it is disclosed in
   `SPEND.txt` and the replay brain competes in the $0 mock division
   at 100%. Bedrock needed the account's one-time Anthropic use-case form (submitted by Susan); then 6/6 claims
   passed on Claude. Claude lists ~3x the OpenAI path here ($0.048 vs $0.017 a claim), so the per-claim budget cap
