@@ -86,3 +86,95 @@ def test_fault_injection_is_off_unless_explicitly_enabled():
     app = _orchestrator()
     assert app.FAULT_INJECTION is False
     assert app._crash_hook(app.RunRequest(user_id="alice", crash_after_step="coverage")) is None
+
+
+# ── console sessions: a refresh or reconnect joins the run in progress; it never starts a duplicate ──
+def _slow_orchestrator(monkeypatch, delay=0.3):
+    app = _orchestrator()
+    calls = []
+    real = app.PIPE.run
+
+    async def slow_run(*a, **kw):
+        calls.append(kw.get("run_id"))
+        await __import__("asyncio").sleep(delay)          # keep the run in flight long enough to reconnect
+        return await real(*a, **kw)
+    monkeypatch.setattr(app.PIPE, "run", slow_run)
+    return app, calls
+
+
+def _client(app):
+    import httpx
+    return httpx.AsyncClient(transport=httpx.ASGITransport(app=app.app), base_url="http://orchestrator")
+
+
+def test_a_reconnect_joins_the_run_in_progress_and_nothing_runs_twice(monkeypatch):
+    import asyncio
+    app, calls = _slow_orchestrator(monkeypatch)
+    run_id = f"CLM-2024-1800:{uuid.uuid4().hex[:8]}"
+
+    async def go():
+        async with _client(app) as c:
+            first = asyncio.create_task(c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id}))
+            await asyncio.sleep(0.05)                       # the "refresh" arrives while the run is in flight
+            second = await c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id})
+            return (await first).json(), second.json()
+    a, b = run_sync(go())
+    assert calls == [run_id]                                   # the pipeline ran once
+    assert a["joined"] is False and b["joined"] is True
+    assert a["response"] == b["response"] and a["receipt"] == b["receipt"]
+    assert run_id not in app.INFLIGHT                          # cleaned up when the run finished
+
+
+def test_a_joining_stream_gets_the_backlog_live_events_and_the_result(monkeypatch):
+    import asyncio
+    import json
+    app, calls = _slow_orchestrator(monkeypatch)
+    run_id = f"CLM-2024-1800:{uuid.uuid4().hex[:8]}"
+
+    async def go():
+        async with _client(app) as c:
+            first = asyncio.create_task(c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id}))
+            await asyncio.sleep(0.05)
+            r = await c.post("/claims/CLM-2024-1800/recommend/stream", json={"user_id": "alice", "run_id": run_id})
+            await first
+            return [json.loads(line) for line in r.text.splitlines()]
+    events = run_sync(go())
+    kinds = [e["kind"] for e in events]
+    assert kinds[0] == "joined" and kinds[1] == "run" and kinds[-1] == "result"
+    assert "agent_start" in kinds and calls == [run_id]
+
+
+def test_nobody_can_join_or_resume_someone_elses_run(monkeypatch):
+    import asyncio
+    app, _ = _slow_orchestrator(monkeypatch)
+    run_id = f"CLM-2024-1800:{uuid.uuid4().hex[:8]}"
+
+    async def go():
+        async with _client(app) as c:
+            alice = asyncio.create_task(c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id}))
+            await asyncio.sleep(0.05)
+            bob = await c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "bob", "run_id": run_id})
+            other_claim = await c.post("/claims/CLM-2024-3104/recommend", json={"user_id": "alice", "run_id": run_id})
+            await alice
+            return bob, other_claim
+    bob, other_claim = run_sync(go())
+    assert bob.status_code == 404 and bob.json()["error"]["code"] == "not_found_or_forbidden"
+    assert "response" not in bob.json()                        # alice's result is never shared
+    assert other_claim.status_code == 400                      # a run belongs to one claim
+
+
+def test_a_closed_tab_does_not_cancel_the_run_and_a_reconnect_finds_it(monkeypatch):
+    import asyncio
+    app, calls = _slow_orchestrator(monkeypatch)
+    run_id = f"CLM-2024-1800:{uuid.uuid4().hex[:8]}"
+
+    async def go():
+        async with _client(app) as c:
+            tab = asyncio.create_task(c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id}))
+            await asyncio.sleep(0.05)
+            tab.cancel()                                        # the adjuster closes the tab mid-run
+            await asyncio.sleep(0.05)
+            back = await c.post("/claims/CLM-2024-1800/recommend", json={"user_id": "alice", "run_id": run_id})
+            return back.json()
+    r = run_sync(go())
+    assert calls == [run_id] and r["joined"] is True and r["response"]["outcome"] == "approve"

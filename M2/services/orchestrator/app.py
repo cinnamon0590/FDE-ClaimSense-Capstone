@@ -16,7 +16,7 @@ import os
 import uuid
 
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from claimsense import config
@@ -37,9 +37,54 @@ class RunRequest(BaseModel):
     crash_after_step: str | None = None   # fault injection only (ignored unless FAULT_INJECTION)
 
 
-def _plan(claim_id, req):
+class LiveRun:
+    """A run in progress. A reconnecting console JOINS it (buffered events, then live ones, then the result)
+    instead of starting a duplicate that would pay twice for the step in flight."""
+
+    def __init__(self, claim_id, user_id):
+        self.claim_id, self.user_id = claim_id, user_id
+        self.events, self.subs, self.task = [], set(), None
+
+    def publish(self, ev):
+        self.events.append(ev)
+        for q in self.subs:
+            q.put_nowait(ev)
+
+
+INFLIGHT: dict[str, LiveRun] = {}
+
+
+def _bad(code, message, status=400):
+    return JSONResponse({"error": {"code": code, "message": message, "request_id": "-"}}, status_code=status)
+
+
+def _start_or_join(claim_id, req):
+    """Return (run_id, live run, joined) or an error response."""
     run_id = req.run_id or f"{claim_id}:{uuid.uuid4().hex[:12]}"
-    return run_id, PIPE.checkpoints.has(run_id)
+    if not run_id.startswith(f"{claim_id}:"):
+        # a run belongs to one claim: never restore another claim's checkpoints into this one
+        return _bad("invalid_request", "run_id does not belong to this claim.")
+    if (live := INFLIGHT.get(run_id)) is not None:
+        if (live.claim_id, live.user_id) != (claim_id, req.user_id):
+            return _bad("not_found_or_forbidden", "No run is available for this request.", 404)   # never share
+        return run_id, live, True
+    resume = PIPE.checkpoints.has(run_id)          # resume re-checks entitlement at the boundary first
+    live = LiveRun(claim_id, req.user_id)
+    INFLIGHT[run_id] = live
+    live.publish({"kind": "run", "name": run_id, "resumed": resume})
+    live.task = asyncio.create_task(_execute(claim_id, req, run_id, resume, live))
+    return run_id, live, False
+
+
+async def _execute(claim_id, req, run_id, resume, live):
+    try:
+        res = await PIPE.run(claim_id, req.user_id, run_id=run_id, resume=resume,
+                             on_event=_crash_hook(req, live.publish))
+        res["resumed"] = resume
+        res["receipt"] = write_back(res)
+        return res
+    finally:
+        INFLIGHT.pop(run_id, None)
 
 
 def _crash_hook(req, forward=None):
@@ -67,32 +112,44 @@ def healthz():
 
 @app.post("/claims/{claim_id}/recommend")
 async def recommend(claim_id: str, req: RunRequest):
-    run_id, resume = _plan(claim_id, req)
-    result = await PIPE.run(claim_id, req.user_id, run_id=run_id, resume=resume, on_event=_crash_hook(req))
-    result["resumed"] = resume
-    result["receipt"] = write_back(result)
-    return result
+    started = _start_or_join(claim_id, req)
+    if isinstance(started, JSONResponse):
+        return started
+    run_id, live, joined = started
+    res = await asyncio.shield(live.task)          # a dropped client never cancels the shared run
+    return dict(res, joined=joined)
 
 
 @app.post("/claims/{claim_id}/recommend/stream")
 async def recommend_stream(claim_id: str, req: RunRequest):
-    q: asyncio.Queue = asyncio.Queue()
-
-    async def run():
-        try:
-            run_id, resume = _plan(claim_id, req)
-            res = await PIPE.run(claim_id, req.user_id, run_id=run_id, resume=resume,
-                                 on_event=_crash_hook(req, q.put_nowait))
-            res["resumed"] = resume
-            res["receipt"] = write_back(res)
-            await q.put({"kind": "result", "result": res})
-        except Exception as e:  # surfaced to the console, never swallowed
-            await q.put({"kind": "error", "error": f"{type(e).__name__}: {e}"})
-        await q.put(None)
+    started = _start_or_join(claim_id, req)
+    if isinstance(started, JSONResponse):
+        return started
+    run_id, live, joined = started
 
     async def gen():
-        task = asyncio.create_task(run())
-        while (ev := await q.get()) is not None:
-            yield json.dumps(ev, default=str) + "\n"
-        await task
+        q: asyncio.Queue = asyncio.Queue()
+        backlog = list(live.events)               # no await between snapshot and subscribe: nothing is missed
+        live.subs.add(q)
+        try:
+            if joined:
+                yield json.dumps({"kind": "joined", "name": run_id}) + "\n"
+            for ev in backlog:
+                yield json.dumps(ev, default=str) + "\n"
+            while True:
+                get = asyncio.ensure_future(q.get())
+                done, _ = await asyncio.wait({get, live.task}, return_when=asyncio.FIRST_COMPLETED)
+                if get in done:
+                    yield json.dumps(get.result(), default=str) + "\n"
+                    continue
+                get.cancel()
+                while not q.empty():
+                    yield json.dumps(q.get_nowait(), default=str) + "\n"
+                break
+            try:
+                yield json.dumps({"kind": "result", "result": dict(live.task.result(), joined=joined)}, default=str) + "\n"
+            except Exception as e:                # surfaced to the console, never swallowed
+                yield json.dumps({"kind": "error", "error": f"{type(e).__name__}: {e}"}) + "\n"
+        finally:
+            live.subs.discard(q)
     return StreamingResponse(gen(), media_type="application/x-ndjson")

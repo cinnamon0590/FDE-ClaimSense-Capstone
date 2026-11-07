@@ -1,7 +1,12 @@
 """ClaimSense adjuster console (Streamlit): run the co-pilot on a claim, watch the four agents work,
 and confirm or override the draft. Synthetic data only. The user picker stands in for the Cognito
 login that M3 adds; entitlement is still enforced by the boundary, not by this page.
+
+Refresh-safe (D-027): the run lives in the URL (?claim=&user=&run=). A refresh, a reopened tab or a console
+restart picks the same run up again: a finished run comes back from checkpoints at $0, an unfinished one
+resumes, and one still in progress is JOINED, never duplicated.
 """
+import hashlib
 import json
 import os
 import uuid
@@ -27,13 +32,18 @@ st.set_page_config(page_title="ClaimSense · AutoSure", page_icon="🚗", layout
 st.title("ClaimSense AI · first-pass co-pilot")
 st.caption("AutoSure Insurance motor claims · SYNTHETIC DATA · a licensed adjuster confirms every outcome")
 
+qp = st.query_params
 with st.sidebar:
-    user = st.selectbox("Signed in as (M3: Cognito)", list(USERS), format_func=USERS.get)
+    users = list(USERS)
+    user = st.selectbox("Signed in as (M3: Cognito)", users, format_func=USERS.get,
+                        index=users.index(qp["user"]) if qp.get("user") in USERS else 0)
     seen, options = set(), []
     for c in CASES:
         if c["claim"]["claim_id"] not in seen:
             seen.add(c["claim"]["claim_id"]); options.append(c)
-    case = st.selectbox("Claim", options, format_func=lambda c: f"{c['claim']['claim_id']} · {c['title']}")
+    ids = [c["claim"]["claim_id"] for c in options]
+    case = st.selectbox("Claim", options, format_func=lambda c: f"{c['claim']['claim_id']} · {c['title']}",
+                        index=ids.index(qp["claim"]) if qp.get("claim") in ids else 0)
     try:
         h = httpx.get(f"{ORCH}/healthz", timeout=3).json()
         st.success(f"brain: **{h['brain']}** · retrieval: {h['retrieval']}")
@@ -50,14 +60,32 @@ with c1:
                                            "injury_reported", "fraud_risk_score")}, expanded=False)
     st.write(case["claim"]["narrative"])
 
+# which run to show: a new one (button), or the one in the URL after a refresh / reopened tab / restart
+run_id, picked_up = None, False
 if run:
+    run_id = f"{claim_id}:{uuid.uuid4().hex[:12]}"
+    st.query_params.update(claim=claim_id, user=user, run=run_id)
+elif qp.get("run") and qp.get("claim") == claim_id and qp.get("user") == user:
+    have = st.session_state.get("result")
+    if not (have and have.get("run_id") == qp["run"]):
+        run_id, picked_up = qp["run"], True
+
+if run_id:
     st.session_state.pop("result", None)
-    with c2, st.status("Running Intake → Coverage → Assessment → Decision Draft", expanded=True) as status:
-        with httpx.stream("POST", f"{ORCH}/claims/{claim_id}/recommend/stream", json={"user_id": user}, timeout=180) as r:
+    label = "Picking up run after a refresh" if picked_up else "Running Intake → Coverage → Assessment → Decision Draft"
+    with c2, st.status(label, expanded=True) as status:
+        with httpx.stream("POST", f"{ORCH}/claims/{claim_id}/recommend/stream",
+                          json={"user_id": user, "run_id": run_id}, timeout=180) as r:
             for line in r.iter_lines():
                 ev = json.loads(line)
                 k = ev["kind"]
-                if k == "result":
+                if k == "joined":
+                    st.write("↻ **Joined the run already in progress** (nothing is run twice)")
+                elif k == "run" and ev.get("resumed"):
+                    st.write("↻ **Resuming from checkpoints**: finished agents are restored, not re-run or re-billed")
+                elif k == "checkpoint":
+                    st.write(f"　↺ {ev['name']}")
+                elif k == "result":
                     st.session_state["result"] = ev["result"]
                 elif k == "error":
                     st.error(ev["error"])
@@ -88,6 +116,8 @@ if res and res["claim_id"] == claim_id:
         st.subheader("Draft recommendation")
         st.markdown(f":{colour}-background[{label}] · verdict_source=`{card.get('verdict_source')}` · "
                     f"${res['cost_usd']:.4f} · {res['latency_s']}s · trace `{res.get('trace_id', '')}`")
+        how = "joined in progress" if res.get("joined") else ("resumed from checkpoints" if res.get("resumed") else "new run")
+        st.caption(f"run `{res.get('run_id')}` · {how} · refresh-safe: this page's URL picks it up again")
         if card.get("outcome") == "refused":
             st.error("No claim data returned. The caller isn't entitled to this claim (the reason is in the audit log only).")
         else:
@@ -111,14 +141,15 @@ if res and res["claim_id"] == claim_id:
                 col1, col2 = st.columns(2)
                 reason = col2.text_input("Override reason (required to override)")
                 final = col2.selectbox("Override to", ["approve", "flag_review", "route", "deny"])
+                def decide(body):
+                    # stable key per (draft, user, decision): a resubmit or double-click replays the receipt
+                    key = hashlib.sha256(json.dumps([rec["recommendation_id"], user, body], sort_keys=True).encode()).hexdigest()[:32]
+                    return httpx.post(f"{BOUNDARY}/recommendations/{rec['recommendation_id']}/confirm", json=body,
+                                      headers={"X-User-Id": user, "Idempotency-Key": key}).json()
                 if col1.button("Confirm as drafted"):
-                    st.json(httpx.post(f"{BOUNDARY}/recommendations/{rec['recommendation_id']}/confirm",
-                                       json={"action": "confirm"}, headers={"X-User-Id": user,
-                                       "Idempotency-Key": uuid.uuid4().hex}).json())
+                    st.json(decide({"action": "confirm"}))
                 if col2.button("Override"):
-                    st.json(httpx.post(f"{BOUNDARY}/recommendations/{rec['recommendation_id']}/confirm",
-                                       json={"action": "override", "final_outcome": final, "override_reason": reason},
-                                       headers={"X-User-Id": user, "Idempotency-Key": uuid.uuid4().hex}).json())
+                    st.json(decide({"action": "override", "final_outcome": final, "override_reason": reason}))
         with st.expander("Agent outputs (typed)"):
             for ev in res["events"]:
                 if ev["kind"] == "agent_end":

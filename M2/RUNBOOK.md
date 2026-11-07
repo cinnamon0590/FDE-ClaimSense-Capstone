@@ -32,6 +32,11 @@ money without a licensed adjuster.
    or re-billed, and the draft write-back is idempotent (no duplicate).
 3. Never run `docker compose down -v`: `-v` deletes the state volume (checkpoints, drafts, idempotency).
 
+### Adjuster's console tab was refreshed, closed or the console restarted
+1. Nothing to do. The page URL holds the run (`?claim=&user=&run=`); reopening it joins the run if it is still
+   going, or shows the result from checkpoints ($0). A closed tab never cancels the run.
+2. Ask the adjuster for the URL (or the `run_id` in the caption) if they need the draft again.
+
 ### Boundary restarted
 1. Drafts, idempotency records and confirmations persist in `/state/boundary.db`; the audit is reloaded.
 2. A draft is decided exactly once: a second confirm or override under a new key returns `already_confirmed`.

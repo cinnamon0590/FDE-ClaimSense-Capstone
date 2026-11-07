@@ -16,6 +16,13 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
   - **Persistent boundary.** Drafts and idempotency records persist in SQLite (`/state/boundary.db`, a local
     twin of the `claimsense-idempotency` DynamoDB table provisioned in M1). The audit log is reloaded from
     its append-only file at start-up.
+  - **Refresh-safe console sessions.** The console puts the run in its URL (`?claim=&user=&run=`). A refresh,
+    a reopened tab or a console restart picks the same run up again: a finished run comes back from
+    checkpoints at $0; an unfinished one resumes. A run **still in progress is joined**: the orchestrator
+    keeps a registry of in-flight runs, and a reconnecting request receives the buffered events, the live
+    ones and the result, so nothing runs (or is billed) twice. A closed tab never cancels the run. Only the
+    same user on the same claim can join, and a `run_id` is bound to its claim. Confirm/Override use a
+    stable idempotency key per draft, user and decision, so a resubmit replays the receipt.
   - **Decided exactly once.** A second confirm or override under a new key is refused with
     `already_confirmed` (added to the M1 error contract). The same key still replays the original receipt.
   - **Proof on every push.** CI's stack-smoke job runs `evals/restart_survival.py` against the real containers.

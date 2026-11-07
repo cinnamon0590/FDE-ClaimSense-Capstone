@@ -42,6 +42,10 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Restart-survivable state, proven on every push** (D-027): kill the orchestrator mid-claim and the run
   resumes from its checkpoints; restart the boundary and drafts, idempotency, confirmations and the audit
   trail are intact; a draft is decided exactly once.
+- **Refresh-safe console sessions** (D-027): the run lives in the page URL. Refreshing mid-claim *joins* the
+  run in progress (billed once); after a console restart the same URL brings the result back from checkpoints
+  in 0.02 s at $0; a double-clicked Confirm replays the original receipt
+  ([`evidence/console-refresh-resume.gif`](evidence/console-refresh-resume.gif)).
 - **Boundary hardening** (D-024): agents can't confirm even when acting for a human; drafts are validated
   and their money re-derived at the door; malformed bodies get a 400.
 - **OWASP Top 10 for LLM Apps (2025) mapping** ([`SECURITY.md`](SECURITY.md)): every risk → control → test → residual.
@@ -99,6 +103,7 @@ adjuster rather than out as a confident verdict (G8).
 | [`console-live-approve.jpg`](evidence/console-live-approve.jpg) · [`console-injection-guardrail-hold.jpg`](evidence/console-injection-guardrail-hold.jpg) | Live model verdict badge; CS-016 stopped at Intake and handed to a senior adjuster |
 | [`console-demo.gif`](evidence/console-demo.gif) | Live console on the pinned models: model verdict APPROVE ($0.021), then CS-016's injected invoice held at Intake ($0.0003) |
 | [`restart-survival.txt`](evidence/restart-survival.txt) | Orchestrator killed mid-claim → restarted by Docker → run resumed (Intake and Coverage restored, not re-billed); boundary restarted twice with no duplicate draft, confirmation replayed, second decision refused, audit intact |
+| [`console-session-resume.txt`](evidence/console-session-resume.txt) · [`console-refresh-resume.gif`](evidence/console-refresh-resume.gif) | Live console: refresh mid-run joins the run in progress ($0.021, billed once); console container restarted → same URL resumes from checkpoints ($0, 0.02 s); Confirm clicked twice → original receipt replayed |
 | [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
 | [`strands-port.json`](evidence/strands-port.json) | Coverage agent on Strands: cites only retrieved clauses; planted chunk quarantined |
 
@@ -146,7 +151,7 @@ by design, so a full recording never exists for them.
 colima start                      # Docker runtime (once per boot)
 cd M2 && make up                  # console: http://localhost:8510 (8501 is taken on this laptop)
 make smoke                        # one claim per outcome through the running stack
-make test                         # 51 tests incl. the guardrail fuzz gate and restart survival, $0
+make test                         # 55 tests incl. the guardrail fuzz gate, restart survival and session resume, $0
 make restart-test                 # kill/restart the running containers and prove nothing is lost ($0)
 make evals                        # the CI gate on the replay brain, $0
 make evals-live                   # the gate on the live models (needs OPENAI_API_KEY in M2/.env, ~$0.80)
