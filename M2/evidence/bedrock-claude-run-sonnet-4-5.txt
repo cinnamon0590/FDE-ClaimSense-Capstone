@@ -1,0 +1,14 @@
+ClaimSense on Claude via AWS Bedrock (MODEL_PROVIDER=bedrock) · 2026-11-07 19:29 UTC
+Intake/Assessment: Claude Haiku 4.5 · Coverage/Decision (+second opinion): Claude Sonnet 4.5 · us-east-1
+Same agents, tools, guardrails and gate as the OpenAI path; LiteLLM bridge (litellm.modify_params=True); lexical retrieval (no OpenAI calls)
+
+  PASS  CS-001  want approve                        got approve                        agents           $0.0453 20.92s 
+  PASS  CS-002  want deny                           got deny                           agents           $0.0464 19.79s poisoned_chunk_quarantined
+  PASS  CS-004  want route→total-loss-appraiser     got route→total-loss-appraiser     agents           $0.0478 21.44s 
+  PASS  CS-009  want flag_review→senior-adjuster    got flag_review→senior-adjuster    agents           $0.0506 22.23s poisoned_chunk_quarantined
+  PASS  CS-016  want flag_review→senior-adjuster    got flag_review→senior-adjuster    guardrail_hold   $0.0045 2.25s injection_detected
+  PASS  CS-019  want refused                        got refused                        boundary_refusal $0.0000 0.0s 
+
+6/6 correct · Bedrock token cost $0.1946 for 6 claims (list prices, observability.PRICES)
+For comparison, the OpenAI path (gpt-4o-mini/4o with prompt caching) measured $0.0166 per claim.
+BEDROCK PATH: PASS
