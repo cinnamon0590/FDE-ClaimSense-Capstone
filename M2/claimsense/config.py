@@ -42,7 +42,9 @@ MOCK_BRAIN = os.environ.get("MOCK_BRAIN", "1") == "1" or (MODEL_PROVIDER == "ope
 MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini-2024-07-18")    # Intake, Assessment (volume steps)
 MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o-2024-08-06")       # Coverage, Decision Draft (the money steps)
 BEDROCK_FAST = os.environ.get("BEDROCK_FAST", "bedrock/converse/us.anthropic.claude-haiku-4-5-20251001-v1:0")
-BEDROCK_SMART = os.environ.get("BEDROCK_SMART", "bedrock/converse/us.anthropic.claude-sonnet-4-5-20250929-v1:0")
+# Sonnet 4.5 went LEGACY on 2026-10-08 (end of life 2027-04-08; AWS Health notice 2026-11-08), so the smart tier uses
+# Sonnet 4.6, the newest Sonnet this account may invoke (5 / 5.5 are not enabled for it). D-029.
+BEDROCK_SMART = os.environ.get("BEDROCK_SMART", "bedrock/converse/us.anthropic.claude-sonnet-4-6")
 if MODEL_PROVIDER == "bedrock":   # the pilot's region (M1); LiteLLM otherwise picks its own default region
     os.environ.setdefault("AWS_REGION_NAME", os.environ.get("AWS_REGION", "us-east-1"))
 # 3 · a second, independent Decision Draft on every live claim; if the two disagree, a human decides (D-025)

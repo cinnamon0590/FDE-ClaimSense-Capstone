@@ -76,10 +76,14 @@ money without a licensed adjuster.
 3. Open an issue with the failing case IDs; add them to the eval set before the fix (the gate then
    protects against a repeat).
 
-### Adopt a new model snapshot
+### Adopt a new model snapshot (or respond to a model-deprecation notice)
 1. Set `MODEL_SMART` / `MODEL_FAST` to the new dated snapshot in `M2/.env`.
 2. `make release` (3 live runs). Adopt only if the release gate passes; re-record replays (`make record`).
 3. Update `config.py` defaults and `observability.PRICES`; commit with the stability report.
+4. **Bedrock:** `aws bedrock list-foundation-models --by-provider anthropic` shows each model's lifecycle
+   (ACTIVE / LEGACY). Test-invoke the replacement, since a listed model may still be "not available for this account".
+   Then set `BEDROCK_SMART` / `BEDROCK_FAST`, update the AgentCore role ARNs and re-run the 6-claim Bedrock check.
+   Example: D-029, Sonnet 4.5 → 4.6 after the AWS Health notice of 2026-11-08.
 
 ## Release checklist
 - [ ] `make test`: unit, integration, guardrail fuzz and restart-survival tests ($0)

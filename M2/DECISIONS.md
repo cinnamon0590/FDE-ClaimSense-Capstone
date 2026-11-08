@@ -6,6 +6,26 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-029 · 2026-11-08 · Bedrock smart tier: Sonnet 4.5 (deprecated) → Sonnet 4.6
+- **Trigger:** an AWS Health notice (`AWS_BEDROCK_PLANNED_LIFECYCLE_EVENT`, us-east-1) after the D-028 Bedrock check.
+  `anthropic.claude-sonnet-4-5-20250929-v1:0` entered **Legacy** on 2026-10-08, moves to extended access on
+  2027-01-08 and **stops working on 2027-04-08**. Legacy models also get no new quota increases.
+- **Decision:** the Bedrock option's smart tier (Coverage, Decision Draft, second opinion) now defaults to
+  `us.anthropic.claude-sonnet-4-6`. It is ACTIVE and the newest Sonnet this account can invoke: Sonnet 5 and 5.5
+  are listed but return "not available for this account". Haiku 4.5 stays on the fast tier; it is still ACTIVE.
+  Changed: the `config.py` default, `observability.PRICES`, and the AgentCore execution-role ARNs.
+- **Evidence:** the same 6 claims, **6/6 correct** on Haiku 4.5 + Sonnet 4.6 at $0.19 (Sonnet 4.5 was 6/6 at
+  $0.195), with lower latency. The Sonnet 4.5 run is kept as history.
+- **Impact on the default path:** none. ClaimSense runs on OpenAI (pinned dated snapshots, D-025) unless
+  `MODEL_PROVIDER=bedrock`. The OpenAI pipeline, its replays and CI's live gate are unchanged.
+- **Rule going forward:** treat an AWS Health model-lifecycle event like a dependency CVE. Check the replacement's
+  lifecycle status, run the release check on it, and switch the pinned ID in one reviewed change
+  (RUNBOOK "Adopt a new model snapshot").
+- **Not adopted:** Bedrock Advanced Prompt Optimization. The prompts are short and structured, and 6/6 on the new
+  model needed no prompt change.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** Sonnet 4.6 enters Legacy, or a newer Sonnet is enabled
+  for the account.
+
 ## D-028 · 2026-11-07 · Closing the W15 deck: all six primitives, streaming, caching, the queue, AgentCore, leaderboard, Bedrock
 - **Context:** a line-by-line re-check against the W15 deck, the companion notebook and the class codebase
   (`labs/w15-build`) found items the floor didn't force but the class asks for. All are now in.
