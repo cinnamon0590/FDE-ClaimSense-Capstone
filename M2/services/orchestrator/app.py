@@ -8,6 +8,12 @@ Restart-survivable (D-027): every result carries its `run_id`. POST the same `ru
 restart and the run RESUMES from its checkpoints (SQLite on the /state volume): finished agents are not re-run
 or re-paid, and the write-back reuses the same idempotency key, so the boundary never stores a duplicate draft.
 This is the image CI pushes to ECR (claimsense/orchestrator) once the eval gate passes.
+
+Identity (D-030): the caller is the adjuster in the `Authorization: Bearer <JWT>` header, verified against the
+issuer's JWKS and the directory. A `user_id` in the body is only a hint: if it names someone else the request is
+refused. The token is forwarded to the boundary, so every agent data access is made AS that adjuster, on behalf
+of a named agent. (CLAIMSENSE_ALLOW_HEADER_IDENTITY=1 accepts the body user_id instead: tests, and the IAM-signed
+Lambda rung, where AWS IAM authenticates the caller.)
 """
 import asyncio
 import hashlib
@@ -15,17 +21,41 @@ import json
 import os
 import uuid
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from claimsense import config
 from claimsense.assistant import Assistant
+from claimsense.boundary_client import CALLER_TOKEN, users
+from claimsense.identity import DevIssuer, IdentityError, Verifier, header_identity_allowed, resolve
 from claimsense.pipeline import Pipeline
 
 app = FastAPI(title="ClaimSense orchestrator")
 PIPE = Pipeline()
 ASSISTANT = Assistant(PIPE.brain, PIPE.boundary, PIPE.index, PIPE.classifier)
+DIRECTORY = users()
+# verify against the boundary's published keys (M3: COGNITO_JWKS_URL); in-process, against the local dev issuer
+VERIFIER = (Verifier(jwks_url=os.environ["COGNITO_JWKS_URL"]) if os.environ.get("COGNITO_JWKS_URL")
+            else Verifier(jwks_url=f"{config.BOUNDARY_URL.rstrip('/')}/.well-known/jwks.json") if config.BOUNDARY_URL
+            else Verifier(jwks=DevIssuer().jwks()))
+
+
+def authenticate(authorization, claimed_user):
+    """Return the verified user id (and bind their token to this request), or an error response."""
+    try:
+        if authorization:
+            user = resolve(authorization, None, VERIFIER, DIRECTORY)
+            CALLER_TOKEN.set(authorization.partition(" ")[2].strip())
+        elif header_identity_allowed() and claimed_user:
+            user = claimed_user
+        else:
+            raise IdentityError("authentication required")
+    except IdentityError:
+        return _bad("unauthenticated", "A valid ClaimSense token is required.", 401)
+    if claimed_user and claimed_user != user:
+        return _bad("not_found_or_forbidden", "No claim is available for this request.", 403)   # never act as another
+    return user
 
 
 # Test-only fault injection for the restart-survival proof (evals/restart_survival.py). Off unless the
@@ -34,7 +64,7 @@ FAULT_INJECTION = os.environ.get("CLAIMSENSE_FAULT_INJECTION") == "1"
 
 
 class RunRequest(BaseModel):
-    user_id: str
+    user_id: str | None = None            # optional hint; the identity is the token's
     run_id: str | None = None             # resume this run if it has checkpoints; else start it with this id
     crash_after_step: str | None = None   # fault injection only (ignored unless FAULT_INJECTION)
 
@@ -113,7 +143,11 @@ def healthz():
 
 
 @app.post("/claims/{claim_id}/recommend")
-async def recommend(claim_id: str, req: RunRequest):
+async def recommend(claim_id: str, req: RunRequest, authorization: str | None = Header(None)):
+    user = authenticate(authorization, req.user_id)
+    if isinstance(user, JSONResponse):
+        return user
+    req.user_id = user
     started = _start_or_join(claim_id, req)
     if isinstance(started, JSONResponse):
         return started
@@ -123,7 +157,11 @@ async def recommend(claim_id: str, req: RunRequest):
 
 
 @app.post("/claims/{claim_id}/recommend/stream")
-async def recommend_stream(claim_id: str, req: RunRequest):
+async def recommend_stream(claim_id: str, req: RunRequest, authorization: str | None = Header(None)):
+    user = authenticate(authorization, req.user_id)
+    if isinstance(user, JSONResponse):
+        return user
+    req.user_id = user
     started = _start_or_join(claim_id, req)
     if isinstance(started, JSONResponse):
         return started
@@ -158,27 +196,31 @@ async def recommend_stream(claim_id: str, req: RunRequest):
 
 
 class AskRequest(BaseModel):
-    user_id: str
+    user_id: str | None = None
     question: str
 
 
 @app.post("/claims/{claim_id}/ask")
-async def ask(claim_id: str, req: AskRequest):
+async def ask(claim_id: str, req: AskRequest, authorization: str | None = Header(None)):
     """Ask ClaimSense (D-028): streamed NDJSON (agent switches, tool calls, the handoff, text deltas, then the
     answer). The conversation is an SDK SQLiteSession per adjuster per claim, so it survives restarts."""
+    user = authenticate(authorization, req.user_id)
+    if isinstance(user, JSONResponse):
+        return user
     if not req.question.strip() or len(req.question) > 2000:
         return _bad("invalid_request", "Ask a question of 1 to 2,000 characters.")
     q: asyncio.Queue = asyncio.Queue()
 
     async def run():
         try:
-            await ASSISTANT.ask(claim_id, req.user_id, req.question, on_event=q.put_nowait)
+            await ASSISTANT.ask(claim_id, user, req.question, on_event=q.put_nowait)
         except Exception as e:  # surfaced to the console, never swallowed
             await q.put({"kind": "error", "error": f"{type(e).__name__}: {e}"})
         await q.put(None)
 
+    task = asyncio.create_task(run())                 # created here, so it carries this request's token
+
     async def gen():
-        task = asyncio.create_task(run())
         while (ev := await q.get()) is not None:
             yield json.dumps(ev, default=str) + "\n"
         await task
@@ -186,7 +228,10 @@ async def ask(claim_id: str, req: AskRequest):
 
 
 @app.get("/claims/{claim_id}/ask/history")
-async def ask_history(claim_id: str, user_id: str):
+async def ask_history(claim_id: str, user_id: str | None = None, authorization: str | None = Header(None)):
+    user_id = authenticate(authorization, user_id)
+    if isinstance(user_id, JSONResponse):
+        return user_id
     claim = PIPE.boundary.claim(user_id, claim_id, "agent:ask-claimsense")     # entitlement first
     if "error" in claim:
         return _bad("not_found_or_forbidden", "No conversation is available for this request.", 404)

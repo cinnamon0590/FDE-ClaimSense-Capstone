@@ -9,3 +9,5 @@ httpx==0.28.1
 streamlit==1.67.0
 pytest==9.2.0
 boto3==1.43.125
+PyJWT==2.15.1
+cryptography==50.0.2

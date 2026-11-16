@@ -1,0 +1,38 @@
+ClaimSense RBAC checks on the running stack · 2026-11-16 06:37:57
+orchestrator brain=replay · identity: signed JWT (dev issuer, Cognito-shaped) · groups from the directory, never from the client
+
+CLM-2024-1800 · alice · adjuster
+     alice first pass: approve → - · draft REC-e638a22afcfd
+  PASS  a human (alice) confirms  (stays with the adjuster)
+  PASS  alice (adjuster) can now run the assessment  (approve · agents)
+
+CLM-2024-1873 · carol · fraud-investigator
+  PASS  carol refused before any hand-off
+     alice first pass: route → fraud-investigator · draft REC-30e442771209
+  PASS  a human (alice) confirms  (handed off adjuster -> fraud-investigator)
+  PASS  carol (fraud-investigator) can now run the assessment  (route · agents)
+  PASS  alice no longer can (least privilege)
+
+CLM-2024-1946 · eve · total-loss-appraiser
+  PASS  eve refused before any hand-off
+     alice first pass: route → total-loss-appraiser · draft REC-847b3f85ee67
+  PASS  a human (alice) confirms  (handed off adjuster -> total-loss-appraiser)
+  PASS  eve (total-loss-appraiser) can now run the assessment  (route · agents)
+  PASS  alice no longer can (least privilege)
+
+CLM-2024-2019 · bob · senior-adjuster
+  PASS  bob (senior) can open it before any hand-off, by design
+     alice first pass: flag_review → senior-adjuster · draft REC-67fc946e2f1e
+  PASS  a human (alice) confirms  (handed off adjuster -> senior-adjuster)
+  PASS  bob (senior-adjuster) can now run the assessment  (flag_review · agents)
+  PASS  alice no longer can (least privilege)
+
+Identity rules
+  PASS  no token -> 401
+  PASS  bare X-User-Id header at the boundary -> 401
+  PASS  self-promoted (tampered) token -> 401
+  PASS  alice's token with body user_id=bob -> 403
+  PASS  dave (customer service) gets no claim data
+  PASS  hand-offs and refused logins are in the audit trail  (3 reassignments, 2 refused authentications)
+
+RBAC CHECKS: PASS

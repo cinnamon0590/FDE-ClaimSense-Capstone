@@ -24,7 +24,9 @@ services:
   boundary:
     <<: *platform
     command: ["uvicorn", "boundary.app:app", "--host", "0.0.0.0", "--port", "8002"]
-    environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl }
+    # CLAIMSENSE_DEV_ISSUER: the local stand-in for Cognito's hosted login (synthetic sandbox only, D-030)
+    environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl,
+                   CLAIMSENSE_DEV_ISSUER: "1" }
     volumes: ["state:/state"]
     ports: ["127.0.0.1:8002:8002"]
     healthcheck: *hc

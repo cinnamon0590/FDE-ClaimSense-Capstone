@@ -25,7 +25,9 @@ ROLE_ARN=$(aws iam get-role --role-name "$ROLE" --query Role.Arn --output text)
 # The function reads the key from Secrets Manager at start-up (OPENAI_SECRET_ID); it is never in an env var,
 # the image or git. MOCK_BRAIN=0 asks for the live models; with the M1 placeholder still in the secret the
 # service falls back to the replay brain by itself.
-ENV="Variables={MOCK_BRAIN=0,OPENAI_SECRET_ID=claimsense/openai-api-key,CLAIMSENSE_STATE=/tmp/state}"
+# The Function URL uses AWS_IAM auth (IAM-signed invoke), so the caller is authenticated by AWS; the body user_id
+# is accepted on that basis (D-030). M3 puts Cognito in front instead.
+ENV="Variables={MOCK_BRAIN=0,OPENAI_SECRET_ID=claimsense/openai-api-key,CLAIMSENSE_STATE=/tmp/state,CLAIMSENSE_ALLOW_HEADER_IDENTITY=1}"
 
 if aws lambda get-function --function-name "$FN" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$FN" --image-uri "$IMAGE" >/dev/null

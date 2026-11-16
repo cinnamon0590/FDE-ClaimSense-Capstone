@@ -111,6 +111,8 @@ jobs:
         run: pip install httpx==0.28.1 && python3 M2/evals/stack_smoke.py
       - name: Restart survival - kill the orchestrator mid-claim, restart the boundary twice (D-027)
         run: python3 M2/evals/restart_survival.py
+      - name: RBAC - role-to-claim hand-offs and JWT identity on the running containers (D-030)
+        run: python3 M2/evals/rbac_check.py
       - name: Logs on failure
         if: failure()
         working-directory: M2

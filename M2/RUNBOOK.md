@@ -41,6 +41,11 @@ money without a licensed adjuster.
 1. That is the grounding tripwire working: the draft answer cited a clause that wasn't retrieved, or another claim.
 2. The withheld text is not kept in the conversation. If it recurs for a sound question, add it as an eval case.
 
+### A specialist says "No claim is available" for a claim routed to them
+1. The hand-off happens when a HUMAN confirms the route (D-030). Check the audit for `reassign_claim` on that claim
+   (`/audit`, senior adjusters only). If the draft is still pending, it hasn't been confirmed yet.
+2. Never widen a role to work around it. Confirm the draft (or override to the right route) and the claim moves.
+
 ### Boundary restarted
 1. Drafts, idempotency records and confirmations persist in `/state/boundary.db`; the audit is reloaded.
 2. A draft is decided exactly once: a second confirm or override under a new key returns `already_confirmed`.

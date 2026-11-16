@@ -13,6 +13,9 @@ from pathlib import Path
 
 import httpx
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _auth import auth  # noqa: E402
+
 M2 = Path(__file__).resolve().parents[1]
 ORCH, BOUNDARY = "http://127.0.0.1:8003", "http://127.0.0.1:8002"
 COMPOSE = ["docker", "compose", "-f", "docker-compose.yml", "-f", "restart-test.compose.yml"]
@@ -57,7 +60,7 @@ def main():
     before = restarts("orchestrator")
     try:
         httpx.post(f"{ORCH}/claims/{CLAIM}/recommend", json={"user_id": USER, "run_id": run_id,
-                                                             "crash_after_step": "coverage"}, timeout=60)
+                                                             "crash_after_step": "coverage"}, headers=auth(USER), timeout=60)
         died = False
     except httpx.HTTPError as e:
         died = True
@@ -69,7 +72,7 @@ def main():
           f"RestartCount {before} -> {restarts('orchestrator')}")
 
     out += ["", "2 · Resume the same run_id on the restarted process"]
-    r = httpx.post(f"{ORCH}/claims/{CLAIM}/recommend", json={"user_id": USER, "run_id": run_id}, timeout=120).json()
+    r = httpx.post(f"{ORCH}/claims/{CLAIM}/recommend", json={"user_id": USER, "run_id": run_id}, headers=auth(USER), timeout=120).json()
     restored = [e["name"].replace(" restored from checkpoint", "") for e in r["events"] if e["kind"] == "checkpoint"]
     started = [e["name"] for e in r["events"] if e["kind"] == "agent_start"]
     check("run resumed from checkpoints", r.get("resumed") is True)
@@ -85,7 +88,7 @@ def main():
     out += ["", "3 · Restart the boundary; replay the same run"]
     sh("restart", "boundary")
     wait_healthy(BOUNDARY)
-    again = httpx.post(f"{ORCH}/claims/{CLAIM}/recommend", json={"user_id": USER, "run_id": run_id}, timeout=120).json()
+    again = httpx.post(f"{ORCH}/claims/{CLAIM}/recommend", json={"user_id": USER, "run_id": run_id}, headers=auth(USER), timeout=120).json()
     check("draft survived the boundary restart; no duplicate written",
           again["receipt"]["recommendation_id"] == rec and again["receipt"]["idempotent_replay"] is True,
           f"receipt {again['receipt']['recommendation_id']} idempotent_replay={again['receipt']['idempotent_replay']}")
@@ -94,29 +97,29 @@ def main():
     out += ["", "4 · A human confirms; restart the boundary again; the decision holds exactly once"]
     key = uuid.uuid4().hex
     conf = httpx.post(f"{BOUNDARY}/recommendations/{rec}/confirm", json={"action": "confirm"},
-                      headers={"X-User-Id": USER, "Idempotency-Key": key}).json()
+                      headers=auth(USER, **{"Idempotency-Key": key})).json()
     check("alice confirms", conf.get("confirmed_by") == USER)
-    audit_before = len(httpx.get(f"{BOUNDARY}/audit?limit=100000", headers={"X-User-Id": "bob"}).json()["rows"])
+    audit_before = len(httpx.get(f"{BOUNDARY}/audit?limit=100000", headers=auth("bob")).json()["rows"])
     sh("restart", "boundary")
     wait_healthy(BOUNDARY)
     replay = httpx.post(f"{BOUNDARY}/recommendations/{rec}/confirm", json={"action": "confirm"},
-                        headers={"X-User-Id": USER, "Idempotency-Key": key}).json()
+                        headers=auth(USER, **{"Idempotency-Key": key})).json()
     check("same key after restart replays the original receipt", replay.get("idempotent_replay") is True)
     second = httpx.post(f"{BOUNDARY}/recommendations/{rec}/confirm",
                         json={"action": "override", "final_outcome": "deny", "override_reason": "second try"},
-                        headers={"X-User-Id": USER, "Idempotency-Key": uuid.uuid4().hex}).json()
+                        headers=auth(USER, **{"Idempotency-Key": uuid.uuid4().hex})).json()
     check("a second decision under a new key is refused", second.get("error", {}).get("code") == "already_confirmed")
-    audit_after = len(httpx.get(f"{BOUNDARY}/audit?limit=100000", headers={"X-User-Id": "bob"}).json()["rows"])
+    audit_after = len(httpx.get(f"{BOUNDARY}/audit?limit=100000", headers=auth("bob")).json()["rows"])
     check("audit trail survived both restarts", audit_after >= audit_before, f"{audit_before} rows before, {audit_after} after")
 
     out += ["", "5 · Ask ClaimSense: the SDK session survives an orchestrator restart"]
     q = "What did ClaimSense recommend and why?"
-    lines = httpx.post(f"{ORCH}/claims/{CLAIM}/ask", json={"user_id": USER, "question": q}, timeout=120).text
+    lines = httpx.post(f"{ORCH}/claims/{CLAIM}/ask", json={"user_id": USER, "question": q}, headers=auth(USER), timeout=120).text
     answer = [__import__("json").loads(x) for x in lines.splitlines()][-1]
     check("question answered (streamed)", answer.get("kind") == "answer" and answer.get("answer"))
     sh("restart", "orchestrator")
     wait_healthy(ORCH)
-    hist = httpx.get(f"{ORCH}/claims/{CLAIM}/ask/history", params={"user_id": USER}).json()["messages"]
+    hist = httpx.get(f"{ORCH}/claims/{CLAIM}/ask/history", params={"user_id": USER}, headers=auth(USER)).json()["messages"]
     check("conversation still there after the restart", any(m["role"] == "user" and m["text"] == q for m in hist),
           f"{len(hist)} messages in session {CLAIM}:{USER}")
 
