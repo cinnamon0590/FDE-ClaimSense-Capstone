@@ -11,6 +11,9 @@ from pathlib import Path
 
 import httpx
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _auth import auth  # noqa: E402
+
 ORCH, BOUNDARY = "http://localhost:8003", "http://localhost:8002"
 RUNS = [("CS-001", "CLM-2024-1800", "alice", "approve"), ("CS-002", "CLM-2024-3104", "alice", "deny"),
         ("CS-004", "CLM-2024-1946", "alice", "route"), ("CS-009", "CLM-2024-3412", "alice", "flag_review"),
@@ -24,7 +27,7 @@ def main():
     ok = True
     receipts = {}
     for case_id, claim, user, want in RUNS:
-        r = httpx.post(f"{ORCH}/claims/{claim}/recommend", json={"user_id": user}, timeout=180).json()
+        r = httpx.post(f"{ORCH}/claims/{claim}/recommend", json={"user_id": user}, headers=auth(user), timeout=180).json()
         card = r["response"]
         got = card["outcome"]
         ok &= got == want
@@ -37,13 +40,13 @@ def main():
     # a human confirms the approval; the agent identity may not
     rid = receipts["CLM-2024-1800"]
     agent = httpx.post(f"{BOUNDARY}/recommendations/{rid}/confirm", json={"action": "confirm"},
-                       headers={"X-User-Id": "agent:decision-draft", "Idempotency-Key": uuid.uuid4().hex}).json()
+                       headers=auth("alice", **{"X-On-Behalf-Of-Agent": "agent:decision-draft", "Idempotency-Key": uuid.uuid4().hex})).json()
     human = httpx.post(f"{BOUNDARY}/recommendations/{rid}/confirm", json={"action": "confirm"},
-                       headers={"X-User-Id": "alice", "Idempotency-Key": uuid.uuid4().hex}).json()
+                       headers=auth("alice", **{"Idempotency-Key": uuid.uuid4().hex})).json()
     ok &= agent.get("error", {}).get("code") == "human_confirmation_required" and human.get("confirmed_by") == "alice"
     out += ["", f"agent tries to confirm {rid}: {agent.get('error', {}).get('code')}",
             f"alice confirms {rid}: final_outcome={human.get('final_outcome')} confirmed_by={human.get('confirmed_by')}"]
-    audit = httpx.get(f"{BOUNDARY}/audit?limit=400", headers={"X-User-Id": "bob"}).json()["rows"]
+    audit = httpx.get(f"{BOUNDARY}/audit?limit=400", headers=auth("bob")).json()["rows"]
     denies = [a for a in audit if a["decision"] == "deny"]
     out += [f"audit rows: {len(audit)} (denials recorded: {len(denies)}; e.g. {denies[0]['action']} by "
             f"{denies[0]['user_id']} reason={denies[0]['reason']})" if denies else f"audit rows: {len(audit)}",

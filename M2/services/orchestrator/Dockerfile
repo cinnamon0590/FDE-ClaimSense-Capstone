@@ -9,7 +9,7 @@ COPY --from=lambda-adapter /lambda-adapter /opt/extensions/lambda-adapter
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CLAIMSENSE_ROOT=/app PYTHONPATH=/app/M2:/app/M2/services \
     CLAIMSENSE_STATE=/state PORT=8003 AWS_LWA_READINESS_CHECK_PATH=/healthz
 RUN pip install --no-cache-dir openai-agents==0.24.0 openai==3.46.0 pydantic==2.14.3 numpy==2.5.4 \
-        fastapi==0.162.0 uvicorn==0.54.0 httpx==0.28.1 boto3==1.43.125 \
+        fastapi==0.162.0 uvicorn==0.54.0 httpx==0.28.1 boto3==1.43.125 PyJWT==2.15.1 cryptography==50.0.2 \
     && useradd --create-home --uid 10001 app && mkdir -p /state && chown app /state
 WORKDIR /app
 COPY M0/evals/score.py M0/evals/cases.json M0/evals/

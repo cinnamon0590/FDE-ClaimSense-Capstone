@@ -7,6 +7,7 @@ Two transports behind one interface:
 Entitlement, anti-enumeration, audit and idempotency are enforced by the boundary, in code,
 before any data reaches an agent.
 """
+import contextvars
 import json
 import sqlite3
 from pathlib import Path
@@ -65,6 +66,31 @@ class LocalBoundary(ref.Boundary):
         self.recommendations = PersistentDict(state_path, "recommendations")
         self._idem = PersistentDict(state_path, "idempotency", encode_key=lambda k: json.dumps(list(k)),
                                     decode_key=lambda s: tuple(json.loads(s)))
+        self.assignments = PersistentDict(state_path, "assignments")      # claim_id -> group, after a hand-off
+        for claim_id, group in self.assignments.items():
+            if claim_id in self.claims:
+                self.claims[claim_id]["assigned_group"] = group
+
+    # ── routing hand-off (D-030): a confirmed route moves the claim into that specialist group's queue ─────
+    HANDOFF_GROUPS = {"fraud-investigator", "total-loss-appraiser", "injury-specialist", "senior-adjuster"}
+
+    def _hand_off(self, caller, rec, request):
+        """After a HUMAN confirms (or overrides to) route/flag_review, reassign the claim to the target group, so
+        the specialist can open it and the first-pass adjuster no longer can (least privilege). Audited."""
+        card = rec["card"]
+        outcome = request.get("final_outcome") or card.get("outcome")
+        target = request.get("route_to") or card.get("route_to")
+        if outcome not in ("route", "flag_review") or target not in self.HANDOFF_GROUPS:
+            return None
+        claim = self.claims[rec["claim_id"]]
+        before = claim["assigned_group"]
+        if before == target:
+            return None
+        claim["assigned_group"] = target
+        if hasattr(self, "assignments"):
+            self.assignments[rec["claim_id"]] = target
+        self._audit(caller, "reassign_claim", rec["claim_id"], "allow", f"{before} -> {target} (confirmed {outcome})")
+        return {"claim_id": rec["claim_id"], "from": before, "to": target}
 
     def post_recommendation(self, caller, request, agent="decision-draft"):
         receipt = super().post_recommendation(caller, request, agent)
@@ -121,6 +147,10 @@ class LocalBoundary(ref.Boundary):
         rid = request.get("recommendation_id")
         rec = self.recommendations.get(rid)
         slot = (caller["user_id"], "confirm_recommendation", request.get("idempotency_key"))
+        if slot in self._idem and self._idem[slot][0] == ref._fingerprint(request):
+            # the decider's own resubmit replays the receipt, even after the hand-off moved the claim away from them
+            self._audit(caller, "confirm_recommendation", rid, "replay", "same key, same payload")
+            return dict(self._idem[slot][1], idempotent_replay=True)
         if rec and rec.get("confirmation") and slot not in self._idem and self.entitled(caller, self.claims[rec["claim_id"]]):
             # a draft is decided exactly once: a second confirm/override under a NEW key is a conflict, not an overwrite
             # (the same key still replays the original receipt, via the reference idempotency rule)
@@ -131,6 +161,9 @@ class LocalBoundary(ref.Boundary):
         out = super().confirm_recommendation(caller, request)
         if isinstance(self.recommendations, PersistentDict) and rid in self.recommendations:
             self.recommendations.save(rid)                 # the confirmation was written into the record in place
+        if "error" not in out and not out.get("idempotent_replay") and rid in self.recommendations:
+            if (moved := self._hand_off(caller, self.recommendations[rid], request)):
+                out = dict(out, handed_off=moved)
         return out
 
     def get_document(self, caller, doc_id, agent=None):
@@ -184,18 +217,30 @@ class LocalBoundary(ref.Boundary):
         return self.confirm_recommendation(caller, request)
 
 
+# The adjuster's token for THIS request (set by the orchestrator per request; asyncio tasks inherit it), forwarded
+# to the boundary so every agent data access is made as that adjuster, on behalf of a named agent (D-030).
+CALLER_TOKEN: contextvars.ContextVar = contextvars.ContextVar("claimsense_caller_token", default=None)
+
+
 class HttpBoundary:
-    """Client for services/boundary. Identity travels in headers today; M3 swaps in a Cognito JWT."""
+    """Client for services/boundary. Identity is the caller's JWT (forwarded); X-User-Id is only honoured by a
+    boundary started with CLAIMSENSE_ALLOW_HEADER_IDENTITY=1 (tests). M3 points this at API Gateway + Cognito."""
 
     def __init__(self, base_url):
         import httpx
         self.http = httpx.Client(base_url=base_url.rstrip("/"), timeout=15)
 
-    def _get(self, path, user_id, agent):
-        h = {"X-User-Id": user_id}
+    @staticmethod
+    def _headers(user_id, agent=None, **extra):
+        h = {"X-User-Id": user_id} | extra
+        if (token := CALLER_TOKEN.get()):
+            h["Authorization"] = f"Bearer {token}"
         if agent:
             h["X-On-Behalf-Of-Agent"] = agent
-        return self.http.get(path, headers=h).json()
+        return h
+
+    def _get(self, path, user_id, agent, **params):
+        return self.http.get(path, headers=self._headers(user_id, agent), params=params or None).json()
 
     def claim(self, user_id, claim_id, agent=None):
         return self._get(f"/claims/{claim_id}", user_id, agent)
@@ -209,29 +254,20 @@ class HttpBoundary:
     def document(self, user_id, doc_id, agent=None):
         return self._get(f"/documents/{doc_id}", user_id, agent)
 
+    def pending(self, user_id):
+        return self._get("/recommendations", user_id, None, status="pending")
+
+    def draft(self, user_id, claim_id, agent=None):
+        return self._get(f"/claims/{claim_id}/recommendations/latest", user_id, agent)
+
     def recommend(self, user_id, claim_id, card, idempotency_key, agent="agent:decision-draft"):
         return self.http.post(f"/claims/{claim_id}/recommendations", json={"decision_card": card},
-                              headers={"X-User-Id": user_id, "X-On-Behalf-Of-Agent": agent,
-                                       "Idempotency-Key": idempotency_key}).json()
+                              headers=self._headers(user_id, agent, **{"Idempotency-Key": idempotency_key})).json()
 
     def confirm(self, user_id, request, agent=None):
-        headers = {"X-User-Id": user_id, "Idempotency-Key": request["idempotency_key"]}
-        if agent:
-            headers["X-On-Behalf-Of-Agent"] = agent
         return self.http.post(f"/recommendations/{request['recommendation_id']}/confirm", json=request,
-                              headers=headers).json()
-
-
-def _http_pending(self, user_id):
-    return self.http.get("/recommendations", params={"status": "pending"}, headers={"X-User-Id": user_id}).json()
-
-
-def _http_draft(self, user_id, claim_id, agent=None):
-    h = {"X-User-Id": user_id} | ({"X-On-Behalf-Of-Agent": agent} if agent else {})
-    return self.http.get(f"/claims/{claim_id}/recommendations/latest", headers=h).json()
-
-
-HttpBoundary.pending, HttpBoundary.draft = _http_pending, _http_draft
+                              headers=self._headers(user_id, agent,
+                                                    **{"Idempotency-Key": request["idempotency_key"]})).json()
 
 
 def make_boundary(url=""):

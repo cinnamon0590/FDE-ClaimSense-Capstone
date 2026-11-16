@@ -6,6 +6,37 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-030 · 2026-11-16 · RBAC: routing hands the claim to the specialist; identity is a signed token, not a header
+- **Trigger:** a check against the reference Learning UI ("RBAC_Checks"). Its example pairings, CLM-2024-1800
+  alice·adjuster, 1873 carol·fraud-investigator, 1946 eve·total-loss-appraiser and 2019 bob·senior-adjuster, plus
+  an optional JWT routing data access through the boundary.
+- **Gaps found:**
+  1. carol and eve could open **no** claim. Every claim stayed `assigned_group=adjuster`; a confirmed route never
+     moved it.
+  2. The boundary and orchestrator trusted `X-User-Id` (and a body `user_id`), so anyone reaching them could say
+     "I am bob".
+- **Decision:**
+  - **Routing hand-off.** When a HUMAN confirms (or overrides to) `route → X` or `flag_review → senior-adjuster`,
+    the boundary reassigns the claim to group X. The specialist can open it; the first-pass adjuster can no longer
+    (least privilege). Senior adjusters see all. The move is audited (`reassign_claim`) and persisted on `/state`.
+    The decider's own resubmit still replays the original receipt.
+  - **Identity = a signed ID token.** RS256, verified against the issuer's JWKS; issuer, audience, `token_use=id`
+    and expiry are required. `alg: none` and other algorithms are refused. The token's user must exist in the
+    directory, and **its groups must equal the directory's**: a self-promoted or stale group claim is refused.
+    Unlike the reference UI's Group dropdown, the role is never chosen by the client. The orchestrator takes the
+    user from the token, refuses a body naming someone else (403), and forwards the token, so agents access data
+    *as that adjuster* on behalf of a named agent. Bare headers work only with
+    `CLAIMSENSE_ALLOW_HEADER_IDENTITY=1`: unit tests, and the Lambda rung, where IAM-signed invoke authenticates
+    the caller.
+  - **Issuer:** a local dev issuer stands in for Cognito's hosted login on the synthetic sandbox. Tokens are
+    Cognito-shaped (`cognito:username`, `cognito:groups`), with `scripts/get-jwt.sh <user>` as in the reference
+    UI. M3 sets `COGNITO_JWKS_URL` / issuer / audience to the user pool M1 provisioned, with no verifier changes.
+- **Proof:** `tests/test_rbac.py` covers the pairings, hand-offs, override target, restart, six forged/stale-token
+  cases, the header-identity switch and orchestrator impersonation. `evals/rbac_check.py` runs on the real
+  containers in CI's stack-smoke job ([`evidence/rbac-checks.txt`](evidence/rbac-checks.txt)). Console screenshots
+  show alice's hand-off and eve working the claim.
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** M3 wires Cognito (and API Gateway authorizers).
+
 ## D-029 · 2026-11-08 · Bedrock smart tier: Sonnet 4.5 (deprecated) → Sonnet 4.6
 - **Trigger:** an AWS Health notice (`AWS_BEDROCK_PLANNED_LIFECYCLE_EVENT`, us-east-1) after the D-028 Bedrock check.
   `anthropic.claude-sonnet-4-5-20250929-v1:0` entered **Legacy** on 2026-10-08, moves to extended access on

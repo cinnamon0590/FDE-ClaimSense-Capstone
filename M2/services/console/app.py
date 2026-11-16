@@ -35,7 +35,7 @@ st.caption("AutoSure Insurance motor claims · SYNTHETIC DATA · a licensed adju
 qp = st.query_params
 with st.sidebar:
     users = list(USERS)
-    user = st.selectbox("Signed in as (M3: Cognito)", users, format_func=USERS.get,
+    user = st.selectbox("Sign in as (dev login; M3: Cognito)", users, format_func=USERS.get,
                         index=users.index(qp["user"]) if qp.get("user") in USERS else 0)
     seen, options = set(), []
     for c in CASES:
@@ -44,6 +44,18 @@ with st.sidebar:
     ids = [c["claim"]["claim_id"] for c in options]
     case = st.selectbox("Claim", options, format_func=lambda c: f"{c['claim']['claim_id']} · {c['title']}",
                         index=ids.index(qp["claim"]) if qp.get("claim") in ids else 0)
+    # identity (D-030): a signed ID token for the chosen synthetic user. The GROUP is not chosen here: it is in the
+    # token, issued from the directory, and re-checked by the boundary on every call (no self-promotion)
+    try:
+        if st.session_state.get("token_for") != user:
+            t = httpx.post(f"{BOUNDARY}/dev/token", json={"user_id": user}, timeout=5).json()
+            st.session_state.update(token_for=user, token=t["token"], token_groups=t["groups"])
+        AUTH = {"Authorization": f"Bearer {st.session_state['token']}"}
+        st.info(f"🔐 **{user}** · role **{', '.join(st.session_state['token_groups'])}** (from the signed token, "
+                "checked against the directory)")
+    except (httpx.HTTPError, KeyError):
+        AUTH = {}
+        st.error("could not obtain a token from the identity issuer")
     try:
         h = httpx.get(f"{ORCH}/healthz", timeout=3).json()
         st.success(f"brain: **{h['brain']}** · retrieval: {h['retrieval']}")
@@ -55,11 +67,19 @@ with st.sidebar:
 claim_id = case["claim"]["claim_id"]
 
 
+def show_decision(result):
+    if result.get("handed_off"):
+        h = result["handed_off"]
+        st.success(f"↪ {h['claim_id']} handed off: {h['from']} → **{h['to']}** queue. Only that group (and senior "
+                   "adjusters) can open it now.")
+    st.json(result)
+
+
 def decide_draft(rec_id, body):
     """Confirm/override through the boundary. Stable key per (draft, user, decision): a resubmit replays the receipt."""
     key = hashlib.sha256(json.dumps([rec_id, user, body], sort_keys=True).encode()).hexdigest()[:32]
     return httpx.post(f"{BOUNDARY}/recommendations/{rec_id}/confirm", json=body,
-                      headers={"X-User-Id": user, "Idempotency-Key": key}).json()
+                      headers=AUTH | {"Idempotency-Key": key}).json()
 
 tab_run, tab_queue = st.tabs(["Co-pilot", "Adjuster queue"])
 
@@ -86,7 +106,7 @@ with tab_run:
         label = "Picking up run after a refresh" if picked_up else "Running Intake → Coverage → Assessment → Decision Draft"
         with c2, st.status(label, expanded=True) as status:
             with httpx.stream("POST", f"{ORCH}/claims/{claim_id}/recommend/stream",
-                              json={"user_id": user, "run_id": run_id}, timeout=180) as r:
+                              json={"run_id": run_id}, headers=AUTH, timeout=180) as r:
                 for line in r.iter_lines():
                     ev = json.loads(line)
                     k = ev["kind"]
@@ -155,9 +175,9 @@ with tab_run:
                     def decide(body):
                         return decide_draft(rec["recommendation_id"], body)
                     if col1.button("Confirm as drafted"):
-                        st.json(decide({"action": "confirm"}))
+                        show_decision(decide({"action": "confirm"}))
                     if col2.button("Override"):
-                        st.json(decide({"action": "override", "final_outcome": final, "override_reason": reason}))
+                        show_decision(decide({"action": "override", "final_outcome": final, "override_reason": reason}))
             with st.expander("Agent outputs (typed)"):
                 for ev in res["events"]:
                     if ev["kind"] == "agent_end":
@@ -167,7 +187,7 @@ with tab_run:
     # ── Ask ClaimSense: follow-up questions (SDK handoff + SQLiteSession + run_streamed, D-028) ──────────────
     if res and res["claim_id"] == claim_id and res["response"].get("outcome") != "refused":
         try:
-            hist = httpx.get(f"{ORCH}/claims/{claim_id}/ask/history", params={"user_id": user}, timeout=10).json()
+            hist = httpx.get(f"{ORCH}/claims/{claim_id}/ask/history", headers=AUTH, timeout=10).json()
         except httpx.HTTPError:
             hist = {"messages": None}
         # stays open once a conversation exists (a submit reruns the page; a closed panel would hide the answer)
@@ -185,7 +205,7 @@ with tab_run:
                 with box:
                     status_line, answer_area = st.empty(), st.empty()
                     with httpx.stream("POST", f"{ORCH}/claims/{claim_id}/ask",
-                                      json={"user_id": user, "question": question}, timeout=120) as r:
+                                      json={"question": question}, headers=AUTH, timeout=120) as r:
                         for line in r.iter_lines():
                             ev = json.loads(line)
                             if ev["kind"] == "delta":
@@ -207,7 +227,7 @@ with tab_queue:
     st.caption("Undecided drafts on claims you are entitled to, newest first (from the boundary; every view is audited).")
     try:
         queue = httpx.get(f"{BOUNDARY}/recommendations", params={"status": "pending"},
-                          headers={"X-User-Id": user}, timeout=10).json().get("pending", [])
+                          headers=AUTH, timeout=10).json().get("pending", [])
     except httpx.HTTPError:
         queue = None
         st.error("boundary not reachable")
@@ -226,5 +246,5 @@ with tab_queue:
             if item.get("guardrails_fired"):
                 c.warning(", ".join(item["guardrails_fired"]))
             if c.button("Confirm as drafted", key=f"q-{item['recommendation_id']}"):
-                st.json(decide_draft(item["recommendation_id"], {"action": "confirm"}))
+                show_decision(decide_draft(item["recommendation_id"], {"action": "confirm"}))
             c.link_button("Open claim", f"?claim={item['claim_id']}&user={user}")
