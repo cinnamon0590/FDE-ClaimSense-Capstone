@@ -99,7 +99,13 @@ def main(build_seconds=None):
     out += ["", "Containers: non-root, own HEALTHCHECK healthy"]
     for svc in SERVICES:
         user = inspect(svc, "{{.Config.User}}")
-        health = inspect(svc, "{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}")
+        # a container restarted moments ago (CI's restart-survival step) is legitimately "starting": wait for its
+        # own HEALTHCHECK to settle, up to 60 s, then judge it
+        for _ in range(60):
+            health = inspect(svc, "{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}")
+            if health != "starting":
+                break
+            time.sleep(1)
         nonroot = svc == "opensearch" or user not in ("", "root", "0")
         if svc == "opensearch":                                 # the upstream image runs as its own 'opensearch' user
             uid = subprocess.run(["docker", "exec", compose("ps", "-q", svc), "id", "-u"], capture_output=True,
