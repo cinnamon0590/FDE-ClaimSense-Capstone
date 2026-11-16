@@ -59,10 +59,12 @@ services:
     env_file: [{ path: .env, required: false }]
     environment:
       BOUNDARY_URL: http://boundary:8002
-      OPENSEARCH_URL: http://opensearch:9200
+      OPENSEARCH_URL: http://opensearch:9200       # the service name, never localhost
       MOCK_BRAIN: ${MOCK_BRAIN:-1}
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-openai}    # overridable from the shell: MODEL_PROVIDER=bedrock docker compose up
     volumes: ["state:/state"]
-    ports: ["127.0.0.1:8003:8003"]
+    # 8003 = ClaimSense's port; 8080 = AgentCore Runtime's (so `curl -s localhost:8080/ping` works as in the brief)
+    ports: ["127.0.0.1:8003:8003", "127.0.0.1:8080:8003"]
     depends_on: { boundary: { condition: service_healthy }, opensearch: { condition: service_healthy } }
 
   console:

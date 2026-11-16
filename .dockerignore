@@ -1,11 +1,23 @@
+# Build context hygiene (course non-negotiables, D-034): VCS, environments, build output, docs and EVERY .env
+# never enter an image. Images COPY only named paths anyway; this is the second lock.
 .git
+.github
 .venv
+**/node_modules
+**/dist
 **/__pycache__
 **/*.pyc
 **/.state
 **/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/docs
+**/*.pdf
 **/*.docx
 **/*.png
+**/*.jpg
+**/*.gif
 **/*.svg
 M1/7-cloud
 M2/evidence

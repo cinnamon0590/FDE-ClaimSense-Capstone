@@ -1,6 +1,6 @@
 # ClaimSense M2 · one-command operations (run from M2/)
 PY ?= ../.venv/bin/python
-.PHONY: up down logs smoke test evals evals-golden evals-live agent-evals release fuzz report restart-test record replays fixtures
+.PHONY: up down logs smoke test evals evals-golden evals-live agent-evals release fuzz report restart-test no-egress record replays fixtures
 
 up:            ## build and start the whole stack (console on http://localhost:8510)
 	docker compose up --build -d && docker compose ps
@@ -26,6 +26,8 @@ restart-test:  ## restart-survival proof on the containers ($0, replay brain; re
 	docker compose up -d --wait
 agent-evals:   ## score EACH agent's own output vs per-agent labels ($0, replay); ratchet floors
 	$(PY) evals/agent_evals.py --gate
+no-egress:     ## stack on an internal network (no route out); 40 cases from inside ($0)
+	./scripts/no-egress-proof.sh
 fuzz:          ## adversarial fuzz of G1/G1b/G3 ($0) -> evidence/guardrail-fuzz.txt
 	$(PY) evals/fuzz_guardrails.py
 report:        ## HTML eval report from the committed results -> evidence/eval-report.html

@@ -3,6 +3,7 @@
 decisions as the in-process gate. $0 on the replay brain. Run it BEFORE evals/rbac_check.py (its hand-offs move
 some claims out of the first-pass adjuster's reach). Writes M2/evidence/container-eval.txt; exit 1 on any miss.
 """
+import os
 import sys
 import time
 from pathlib import Path
@@ -15,7 +16,7 @@ from _auth import auth  # noqa: E402
 from claimsense._m1 import score  # noqa: E402
 from claimsense.cases import all_cases  # noqa: E402
 
-ORCH = "http://localhost:8003"
+ORCH = os.environ.get("ORCHESTRATOR_URL", "http://localhost:8003")
 
 
 def main():
@@ -38,7 +39,10 @@ def main():
     lines += ["", f"{40 - len(misses)}/40 through the containers", f"CONTAINER EVAL: {'PASS' if not misses else 'FAIL'}"]
     text = "\n".join(lines)
     print(text)
-    (HERE.parent / "evidence" / "container-eval.txt").write_text(text + "\n")
+    try:
+        (HERE.parent / "evidence" / "container-eval.txt").write_text(text + "\n")
+    except OSError:
+        pass                                   # run inside a sealed container: the caller captures stdout instead
     return 0 if not misses else 1
 
 

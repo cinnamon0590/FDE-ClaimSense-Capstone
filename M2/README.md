@@ -86,7 +86,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung, config written out ([`cloud/agentcore/`](cloud/agentcore/)).
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-033.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-034 (D-034: the containerisation brief's non-negotiables, checked one by one).
 
 ## The blocked case: a guardrail trips and a human takes over (W15 M2 floor)
 
@@ -166,6 +166,7 @@ adjuster rather than out as a confident verdict (G8).
 | [`bedrock-claude-run.txt`](evidence/bedrock-claude-run.txt) · [`…-sonnet-4-5.txt`](evidence/bedrock-claude-run-sonnet-4-5.txt) | The same pipeline on Claude via Bedrock: Haiku 4.5 + Sonnet 4.6 6/6 (approve, deny, route, flag, injection hold, refusal), $0.19; the earlier Sonnet 4.5 run (6/6) before AWS deprecated it |
 | [`console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg) | The adjuster queue: pending drafts with outcome, code-computed net payable and guardrail flags |
 | [`results-live-smoke-streamed.txt`](evidence/results-live-smoke-streamed.txt) · [`cost-table-live-caching.md`](evidence/cost-table-live-caching.md) | Live 20-case gate on the streamed pipeline at the 90% floor: 20/20; prompt-cache share per agent |
+| [`no-egress.txt`](evidence/no-egress.txt) | **Nothing leaves this machine** (default path): the stack on an internal Docker network with no route out; OpenAI, Bedrock and PyPI unreachable from inside; all 40 cases still pass |
 | [`container-wiring.txt`](evidence/container-wiring.txt) · [`container-eval.txt`](evidence/container-eval.txt) | Fresh clone from GitHub → no-cache build, freshly pulled bases → healthy in **104–205 s** across three runs (target < 5 min); agent ↔ OpenSearch ↔ mock claims API wiring; non-root + HEALTHCHECK per container; **all 40 cases through the containers with OpenSearch retrieval** |
 | [`agent-evals.txt`](evidence/agent-evals.txt) | Per-agent scores (each agent before code corrects it), override counts, every miss |
 | [`rbac-checks.txt`](evidence/rbac-checks.txt) · [`rbac-handoff-alice.jpg`](evidence/rbac-handoff-alice.jpg) · [`rbac-eve-after-handoff.jpg`](evidence/rbac-eve-after-handoff.jpg) | RBAC on the containers: each reference pairing through the real hand-off; no token / bare header / tampered token / impersonation refused; console shows alice's hand-off and eve working the claim |
@@ -243,6 +244,8 @@ scripts/get-jwt.sh carol          # a signed ID token for a synthetic user (dev 
 make evals-golden                 # leaderboard form: --suite golden --cases 30 -> "pass rate: NN% (x/y)"
 MODEL_PROVIDER=bedrock make evals-live   # Claude on Bedrock (needs requirements-bedrock.txt + model access)
 make restart-test                 # kill/restart the running containers and prove nothing is lost ($0)
+make no-egress                    # sealed network, no route out: all 40 cases still pass ($0)
+curl -s localhost:8080/ping       # AgentCore-style liveness on 8080 (also 8003)
 make evals                        # the CI gate on the replay brain, $0
 make evals-live                   # the gate on the live models (needs OPENAI_API_KEY in M2/.env, ~$0.80)
 make release                      # RELEASE gate: 3 live runs, stability per case (~$2.70, by hand before a release)

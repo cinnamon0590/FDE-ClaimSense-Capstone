@@ -1,9 +1,10 @@
 """Tokens for scripts against the running stack: the dev issuer stands in for Cognito's hosted login (D-030)."""
 import functools
+import os
 
 import httpx
 
-BOUNDARY = "http://localhost:8002"
+BOUNDARY = os.environ.get("BOUNDARY_URL", "http://localhost:8002")
 
 
 @functools.lru_cache(maxsize=None)
