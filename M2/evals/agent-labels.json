@@ -2,9 +2,21 @@
  "version": 1,
  "derived_by": "evals/derive_agent_labels.py",
  "signoff": {
-  "by": null,
+  "by": "Susan Wellington",
   "role": "Senior Adjuster",
-  "note": "confirm every label with signoff_required"
+  "date": "2026-11-16",
+  "cases": [
+   "CS-007",
+   "CS-008",
+   "CS-009",
+   "CS-012",
+   "CS-015",
+   "CS-026",
+   "CS-027",
+   "CS-031",
+   "CS-034"
+  ],
+  "note": "all 9 coverage labels with signoff_required confirmed as written"
  },
  "labels": {
   "CS-001": {

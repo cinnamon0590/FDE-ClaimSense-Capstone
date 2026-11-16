@@ -85,12 +85,18 @@ def main():
             entry["agents_run"] = ["Document Intake"]          # held at Intake by design: later agents never run
             entry["note"] = "injection hold: only Document Intake runs; scored on the hold, not on extraction"
         labels[cid] = entry
-    out = {"version": 1, "derived_by": "evals/derive_agent_labels.py",
-           "signoff": {"by": None, "role": "Senior Adjuster", "note": "confirm every label with signoff_required"},
-           "labels": labels}
-    (HERE / "agent-labels.json").write_text(json.dumps(out, indent=1) + "\n")
     need = [cid for cid, e in labels.items() if (e.get("Coverage Check") or {}).get("signoff_required")]
-    print(f"wrote agent-labels.json: {len(labels)} cases · {len(need)} coverage labels need sign-off: {', '.join(need)}")
+    signoff = {"by": None, "role": "Senior Adjuster", "note": "confirm every label with signoff_required"}
+    prev_path = HERE / "agent-labels.json"
+    if prev_path.exists():                                  # keep a sign-off only while the signed labels are unchanged
+        prev = json.loads(prev_path.read_text())
+        old = prev.get("signoff") or {}
+        if old.get("by") and old.get("cases") == need and all(
+                (prev["labels"].get(c) or {}).get("Coverage Check") == labels[c].get("Coverage Check") for c in need):
+            signoff = old
+    out = {"version": 1, "derived_by": "evals/derive_agent_labels.py", "signoff": signoff, "labels": labels}
+    (HERE / "agent-labels.json").write_text(json.dumps(out, indent=1) + "\n")
+    print(f"sign-off: {signoff['by'] or 'PENDING'} · wrote agent-labels.json: {len(labels)} cases · {len(need)} coverage labels need sign-off: {', '.join(need)}")
 
 
 if __name__ == "__main__":

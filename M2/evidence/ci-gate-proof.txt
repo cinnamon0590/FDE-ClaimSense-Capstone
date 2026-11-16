@@ -91,3 +91,13 @@ cases x tokens x price, measured from SDK usage (evidence/cost-table-live-cachin
   The replay harness job, the container checks, the scan and actionlint cost $0.
 
 All six checks pass. No partial pass is being reported as success.
+
+### First run on main after merge (run 43847120072, commit ab6d002, 2026-11-16 10:15 UTC): all 11 jobs green
+  build-image   built the orchestrator image once and uploaded it as the run's artifact
+  supply-chain, stack-smoke, live-eval, push-image: each loaded that artifact and verified its image id (4/4 equal)
+  live-eval     (inside the image) pass rate: 100% (20/20) · engine check: 20/20 cases decided by the model ·
+                CLAIMSENSE_LLM_REQUIRED=true · DEPLOY GATE: PASS · cost $0.3404
+  push-image    pushed claimsense/orchestrator:ab6d002453ff26eb83e7eeb8c9d029da23d4f04d
+                digest sha256:7a7a4aa4e443af2a5de38dde3b89febfd40eeb42901702c5819dd0baf9f0af85
+                (aws ecr describe-images reports the same digest, pushed 10:18:27 UTC)
+  => the image in ECR is the build that passed the scan, the stack checks and the live gate; not rebuilt.
