@@ -1,0 +1,26 @@
+ClaimSense container wiring proof · 2026-11-16 09:08:24
+
+Agent ↔ RAG store (OpenSearch)
+  PASS  orchestrator uses the OpenSearch RAG store  (opensearch-bm25 at http://opensearch:9200)
+  PASS  policy corpus indexed (12 clauses + 1 planted unprovenanced chunk)  (13 documents)
+  PASS  search_clauses answered by OpenSearch  (2 searches -> ['CLS-CMP-003', 'CLS-COL-001', 'CLS-DED-002', 'CLS-INJ-005', 'CLS-LIA-012'])
+  PASS  the card cites only what OpenSearch returned  (approve citing ['CLS-COL-001', 'CLS-DED-002'])
+  PASS  G2 quarantines the planted chunk returned by OpenSearch  (quarantined ['CLS-PER-006 (no provenance)'])
+
+Boundary ↔ mock claims API
+  PASS  boundary loaded the claims from the mock systems  (38 claims)
+  PASS  a claim read flows mock systems -> boundary (token-checked)
+  PASS  mock systems unreachable from the host (internal network only)
+
+AgentCore Runtime HTTP contract (same image)
+  PASS  GET /ping
+  PASS  POST /invocations runs the pipeline; the session id becomes the run id  (run CLM-2024-1800:wiring-proof · resumed=False)
+
+Containers: non-root, own HEALTHCHECK healthy
+  PASS  opensearch    user=uid 1000 · health=healthy
+  PASS  mock-systems  user=app · health=healthy
+  PASS  boundary      user=app · health=healthy
+  PASS  orchestrator  user=app · health=healthy
+  PASS  console       user=app · health=healthy
+
+CONTAINER WIRING: PASS

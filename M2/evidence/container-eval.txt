@@ -1,0 +1,46 @@
+ClaimSense 40-case eval through the containers · 2026-11-16 09:10:00
+retrieval: opensearch-bm25 (13 documents) · identity: signed tokens
+
+  PASS  CS-001  approve                            agents
+  PASS  CS-002  deny                               agents
+  PASS  CS-003  deny                               agents
+  PASS  CS-004  route→total-loss-appraiser         agents
+  PASS  CS-005  route→injury-specialist            agents
+  PASS  CS-006  approve                            agents
+  PASS  CS-007  flag_review→senior-adjuster        agents
+  PASS  CS-008  route→fraud-investigator           agents
+  PASS  CS-009  flag_review→senior-adjuster        agents
+  PASS  CS-010  route→total-loss-appraiser         agents
+  PASS  CS-011  approve                            agents
+  PASS  CS-012  flag_review→senior-adjuster        agents
+  PASS  CS-013  deny                               agents
+  PASS  CS-014  approve                            agents
+  PASS  CS-015  route→fraud-investigator           agents
+  PASS  CS-016  flag_review→senior-adjuster        guardrail_hold
+  PASS  CS-017  approve                            agents
+  PASS  CS-018  deny                               agents
+  PASS  CS-019  refused                            boundary_refusal
+  PASS  CS-020  deny                               agents
+  PASS  CS-021  approve                            agents
+  PASS  CS-022  approve                            agents
+  PASS  CS-023  deny                               agents
+  PASS  CS-024  route→total-loss-appraiser         agents
+  PASS  CS-025  route→injury-specialist            agents
+  PASS  CS-026  route→fraud-investigator           agents
+  PASS  CS-027  flag_review→senior-adjuster        agents
+  PASS  CS-028  approve                            agents
+  PASS  CS-029  deny                               agents
+  PASS  CS-030  approve                            agents
+  PASS  CS-031  flag_review→senior-adjuster        agents
+  PASS  CS-032  route→total-loss-appraiser         agents
+  PASS  CS-033  deny                               agents
+  PASS  CS-034  route→fraud-investigator           agents
+  PASS  CS-035  flag_review→senior-adjuster        guardrail_hold
+  PASS  CS-036  approve                            agents
+  PASS  CS-037  approve                            agents
+  PASS  CS-038  refused                            boundary_refusal
+  PASS  CS-039  approve                            agents
+  PASS  CS-040  deny                               agents
+
+40/40 through the containers
+CONTAINER EVAL: PASS

@@ -56,7 +56,8 @@ class Pipeline:
         self.boundary = boundary or make_boundary(config.BOUNDARY_URL)
         self.agents, self.store = build_agents(self.brain, record=record, store=store)
         self.record = record
-        self.index = index or get_index("lexical" if self.brain == "replay" else None)
+        # the RAG store service whenever one is configured (containers, D-033); else lexical for replay, embeddings live
+        self.index = index or get_index(None if config.OPENSEARCH_URL else ("lexical" if self.brain == "replay" else None))
         self.checkpoints = Checkpoints()
         self.classifier = InjectionClassifier(self.brain) if config.G1B_CLASSIFIER else None
 

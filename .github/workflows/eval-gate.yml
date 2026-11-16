@@ -109,6 +109,8 @@ jobs:
         run: docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
       - name: One claim per outcome through the running containers
         run: pip install httpx==0.28.1 && python3 M2/evals/stack_smoke.py
+      - name: All 40 eval cases through the containers, retrieval served by the OpenSearch RAG store (D-033)
+        run: python3 M2/evals/container_eval.py
       - name: Restart survival - kill the orchestrator mid-claim, restart the boundary twice (D-027)
         run: python3 M2/evals/restart_survival.py
       - name: RBAC - role-to-claim hand-offs and JWT identity on the running containers (D-030)
