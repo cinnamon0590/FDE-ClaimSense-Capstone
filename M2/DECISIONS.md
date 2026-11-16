@@ -140,7 +140,7 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
   - **Per-agent golden labels** for all 40 cases (`evals/agent-labels.json`), DERIVED by
     `evals/derive_agent_labels.py` from the synthetic fixtures and the code rules, never from model output:
     - Intake: documents on file, missing documents, injury, inconsistencies.
-    - Coverage: the coverage finding, with 9 judgment labels needing Senior Adjuster sign-off.
+    - Coverage: the coverage finding, with 9 judgment labels, signed off by the Senior Adjuster (Susan Wellington) on 2026-11-16.
     - Assessment: fraud, total loss, injury, recommended route.
     - Decision: outcome, route and required citations.
     A test fails if the committed labels differ from a fresh derivation.

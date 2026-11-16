@@ -1,6 +1,6 @@
-ClaimSense per-agent evals · brain=replay · 2026-11-16 09:10:33
+ClaimSense per-agent evals · brain=replay · 2026-11-16 10:29:11
 Each agent's OWN output, before code corrects it, against golden labels from the fixtures and code rules
-(evals/agent-labels.json; Senior Adjuster sign-off: PENDING).
+(evals/agent-labels.json; Senior Adjuster sign-off: Susan Wellington).
 
 Document Intake   38/38 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS · code overrode it on 0 case(s)
     documents_on_file        36/36
