@@ -6,6 +6,36 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-033 · 2026-11-16 · Containers per the Week 3 checklist: multi-stage images, a local OpenSearch RAG store, fresh-clone proof
+- **Trigger:** the reference "Week 3 sanity check" and "Containerised details" ask for:
+  - a **multi-stage Dockerfile with a non-root user and health check**;
+  - the policy corpus indexed **in local OpenSearch**;
+  - `docker compose up --build` **from a fresh clone** proving the agent, the mock claims API and the RAG store talk;
+  - a summary of processes, ports, env vars and runtime files.
+- **Gaps:**
+  - The images were single-stage: the orchestrator's extra stage only copied in the Lambda adapter.
+  - Only the orchestrator image had a HEALTHCHECK; the console had none at all.
+  - Retrieval ran in-process. D-019 had deferred OpenSearch on the cost of an AWS domain, but a local
+    container is free.
+  - The fresh-clone claim had never been timed, and the runtime summary didn't exist.
+- **Decision:**
+  - **Multi-stage images:** every Python image is builder (pinned deps into `/opt/venv`) → runtime (patched slim
+    base, the venv and the app only, uid 10001, its own HEALTHCHECK). Trivy still gates the pushed one.
+  - **OpenSearch RAG store** (`opensearchproject/opensearch:2.18.0`, single node, internal network only).
+    `OpenSearchIndex` sits behind the same `search(query, k)` interface: BM25 offline, k-NN over the same clause
+    embeddings when a key is present. The index is built once per corpus hash. It holds the planted unprovenanced
+    chunk too, so **G2 provenance quarantine still decides trust, not the store**. Evals and tests keep the
+    in-process indexes, so scores don't shift.
+  - **AgentCore contract** on the same image: `GET /ping`, `POST /invocations` (session id → resumable run id),
+    with `$PORT` (8080 on AgentCore).
+  - **Proof:**
+    - `evals/wiring_check.py` runs in CI's stack-smoke job.
+    - `scripts/fresh-clone-proof.sh` clones from GitHub, builds with no cache and freshly pulled bases, times it
+      against 5 minutes, and runs the wiring check as a separate compose project.
+    - The README runtime map covers the summary.
+- **Not in M2:** the mock claims API as an MCP server and `CLAIMSENSE_MCP_URL` (Week 4 Integration = M3).
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** M3 moves the RAG store to Amazon OpenSearch with IAM.
+
 ## D-032 · 2026-11-16 · Fix the agents the per-agent evals exposed (prompt m2-v9)
 - **From D-031:**
   - Claim Assessment 26/36: a total-loss appraiser recommended on 8 ordinary claims, and "senior-adjuster" on

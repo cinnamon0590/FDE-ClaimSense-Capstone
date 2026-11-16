@@ -113,6 +113,8 @@ jobs:
         run: python3 M2/evals/restart_survival.py
       - name: RBAC - role-to-claim hand-offs and JWT identity on the running containers (D-030)
         run: python3 M2/evals/rbac_check.py
+      - name: Wiring - agent <-> OpenSearch RAG store <-> mock claims API; non-root + HEALTHCHECK per container (D-033)
+        run: python3 M2/evals/wiring_check.py
       - name: Logs on failure
         if: failure()
         working-directory: M2

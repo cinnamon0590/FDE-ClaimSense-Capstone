@@ -1,10 +1,21 @@
 # Mock systems of record + the data boundary (same small image, different command). Build context: repo root.
-FROM python:3.12-slim
+# Multi-stage (W15 "Containerise"): the builder installs pinned dependencies into a virtualenv; the runtime stage
+# copies only that venv and the app, runs as a non-root user and carries its own HEALTHCHECK.
+
+# ── builder: dependencies only (pip, build caches and wheels never reach the runtime image) ─────────────
+FROM python:3.12-slim AS builder
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install fastapi==0.162.0 uvicorn==0.54.0 httpx==0.28.1 PyJWT==2.15.1 cryptography==50.0.2
+
+# ── runtime ────────────────────────────────────────────────────────────────────────────────────────────
+FROM python:3.12-slim AS runtime
 # OS security patches at build time; CI's Trivy gate blocks any HIGH/CRITICAL CVE that has a fix
-RUN apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/*
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CLAIMSENSE_ROOT=/app PYTHONPATH=/app/M2:/app/M2/services
-RUN pip install --no-cache-dir fastapi==0.162.0 uvicorn==0.54.0 httpx==0.28.1 PyJWT==2.15.1 cryptography==50.0.2 \
+RUN apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/* \
     && useradd --create-home --uid 10001 app && mkdir -p /state && chown app /state
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CLAIMSENSE_ROOT=/app \
+    PYTHONPATH=/app/M2:/app/M2/services PORT=8001
 WORKDIR /app
 COPY M0/evals/score.py M0/evals/cases.json M0/evals/
 COPY M1/2-architecture/reference_guardrails.py M1/2-architecture/
@@ -17,3 +28,6 @@ COPY M2/claimsense/__init__.py M2/claimsense/_m1.py M2/claimsense/boundary_clien
 COPY M2/services/mock_systems M2/services/mock_systems
 COPY M2/services/boundary M2/services/boundary
 USER app
+# both services in this image answer /healthz on $PORT (compose sets 8001 for mock systems, 8002 for the boundary)
+HEALTHCHECK --interval=5s --timeout=3s --start-period=5s --retries=12 \
+    CMD python -c "import os,urllib.request; urllib.request.urlopen('http://localhost:'+os.environ['PORT']+'/healthz')" || exit 1

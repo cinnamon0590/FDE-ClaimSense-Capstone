@@ -25,6 +25,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 | W15 | **Traces** and **restart-survivable sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) · [`evals/restart_survival.py`](evals/restart_survival.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live. **State survives restarts** (D-027): per-step checkpoints on the `/state` volume, so `POST /recommend` with the same `run_id` resumes without re-running or re-paying; the boundary persists drafts, idempotency and audit. CI kills the orchestrator mid-claim and restarts the boundary twice on every push ([`evidence/restart-survival.txt`](evidence/restart-survival.txt)) |
 | W15 | **All six Agents SDK primitives fire** (deck slide 24) | class | [`claimsense/assistant.py`](claimsense/assistant.py) · [`pipeline.py`](claimsense/pipeline.py) | Agents, `@function_tool`, guardrails and tracing in the pipeline; **handoff** (Q&A → Coverage specialist), **`SQLiteSession`** and **`run_streamed`** in Ask ClaimSense; every pipeline agent also streams ([`tests/test_assistant.py`](tests/test_assistant.py), [`evidence/ask-claimsense-live.txt`](evidence/ask-claimsense-live.txt)) |
 | Ask | **Every agent has its own eval** (scored before code corrects it) | Susan · D-031 | [`evals/agent_evals.py`](evals/agent_evals.py) · [`evals/agent-labels.json`](evals/agent-labels.json) | **All four agents 100%, 0 code overrides** (m2-v9, D-032; was Intake 37/38 · Assessment 26/36 · Decision 33/36); CI ratchet floors at 100% ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)) |
+| W15 build | **Multi-stage Dockerfiles · non-root · HEALTHCHECK · local OpenSearch RAG store · fresh-clone run** | Week 3 sanity check, Containerised details | [`services/*/Dockerfile`](services/) · [`docker-compose.yml`](docker-compose.yml) · [`claimsense/retrieval.py`](claimsense/retrieval.py) | The agent, the mock claims API and the RAG store proven to talk; G2 still quarantines the planted chunk returned by OpenSearch; AgentCore `/ping` + `/invocations` on the same image ([`evidence/container-wiring.txt`](evidence/container-wiring.txt)) |
 | Ref UI | **RBAC: role decides access; routing hands the claim to the specialist; identity is a signed JWT** | reference Learning UI ("RBAC_Checks") | [`claimsense/identity.py`](claimsense/identity.py) · [`boundary_client.py`](claimsense/boundary_client.py) · [`scripts/get-jwt.sh`](scripts/get-jwt.sh) | The reference pairings (1800 alice · 1873 carol · 1946 eve · 2019 bob) pass end to end on the containers, through the real hand-off; forged, self-promoted and missing tokens are refused ([`evidence/rbac-checks.txt`](evidence/rbac-checks.txt), [`tests/test_rbac.py`](tests/test_rbac.py)) |
 | W15 | **The recommendation lands in the ops team's queue** (CIO constraint) | class | [`services/console/app.py`](services/console/app.py) · boundary `GET /recommendations` | Adjuster queue tab: entitlement-filtered, audited, confirm from the list ([`evidence/console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg)) |
 | W15 | **Model routing + cost table** | class | [`evidence/cost-table-live.md`](evidence/cost-table-live.md) | Pinned gpt-4o-mini-2024-07-18 for the volume steps, gpt-4o-2024-08-06 for the money steps: **$0.019 per claim** (incl. second opinion and G1b), p95 19 s |
@@ -85,7 +86,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung, config written out ([`cloud/agentcore/`](cloud/agentcore/)).
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-032.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-033.
 
 ## The blocked case: a guardrail trips and a human takes over (W15 M2 floor)
 
@@ -169,6 +170,27 @@ adjuster rather than out as a confident verdict (G8).
 | [`rbac-checks.txt`](evidence/rbac-checks.txt) · [`rbac-handoff-alice.jpg`](evidence/rbac-handoff-alice.jpg) · [`rbac-eve-after-handoff.jpg`](evidence/rbac-eve-after-handoff.jpg) | RBAC on the containers: each reference pairing through the real hand-off; no token / bare header / tampered token / impersonation refused; console shows alice's hand-off and eve working the claim |
 | [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
 | [`strands-port.json`](evidence/strands-port.json) | Coverage agent on Strands: cites only retrieved clauses; planted chunk quarantined |
+
+## Runtime map: processes, ports, env vars, files (Containerised-details checklist)
+
+`docker compose up --build` from a fresh clone starts five containers. All Python images are **multi-stage**
+(builder venv → patched slim runtime), run as **non-root** (uid 10001) and carry their own **HEALTHCHECK** (D-033).
+
+| Process (image) | Port | Reads env vars | Needs at runtime |
+|---|---|---|---|
+| **opensearch**: the RAG store (`opensearchproject/opensearch:2.18.0`) | 9200, internal only | `discovery.type`, `DISABLE_SECURITY_PLUGIN`, `OPENSEARCH_JAVA_OPTS` | Nothing baked in: the orchestrator builds the `claimsense-clauses` index on first start (idempotent, keyed by a corpus hash) |
+| **mock-systems**: Claims / Policy / Document / Directory APIs (`platform`) | 8001, internal only | `PORT` | `M1/6-synthetic-data/fixtures/*.json` |
+| **boundary**: entitlement, audit, idempotency, identity (`platform`) | 8002 → `127.0.0.1:8002` | `PORT`, `SYSTEMS_URL`, `AUDIT_LOG`, `CLAIMSENSE_DEV_ISSUER`; optional `BOUNDARY_STATE`, `COGNITO_JWKS_URL`, `CLAIMSENSE_ALLOW_HEADER_IDENTITY` | M1 reference boundary + schemas; on `/state`: `audit.jsonl`, `boundary.db`, `dev-issuer/` (signing key, 0600) |
+| **orchestrator**: the four agents, Ask ClaimSense, AgentCore contract (`orchestrator`, the image CI pushes) | 8003 → `127.0.0.1:8003` (`PORT`; 8080 on AgentCore) | `BOUNDARY_URL`, `OPENSEARCH_URL`, `MOCK_BRAIN`, `OPENAI_API_KEY` or `OPENAI_SECRET_ID`, `MODEL_PROVIDER`, `MODEL_FAST/SMART`, `BEDROCK_FAST/SMART`, `CONSISTENCY_CHECK`, `G1B_CLASSIFIER`, `CASE_BUDGET_USD`, `CLAIMSENSE_STATE`, `COGNITO_JWKS_URL`; test-only `CLAIMSENSE_FAULT_INJECTION` | Fixtures (clause corpus + manifest), M1 guardrails + schemas, M0 scorer + cases, `evals/replays/`, `evals/g1b-cache.json`; on `/state`: `checkpoints.db`, `assistant-sessions.db`, traces, embedding cache |
+| **console**: Streamlit adjuster UI (`console`) | 8501 → `127.0.0.1:8510` | `ORCHESTRATOR_URL`, `BOUNDARY_URL` | `M0/evals/cases.json`, `M2/evals/cases-m2.json`, `clauses.json` |
+
+**Proof:** [`evals/wiring_check.py`](evals/wiring_check.py) runs in CI on every push, and
+[`scripts/fresh-clone-proof.sh`](scripts/fresh-clone-proof.sh) clones from GitHub, builds with no cache and times it
+([`evidence/container-wiring.txt`](evidence/container-wiring.txt)). The proof shows:
+- the agent ↔ OpenSearch ↔ citations, and G2 quarantining the planted chunk that OpenSearch returns;
+- the boundary ↔ the mock claims API, which is unreachable from the host;
+- `/ping` and `/invocations`;
+- every container non-root and healthy.
 
 ## How it works
 
