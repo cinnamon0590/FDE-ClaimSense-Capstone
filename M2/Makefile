@@ -1,6 +1,6 @@
 # ClaimSense M2 · one-command operations (run from M2/)
 PY ?= ../.venv/bin/python
-.PHONY: up down logs smoke test evals evals-golden evals-live release fuzz report restart-test record replays fixtures
+.PHONY: up down logs smoke test evals evals-golden evals-live agent-evals release fuzz report restart-test record replays fixtures
 
 up:            ## build and start the whole stack (console on http://localhost:8510)
 	docker compose up --build -d && docker compose ps
@@ -24,6 +24,8 @@ restart-test:  ## restart-survival proof on the containers ($0, replay brain; re
 	MOCK_BRAIN=1 docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
 	$(PY) evals/restart_survival.py
 	docker compose up -d --wait
+agent-evals:   ## score EACH agent's own output vs per-agent labels ($0, replay); ratchet floors
+	$(PY) evals/agent_evals.py --gate
 fuzz:          ## adversarial fuzz of G1/G1b/G3 ($0) -> evidence/guardrail-fuzz.txt
 	$(PY) evals/fuzz_guardrails.py
 report:        ## HTML eval report from the committed results -> evidence/eval-report.html

@@ -94,6 +94,7 @@ money without a licensed adjuster.
 - [ ] `make test`: unit, integration, guardrail fuzz and restart-survival tests ($0)
 - [ ] `make restart-test`: restart survival on the running containers ($0)
 - [ ] `make evals`: replay gate PASS ($0)
+- [ ] `make agent-evals`: no agent below its floor; raise a floor when an agent improves ($0)
 - [ ] `make release`: 3 live runs, RELEASE GATE PASS (~$2.70)
 - [ ] CI green, including `supply-chain` (no fixable HIGH/CRITICAL CVE; SBOM attached)
 - [ ] `DECISIONS.md` entry for any prompt, model or guardrail change

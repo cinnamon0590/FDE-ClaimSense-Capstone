@@ -29,6 +29,7 @@ def main():
     rs = runs()
     stability = (EVID / "results-live-stability.txt").read_text() if (EVID / "results-live-stability.txt").exists() else ""
     fuzz = (EVID / "guardrail-fuzz.txt").read_text() if (EVID / "guardrail-fuzz.txt").exists() else ""
+    agents = (EVID / "agent-evals.txt").read_text() if (EVID / "agent-evals.txt").exists() else ""
     cost = (EVID / "cost-table-live.md").read_text() if (EVID / "cost-table-live.md").exists() else ""
     gate = re.search(r"RELEASE GATE: (\w+)", stability)
     gate = gate.group(1) if gate else "n/a"
@@ -79,6 +80,7 @@ pinned gpt-4o-2024-08-06 / gpt-4o-mini-2024-07-18 · every outcome is confirmed 
 <div class="wrap"><table><thead><tr><th>Case</th><th>Category</th><th>Expected</th>{heads}<th>Correct</th></tr></thead>
 <tbody>{''.join(body)}</tbody></table></div>
 <h2>Stability (release gate)</h2><pre>{html.escape(stability)}</pre>
+<h2>Per-agent evals (each agent's own output, before code corrects it)</h2><pre>{html.escape(agents)}</pre>
 <h2>Guardrail fuzz suite</h2><pre>{html.escape(fuzz)}</pre>
 <h2>Cost</h2><pre>{html.escape(cost)}</pre>
 </main></body></html>"""

@@ -6,6 +6,34 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-031 · 2026-11-16 · Per-agent evals: score each agent before code corrects it
+- **Trigger:** Susan asked whether each agent has its own eval. They didn't. The 40-case eval scores the final
+  card, and code deliberately overrides some agent outputs (the required-documents checklist, the fraud rule,
+  routing priority), so the system can be right while an agent is wrong, and that stays invisible.
+- **Decision:**
+  - **Per-agent golden labels** for all 40 cases (`evals/agent-labels.json`), DERIVED by
+    `evals/derive_agent_labels.py` from the synthetic fixtures and the code rules, never from model output:
+    - Intake: documents on file, missing documents, injury, inconsistencies.
+    - Coverage: the coverage finding, with 9 judgment labels needing Senior Adjuster sign-off.
+    - Assessment: fraud, total loss, injury, recommended route.
+    - Decision: outcome, route and required citations.
+    A test fails if the committed labels differ from a fresh derivation.
+  - **Scorer** (`evals/agent_evals.py`, $0 on the replay brain = recorded live outputs). It scores each agent's
+    `agent_end` output BEFORE code overrides, and reports how often code had to override it.
+  - **Gate = a ratchet:** a 90% target bar per agent, plus a floor at today's measured score that CI enforces
+    (`tests/test_agent_evals.py`). Nothing gets worse while the agents below the bar are fixed. Floors only go up.
+- **First results (replay):**
+  - Intake 37/38: it missed the absent glass invoice on CS-027; code corrected it.
+  - Coverage 36/36.
+  - Decision 33/36: it omitted a required clause in 3 cases, the same 3 the end-to-end "confirmable as written"
+    metric shows.
+  - **Assessment 26/36, below the bar:** it recommended a total-loss appraiser on 8 ordinary claims while its own
+    `total_loss` was false, and "senior-adjuster" (not a specialist route) on the 2 authority-limit cases. Code
+    corrected all 10, so no card was wrong, but the agent was. Likely cause: a nullable enum in the strict schema,
+    which the model fills instead of choosing null.
+- **Owner:** Susan Wellington (FDE) · **Next:** fix Assessment (schema with an explicit "none" and specialists
+  only) and the Decision citation rule, re-record, raise the floors.
+
 ## D-030 · 2026-11-16 · RBAC: routing hands the claim to the specialist; identity is a signed token, not a header
 - **Trigger:** a check against the reference Learning UI ("RBAC_Checks"). Its example pairings, CLM-2024-1800
   alice·adjuster, 1873 carol·fraud-investigator, 1946 eve·total-loss-appraiser and 2019 bob·senior-adjuster, plus

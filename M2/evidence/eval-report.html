@@ -40,6 +40,45 @@ cost: $2.3337 for 3 runs · $0.01945 per claim
 
 RELEASE GATE: PASS
 </pre>
+<h2>Per-agent evals (each agent's own output, before code corrects it)</h2><pre>ClaimSense per-agent evals · brain=replay · 2026-11-16 08:24:52
+Each agent&#x27;s OWN output, before code corrects it, against golden labels from the fixtures and code rules
+(evals/agent-labels.json; Senior Adjuster sign-off: PENDING).
+
+Document Intake   37/38 cases fully right = 97.4%  (bar ≥ 90%; floor 97.4%)  PASS · code overrode it on 1 case(s)
+    documents_on_file        36/36
+    missing_documents        35/36
+    injury_indicated         36/36
+    has_inconsistencies      36/36
+    held_for_a_human          2/2
+Coverage Check    36/36 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS
+    coverage_finding         36/36
+Claim Assessment  26/36 cases fully right = 72.2%  (bar ≥ 90%; floor 72.2%)  BELOW BAR · code overrode it on 10 case(s)
+    fraud_suspected          36/36
+    total_loss               36/36
+    injury_exposure          36/36
+    recommended_route        26/36
+Decision Draft    33/36 cases fully right = 91.7%  (bar ≥ 90%; floor 91.7%)  PASS
+    outcome_and_route        36/36
+    cites_required_clauses   33/36
+
+Misses (case · agent · field · expected → got):
+  CS-004  Decision Draft    cites_required_clauses   [&#x27;CLS-COL-001&#x27;, &#x27;CLS-TL-004&#x27;] → [&#x27;CLS-TL-004&#x27;]
+  CS-007  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-009  Decision Draft    cites_required_clauses   [&#x27;CLS-PER-006&#x27;, &#x27;CLS-REN-011&#x27;] → [&#x27;CLS-REN-011&#x27;]
+  CS-012  Claim Assessment  recommended_route        None → senior-adjuster
+  CS-014  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-017  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-021  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-024  Decision Draft    cites_required_clauses   [&#x27;CLS-COL-001&#x27;, &#x27;CLS-TL-004&#x27;] → [&#x27;CLS-TL-004&#x27;]
+  CS-027  Document Intake   missing_documents        [&#x27;glass_invoice&#x27;] → []
+  CS-027  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-030  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-031  Claim Assessment  recommended_route        None → senior-adjuster
+  CS-036  Claim Assessment  recommended_route        None → total-loss-appraiser
+  CS-039  Claim Assessment  recommended_route        None → total-loss-appraiser
+
+AGENT EVALS: BELOW BAR · ratchet: HELD (CI enforces the floor; the bar is the target)
+</pre>
 <h2>Guardrail fuzz suite</h2><pre>ClaimSense guardrail fuzz · seed 1507 · $0, no model
 
 G1 injection scan: 961/962 caught = 99.9% (bar ≥ 99%)
