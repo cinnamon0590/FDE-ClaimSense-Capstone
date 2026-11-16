@@ -1,4 +1,4 @@
-ClaimSense restart-survival proof · 2026-11-16 06:37:58
+ClaimSense restart-survival proof · 2026-11-16 09:08:38
 orchestrator brain=replay · fault injection enabled for this test only
 
 1 · Kill the orchestrator mid-claim (right after Coverage is checkpointed)
@@ -11,17 +11,17 @@ orchestrator brain=replay · fault injection enabled for this test only
   PASS  finished agents restored, not re-run  (restored ['Document Intake', 'Coverage Check']; ran ['Claim Assessment', 'Decision Draft', 'Decision Draft · second opinion'])
   PASS  no usage billed for restored agents
   PASS  claim completed with a model verdict  (approve · verdict_source=model)
-     draft written back: REC-4c86828e76ad
+     draft written back: REC-0b660cfd0221
 
 3 · Restart the boundary; replay the same run
-  PASS  draft survived the boundary restart; no duplicate written  (receipt REC-4c86828e76ad idempotent_replay=True)
+  PASS  draft survived the boundary restart; no duplicate written  (receipt REC-0b660cfd0221 idempotent_replay=True)
   PASS  fully restored run costs nothing  ($0)
 
 4 · A human confirms; restart the boundary again; the decision holds exactly once
   PASS  alice confirms
   PASS  same key after restart replays the original receipt
   PASS  a second decision under a new key is refused
-  PASS  audit trail survived both restarts  (120 rows before, 122 after)
+  PASS  audit trail survived both restarts  (476 rows before, 478 after)
 
 5 · Ask ClaimSense: the SDK session survives an orchestrator restart
   PASS  question answered (streamed)

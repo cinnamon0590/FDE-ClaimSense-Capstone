@@ -53,6 +53,7 @@ CONSISTENCY_CHECK = os.environ.get("CONSISTENCY_CHECK", "1") == "1"
 G1B_CLASSIFIER = os.environ.get("G1B_CLASSIFIER", "1") == "1"
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 BOUNDARY_URL = os.environ.get("BOUNDARY_URL", "")             # empty = in-process boundary
+OPENSEARCH_URL = os.environ.get("OPENSEARCH_URL", "")         # the RAG store service (containers); empty = in-process index
 STATE_DIR = Path(os.environ.get("CLAIMSENSE_STATE", M2 / ".state"))
 REPLAY_DIR = Path(os.environ.get("REPLAY_DIR", M2 / "evals" / "replays"))
 # per-claim spend cap (W15: "budget per CASE"). Claude on Bedrock lists ~3x gpt-4o-mini/4o for this pipeline

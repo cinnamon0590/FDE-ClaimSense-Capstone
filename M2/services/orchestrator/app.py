@@ -19,6 +19,7 @@ import asyncio
 import hashlib
 import json
 import os
+import time
 import uuid
 
 from fastapi import FastAPI, Header
@@ -138,8 +139,34 @@ def write_back(result):
 
 @app.get("/healthz")
 def healthz():
+    rag = {"backend": PIPE.index.backend}
+    if hasattr(PIPE.index, "count"):                       # the RAG store service: prove it is reachable and loaded
+        rag.update(url=config.OPENSEARCH_URL, indexed_chunks=PIPE.index.count())
     return {"ok": True, "brain": PIPE.brain, "boundary": config.BOUNDARY_URL or "in-process",
-            "models": {"fast": config.MODEL_FAST, "smart": config.MODEL_SMART}, "retrieval": PIPE.index.backend}
+            "models": {"fast": config.MODEL_FAST, "smart": config.MODEL_SMART}, "retrieval": PIPE.index.backend,
+            "rag_store": rag}
+
+
+# ── AgentCore Runtime HTTP contract (D-033): the same image runs on AgentCore unchanged (PORT=8080 there) ─────
+@app.get("/ping")
+def ping():
+    return {"status": "Healthy", "time_of_last_update": int(time.time())}
+
+
+class InvocationRequest(BaseModel):
+    claim_id: str
+    user_id: str | None = None
+    run_id: str | None = None
+
+
+@app.post("/invocations")
+async def invocations(req: InvocationRequest, authorization: str | None = Header(None),
+                      x_amzn_bedrock_agentcore_runtime_session_id: str | None = Header(None)):
+    """AgentCore's entry point. Its runtime session id becomes the resumable run_id (D-027), so re-invoking the
+    same session resumes the claim instead of re-running finished agents. Identity: the same token rules."""
+    session = x_amzn_bedrock_agentcore_runtime_session_id
+    run_id = req.run_id or (f"{req.claim_id}:{session}" if session else None)
+    return await recommend(req.claim_id, RunRequest(user_id=req.user_id, run_id=run_id), authorization)
 
 
 @app.post("/claims/{claim_id}/recommend")

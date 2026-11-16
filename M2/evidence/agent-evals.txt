@@ -1,4 +1,4 @@
-ClaimSense per-agent evals · brain=replay · 2026-11-16 08:52:32
+ClaimSense per-agent evals · brain=replay · 2026-11-16 09:10:33
 Each agent's OWN output, before code corrects it, against golden labels from the fixtures and code rules
 (evals/agent-labels.json; Senior Adjuster sign-off: PENDING).
 

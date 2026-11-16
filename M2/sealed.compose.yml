@@ -1,0 +1,10 @@
+# Overlay for the no-egress proof (scripts/no-egress-proof.sh, D-034): every service on an INTERNAL network, which
+# Docker gives no route off this machine, and no host ports. Proves the default (no-key) stack makes no external
+# call at all: "all claim data is synthetic; nothing leaves this machine".
+networks:
+  default:
+    internal: true
+services:
+  boundary: { ports: !reset [] }
+  orchestrator: { ports: !reset [] }
+  console: { ports: !reset [] }
