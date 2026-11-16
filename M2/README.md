@@ -24,6 +24,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 | W15 | A guardrail that **trips** + **human handoff** | class M2 floor | `@input_guardrail` + 3 `@output_guardrail` tripwires | CS-016 / CS-035 stop at Intake and go to a senior adjuster; console shows the handoff |
 | W15 | **Traces** and **restart-survivable sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) · [`evals/restart_survival.py`](evals/restart_survival.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live. **State survives restarts** (D-027): per-step checkpoints on the `/state` volume, so `POST /recommend` with the same `run_id` resumes without re-running or re-paying; the boundary persists drafts, idempotency and audit. CI kills the orchestrator mid-claim and restarts the boundary twice on every push ([`evidence/restart-survival.txt`](evidence/restart-survival.txt)) |
 | W15 | **All six Agents SDK primitives fire** (deck slide 24) | class | [`claimsense/assistant.py`](claimsense/assistant.py) · [`pipeline.py`](claimsense/pipeline.py) | Agents, `@function_tool`, guardrails and tracing in the pipeline; **handoff** (Q&A → Coverage specialist), **`SQLiteSession`** and **`run_streamed`** in Ask ClaimSense; every pipeline agent also streams ([`tests/test_assistant.py`](tests/test_assistant.py), [`evidence/ask-claimsense-live.txt`](evidence/ask-claimsense-live.txt)) |
+| Ask | **Every agent has its own eval** (scored before code corrects it) | Susan · D-031 | [`evals/agent_evals.py`](evals/agent_evals.py) · [`evals/agent-labels.json`](evals/agent-labels.json) | Intake 37/38 · Coverage 36/36 · Assessment 26/36 (below the 90% bar; code corrects it, now visible) · Decision 33/36; CI ratchet floors ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)) |
 | Ref UI | **RBAC: role decides access; routing hands the claim to the specialist; identity is a signed JWT** | reference Learning UI ("RBAC_Checks") | [`claimsense/identity.py`](claimsense/identity.py) · [`boundary_client.py`](claimsense/boundary_client.py) · [`scripts/get-jwt.sh`](scripts/get-jwt.sh) | The reference pairings (1800 alice · 1873 carol · 1946 eve · 2019 bob) pass end to end on the containers, through the real hand-off; forged, self-promoted and missing tokens are refused ([`evidence/rbac-checks.txt`](evidence/rbac-checks.txt), [`tests/test_rbac.py`](tests/test_rbac.py)) |
 | W15 | **The recommendation lands in the ops team's queue** (CIO constraint) | class | [`services/console/app.py`](services/console/app.py) · boundary `GET /recommendations` | Adjuster queue tab: entitlement-filtered, audited, confirm from the list ([`evidence/console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg)) |
 | W15 | **Model routing + cost table** | class | [`evidence/cost-table-live.md`](evidence/cost-table-live.md) | Pinned gpt-4o-mini-2024-07-18 for the volume steps, gpt-4o-2024-08-06 for the money steps: **$0.019 per claim** (incl. second opinion and G1b), p95 19 s |
@@ -42,6 +43,9 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **G1b injection classifier** (D-026): on held-out attacks written before each test and never tuned on,
   regexes alone caught 1/15; **G1 + G1b caught 13/15 with 0/15 false positives**. It can only escalate to a
   human, fails closed, and CI replays cached verdicts at $0.
+- **Per-agent evals with a ratchet** (D-031): each of the four agents is scored on its own output against derived
+  golden labels before code corrects it; CI fails if any agent gets worse. It found a real Claim Assessment
+  defect that the end-to-end eval could not see ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)).
 - **RBAC with routing hand-off and token identity** (D-030): a confirmed route moves the claim into the
   specialist's queue (and out of the first-pass adjuster's); every call carries a signed, Cognito-shaped ID token
   whose groups must match the directory, so no one can choose or forge their role
@@ -80,7 +84,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung, config written out ([`cloud/agentcore/`](cloud/agentcore/)).
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-030.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-031.
 
 ## The blocked case: a guardrail trips and a human takes over (W15 M2 floor)
 
@@ -160,6 +164,7 @@ adjuster rather than out as a confident verdict (G8).
 | [`bedrock-claude-run.txt`](evidence/bedrock-claude-run.txt) · [`…-sonnet-4-5.txt`](evidence/bedrock-claude-run-sonnet-4-5.txt) | The same pipeline on Claude via Bedrock: Haiku 4.5 + Sonnet 4.6 6/6 (approve, deny, route, flag, injection hold, refusal), $0.19; the earlier Sonnet 4.5 run (6/6) before AWS deprecated it |
 | [`console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg) | The adjuster queue: pending drafts with outcome, code-computed net payable and guardrail flags |
 | [`results-live-smoke-streamed.txt`](evidence/results-live-smoke-streamed.txt) · [`cost-table-live-caching.md`](evidence/cost-table-live-caching.md) | Live 20-case gate on the streamed pipeline at the 90% floor: 20/20; prompt-cache share per agent |
+| [`agent-evals.txt`](evidence/agent-evals.txt) | Per-agent scores (each agent before code corrects it), override counts, every miss |
 | [`rbac-checks.txt`](evidence/rbac-checks.txt) · [`rbac-handoff-alice.jpg`](evidence/rbac-handoff-alice.jpg) · [`rbac-eve-after-handoff.jpg`](evidence/rbac-eve-after-handoff.jpg) | RBAC on the containers: each reference pairing through the real hand-off; no token / bare header / tampered token / impersonation refused; console shows alice's hand-off and eve working the claim |
 | [`lambda-invoke.txt`](evidence/lambda-invoke.txt) | The CI-pushed image on Lambda: approve, guardrail hold, authority flag, refusal; then torn down and verified gone |
 | [`strands-port.json`](evidence/strands-port.json) | Coverage agent on Strands: cites only retrieved clauses; planted chunk quarantined |
@@ -208,7 +213,8 @@ by design, so a full recording never exists for them.
 colima start                      # Docker runtime (once per boot)
 cd M2 && make up                  # console: http://localhost:8510 (8501 is taken on this laptop)
 make smoke                        # one claim per outcome through the running stack
-make test                         # 77 tests (fuzz gate, restart survival, RBAC, Ask ClaimSense, queue, AgentCore), $0
+make test                         # 80 tests (fuzz gate, restart survival, RBAC, per-agent ratchet, Ask, queue, AgentCore), $0
+make agent-evals                  # per-agent scores vs labels, before code corrects them ($0)
 scripts/get-jwt.sh carol          # a signed ID token for a synthetic user (dev issuer; M3: Cognito)
 make evals-golden                 # leaderboard form: --suite golden --cases 30 -> "pass rate: NN% (x/y)"
 MODEL_PROVIDER=bedrock make evals-live   # Claude on Bedrock (needs requirements-bedrock.txt + model access)
