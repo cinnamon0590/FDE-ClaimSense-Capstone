@@ -1,4 +1,5 @@
-ClaimSense container wiring proof · 2026-11-16 09:08:24
+ClaimSense container wiring proof · 2026-11-16 09:14:28
+fresh clone -> `docker compose up --build` healthy in 205 s (target < 300 s: PASS)
 
 Agent ↔ RAG store (OpenSearch)
   PASS  orchestrator uses the OpenSearch RAG store  (opensearch-bm25 at http://opensearch:9200)
