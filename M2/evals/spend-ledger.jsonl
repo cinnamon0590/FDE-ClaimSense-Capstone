@@ -3,3 +3,7 @@
 {"ts": "2026-11-16T08:45:09", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6832}
 {"ts": "2026-11-16T08:48:28", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6854}
 {"ts": "2026-11-16T08:52:00", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.679}
+{"ts": "2026-11-16T09:58:01", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6769}
+{"ts": "2026-11-16T09:58:04", "suite": "full", "cases": 3, "brain": "live", "provider": "openai", "cost_usd": 0}
+{"ts": "2026-11-16T09:58:24", "suite": "full", "cases": 1, "brain": "live", "provider": "openai", "cost_usd": 0.018}
+{"ts": "2026-11-16T09:58:55", "suite": "full", "cases": 3, "brain": "live", "provider": "openai", "cost_usd": 0.0512}

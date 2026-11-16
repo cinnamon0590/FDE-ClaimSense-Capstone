@@ -13,6 +13,9 @@ os.environ["OPENAI_API_KEY"] = ""
 os.environ.pop("OPENAI_SECRET_ID", None)
 # unit tests address in-process boundaries by user id; tests/test_rbac.py switches this OFF to prove tokens are required
 os.environ["CLAIMSENSE_ALLOW_HEADER_IDENTITY"] = "1"
+# unit tests run the eval runner on the $0 replay brain as a HARNESS check; tests/test_eval_gate.py turns the real
+# gate rule (LLM required) back on to prove a missing key, the replay brain or a low threshold turn it red
+os.environ["CLAIMSENSE_LLM_REQUIRED"] = "false"
 sys.path.insert(0, str(M2))
 
 

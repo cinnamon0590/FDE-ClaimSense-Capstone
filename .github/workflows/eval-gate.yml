@@ -3,10 +3,11 @@
 # M0: validate the eval suite (shape, coverage, computed facts) and score the legacy baseline.
 # M1: the synthetic fixtures must equal what the generator produces from the eval cases (no drift),
 #     the data must validate, and the data-boundary contract tests must pass.
-# M2 (W15): the co-pilot itself is scored on the same suite. The orchestrator image is pushed to ECR
-#           ONLY if every job below passes, including the eval gate on the replay brain (every PR, $0)
-#           AND the eval gate on the live models (main only): overall >= 90%, adversarial = 100%,
-#           every verdict model-produced (DECISIONS D-007, D-019). A failing gate = no image.
+# M2 (W15): the orchestrator image is built ONCE (build-image); the scan, the container checks and the LIVE
+#           LLM-required eval gate all test that exact build, and push-image ships that same build (same image id,
+#           no rebuild) only if every job passes and the repo variable ECR_PUSH_ENABLED is "true" (D-035).
+#           Gate: overall >= EVAL_THRESHOLD (90, never lower), adversarial = 100%, every case decided by the model.
+#           The replay-brain run on every PR is a $0 harness regression check, not the gate.
 name: eval-gate
 on:
   push:
@@ -88,8 +89,10 @@ jobs:
       - name: Unit + integration tests (typed outputs, tripwires, retrieval, fallback labelling, gate)
         working-directory: M2
         run: python3 -m pytest -q tests
-      - name: EVAL GATE (replay brain, 40 cases, $0) - a failure here blocks the image push
+      - name: HARNESS REGRESSION (replay brain = recorded model outputs, 40 cases, $0; NOT the LLM gate, which is live-eval)
         working-directory: M2
+        env:
+          CLAIMSENSE_LLM_REQUIRED: "false"
         run: python3 evals/run_evals.py --brain replay --out evals/results-ci-${{ matrix.python-version }}.txt
       - uses: actions/upload-artifact@v4
         if: always()
@@ -97,16 +100,45 @@ jobs:
           name: eval-results-replay-${{ matrix.python-version }}
           path: M2/evals/results-ci-*.txt
 
+  build-image:
+    # Build the orchestrator image ONCE (D-035). Every gate below tests THIS build and push-image pushes THIS build:
+    # same image id end to end, never a second rebuild after the gate.
+    runs-on: ubuntu-latest
+    outputs:
+      image_id: ${{ steps.build.outputs.image_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: build
+        name: "Build the orchestrator image (single-platform manifest, no attestations - Lambda rejects image indexes)"
+        run: |
+          docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t claimsense/orchestrator:ci .
+          id=$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)
+          echo "image_id=$id" >> "$GITHUB_OUTPUT"
+          echo "built claimsense/orchestrator image id \`$id\` - the build every gate tests and the push ships" >> "$GITHUB_STEP_SUMMARY"
+          docker save claimsense/orchestrator:ci | gzip -1 > orchestrator-image.tar.gz
+      - uses: actions/upload-artifact@v4
+        with: { name: orchestrator-image, path: orchestrator-image.tar.gz, retention-days: 3 }
+
   stack-smoke:
+    needs: [build-image]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Start the whole stack with one command (plus the test-only fault-injection overlay)
+      - uses: actions/download-artifact@v4
+        with: { name: orchestrator-image }
+      - name: Load THE build under test (and prove it is the one build-image produced)
+        run: |
+          gunzip -c orchestrator-image.tar.gz | docker load
+          test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
+      - name: Start the whole stack on THE build (other services built here; the orchestrator is never rebuilt)
         working-directory: M2
-        run: docker compose -f docker-compose.yml -f restart-test.compose.yml up --build -d --wait
+        run: |
+          docker tag claimsense/orchestrator:ci claimsense/orchestrator:local
+          docker compose -f docker-compose.yml -f restart-test.compose.yml build mock-systems boundary console
+          docker compose -f docker-compose.yml -f restart-test.compose.yml up -d --wait --no-build
       - name: One claim per outcome through the running containers
         run: pip install httpx==0.28.1 && python3 M2/evals/stack_smoke.py
       - name: All 40 eval cases through the containers, retrieval served by the OpenSearch RAG store (D-033)
@@ -127,63 +159,78 @@ jobs:
         run: docker compose -f docker-compose.yml -f restart-test.compose.yml down -v
 
   live-eval:
-    # The model-required gate. Runs on main (and demo/* branches, for the red-gate proof) or by hand.
+    # THE GATE (D-035): run INSIDE the exact image that will be pushed, live models, LLM REQUIRED. The rule engine
+    # never counts as a pass; a missing or invalid key turns it red. Main, demo/* and manual runs.
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/')))
-    needs: [pipeline-tests]
+    needs: [pipeline-tests, build-image]
     runs-on: ubuntu-latest
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      MOCK_BRAIN: "0"
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}     # from GitHub secrets only; passed by name, never echoed
+      EVAL_THRESHOLD: ${{ vars.EVAL_THRESHOLD || '90' }}  # may be raised; the runner refuses anything below 90
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Require the key (no key = no live gate = no push)
-        run: test -n "$OPENAI_API_KEY" || { echo "OPENAI_API_KEY secret is not set"; exit 1; }
-      - run: pip install -r M2/requirements.txt
-      - name: EVAL GATE (live, pinned gpt-4o-mini-2024-07-18 / gpt-4o-2024-08-06, 20-case smoke suite, ~$0.40) - model verdicts only
-        # The full 40-case live run is done by hand before a release (make evals-live), D-021.
-        working-directory: M2
-        run: python3 evals/run_evals.py --brain live --suite smoke --out evals/results-ci-live.txt
+      - uses: actions/download-artifact@v4
+        with: { name: orchestrator-image }
+      - name: Load THE build under test (and prove it is the one build-image produced)
+        run: |
+          gunzip -c orchestrator-image.tar.gz | docker load
+          test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
+      - name: EVAL GATE in THE image (live, pinned gpt-4o-mini-2024-07-18 / gpt-4o-2024-08-06, LLM required, 20-case smoke, ~$0.35)
+        # The full 40-case live run and the 3-run release gate are done by hand before a release (make release).
+        run: |
+          docker run --rm -e OPENAI_API_KEY -e EVAL_THRESHOLD -e MOCK_BRAIN=0 -e CLAIMSENSE_LLM_REQUIRED=true \
+            -v "$PWD/M2/evals/run_evals.py:/app/M2/evals/run_evals.py:ro" \
+            --entrypoint python claimsense/orchestrator:ci /app/M2/evals/run_evals.py --suite smoke --out /tmp/results.txt \
+            | tee results-ci-live.txt
+          exit "${PIPESTATUS[0]}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: eval-results-live
-          path: M2/evals/results-ci-live.txt
+          path: results-ci-live.txt
 
   supply-chain:
-    # OWASP LLM03: scan the exact image CI would push; publish its SBOM. A HIGH/CRITICAL CVE with a fix blocks the push.
+    # OWASP LLM03: scan THE build that will be pushed; publish its SBOM. A HIGH/CRITICAL CVE with a fix blocks the push.
+    needs: [build-image]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Build the orchestrator image (not pushed)
-        run: docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t claimsense-orchestrator:ci .
+      - uses: actions/download-artifact@v4
+        with: { name: orchestrator-image }
+      - name: Load THE build under test (and prove it is the one build-image produced)
+        run: |
+          gunzip -c orchestrator-image.tar.gz | docker load
+          test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
       - name: Vulnerability gate (Trivy, pinned) - HIGH/CRITICAL with a fix available = fail
         run: |
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.57.1 image \
-            --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 claimsense-orchestrator:ci
+            --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 claimsense/orchestrator:ci
       - name: SBOM (CycloneDX)
         run: |
           mkdir -p sbom
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD/sbom:/out" aquasec/trivy:0.57.1 image \
-            --format cyclonedx --output /out/claimsense-orchestrator.cdx.json claimsense-orchestrator:ci
+            --format cyclonedx --output /out/claimsense-orchestrator.cdx.json claimsense/orchestrator:ci
           echo "SBOM components: $(python3 -c 'import json;print(len(json.load(open("sbom/claimsense-orchestrator.cdx.json"))["components"]))')" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: sbom-claimsense-orchestrator
           path: sbom/claimsense-orchestrator.cdx.json
 
-  build-push:
-    # Runs only when EVERY gate above is green. Any failure upstream -> this job is skipped -> no image.
-    needs: [eval-suite, design-checks, pipeline-tests, stack-smoke, supply-chain, live-eval]
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/'))
+  push-image:
+    # Pushes THE build that passed every gate (same image id), only when all are green AND the repo variable
+    # ECR_PUSH_ENABLED is "true". Any failure upstream -> skipped -> no image. AWS via GitHub OIDC (no stored keys).
+    needs: [build-image, eval-suite, design-checks, pipeline-tests, stack-smoke, supply-chain, live-eval]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/')) && vars.ECR_PUSH_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write          # GitHub OIDC -> short-lived AWS credentials; no stored AWS keys
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: orchestrator-image }
+      - name: Load THE build under test (and prove it is the one build-image produced)
+        run: |
+          gunzip -c orchestrator-image.tar.gz | docker load
+          test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_CI_ROLE_ARN }}
@@ -192,11 +239,11 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: true
-      - name: Build and push the orchestrator image (tag = commit SHA; tags are immutable)
+      - name: Push THE gated build (tag = commit SHA; tags are immutable) and record its digest
         env:
           REPO: ${{ steps.ecr.outputs.registry }}/claimsense/orchestrator
         run: |
-          # single-platform manifest without attestations: Lambda rejects image indexes (deploy ladder)
-          docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t "$REPO:${GITHUB_SHA}" .
+          docker tag claimsense/orchestrator:ci "$REPO:${GITHUB_SHA}"
           docker push "$REPO:${GITHUB_SHA}"
-          echo "pushed claimsense/orchestrator:${GITHUB_SHA}" >> "$GITHUB_STEP_SUMMARY"
+          digest=$(docker inspect -f '{{index .RepoDigests 0}}' "$REPO:${GITHUB_SHA}")
+          echo "pushed claimsense/orchestrator:${GITHUB_SHA} · digest \`${digest##*@}\` · image id \`${{ needs.build-image.outputs.image_id }}\` (the build that passed the scan, the stack smoke and the live gate; not rebuilt)" >> "$GITHUB_STEP_SUMMARY"

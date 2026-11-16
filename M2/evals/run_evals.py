@@ -1,19 +1,27 @@
 """Score the ClaimSense pipeline on the eval set with the M0 scorer (same gate, same rules).
 
-    python M2/evals/run_evals.py                      # replay brain: $0, no key, deterministic (CI)
-    python M2/evals/run_evals.py --brain live         # live OpenAI models (needs OPENAI_API_KEY)
+    python M2/evals/run_evals.py                      # THE GATE: live models, LLM required (needs OPENAI_API_KEY)
+    CLAIMSENSE_LLM_REQUIRED=false python M2/evals/run_evals.py --brain replay
+                                                      # $0 harness regression run on recorded model outputs
+    EVAL_THRESHOLD=95 python M2/evals/run_evals.py    # raise the bar (it can never go below 90)
     python M2/evals/run_evals.py --brain live --record   # ...and save every model turn as a replay
     python M2/evals/run_evals.py --suite smoke        # the 20 M0 cases only
     python M2/evals/run_evals.py --brain live --repeat 3 # RELEASE gate: stability across 3 live runs
 
-Exit code 0 = DEPLOY GATE PASS (overall >= 90% AND adversarial 100% AND every verdict model-produced),
-1 = BLOCKED. CI uses the exit code to block the image push.
+Exit code 0 = DEPLOY GATE PASS (overall >= EVAL_THRESHOLD, default 90%, AND adversarial 100% AND every case decided by
+the MODEL engine), 1 = BLOCKED. CI uses the exit code to block the image push. Gate rules (CI brief, D-035):
+  * CLAIMSENSE_LLM_REQUIRED=true (the default): the deterministic rule engine never counts as a pass. A missing or
+    invalid key turns the gate RED; the replay brain is refused (it is a $0 harness test, not the gate).
+  * every scored case must show engine=model (verdict_source=model, never decided_by=fallback)
+  * a crashed case is a FAILED case, named in the report, never skipped
+  * EVAL_THRESHOLD may raise the bar; it can never lower it below the 90% floor
 
 With --repeat N (run by hand before a release) the RELEASE GATE is stricter than one lucky run:
 every case correct in at least 2 of 3 runs (ceil(2N/3) of N), every adversarial case correct in
 every run, every verdict model-produced, and the deploy gate passing on each run.
 """
 import math
+import os
 import argparse
 import asyncio
 import json
@@ -39,19 +47,62 @@ def for_scoring(result):
     return r
 
 
+FLOOR_PCT = 90
+LLM_REQUIRED = os.environ.get("CLAIMSENSE_LLM_REQUIRED", "true").strip().lower() == "true"
+OUT_DIR = Path(os.environ.get("EVAL_OUT_DIR", HERE))      # the gate also runs inside the read-only image (CI)
+
+
+def threshold_pct():
+    try:
+        return float(os.environ.get("EVAL_THRESHOLD", str(FLOOR_PCT)))
+    except ValueError:
+        return float("nan")
+
+
+def crashed(case, err):
+    """A case that raised is a FAILED case with the error named: never skipped, never silently dropped."""
+    return {"claim_id": case["claim"]["claim_id"], "user_id": case["requesting_user"]["id"],
+            "response": {"outcome": "crashed", "verdict_source": "none", "error": f"{type(err).__name__}: {err}"[:200]},
+            "decided_by": "crashed", "events": [], "usage": [], "cost_usd": 0.0, "latency_s": 0.0,
+            "replay_source": None}
+
+
+def engine_of(r):
+    """Which engine decided this case: the model, the deterministic rule engine (fallback), or a crash."""
+    if r["decided_by"] == "crashed":
+        return "crashed"
+    if r["decided_by"] == "fallback" or r["response"].get("verdict_source") != "model":
+        return "rule-engine"
+    return "model"
+
+
 async def run_all(pipe, cases, concurrency):
-    sem = asyncio.Semaphore(concurrency)
+    sem = asyncio.Semaphore(concurrency)                  # parallel, with a worker limit
 
     async def one(c):
         async with sem:
-            return c["case_id"], await pipe.run(c["claim"]["claim_id"], c["requesting_user"]["id"],
-                                                run_id=f"eval:{c['case_id']}:{time.time_ns()}")
+            try:
+                return c["case_id"], await pipe.run(c["claim"]["claim_id"], c["requesting_user"]["id"],
+                                                    run_id=f"eval:{c['case_id']}:{time.time_ns()}")
+            except Exception as e:                        # crashed = failed, named
+                return c["case_id"], crashed(c, e)
     return dict(await asyncio.gather(*[one(c) for c in cases]))
+
+
+def red(message, out):
+    report = f"ClaimSense M2 eval · {time.strftime('%Y-%m-%d %H:%M:%S')}\n\nDEPLOY GATE: BLOCKED ({message})"
+    print(report)
+    try:
+        out.write_text(report + "\n")
+    except OSError:
+        pass
+    return 1
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--brain", choices=["replay", "live"], default="replay")
+    ap.add_argument("--brain", choices=["replay", "live"], default="live",
+                    help="live = the gate (default); replay = $0 harness regression run (needs CLAIMSENSE_LLM_REQUIRED=false)")
     ap.add_argument("--record", action="store_true")
     ap.add_argument("--suite", choices=["smoke", "full", "golden"], default="full",
                     help="smoke = the 20 M0 cases (W15 gate); full/golden = all 40 incl. every adversarial case")
@@ -67,10 +118,20 @@ def main(argv=None):
         cases = cases[:20]
     if a.cases:
         cases = cases[:a.cases]
+    out = Path(a.out) if a.out else OUT_DIR / f"results-{a.brain}.txt"
+    thr = threshold_pct()
+    if not (thr >= FLOOR_PCT):                            # also catches NaN
+        return red(f"EVAL_THRESHOLD={os.environ.get('EVAL_THRESHOLD')} would lower the gate below its {FLOOR_PCT}% "
+                   "floor: refused", out)
+    if LLM_REQUIRED and a.brain != "live":
+        return red("CLAIMSENSE_LLM_REQUIRED=true: the replay brain cannot satisfy the gate. Run it as a $0 harness "
+                   "check with CLAIMSENSE_LLM_REQUIRED=false", out)
+    from claimsense import config as _cfg
+    if LLM_REQUIRED and _cfg.MODEL_PROVIDER == "openai" and not _cfg.OPENAI_API_KEY:
+        return red("CLAIMSENSE_LLM_REQUIRED=true but no OPENAI_API_KEY: the rule engine never counts as a pass", out)
     if a.repeat > 1:
         return release_gate(a, cases)
-    return evaluate(a, cases, Pipeline(brain=a.brain, record=a.record),
-                    Path(a.out) if a.out else HERE / f"results-{a.brain}.txt")[0]
+    return evaluate(a, cases, Pipeline(brain=a.brain, record=a.record), out)[0]
 
 
 def evaluate(a, cases, pipe, out, label=""):
@@ -87,10 +148,15 @@ def evaluate(a, cases, pipe, out, label=""):
         c = by_id[cid]
         resp = for_scoring(r)
         reason = score.fail_reason(c, resp)
+        engine = engine_of(r)
+        if engine == "crashed":
+            reason = f"CRASHED: {r['response']['error']}"
+        elif engine != "model" and c["expected"]["outcome"] != "refused" and LLM_REQUIRED:
+            reason = reason or "decided by the rule engine, not the model"
         got = resp["outcome"] + (f"→{resp['route_to']}" if resp.get("route_to") else "")
         want = c["expected"]["outcome"] + (f"→{c['expected']['route_to']}" if c["expected"].get("route_to") else "")
         lines.append(f"  {'PASS' if reason is None else 'FAIL'}  {cid}  {c['category']:<11} want {want:<32} got {got:<32}"
-                     f" {r['decided_by']:<16} {','.join(resp.get('guardrails_fired', []))}"
+                     f" {r['decided_by']:<16} engine={engine:<11} {','.join(resp.get('guardrails_fired', []))}"
                      + (f"  ({reason})" if reason else ""))
     lat = sorted(r["latency_s"] for r in results.values())
     p95 = lat[min(len(lat) - 1, int(round(0.95 * len(lat))) - 1)] if lat else 0
@@ -113,18 +179,29 @@ def evaluate(a, cases, pipe, out, label=""):
               ]
     if sources:
         lines.append(f"replay sources: {dict(sources)}  (scripted = harness test only; recorded = captured from a live run)")
-    gate = score.gate_passes(m)
+    thr = threshold_pct()
+    crashes = [cid for cid, r in results.items() if engine_of(r) == "crashed"]
+    not_model = [cid for cid, r in results.items() if engine_of(r) != "model"]
+    gate = score.gate_passes(m, overall=thr / 100) and not crashes and not (LLM_REQUIRED and not_model)
     passed, total = m["model_verdicts"]
     division = "mock" if a.brain == "replay" else "live"
     to_date = record_spend(a, cost, len(results)) if division == "live" else 0.0
     lines += ["", f"pass rate: {round(100 * passed / total)}% ({passed}/{total})",
               f"leaderboard: division={division}  spend_to_date=${to_date:.2f}  (from traces"
               + ("; replay brain = $0 mock division)" if division == "mock" else "; SPEND.txt at the repo root)")]
-    lines += ["", f"DEPLOY GATE: {'PASS' if gate else 'BLOCKED'} (needs overall ≥ {score.GATE_OVERALL:.0%}, adversarial 100%, model verdicts only)"]
+    lines += ["", f"engine check: {len(results) - len(not_model)}/{len(results)} cases decided by the model"
+              + (f" · NOT model: {', '.join(not_model)}" if not_model else "")
+              + (f" · CRASHED: {', '.join(crashes)}" if crashes else "")
+              + f" · CLAIMSENSE_LLM_REQUIRED={'true' if LLM_REQUIRED else 'false'}"]
+    lines += ["", f"DEPLOY GATE: {'PASS' if gate else 'BLOCKED'} (needs overall ≥ {thr:g}% (EVAL_THRESHOLD; floor {FLOOR_PCT}%), "
+              "adversarial 100%, every case decided by the model, no crashes)"]
     report = "\n".join(lines)
     print(report)
-    out.write_text(report + "\n")
-    write_cost_table(results, by_id, a.brain)
+    try:                                                  # read-only image in CI: stdout is the record
+        out.write_text(report + "\n")
+        write_cost_table(results, by_id, a.brain)
+    except OSError:
+        pass
     passed = {cid: score.fail_reason(by_id[cid], for_scoring(r)) is None for cid, r in results.items()}
     return (0 if gate else 1), passed, results
 
@@ -186,11 +263,14 @@ def record_spend(a, run_cost, n):
     cumulative W15 spend. The ledger starts from the attested baseline of everything spent before it existed."""
     entry = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "suite": a.suite, "cases": n, "brain": a.brain,
              "provider": __import__("claimsense.config", fromlist=["x"]).MODEL_PROVIDER, "cost_usd": round(run_cost, 4)}
-    with LEDGER.open("a") as f:
-        f.write(json.dumps(entry) + "\n")
-    total = sum(json.loads(line)["cost_usd"] for line in LEDGER.read_text().splitlines() if line.strip())
-    SPEND.write_text(f"{total:.2f}\n")
-    return total
+    try:
+        with LEDGER.open("a") as f:
+            f.write(json.dumps(entry) + "\n")
+        total = sum(json.loads(line)["cost_usd"] for line in LEDGER.read_text().splitlines() if line.strip())
+        SPEND.write_text(f"{total:.2f}\n")
+        return total
+    except OSError:                                       # CI runs the gate inside the read-only image
+        return run_cost
 
 
 def write_cost_table(results, by_id, brain):

@@ -12,10 +12,10 @@ smoke:         ## one claim per outcome through the running stack
 	$(PY) evals/stack_smoke.py
 test:          ## unit + integration tests ($0, no key)
 	$(PY) -m pytest -q tests
-evals:         ## eval gate on the replay brain ($0, deterministic) — what CI runs on every PR
-	$(PY) evals/run_evals.py
+evals:         ## $0 harness regression run on recorded model outputs (CI, every PR). NOT the gate: see evals-live
+	CLAIMSENSE_LLM_REQUIRED=false $(PY) evals/run_evals.py --brain replay
 evals-golden:  ## leaderboard form ($0, mock division): prints "pass rate: NN% (x/y)" and the leaderboard line
-	$(PY) evals/run_evals.py --suite golden --cases 30
+	CLAIMSENSE_LLM_REQUIRED=false $(PY) evals/run_evals.py --brain replay --suite golden --cases 30
 evals-live:    ## eval gate on the live models (needs OPENAI_API_KEY; ~$0.85)
 	MOCK_BRAIN=0 $(PY) evals/run_evals.py --brain live
 release:       ## RELEASE gate: 3 live runs; every case right >= 2/3, adversarial 3/3 (~$2.70, run by hand)
