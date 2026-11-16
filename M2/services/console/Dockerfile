@@ -2,7 +2,8 @@
 # Multi-stage (W15 "Containerise"): builder venv -> slim runtime, non-root, own HEALTHCHECK.
 
 FROM python:3.12-slim AS builder
-ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+# retries + timeout: a first build pulls many wheels in parallel; one slow download must not fail the build
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_DEFAULT_TIMEOUT=60 PIP_RETRIES=10
 RUN python -m venv /opt/venv && /opt/venv/bin/pip install streamlit==1.67.0 httpx==0.28.1
 
 FROM python:3.12-slim AS runtime

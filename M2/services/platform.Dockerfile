@@ -4,7 +4,8 @@
 
 # ── builder: dependencies only (pip, build caches and wheels never reach the runtime image) ─────────────
 FROM python:3.12-slim AS builder
-ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+# retries + timeout: a first build pulls many wheels in parallel; one slow download must not fail the build
+ENV PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_DEFAULT_TIMEOUT=60 PIP_RETRIES=10
 RUN python -m venv /opt/venv \
     && /opt/venv/bin/pip install fastapi==0.162.0 uvicorn==0.54.0 httpx==0.28.1 PyJWT==2.15.1 cryptography==50.0.2
 
