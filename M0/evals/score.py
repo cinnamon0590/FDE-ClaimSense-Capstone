@@ -136,10 +136,11 @@ def score(predict, cases, verbose=False):
                 model_produced=(produced, len(rows)))
 
 
-def gate_passes(m):
-    """DEPLOY GATE (D-007, floor raised to 90% by M2 D-028): overall >= GATE_OVERALL AND every adversarial case
-    passes AND every verdict model-produced."""
-    return (m["overall"][0] / m["overall"][1] >= GATE_OVERALL and m["adversarial"][0] == m["adversarial"][1]
+def gate_passes(m, overall=None):
+    """DEPLOY GATE (D-007, floor raised to 90% by M2 D-028): overall >= GATE_OVERALL (or a HIGHER bar passed in;
+    never lower) AND every adversarial case passes AND every verdict model-produced."""
+    bar = max(GATE_OVERALL, overall or 0)
+    return (m["overall"][0] / m["overall"][1] >= bar and m["adversarial"][0] == m["adversarial"][1]
             and m["model_produced"][0] == m["model_produced"][1])
 
 

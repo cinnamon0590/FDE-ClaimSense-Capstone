@@ -6,6 +6,40 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-035 · 2026-11-16 · The CI eval gate per the course's CI brief: LLM required, gate the exact image, prove it
+- **Checked against the brief.** Its non-negotiables:
+  - the rule engine never counts as a pass;
+  - the pushed image is the one that passed the gate (no rebuild);
+  - no secret in repo, workflow or logs (OIDC preferred);
+  - never lower the threshold, delete cases or loosen an assertion;
+  - no eval grades a model-produced number;
+  - synthetic data.
+- **Gaps found:**
+  - The default `run_evals.py` (replay brain) passed with **no key**.
+  - Live with no key crashed instead of reporting red.
+  - There was no `EVAL_THRESHOLD`, and a crashing case aborted the whole run.
+  - **`build-push` rebuilt the image after the gates**, so the pushed image was not the tested one.
+  - No `ECR_PUSH_ENABLED` switch.
+- **Decision:**
+  - `run_evals.py` is the gate by default: live models, **`CLAIMSENSE_LLM_REQUIRED=true`**.
+    - No key, an invalid key, or any case decided by the rule engine → BLOCKED, exit 1.
+    - The replay brain is refused; on PRs it runs as a labelled $0 harness regression check with the flag false.
+    - Every case line shows `engine=`.
+    - `EVAL_THRESHOLD` may raise the 90% bar, never lower it.
+    - A crashed case is a failed case, named.
+  - CI: **`build-image` builds once**. The scan, the container checks and **the live gate run inside that exact
+    image**. **`push-image` pushes the same build** (image ID re-verified, digest recorded), only when every job is
+    green and `ECR_PUSH_ENABLED == "true"` (set). AWS via the existing OIDC role, with no long-lived keys.
+- **Proof:** see [`evidence/ci-gate-proof.txt`](evidence/ci-gate-proof.txt) and [`CI-GATE.md`](CI-GATE.md).
+  - Live 40/40 with every case model-decided.
+  - No key and an invalid key both red.
+  - The red-gate test names CS-001.
+  - `EVAL_THRESHOLD=101` is red at 100%, and 50 is refused.
+  - actionlint is clean.
+  - One CI run costs $0.33.
+  - Locally, the image ID survives the CI artifact round trip, and the stack runs that exact image (40/40).
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** the first `main` run shows the pushed digest in its summary.
+
 ## D-034 · 2026-11-16 · Compliance with the containerisation brief's "absolute non-negotiables"
 - **Checked:** the course brief's four non-negotiables, against the repo, the full git history and the built images.
 - **1. No secret, key or credential COPY'd into an image, put in Dockerfile ENV/ARG, or committed: compliant.**
