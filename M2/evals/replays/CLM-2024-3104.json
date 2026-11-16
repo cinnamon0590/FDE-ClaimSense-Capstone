@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents, including the FNOL form, are on file."
+      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents are on file, including the FNOL form and repair estimate."
      },
      "usage": {
-      "input_tokens": 1123,
-      "output_tokens": 103
+      "input_tokens": 1224,
+      "output_tokens": 105,
+      "cached_tokens": 0
      }
     }
    ]
@@ -50,8 +52,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1083,
-      "output_tokens": 16
+      "input_tokens": 1085,
+      "output_tokens": 16,
+      "cached_tokens": 0
      }
     },
     {
@@ -62,23 +65,25 @@
       }
      ],
      "usage": {
-      "input_tokens": 1320,
-      "output_tokens": 28
+      "input_tokens": 1322,
+      "output_tokens": 28,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3104",
       "coverage_finding": "not_covered",
-      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage.",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including hail damage.",
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1572,
-      "output_tokens": 72
+      "input_tokens": 1574,
+      "output_tokens": 71,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -93,12 +98,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim is not covered under the policy as it provides liability coverage only, which does not cover hail damage to the insured's vehicle. Additionally, the repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries or fraud signals."
+      "recommended_route": "none",
+      "rationale": "The claim is not covered under the policy as it provides liability coverage only, and there is no payable amount. Additionally, there are no fraud signals or injury exposures."
      },
      "usage": {
-      "input_tokens": 815,
-      "output_tokens": 109
+      "input_tokens": 866,
+      "output_tokens": 82,
+      "cached_tokens": 0
      }
     }
    ]
@@ -115,13 +121,14 @@
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage."
+        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1115,
-      "output_tokens": 112
+      "input_tokens": 1139,
+      "output_tokens": 102,
+      "cached_tokens": 0
      }
     }
    ]
@@ -138,17 +145,18 @@
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, such as hail damage."
+        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1115,
-      "output_tokens": 112
+      "input_tokens": 1139,
+      "output_tokens": 102,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

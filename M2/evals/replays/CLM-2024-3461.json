@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -31,11 +32,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured vehicle, a 2017 Nissan Qashqai, was damaged in a collision with a delivery van on 2024-10-12. A repair estimate of $16,700 has been provided, and there are no reported injuries."
+      "summary": "The claim involves a collision where a delivery van reversed into the insured vehicle, causing damage to the rear quarter and boot. All required documents are on file, including a repair estimate and FNOL form."
      },
      "usage": {
-      "input_tokens": 1228,
-      "output_tokens": 121
+      "input_tokens": 1329,
+      "output_tokens": 110,
+      "cached_tokens": 0
      }
     }
    ]
@@ -51,8 +53,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1147,
-      "output_tokens": 13
+      "input_tokens": 1136,
+      "output_tokens": 13,
+      "cached_tokens": 0
      }
     },
     {
@@ -67,15 +70,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1405,
-      "output_tokens": 63
+      "input_tokens": 1394,
+      "output_tokens": 63,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3461",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is not a total loss as the repair-to-ACV ratio is below 1.0.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -84,8 +88,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1926,
-      "output_tokens": 117
+      "input_tokens": 1915,
+      "output_tokens": 132,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -100,12 +105,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim is covered under the collision coverage clause, with no inconsistencies or fraud signals detected. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss, and there are no reported injuries."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 903,
-      "output_tokens": 97
+      "input_tokens": 957,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -118,7 +124,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and all required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -126,17 +132,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied."
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
+        "quote": "A vehicle is not a total loss if the repair-to-ACV ratio is below 1.0."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1191,
-      "output_tokens": 173
+      "input_tokens": 1213,
+      "output_tokens": 173,
+      "cached_tokens": 0
      }
     }
    ]
@@ -149,7 +156,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has already been subtracted from the payable amount, resulting in a net payable of $16,200. The repair-to-ACV ratio confirms the vehicle is not a total loss, and all required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -157,21 +164,22 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied."
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
+        "quote": "A vehicle is not a total loss if the repair-to-ACV ratio is below 1.0."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1191,
-      "output_tokens": 173
+      "input_tokens": 1213,
+      "output_tokens": 189,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

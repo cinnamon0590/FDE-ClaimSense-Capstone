@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision on 2024-09-25 where the insured's vehicle was dented by a reversing delivery van. All required documents are on file, and no injuries were reported."
+      "summary": "The claim involves a collision where the insured's vehicle was dented by a reversing delivery van. All required documents are on file, including the FNOL form and a repair invoice."
      },
      "usage": {
-      "input_tokens": 1134,
-      "output_tokens": 107
+      "input_tokens": 1235,
+      "output_tokens": 103,
+      "cached_tokens": 0
      }
     }
    ]
@@ -50,8 +52,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1119,
-      "output_tokens": 14
+      "input_tokens": 1115,
+      "output_tokens": 14,
+      "cached_tokens": 0
      }
     },
     {
@@ -62,8 +65,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1354,
-      "output_tokens": 23
+      "input_tokens": 1350,
+      "output_tokens": 23,
+      "cached_tokens": 1024
      }
     },
     {
@@ -78,8 +82,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1608,
-      "output_tokens": 83
+      "input_tokens": 1604,
+      "output_tokens": 83,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -94,12 +99,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim is covered under the collision policy, with no inconsistencies or fraud signals detected. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 855,
-      "output_tokens": 89
+      "input_tokens": 901,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -112,7 +118,7 @@
       "claim_id": "CLM-2024-4117",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved because the collision coverage applies, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is approved because the collision coverage applies to the insured's vehicle damage, and the loss occurred within the policy period. The deductible has been correctly applied, resulting in a net payable amount of $1400, which is within the authority limit. All required documents are on file, and there are no indications of fraud or total loss.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -125,8 +131,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1135,
-      "output_tokens": 139
+      "input_tokens": 1157,
+      "output_tokens": 155,
+      "cached_tokens": 0
      }
     }
    ]
@@ -139,11 +146,11 @@
       "claim_id": "CLM-2024-4117",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision policy, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to damage from a collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "The policy includes collision coverage, which applies to the insured's own vehicle when damaged by collision."
+        "quote": "Collision coverage applies to the insured's own vehicle when damaged by collision."
        },
        {
         "source_id": "CLS-DED-002",
@@ -152,12 +159,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1135,
-      "output_tokens": 138
+      "input_tokens": 1157,
+      "output_tokens": 142,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -32,11 +33,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured reported a collision on 2024-10-07 involving a lorry. All required documents are on file."
+      "summary": "The claim involves a collision on 2024-10-07 where the insured's vehicle was hit by a lorry. All required documents are on file, including the FNOL form, police report, and repair estimate."
      },
      "usage": {
-      "input_tokens": 1287,
-      "output_tokens": 99
+      "input_tokens": 1388,
+      "output_tokens": 119,
+      "cached_tokens": 0
      }
     }
    ]
@@ -52,15 +54,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1127,
-      "output_tokens": 14
+      "input_tokens": 1147,
+      "output_tokens": 14,
+      "cached_tokens": 0
      }
     },
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application to collision damage payment\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -68,15 +71,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1362,
-      "output_tokens": 66
+      "input_tokens": 1382,
+      "output_tokens": 65,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4104",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The vehicle is considered a total loss as the repair cost exceeds the actual cash value, and the settlement is based on the actual cash value minus the deductible.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is considered a total loss because the repair cost exceeds the actual cash value, as defined in the total loss clause.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -85,8 +89,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1873,
-      "output_tokens": 131
+      "input_tokens": 1892,
+      "output_tokens": 135,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -102,11 +107,12 @@
       "total_loss": true,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is a total loss as the repair-to-ACV ratio is 1.1351, which exceeds the threshold of 1.0. There are no fraud signals or injury exposures indicated."
+      "rationale": "The claim is a total loss as the repair-to-ACV ratio is 1.1351, and there are no fraud signals or injury exposures."
      },
      "usage": {
-      "input_tokens": 897,
-      "output_tokens": 93
+      "input_tokens": 971,
+      "output_tokens": 83,
+      "cached_tokens": 0
      }
     }
    ]
@@ -119,17 +125,22 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a total loss, as the repair-to-ACV ratio is 1.1351, exceeding the threshold of 1.0. The assessment recommends routing to a total-loss appraiser for further evaluation. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss as the repair-to-ACV ratio exceeds 1.0. The policy was active on the loss date, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
       "citations": [
        {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is considered a total loss as the repair cost exceeds the actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost exceeds the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1182,
-      "output_tokens": 127
+      "input_tokens": 1245,
+      "output_tokens": 155,
+      "cached_tokens": 0
      }
     }
    ]
@@ -142,21 +153,26 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a total loss, as the repair-to-ACV ratio is 1.1351, exceeding the threshold of 1.0. The assessment recommends routing to a total-loss appraiser for further evaluation. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss as the repair-to-ACV ratio exceeds 1.0. The policy period covers the date of loss. The recommended route is to a total-loss appraiser due to the total loss determination.",
       "citations": [
        {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is considered a total loss as the repair cost exceeds the actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost exceeds the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1182,
-      "output_tokens": 127
+      "input_tokens": 1245,
+      "output_tokens": 150,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

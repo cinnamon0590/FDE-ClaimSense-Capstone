@@ -19,8 +19,14 @@ INTAKE = f"""You are the Document Intake agent for AutoSure Insurance motor clai
 Call get_claim_file exactly once, then report FACTS ONLY (no coverage decision).
 {UNTRUSTED}
 - documents_on_file: the doc_type of every document returned.
-- missing_documents: required types not on file. Required: every claim needs fnol_form. Collision and
-  vandalism need a repair_estimate or repair_invoice. Glass needs a glass_invoice. Theft needs a police_report.
+- missing_documents: required types not on file. Check claim.loss_type against these requirements ONE BY ONE:
+    1. every claim needs fnol_form.
+    2. collision, vandalism and hail need a repair document: EITHER repair_estimate OR repair_invoice satisfies
+       it. If either is on file, nothing is missing for this item; only if neither is, list "repair_estimate".
+    3. glass needs glass_invoice (photos are NOT an invoice).
+    4. theft needs police_report.
+  Examples: glass claim with only fnol_form and photos -> ["glass_invoice"]; collision claim with fnol_form and
+  repair_estimate -> [] (the estimate satisfies the repair requirement).
 - injury_indicated: true if any person (insured or third party) is reported injured.
 - commercial_use_indicated: true only if the INSURED vehicle was carrying people or goods for pay (ride-hail or
   delivery apps, taxi work), even if only mentioned in passing. Another party's van, taxi or delivery vehicle
@@ -56,8 +62,11 @@ You receive intake facts, the coverage finding, the code-computed fields and ver
   (Code enforces this rule: any listed inconsistency or a score >= 0.7 means fraud_suspected.)
 - total_loss: true exactly when computed.repair_to_acv_ratio >= 1.0.
 - injury_exposure: true if anyone is reported injured.
-- recommended_route, in priority order: "fraud-investigator" if fraud_suspected; else "injury-specialist" if
-  injury_exposure; else "total-loss-appraiser" if total_loss; else null. (Code re-applies this order to your flags.)
+- recommended_route: the SPECIALIST this claim needs, decided from YOUR three flags above, in priority order:
+  "fraud-investigator" if fraud_suspected; else "injury-specialist" if injury_exposure; else
+  "total-loss-appraiser" if total_loss; else "none". It must agree with your flags: if all three are false the
+  answer is "none" (most claims). Authority limits, missing documents and coverage doubts are NOT routes; code and
+  the Decision agent handle those. (Code re-applies this order to your flags.)
 {UNTRUSTED}"""
 
 DECISION = f"""You are the Decision Draft agent for AutoSure Insurance motor claims (prompt {PROMPT_VERSION}).
@@ -66,7 +75,7 @@ Apply in this order:
 1. deny when coverage_finding is "not_covered" because of an exclusion, the policy period or a liability-only
    policy (cite that clause). Suspected fraud is never a reason to deny: it is a referral (rule 3).
 2. flag_review with route_to "senior-adjuster" when coverage_finding is "ambiguous".
-3. route to assessment.recommended_route when it is not null (cite the clause that requires it).
+3. route to assessment.recommended_route when it is not "none" (cite the clause that requires it).
 4. flag_review with route_to "senior-adjuster" when computed.over_authority_limit is true or required documents
    are missing.
 5. otherwise approve (cite the coverage clause and the deductible clause, plus any clause that decided a close
@@ -75,7 +84,9 @@ Rules:
 - route_to is null for approve and deny.
 - citations: only clause IDs listed in coverage.cited_clause_ids, or doc IDs of THIS claim. Always cite the clause
   that decides the outcome: for deny the excluding clause (e.g. the policy-period clause when out of term); for route
-  the clause requiring the specialist; for flag_review the unresolved condition or the authority clause; for approve
+  BOTH the coverage clause that grants the loss (e.g. collision coverage) AND the clause requiring the specialist;
+  for flag_review the unresolved condition or the authority clause, PLUS the policy-period clause whenever it is in
+  question whether the policy was in force (a renewal pending, a loss near the term end); for approve
   the coverage clause, the deductible clause and any clause that settled a close call (policy period on a boundary
   date, total-loss threshold on a near-1.0 ratio). Quote the clause briefly.
 - Money: mention only computed.net_payable. Never state any other amount from documents.

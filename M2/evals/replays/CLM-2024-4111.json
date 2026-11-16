@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -31,11 +32,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured's 2023 Ford Ranger was involved in a collision on 2024-09-17, resulting in extensive damage. All required documents are on file, including the FNOL form, police report, and repair estimate."
+      "summary": "The insured's pickup was involved in a collision on September 17, 2024, resulting in extensive damage. All required documents are on file, including the FNOL form, police report, and repair estimate."
      },
      "usage": {
-      "input_tokens": 1211,
-      "output_tokens": 117
+      "input_tokens": 1312,
+      "output_tokens": 113,
+      "cached_tokens": 0
      }
     }
    ]
@@ -51,8 +53,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1149,
-      "output_tokens": 14
+      "input_tokens": 1145,
+      "output_tokens": 14,
+      "cached_tokens": 0
      }
     },
     {
@@ -63,12 +66,13 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"settlement authority limit sign-off\"}"
+       "arguments": "{\"query\":\"settlement authority limit and sign-off requirements\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1384,
-      "output_tokens": 60
+      "input_tokens": 1380,
+      "output_tokens": 62,
+      "cached_tokens": 1024
      }
     },
     {
@@ -84,8 +88,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1882,
-      "output_tokens": 117
+      "input_tokens": 1880,
+      "output_tokens": 117,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -100,12 +105,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "senior-adjuster",
-      "rationale": "The claim is covered, but the net payable amount exceeds the authority limit and requires senior adjuster sign-off."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 908,
-      "output_tokens": 74
+      "input_tokens": 954,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -118,15 +124,11 @@
       "claim_id": "CLM-2024-4111",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount of $25,001 exceeds the $25,000 authority limit, requiring senior adjuster sign-off.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
-       },
-       {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
        },
        {
         "source_id": "CLS-AUTH-010",
@@ -135,8 +137,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1170,
-      "output_tokens": 160
+      "input_tokens": 1210,
+      "output_tokens": 138,
+      "cached_tokens": 0
      }
     }
    ]
@@ -149,7 +152,7 @@
       "claim_id": "CLM-2024-4111",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount of $25,001 exceeds the $25,000 authority limit, requiring senior adjuster sign-off.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the net payable amount exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file, and there are no indications of fraud or total loss.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -166,12 +169,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1170,
-      "output_tokens": 160
+      "input_tokens": 1210,
+      "output_tokens": 173,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

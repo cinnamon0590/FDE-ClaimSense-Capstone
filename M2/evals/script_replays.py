@@ -87,7 +87,7 @@ def replay_for(case):
     assessment = {"claim_id": claim["claim_id"], "fraud_signals": inconsist if fraud else [],
                   "fraud_suspected": fraud, "total_loss": computed["repair_to_acv_ratio"] >= 1,
                   "injury_exposure": claim["injury_reported"],
-                  "recommended_route": route if outcome == "route" else None,
+                  "recommended_route": route if outcome == "route" else "none",
                   "rationale": "Routing follows the priority fraud, injury, total loss."}
 
     why = {"approve": "The loss is covered under the cited clauses; the deductible applies. "

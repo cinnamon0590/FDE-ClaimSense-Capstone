@@ -6,6 +6,30 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-032 · 2026-11-16 · Fix the agents the per-agent evals exposed (prompt m2-v9)
+- **From D-031:**
+  - Claim Assessment 26/36: a total-loss appraiser recommended on 8 ordinary claims, and "senior-adjuster" on
+    the 2 authority-limit cases.
+  - Intake 37/38: missed the glass invoice.
+  - Decision 33/36: a required clause omitted.
+  Code had silently corrected all 11.
+- **Decision:**
+  - **Assessment schema:** `recommended_route` is now `fraud-investigator | injury-specialist |
+    total-loss-appraiser | "none"`. An explicit "none" replaces a nullable enum, which the small model filled
+    instead of choosing null. "senior-adjuster" is removed: escalation is code's and the Decision agent's job.
+    The prompt now says the route must agree with the agent's own three flags. Code maps "none" to no route.
+  - **Intake prompt:** check the required documents one by one, with examples. A first wording made "estimate OR
+    invoice" read as two requirements, which the live spot-check caught; it was reworded before recording.
+  - **Decision prompt:** a route cites the coverage clause AND the specialist clause; a flag cites the
+    policy-period clause whenever in-force status is in question.
+  - Prompt version m2-v8 → m2-v9; replays re-recorded.
+- **Result (3-run live release gate, PASS):**
+  - 40/40 in every run; every case stable; 0/120 second-opinion disagreements.
+  - "Confirmable as written" **27/27** (was 24–25).
+  - Per-agent: **every agent 100% with 0 code overrides** (was 11). Ratchet floors raised to 100%.
+  - Cost $0.017 a claim (was $0.019).
+- **Owner:** Susan Wellington (FDE) · **Revisit when:** any agent's floor fails in CI.
+
 ## D-031 · 2026-11-16 · Per-agent evals: score each agent before code corrects it
 - **Trigger:** Susan asked whether each agent has its own eval. They didn't. The 40-case eval scores the final
   card, and code deliberately overrides some agent outputs (the required-documents checklist, the fraud rule,

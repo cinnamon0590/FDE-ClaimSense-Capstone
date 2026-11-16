@@ -10,6 +10,9 @@ from pydantic import BaseModel, ConfigDict, Field
 
 Outcome = Literal["approve", "flag_review", "route", "deny"]
 RouteTo = Literal["senior-adjuster", "fraud-investigator", "total-loss-appraiser", "injury-specialist"]
+# Assessment names a SPECIALIST or "none" (D-031). An explicit "none" instead of a nullable enum, which gpt-4o-mini
+# filled with a value 10/36 times; and no "senior-adjuster": escalation is code's and the Decision agent's job.
+AssessmentRoute = Literal["fraud-investigator", "injury-specialist", "total-loss-appraiser", "none"]
 CoverageFinding = Literal["covered", "not_covered", "ambiguous"]
 GuardrailName = Literal["injection_detected", "poisoned_chunk_quarantined", "auto_decision_blocked",
                         "uncited_claim_blocked", "pii_masked", "cross_record_blocked",
@@ -49,7 +52,7 @@ class AssessmentResult(Strict):
     fraud_suspected: bool
     total_loss: bool
     injury_exposure: bool
-    recommended_route: RouteTo | None
+    recommended_route: AssessmentRoute
     rationale: str
 
 

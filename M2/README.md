@@ -24,7 +24,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 | W15 | A guardrail that **trips** + **human handoff** | class M2 floor | `@input_guardrail` + 3 `@output_guardrail` tripwires | CS-016 / CS-035 stop at Intake and go to a senior adjuster; console shows the handoff |
 | W15 | **Traces** and **restart-survivable sessions** | class M2 floor | [`claimsense/observability.py`](claimsense/observability.py) · [`evals/restart_survival.py`](evals/restart_survival.py) | Every run writes a JSONL trace (agent, generation, tool, guardrail spans); OpenAI Traces when live. **State survives restarts** (D-027): per-step checkpoints on the `/state` volume, so `POST /recommend` with the same `run_id` resumes without re-running or re-paying; the boundary persists drafts, idempotency and audit. CI kills the orchestrator mid-claim and restarts the boundary twice on every push ([`evidence/restart-survival.txt`](evidence/restart-survival.txt)) |
 | W15 | **All six Agents SDK primitives fire** (deck slide 24) | class | [`claimsense/assistant.py`](claimsense/assistant.py) · [`pipeline.py`](claimsense/pipeline.py) | Agents, `@function_tool`, guardrails and tracing in the pipeline; **handoff** (Q&A → Coverage specialist), **`SQLiteSession`** and **`run_streamed`** in Ask ClaimSense; every pipeline agent also streams ([`tests/test_assistant.py`](tests/test_assistant.py), [`evidence/ask-claimsense-live.txt`](evidence/ask-claimsense-live.txt)) |
-| Ask | **Every agent has its own eval** (scored before code corrects it) | Susan · D-031 | [`evals/agent_evals.py`](evals/agent_evals.py) · [`evals/agent-labels.json`](evals/agent-labels.json) | Intake 37/38 · Coverage 36/36 · Assessment 26/36 (below the 90% bar; code corrects it, now visible) · Decision 33/36; CI ratchet floors ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)) |
+| Ask | **Every agent has its own eval** (scored before code corrects it) | Susan · D-031 | [`evals/agent_evals.py`](evals/agent_evals.py) · [`evals/agent-labels.json`](evals/agent-labels.json) | **All four agents 100%, 0 code overrides** (m2-v9, D-032; was Intake 37/38 · Assessment 26/36 · Decision 33/36); CI ratchet floors at 100% ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)) |
 | Ref UI | **RBAC: role decides access; routing hands the claim to the specialist; identity is a signed JWT** | reference Learning UI ("RBAC_Checks") | [`claimsense/identity.py`](claimsense/identity.py) · [`boundary_client.py`](claimsense/boundary_client.py) · [`scripts/get-jwt.sh`](scripts/get-jwt.sh) | The reference pairings (1800 alice · 1873 carol · 1946 eve · 2019 bob) pass end to end on the containers, through the real hand-off; forged, self-promoted and missing tokens are refused ([`evidence/rbac-checks.txt`](evidence/rbac-checks.txt), [`tests/test_rbac.py`](tests/test_rbac.py)) |
 | W15 | **The recommendation lands in the ops team's queue** (CIO constraint) | class | [`services/console/app.py`](services/console/app.py) · boundary `GET /recommendations` | Adjuster queue tab: entitlement-filtered, audited, confirm from the list ([`evidence/console-adjuster-queue.jpg`](evidence/console-adjuster-queue.jpg)) |
 | W15 | **Model routing + cost table** | class | [`evidence/cost-table-live.md`](evidence/cost-table-live.md) | Pinned gpt-4o-mini-2024-07-18 for the volume steps, gpt-4o-2024-08-06 for the money steps: **$0.019 per claim** (incl. second opinion and G1b), p95 19 s |
@@ -45,7 +45,8 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
   human, fails closed, and CI replays cached verdicts at $0.
 - **Per-agent evals with a ratchet** (D-031): each of the four agents is scored on its own output against derived
   golden labels before code corrects it; CI fails if any agent gets worse. It found a real Claim Assessment
-  defect that the end-to-end eval could not see ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)).
+  defect the end-to-end eval could not see; after the D-032 fixes **every agent scores 100% with 0 code
+  overrides**, and the floors are at 100% ([`evidence/agent-evals.txt`](evidence/agent-evals.txt)).
 - **RBAC with routing hand-off and token identity** (D-030): a confirmed route moves the claim into the
   specialist's queue (and out of the first-pass adjuster's); every call carries a signed, Cognito-shaped ID token
   whose groups must match the directory, so no one can choose or forge their role
@@ -84,7 +85,7 @@ guardrail that trips, human handoff, CI gate green, traces; stretch: Strands, La
 - **Deploy ladder**: the pushed image runs unchanged on AWS Lambda (Web Adapter), IAM-signed invoke, then torn down ([`cloud/lambda/`](cloud/lambda/)). AgentCore Runtime is the managed next rung, config written out ([`cloud/agentcore/`](cloud/agentcore/)).
 - **Adjuster console** (Streamlit): watch the four agents stream; badge for Model verdict / Guardrail hold / Deterministic fallback / Refused; code-computed facts shown apart from model judgment; human-only Confirm / Override.
 - **Secrets at runtime**: the OpenAI key is read from Secrets Manager in AWS, never baked in (D-023).
-- [`DECISIONS.md`](DECISIONS.md): D-017 to D-031.
+- [`DECISIONS.md`](DECISIONS.md): D-017 to D-032.
 
 ## The blocked case: a guardrail trips and a human takes over (W15 M2 floor)
 
@@ -117,7 +118,7 @@ The injected text is never echoed back (D-020); the spans stay in the audit trai
 and the output side has its own tripwires: Coverage or Decision citing a clause nobody retrieved, a draft
 mentioning another claim, and Ask ClaimSense answers (G5/G7), each withheld and sent to a human.
 
-## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v8)
+## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v9)
 
 | | Result (each of 3 runs) | Target |
 |---|---|---|
@@ -126,7 +127,7 @@ mentioning another claim, and Ask ClaimSense answers (G5/G7), each withheld and 
 | Adversarial | **11/11** every run | 100% (gate) |
 | Verdicts model-produced | 40/40 (fallback share 0%) | 100% (gate) |
 | Fraud routing | recall 4/4 · false routes 0/34 | ≥ 90% · ≤ 10% |
-| Confirmable as written (correct + every required citation) | 24–25/27 (89–93%) | M0 SC-3 proxy |
+| Confirmable as written (correct + every required citation) | **27/27 (100%)** every run (was 24–25/27 before D-032) | M0 SC-3 proxy |
 | Latency per claim | p95 17–19 s · median 15–16 s | < 90 s |
 | Cost per claim | $0.019 (≈ $185/month at 450 claims/day) | |
 | Injection detection, never-seen attacks (held-out v3) | G1 alone 1/15 → **G1 + G1b 13/15**, 0/15 false positives | M3: 100+ red-team set |

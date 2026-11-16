@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured reported that their 2018 Kia Sportage was stolen from a supermarket car park on 2024-10-21. A police report has not yet been submitted."
+      "summary": "The insured reported that their vehicle was stolen from a supermarket car park on 2024-10-21. Only the FNOL form is on file, and a police report is missing."
      },
      "usage": {
-      "input_tokens": 993,
-      "output_tokens": 101
+      "input_tokens": 1094,
+      "output_tokens": 103,
+      "cached_tokens": 0
      }
     }
    ]
@@ -46,12 +48,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"theft damage to the insured's own car covered by comprehensive coverage\"}"
+       "arguments": "{\"query\":\"theft damage to the insured's own car under comprehensive coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1169,
-      "output_tokens": 18
+      "input_tokens": 1171,
+      "output_tokens": 17,
+      "cached_tokens": 0
      }
     },
     {
@@ -66,25 +69,26 @@
       }
      ],
      "usage": {
-      "input_tokens": 1420,
-      "output_tokens": 61
+      "input_tokens": 1421,
+      "output_tokens": 61,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3355",
       "coverage_finding": "ambiguous",
-      "basis": "The comprehensive coverage includes theft, but the claim cannot be settled until a police report reference is provided, which is currently missing.",
+      "basis": "The theft damage to the insured's own car is covered under comprehensive coverage, but the claim cannot be settled until a police report reference is provided, as required by the policy.",
       "cited_clause_ids": [
        "CLS-CMP-003",
-       "CLS-THF-008",
-       "CLS-DED-002"
+       "CLS-THF-008"
       ],
-      "exclusion_or_condition": "The claim settlement is pending the submission of a police report reference."
+      "exclusion_or_condition": "Pending condition: police report required for settlement."
      },
      "usage": {
-      "input_tokens": 1929,
-      "output_tokens": 97
+      "input_tokens": 1930,
+      "output_tokens": 97,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -99,12 +103,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is pending due to missing police report, but there are no fraud signals or injury exposure. The repair-to-ACV ratio indicates it is not a total loss."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 909,
-      "output_tokens": 87
+      "input_tokens": 960,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -117,17 +122,22 @@
       "claim_id": "CLM-2024-3355",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is currently ambiguous due to the missing police report, which is required to settle the theft claim. This is not an exclusion but a pending condition. The net payable is within the authority limit, but the missing document necessitates further review.",
+      "reasoning": "The coverage finding is ambiguous because the police report, which is required for settling a theft claim, is missing. This pending condition prevents a clear determination of coverage. The loss occurred within the policy period, and the net payable is within the authority limit.",
       "citations": [
        {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage applies to theft damage."
+       },
+       {
         "source_id": "CLS-THF-008",
-        "quote": "The claim cannot be settled until a police report reference is provided."
+        "quote": "A theft claim cannot be settled until a police report reference is received."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1184,
-      "output_tokens": 111
+      "input_tokens": 1216,
+      "output_tokens": 133,
+      "cached_tokens": 0
      }
     }
    ]
@@ -140,21 +150,26 @@
       "claim_id": "CLM-2024-3355",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is currently ambiguous due to the missing police report, which is required to settle the theft claim. This is not an exclusion but a pending condition. The net payable is within the authority limit, but the missing document necessitates further review.",
+      "reasoning": "The claim is flagged for review because the coverage finding is ambiguous due to the missing police report, which is required for settlement. The policy period is confirmed to be valid, and the net payable is within the authority limit.",
       "citations": [
        {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage applies to theft damage."
+       },
+       {
         "source_id": "CLS-THF-008",
-        "quote": "The claim cannot be settled until a police report reference is provided."
+        "quote": "A theft claim cannot be settled until a police report reference is received."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1184,
-      "output_tokens": 111
+      "input_tokens": 1216,
+      "output_tokens": 127,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

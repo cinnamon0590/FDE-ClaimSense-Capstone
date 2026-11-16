@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured reported a collision on 2024-08-03, reversing into a concrete pillar in a multi-storey car park. All required documents are on file, and no injuries were reported."
+      "summary": "The insured reported a collision on 2024-08-03, reversing into a concrete pillar in a multi-storey car park. A repair estimate of $5,400 is on file, and no injuries were reported."
      },
      "usage": {
-      "input_tokens": 1147,
-      "output_tokens": 106
+      "input_tokens": 1248,
+      "output_tokens": 111,
+      "cached_tokens": 0
      }
     }
    ]
@@ -46,12 +48,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1120,
-      "output_tokens": 13
+      "input_tokens": 1125,
+      "output_tokens": 14,
+      "cached_tokens": 0
      }
     },
     {
@@ -62,15 +65,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1378,
-      "output_tokens": 23
+      "input_tokens": 1360,
+      "output_tokens": 23,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4102",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this deductible.",
+      "basis": "The policy includes collision coverage, which applies to the insured's own car for damage caused by collision, subject to the deductible. The deductible has already been applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -78,8 +82,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1632,
-      "output_tokens": 106
+      "input_tokens": 1614,
+      "output_tokens": 89,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -94,12 +99,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The fraud risk score is low (0.09) and there are no inconsistencies in the intake. The repair-to-ACV ratio indicates this is not a total loss, and no injuries were reported."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injuries reported."
      },
      "usage": {
-      "input_tokens": 878,
-      "output_tokens": 91
+      "input_tokens": 916,
+      "output_tokens": 64,
+      "cached_tokens": 0
      }
     }
    ]
@@ -112,21 +118,22 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is approved as the collision coverage applies to the insured's vehicle damage, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to the insured's own car for damage caused by collision."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has already been applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1160,
-      "output_tokens": 148
+      "input_tokens": 1171,
+      "output_tokens": 141,
+      "cached_tokens": 0
      }
     }
    ]
@@ -139,25 +146,26 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to damage caused by collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to the insured's own car for damage caused by collision."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has already been applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1160,
-      "output_tokens": 148
+      "input_tokens": 1171,
+      "output_tokens": 143,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }
