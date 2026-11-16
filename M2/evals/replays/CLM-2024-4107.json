@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -25,15 +26,18 @@
        "fnol_form",
        "photos"
       ],
-      "missing_documents": [],
+      "missing_documents": [
+       "glass_invoice"
+      ],
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a glass loss due to a stone chip from a gravel lorry on 2024-10-19. All required documents are on file."
+      "summary": "The claim involves a glass loss due to a stone chip from a gravel lorry that cracked the windscreen. The documents on file include a FNOL form and photos, but a glass invoice is missing."
      },
      "usage": {
-      "input_tokens": 1068,
-      "output_tokens": 94
+      "input_tokens": 1169,
+      "output_tokens": 106,
+      "cached_tokens": 0
      }
     }
    ]
@@ -45,31 +49,33 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1104,
-      "output_tokens": 11
+      "input_tokens": 1113,
+      "output_tokens": 11,
+      "cached_tokens": 0
      }
     },
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for glass damage\"}"
+       "arguments": "{\"query\":\"deductible application for glass damage claims\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1348,
-      "output_tokens": 23
+      "input_tokens": 1357,
+      "output_tokens": 24,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4107",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as per the policy, and the net payable amount has already been calculated correctly.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -77,8 +83,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1602,
-      "output_tokens": 87
+      "input_tokens": 1612,
+      "output_tokens": 88,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -93,12 +100,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is for glass damage with a repair-to-ACV ratio of 0.0442, indicating it is not a total loss. There are no fraud signals or injury exposures present."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 844,
-      "output_tokens": 91
+      "input_tokens": 904,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -111,21 +119,22 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster.",
+      "reasoning": "The claim is covered under comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice is missing, which needs to be reviewed by a senior adjuster. The policy was in force at the time of the incident.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+        "quote": "Comprehensive coverage includes glass breakage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as per the policy."
+        "quote": "The deductible applies to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1123,
-      "output_tokens": 128
+      "input_tokens": 1160,
+      "output_tokens": 130,
+      "cached_tokens": 0
      }
     }
    ]
@@ -138,25 +147,26 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster.",
+      "reasoning": "The claim is covered under comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster. The policy was in force at the time of the incident.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+        "quote": "Comprehensive coverage includes glass breakage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as per the policy."
+        "quote": "The deductible applies to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1123,
-      "output_tokens": 128
+      "input_tokens": 1160,
+      "output_tokens": 131,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

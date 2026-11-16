@@ -162,9 +162,10 @@ class Pipeline:
                     ctx.emit("code_override", "assessment.fraud_suspected", model=asm.fraud_suspected, code=fraud)
                     asm = asm.model_copy(update={"fraud_suspected": fraud,
                                                  "fraud_signals": asm.fraud_signals or list(intake.inconsistencies)})
-                if route != asm.recommended_route or asm.total_loss != (computed["repair_to_acv_ratio"] >= 1):
-                    ctx.emit("code_override", "assessment.recommended_route", model=asm.recommended_route, code=route)
-                    asm = asm.model_copy(update={"recommended_route": route,
+                model_route = None if asm.recommended_route == "none" else asm.recommended_route
+                if route != model_route or asm.total_loss != (computed["repair_to_acv_ratio"] >= 1):
+                    ctx.emit("code_override", "assessment.recommended_route", model=model_route, code=route)
+                    asm = asm.model_copy(update={"recommended_route": route or "none",
                                                  "total_loss": computed["repair_to_acv_ratio"] >= 1})
                 try:
                     decision_in = {"claim_id": claim_id, "verified_facts": facts, "intake": intake.model_dump(),

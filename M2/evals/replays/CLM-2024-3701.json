@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision with a parked car on 2024-08-19, with a repair estimate of $2,600. All required documents are on file, and no injuries were reported."
+      "summary": "The claim involves a collision with a parked car on 2024-08-19. A repair estimate of $2,600 has been submitted along with the FNOL form."
      },
      "usage": {
-      "input_tokens": 1131,
-      "output_tokens": 107
+      "input_tokens": 1232,
+      "output_tokens": 102,
+      "cached_tokens": 0
      }
     }
    ]
@@ -50,36 +52,39 @@
       }
      ],
      "usage": {
-      "input_tokens": 1097,
-      "output_tokens": 13
+      "input_tokens": 1092,
+      "output_tokens": 13,
+      "cached_tokens": 0
      }
     },
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"policy period coverage\"}"
+       "arguments": "{\"query\":\"policy period coverage dates\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1331,
-      "output_tokens": 19
+      "input_tokens": 1326,
+      "output_tokens": 20,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3701",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which ended on 2024-08-01. The policy explicitly states that coverage applies only to losses within the policy period.",
+      "basis": "The loss occurred outside the policy period, which ended on 2024-08-01. The policy does not cover any loss occurring after this date.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": null
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1518,
-      "output_tokens": 88
+      "input_tokens": 1514,
+      "output_tokens": 88,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -94,12 +99,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals, total loss conditions, or injury exposures present."
+      "recommended_route": "none",
+      "rationale": "The claim is not covered due to the loss occurring outside the policy period, and there are no indications of fraud, total loss, or injury exposure."
      },
      "usage": {
-      "input_tokens": 837,
-      "output_tokens": 78
+      "input_tokens": 883,
+      "output_tokens": 79,
+      "cached_tokens": 0
      }
     }
    ]
@@ -112,17 +118,18 @@
       "claim_id": "CLM-2024-3701",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-08-01. The policy explicitly covers only losses within the policy period, and this incident happened on 2024-08-19, making it ineligible for coverage.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy ended on 2024-08-01, and the incident took place on 2024-08-19, which is not covered. There is no payable amount as the loss is out of term.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses within the policy period."
+        "quote": "The policy does not cover any loss occurring after the end date of 2024-08-01."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1106,
-      "output_tokens": 109
+      "input_tokens": 1153,
+      "output_tokens": 122,
+      "cached_tokens": 0
      }
     }
    ]
@@ -135,21 +142,22 @@
       "claim_id": "CLM-2024-3701",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-08-01. The policy explicitly covers only losses that occur within the policy period.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy ended on 2024-08-01, and the incident took place on 2024-08-19, which is not covered. All required documents are on file, but no payable amount is due since the loss is out of term.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses within the policy period."
+        "quote": "The policy does not cover any loss occurring after the end date of the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1106,
-      "output_tokens": 91
+      "input_tokens": 1153,
+      "output_tokens": 126,
+      "cached_tokens": 1024
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

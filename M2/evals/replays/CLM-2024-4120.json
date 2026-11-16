@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision with a parked trailer on May 29, 2024. All required documents are on file, and no injuries were reported."
+      "summary": "The claim involves a collision with a parked trailer on May 29, 2024. All required documents are on file, including the FNOL form and repair estimate."
      },
      "usage": {
-      "input_tokens": 1123,
-      "output_tokens": 98
+      "input_tokens": 1224,
+      "output_tokens": 101,
+      "cached_tokens": 0
      }
     }
    ]
@@ -50,8 +52,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1088,
-      "output_tokens": 13
+      "input_tokens": 1091,
+      "output_tokens": 13,
+      "cached_tokens": 0
      }
     },
     {
@@ -62,15 +65,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1322,
-      "output_tokens": 21
+      "input_tokens": 1325,
+      "output_tokens": 21,
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4120",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "basis": "The loss date is outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
@@ -78,8 +82,9 @@
       "exclusion_or_condition": "Loss date outside policy period"
      },
      "usage": {
-      "input_tokens": 1511,
-      "output_tokens": 86
+      "input_tokens": 1514,
+      "output_tokens": 87,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -94,12 +99,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals, total loss conditions, or injury exposures present."
+      "recommended_route": "none",
+      "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no indications of fraud, total loss, or injury exposure."
      },
      "usage": {
-      "input_tokens": 827,
-      "output_tokens": 78
+      "input_tokens": 881,
+      "output_tokens": 80,
+      "cached_tokens": 0
      }
     }
    ]
@@ -112,17 +118,18 @@
       "claim_id": "CLM-2024-4120",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on May 10, 2024, and the incident occurred on May 29, 2024. Therefore, there is no duty to pay for this loss.",
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly states there is no duty to pay for any loss occurring outside the policy period. All required documents are on file, and there are no indications of fraud or other issues.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "There is no duty to pay for any loss outside the policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1096,
-      "output_tokens": 116
+      "input_tokens": 1152,
+      "output_tokens": 107,
+      "cached_tokens": 0
      }
     }
    ]
@@ -135,21 +142,22 @@
       "claim_id": "CLM-2024-4120",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which is explicitly excluded from coverage. The policy period ended on May 10, 2024, and the incident occurred on May 29, 2024. Therefore, there is no duty to pay for this loss.",
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly states there is no duty to pay for any loss occurring outside the policy period. All required documents are on file, and there are no indications of fraud or other issues.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "There is no duty to pay for any loss outside the policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1096,
-      "output_tokens": 116
+      "input_tokens": 1152,
+      "output_tokens": 107,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

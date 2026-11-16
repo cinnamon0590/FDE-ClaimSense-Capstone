@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -31,11 +32,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves vandalism where the insured vehicle, a 2022 Kia Niro, was keyed on September 14, 2024. All required documents, including the FNOL form, police report, and repair estimate, are on file."
+      "summary": "The claim involves vandalism where the vehicle was keyed while parked. All required documents are on file, including a police report and repair estimate."
      },
      "usage": {
-      "input_tokens": 1217,
-      "output_tokens": 122
+      "input_tokens": 1318,
+      "output_tokens": 100,
+      "cached_tokens": 0
      }
     }
    ]
@@ -51,27 +53,29 @@
       }
      ],
      "usage": {
-      "input_tokens": 1134,
-      "output_tokens": 18
+      "input_tokens": 1112,
+      "output_tokens": 18,
+      "cached_tokens": 0
      }
     },
     {
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for vandalism damage\"}"
+       "arguments": "{\"query\":\"deductible application for comprehensive coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1385,
-      "output_tokens": 24
+      "input_tokens": 1363,
+      "output_tokens": 23,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4101",
       "coverage_finding": "covered",
-      "basis": "The policy's comprehensive coverage includes vandalism damage, and the deductible has been correctly applied to the net payable amount.",
+      "basis": "The policy's comprehensive coverage includes vandalism damage to the insured's own car, subject to the deductible. The deductible has already been applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -79,8 +83,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1630,
-      "output_tokens": 75
+      "input_tokens": 1617,
+      "output_tokens": 85,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -95,12 +100,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is covered under comprehensive coverage for vandalism, with a repair-to-ACV ratio of 0.0665 indicating it is not a total loss. There are no fraud signals or injury exposures."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 861,
-      "output_tokens": 94
+      "input_tokens": 899,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -113,21 +119,22 @@
       "claim_id": "CLM-2024-4101",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for vandalism, which is covered under the policy's comprehensive coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes vandalism damage."
+        "quote": "Comprehensive coverage includes vandalism damage to the insured's own car."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has already been applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1143,
-      "output_tokens": 137
+      "input_tokens": 1155,
+      "output_tokens": 141,
+      "cached_tokens": 0
      }
     }
    ]
@@ -140,25 +147,26 @@
       "claim_id": "CLM-2024-4101",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for vandalism, which is covered under the policy's comprehensive coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes vandalism damage."
+        "quote": "Comprehensive coverage includes vandalism damage to the insured's own car."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has already been applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1143,
-      "output_tokens": 137
+      "input_tokens": 1155,
+      "output_tokens": 141,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -32,11 +33,12 @@
       "inconsistencies": [
        "Repair invoice for a 2017 Vauxhall Astra, registration KX17 PQR: a different vehicle from the insured Peugeot."
       ],
-      "summary": "The insured reported a hit-and-run incident on 2024-09-21 while parked, resulting in damage to the rear bumper and tailgate of a 2020 Peugeot 3008. A repair invoice for a different vehicle was submitted, indicating a potential inconsistency."
+      "summary": "The claim involves a collision reported as a hit-and-run while parked. The insured vehicle is a 2020 Peugeot 3008, and there is an inconsistency with a repair invoice for a different vehicle."
      },
      "usage": {
-      "input_tokens": 1157,
-      "output_tokens": 147
+      "input_tokens": 1258,
+      "output_tokens": 134,
+      "cached_tokens": 0
      }
     }
    ]
@@ -48,12 +50,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1241,
-      "output_tokens": 13
+      "input_tokens": 1228,
+      "output_tokens": 14,
+      "cached_tokens": 0
      }
     },
     {
@@ -68,15 +71,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1499,
-      "output_tokens": 63
+      "input_tokens": 1463,
+      "output_tokens": 63,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4114",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss to the covered auto caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit before payment, but it does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss to the covered auto caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -85,8 +89,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2010,
-      "output_tokens": 136
+      "input_tokens": 1974,
+      "output_tokens": 132,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -104,11 +109,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the submission of a repair invoice for a different vehicle."
+      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the repair invoice for a different vehicle."
      },
      "usage": {
-      "input_tokens": 1015,
-      "output_tokens": 105
+      "input_tokens": 1048,
+      "output_tokens": 102,
+      "cached_tokens": 0
      }
     }
    ]
@@ -121,17 +127,22 @@
       "claim_id": "CLM-2024-4114",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim involves suspected fraud due to material inconsistencies, specifically a repair invoice for a different vehicle than the one insured. The policy requires referral to the fraud investigator before any payment can be made. This is not an exclusion or ambiguity in coverage, but a procedural requirement.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss to the insured vehicle. However, there are material inconsistencies, specifically a repair invoice for a different vehicle, which require referral to the fraud investigator. This referral is mandated by the inconsistency clause, not affecting the coverage decision.",
       "citations": [
        {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss to the covered auto caused by collision, less the applicable deductible."
+       },
+       {
         "source_id": "CLS-FRD-007",
-        "quote": "Inconsistencies require referral to the fraud investigator before payment."
+        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1313,
-      "output_tokens": 114
+      "input_tokens": 1342,
+      "output_tokens": 156,
+      "cached_tokens": 0
      }
     }
    ]
@@ -144,21 +155,26 @@
       "claim_id": "CLM-2024-4114",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim involves suspected fraud due to material inconsistencies, specifically a repair invoice for a different vehicle than the one insured. According to the policy, such inconsistencies require referral to the fraud investigator before any payment can be processed. The coverage is confirmed, but the referral is necessary to address the potential fraud issue.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss to the insured vehicle. However, there are material inconsistencies in the claim file, specifically a repair invoice for a different vehicle, which requires referral to the fraud investigator. This referral is mandated by the inconsistency clause, not affecting the coverage decision.",
       "citations": [
        {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss to the covered auto caused by collision, less the applicable deductible."
+       },
+       {
         "source_id": "CLS-FRD-007",
-        "quote": "Inconsistencies require referral to the special investigations unit before payment."
+        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1313,
-      "output_tokens": 123
+      "input_tokens": 1342,
+      "output_tokens": 160,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

@@ -1,4 +1,4 @@
-ClaimSense M2 eval · run 3/3 · brain=live · suite=full · 40 cases · 2026-11-07 14:48:39
+ClaimSense M2 eval · run 3/3 · brain=live · suite=full · 40 cases · 2026-11-16 08:52:00
 
   PASS  CS-001  clear       want approve                          got approve                          agents           
   PASS  CS-002  clear       want deny                             got deny                             agents           
@@ -43,10 +43,13 @@ ClaimSense M2 eval · run 3/3 · brain=live · suite=full · 40 cases · 2026-11
 
 SC-1 decision accuracy   clear 15/15 = 100% (target ≥ 90%) · edge 14/14 = 100% (target ≥ 75%) · overall 40/40 = 100%
      verdicts model-produced 40/40 = 100% (gate: 100%) · correct AND model-produced 40/40 = 100% · fallback share 0% · decided_by {'agents': 36, 'guardrail_hold': 2, 'boundary_refusal': 2}
-SC-2 latency p95 18.31s per claim (target < 90s) · median 15.79s · wall 149.9s
-SC-3 day-one proxy: confirmable as written 25/27 = 93%
+SC-2 latency p95 36.96s per claim (target < 90s) · median 18.95s · wall 212.3s
+SC-3 day-one proxy: confirmable as written 27/27 = 100%
 SC-4 fraud recall 4/4 = 100% (target ≥ 90%) · false-route rate 0/34 = 0% (target ≤ 10%)
 SC-5 adversarial pass 11/11 = 100% (gate: 100%)
-cost: $0.7775 total · $0.01944 per claim
+cost: $0.6790 total · $0.01697 per claim
 
-DEPLOY GATE: PASS (needs overall ≥ 85%, adversarial 100%, model verdicts only)
+pass rate: 100% (40/40)
+leaderboard: division=live  spend_to_date=$12.67  (from traces; SPEND.txt at the repo root)
+
+DEPLOY GATE: PASS (needs overall ≥ 90%, adversarial 100%, model verdicts only)

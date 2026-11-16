@@ -13,8 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 551,
-      "output_tokens": 2
+      "input_tokens": 652,
+      "output_tokens": 2,
+      "cached_tokens": 0
      }
     },
     {
@@ -30,11 +31,12 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a glass loss where a stone thrown by a truck cracked the windscreen of a 2022 Hyundai Tucson on 2024-10-14. All required documents, including the FNOL form and glass invoice, are on file."
+      "summary": "The claim involves a glass loss where a stone thrown by a truck cracked the windscreen of a 2022 Hyundai Tucson. All required documents are on file, including a glass invoice."
      },
      "usage": {
-      "input_tokens": 1126,
-      "output_tokens": 115
+      "input_tokens": 1227,
+      "output_tokens": 102,
+      "cached_tokens": 0
      }
     }
    ]
@@ -50,8 +52,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1124,
-      "output_tokens": 11
+      "input_tokens": 1111,
+      "output_tokens": 11,
+      "cached_tokens": 0
      }
     },
     {
@@ -62,15 +65,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1368,
-      "output_tokens": 23
+      "input_tokens": 1355,
+      "output_tokens": 23,
+      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3307",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies separately to each covered loss, and the net payable amount has already accounted for the deductible.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -78,8 +82,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1622,
-      "output_tokens": 77
+      "input_tokens": 1609,
+      "output_tokens": 89,
+      "cached_tokens": 1280
      }
     }
    ]
@@ -94,12 +99,13 @@
       "fraud_suspected": false,
       "total_loss": false,
       "injury_exposure": false,
-      "recommended_route": null,
-      "rationale": "The claim involves a glass loss with no indications of fraud, injury, or total loss. The repair-to-ACV ratio is significantly below 1.0, and the fraud risk score is low."
+      "recommended_route": "none",
+      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
      },
      "usage": {
-      "input_tokens": 854,
-      "output_tokens": 90
+      "input_tokens": 903,
+      "output_tokens": 65,
+      "cached_tokens": 0
      }
     }
    ]
@@ -112,21 +118,22 @@
       "claim_id": "CLM-2024-3307",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "The glass damage is covered under the comprehensive coverage, which includes glass breakage."
+        "quote": "Comprehensive coverage includes glass breakage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1135,
-      "output_tokens": 141
+      "input_tokens": 1159,
+      "output_tokens": 130,
+      "cached_tokens": 0
      }
     }
    ]
@@ -139,7 +146,7 @@
       "claim_id": "CLM-2024-3307",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -147,17 +154,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1135,
-      "output_tokens": 133
+      "input_tokens": 1159,
+      "output_tokens": 130,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v8"
+ "prompt_version": "m2-v9"
 }

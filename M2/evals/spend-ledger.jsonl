@@ -1,2 +1,5 @@
 {"ts": "2026-11-07T19:30:00", "suite": "baseline", "cases": 0, "brain": "live", "provider": "openai", "cost_usd": 10.29, "note": "VERIFIED: platform.openai.com/usage showed $10.62 total W15 OpenAI spend on 2026-11-07 after the #6 merge's CI live gate (read by Susan); baseline = that total minus the live runs ledgered locally ($0.3324). CI's own live gates are inside the verified total, not ledgered separately."}
 {"ts": "2026-11-07T19:00:52", "suite": "smoke", "cases": 20, "brain": "live", "provider": "openai", "cost_usd": 0.3324}
+{"ts": "2026-11-16T08:45:09", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6832}
+{"ts": "2026-11-16T08:48:28", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6854}
+{"ts": "2026-11-16T08:52:00", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.679}

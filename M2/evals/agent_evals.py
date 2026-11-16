@@ -24,10 +24,11 @@ from claimsense.pipeline import Pipeline, run_sync  # noqa: E402
 
 LABELS = HERE / "agent-labels.json"
 BAR = {"Document Intake": 0.90, "Coverage Check": 0.90, "Claim Assessment": 0.90, "Decision Draft": 0.90}   # the target
-# The RATCHET: today's measured share of fully-right cases (replay = recorded live outputs, 2026-11-16). CI fails if
-# an agent drops below its floor, so nothing gets worse while the agents below the bar are fixed. Raise a floor
-# whenever an agent improves; never lower one to make CI pass.
-FLOOR = {"Document Intake": 37 / 38, "Coverage Check": 36 / 36, "Claim Assessment": 26 / 36, "Decision Draft": 33 / 36}
+# The RATCHET: the measured share of fully-right cases (replay = recorded live outputs). CI fails if an agent drops
+# below its floor. Raise a floor whenever an agent improves; never lower one to make CI pass.
+#   2026-11-16 m2-v8: Intake 37/38 · Coverage 36/36 · Assessment 26/36 · Decision 33/36
+#   2026-11-16 m2-v9 (D-032 fixes): every agent 100%, 0 code overrides -> floors raised to 1.0
+FLOOR = {"Document Intake": 1.0, "Coverage Check": 1.0, "Claim Assessment": 1.0, "Decision Draft": 1.0}
 FIELDS = {
     "Document Intake": ["documents_on_file", "missing_documents", "injury_indicated", "has_inconsistencies"],
     "Coverage Check": ["coverage_finding"],
@@ -48,7 +49,10 @@ def observed(agent, out):
     if agent == "Coverage Check":
         return {"coverage_finding": out.get("coverage_finding")}
     if agent == "Claim Assessment":
-        return {k: out.get(k) for k in FIELDS[agent]}
+        got = {k: out.get(k) for k in FIELDS[agent]}
+        if got["recommended_route"] == "none":            # m2-v9 schema: an explicit "none" means no specialist
+            got["recommended_route"] = None
+        return got
     return {"outcome_and_route": (out.get("outcome"), out.get("route_to")),
             "cites": {c["source_id"] for c in out.get("citations", [])}}
 
