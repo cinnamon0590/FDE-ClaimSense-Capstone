@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "default": "deny",
+  "note": "Deny-by-default (M3 stretch, D-037). A caller may perform an action ONLY if one of their directory groups (or their service identity) holds an explicit grant for it. Grants are the ACTION gate; the boundary's entitled() rule is the RECORD gate (which claims a group may see). Both must pass, in code, before any data moves. Synthetic sandbox; AutoSure is the single tenant.",
+  "actions": {
+    "get_claim": "read one claim file (Claims Management)",
+    "get_policy": "read a policy's declarations (Policy Administration)",
+    "list_documents": "list a claim's documents (Document Store)",
+    "get_document": "read one document (Document Store)",
+    "search_policy_clauses": "search the AutoSure policy wording (Policy & Coverage KB)",
+    "post_recommendation": "write a draft DecisionCard (idempotent)",
+    "get_latest_draft": "read the newest draft for a claim",
+    "list_pending_recommendations": "the adjuster queue: undecided drafts the caller may see",
+    "confirm_recommendation": "confirm or override a draft (human-only)",
+    "create_escalation_ticket": "open an SIU / escalation ticket (Escalation Ticketing, idempotent)",
+    "get_escalation": "read a claim's escalation ticket status",
+    "read_audit": "read the audit trail",
+    "ticket_webhook": "deliver a signed ticket-status event from the ticketing system"
+  },
+  "roles": {
+    "adjuster": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
+                 "post_recommendation", "get_latest_draft", "list_pending_recommendations", "confirm_recommendation",
+                 "create_escalation_ticket", "get_escalation"],
+    "senior-adjuster": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
+                        "post_recommendation", "get_latest_draft", "list_pending_recommendations",
+                        "confirm_recommendation", "create_escalation_ticket", "get_escalation", "read_audit"],
+    "fraud-investigator": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
+                           "post_recommendation", "get_latest_draft", "list_pending_recommendations",
+                           "create_escalation_ticket", "get_escalation"],
+    "total-loss-appraiser": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
+                             "post_recommendation", "get_latest_draft", "list_pending_recommendations",
+                             "create_escalation_ticket", "get_escalation"],
+    "customer-service": []
+  },
+  "services": {
+    "system:ticketing": ["ticket_webhook"]
+  }
+}

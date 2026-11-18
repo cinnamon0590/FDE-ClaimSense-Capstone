@@ -270,5 +270,74 @@ class HttpBoundary:
                                                     **{"Idempotency-Key": request["idempotency_key"]})).json()
 
 
-def make_boundary(url=""):
+class McpBoundary(HttpBoundary):
+    """M3 (D-036): the agents reach client data ONLY as MCP tools on the governed door (`POST /mcp`, JSON-RPC 2.0,
+    spec 2025-06-18). Same interface as HttpBoundary, so the pipeline and the agents' tools do not change; the
+    adjuster's verified token rides on every call, so the door enforces THAT adjuster's grants and entitlement.
+    Human-only paths (the queue, confirm) stay on the REST door."""
+
+    PROTOCOL = "2025-06-18"
+
+    def __init__(self, base_url, mcp_url=None):
+        super().__init__(base_url)
+        self.mcp_url = mcp_url or f"{base_url.rstrip('/')}/mcp"
+        self._n, self._ready = 0, False
+
+    def _rpc(self, method, params, user_id, agent=None):
+        self._n += 1
+        h = self._headers(user_id, agent, **{"MCP-Protocol-Version": self.PROTOCOL})
+        r = self.http.post(self.mcp_url, json={"jsonrpc": "2.0", "id": self._n, "method": method, "params": params},
+                           headers=h)
+        body = r.json()
+        if "error" in body:                                  # transport refusal (401) or a JSON-RPC error
+            data = body["error"].get("data") or {}
+            code = "unauthenticated" if r.status_code == 401 else "invalid_request"
+            return {"error": {"code": code, "message": body["error"]["message"],
+                              "request_id": data.get("request_id", "-")}}
+        return body["result"]
+
+    def _tool(self, name, args, user_id, agent=None):
+        if not self._ready:                                  # MCP lifecycle: initialize once per client
+            init = self._rpc("initialize", {"protocolVersion": self.PROTOCOL, "capabilities": {},
+                                            "clientInfo": {"name": "claimsense-orchestrator", "version": "1"}},
+                             user_id, agent)
+            self._ready = "error" not in init
+        res = self._rpc("tools/call", {"name": name, "arguments": args}, user_id, agent)
+        if "error" in res and "content" not in res:
+            return res
+        return res.get("structuredContent") or json.loads(res["content"][0]["text"])
+
+    def claim(self, user_id, claim_id, agent=None):
+        return self._tool("get_claim", {"claim_id": claim_id}, user_id, agent)
+
+    def policy(self, user_id, policy_id, agent=None):
+        return self._tool("get_policy", {"policy_id": policy_id}, user_id, agent)
+
+    def documents_for(self, user_id, claim_id, agent=None):
+        return self._tool("list_claim_documents", {"claim_id": claim_id}, user_id, agent)
+
+    def document(self, user_id, doc_id, agent=None):
+        return self._tool("get_document", {"doc_id": doc_id}, user_id, agent)
+
+    def search_clauses(self, user_id, query, k=3, agent=None):
+        return self._tool("search_policy_clauses", {"query": query, "k": k}, user_id, agent)
+
+    def draft(self, user_id, claim_id, agent=None):
+        return self._tool("get_latest_draft", {"claim_id": claim_id}, user_id, agent)
+
+    def recommend(self, user_id, claim_id, card, idempotency_key, agent="agent:decision-draft"):
+        return self._tool("create_recommendation", {"claim_id": claim_id, "decision_card": card,
+                                                    "idempotency_key": idempotency_key}, user_id, agent)
+
+    def escalate(self, user_id, claim_id, reason, idempotency_key, priority="normal", agent=None):
+        return self._tool("create_escalation_ticket", {"claim_id": claim_id, "reason": reason, "priority": priority,
+                                                       "idempotency_key": idempotency_key}, user_id, agent)
+
+    def escalation(self, user_id, claim_id, agent=None):
+        return self._tool("get_escalation", {"claim_id": claim_id}, user_id, agent)
+
+
+def make_boundary(url="", mcp_url=""):
+    if mcp_url:
+        return McpBoundary(url or mcp_url.rsplit("/mcp", 1)[0], mcp_url)
     return HttpBoundary(url) if url else LocalBoundary()

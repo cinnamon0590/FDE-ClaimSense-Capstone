@@ -53,7 +53,7 @@ class Pipeline:
     def __init__(self, brain=None, boundary=None, record=False, index=None, store=None):
         configure_tracing()
         self.brain = brain or config.brain_name()
-        self.boundary = boundary or make_boundary(config.BOUNDARY_URL)
+        self.boundary = boundary or make_boundary(config.BOUNDARY_URL, config.MCP_URL)
         self.agents, self.store = build_agents(self.brain, record=record, store=store)
         self.record = record
         # the RAG store service whenever one is configured (containers, D-033); else lexical for replay, embeddings live

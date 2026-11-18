@@ -53,6 +53,7 @@ CONSISTENCY_CHECK = os.environ.get("CONSISTENCY_CHECK", "1") == "1"
 G1B_CLASSIFIER = os.environ.get("G1B_CLASSIFIER", "1") == "1"
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 BOUNDARY_URL = os.environ.get("BOUNDARY_URL", "")             # empty = in-process boundary
+MCP_URL = os.environ.get("CLAIMSENSE_MCP_URL", "")            # M3: agents reach data as MCP tools on the door
 OPENSEARCH_URL = os.environ.get("OPENSEARCH_URL", "")         # the RAG store service (containers); empty = in-process index
 STATE_DIR = Path(os.environ.get("CLAIMSENSE_STATE", M2 / ".state"))
 REPLAY_DIR = Path(os.environ.get("REPLAY_DIR", M2 / "evals" / "replays"))

@@ -27,6 +27,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from claimsense import config
+from claimsense import audit_trail
 from claimsense.assistant import Assistant
 from claimsense.boundary_client import CALLER_TOKEN, users
 from claimsense.identity import DevIssuer, IdentityError, Verifier, header_identity_allowed, resolve
@@ -42,8 +43,27 @@ VERIFIER = (Verifier(jwks_url=os.environ["COGNITO_JWKS_URL"]) if os.environ.get(
             else Verifier(jwks=DevIssuer().jwks()))
 
 
-def authenticate(authorization, claimed_user):
-    """Return the verified user id (and bind their token to this request), or an error response."""
+def _exchange(id_token):
+    """RFC 8693 on-behalf-of (M3 D-039): trade the adjuster's ID token for a 5-minute delegated token that names the
+    agent (`act`) and carries only what the agent may do (no confirm, no audit). The agents' MCP calls carry THAT;
+    they never hold the adjuster's own login token. If the exchange is refused (e.g. no grants), the agents get no
+    token at all, so the door refuses them too, before any agent runs."""
+    import httpx
+    try:
+        r = httpx.post(f"{config.BOUNDARY_URL.rstrip('/')}/oauth/token", timeout=10, json={
+            "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange", "subject_token": id_token,
+            "subject_token_type": "urn:ietf:params:oauth:token-type:id_token", "actor": "agent:claimsense-pipeline",
+            "audience": "claimsense-door"})
+        return r.json()["access_token"] if r.status_code == 200 else None
+    except (httpx.HTTPError, KeyError, ValueError):
+        return None
+
+
+def authenticate(authorization, claimed_user, action="invoke", resource="-"):
+    """Return the verified user id (and bind their token to this request), or an error response. EVERY call is
+    audited here (M3 D-5), allowed or refused, before anything else runs; what the user may then SEE is decided by
+    the governed door (grants + entitlement) at the pipeline's step 0, still before any agent."""
+    audit_trail.VIA.set("orchestrator")
     try:
         if authorization:
             user = resolve(authorization, None, VERIFIER, DIRECTORY)
@@ -52,11 +72,42 @@ def authenticate(authorization, claimed_user):
             user = claimed_user
         else:
             raise IdentityError("authentication required")
-    except IdentityError:
-        return _bad("unauthenticated", "A valid ClaimSense token is required.", 401)
+    except IdentityError as e:
+        rid = audit_trail.record("anonymous", [], action, resource, "deny", f"unauthenticated: {e}")
+        return _bad("unauthenticated", "A valid ClaimSense token is required.", 401, rid)
+    groups = (DIRECTORY.get(user) or {}).get("groups", [])
+    if authorization and config.MCP_URL:
+        CALLER_TOKEN.set(_exchange(authorization.partition(" ")[2].strip()))   # the agents get a delegated token only
     if claimed_user and claimed_user != user:
-        return _bad("not_found_or_forbidden", "No claim is available for this request.", 403)   # never act as another
+        rid = audit_trail.record(user, groups, action, resource, "deny", f"token user is not {claimed_user!r}")
+        return _bad("not_found_or_forbidden", "No claim is available for this request.", 403, rid)   # never act as another
+    # "authenticated", not "allow": the orchestrator accepts the request; whether any data is released is the door's
+    # decision, recorded as its own allow/deny row (so "who was allowed claim X" is never muddied by entry rows)
+    audit_trail.record(user, groups, action, resource, "authenticated", "request accepted; data access decided at the door")
     return user
+
+
+PUBLIC = {"/healthz", "/ping", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"}
+
+
+@app.middleware("http")
+async def _authenticate_first(request, call_next):
+    """D-2: every non-public route verifies the bearer token BEFORE routing and body validation (so a malformed
+    body without a token is a 401, never a 422 that leaks the schema), and the refusal is audited. The handler's
+    authenticate() verifies again and audits the allowed call. Header identity only in the unit-test mode."""
+    if request.url.path not in PUBLIC:
+        auth = request.headers.get("authorization")
+        try:
+            if auth:
+                resolve(auth, None, VERIFIER, DIRECTORY)
+            elif not header_identity_allowed():
+                raise IdentityError("authentication required")
+        except IdentityError as e:
+            audit_trail.VIA.set("orchestrator")
+            rid = audit_trail.record("anonymous", [], "authenticate", f"{request.method} {request.url.path}", "deny",
+                                     f"unauthenticated: {e}")
+            return _bad("unauthenticated", "A valid ClaimSense token is required.", 401, rid)
+    return await call_next(request)
 
 
 # Test-only fault injection for the restart-survival proof (evals/restart_survival.py). Off unless the
@@ -87,8 +138,9 @@ class LiveRun:
 INFLIGHT: dict[str, LiveRun] = {}
 
 
-def _bad(code, message, status=400):
-    return JSONResponse({"error": {"code": code, "message": message, "request_id": "-"}}, status_code=status)
+def _bad(code, message, status=400, request_id="-"):
+    return JSONResponse({"error": {"code": code, "message": message, "request_id": request_id}}, status_code=status,
+                        headers={"WWW-Authenticate": 'Bearer error="invalid_token"'} if status == 401 else None)
 
 
 def _start_or_join(claim_id, req):
@@ -171,7 +223,7 @@ async def invocations(req: InvocationRequest, authorization: str | None = Header
 
 @app.post("/claims/{claim_id}/recommend")
 async def recommend(claim_id: str, req: RunRequest, authorization: str | None = Header(None)):
-    user = authenticate(authorization, req.user_id)
+    user = authenticate(authorization, req.user_id, "run_recommendation", claim_id)
     if isinstance(user, JSONResponse):
         return user
     req.user_id = user
@@ -185,7 +237,7 @@ async def recommend(claim_id: str, req: RunRequest, authorization: str | None = 
 
 @app.post("/claims/{claim_id}/recommend/stream")
 async def recommend_stream(claim_id: str, req: RunRequest, authorization: str | None = Header(None)):
-    user = authenticate(authorization, req.user_id)
+    user = authenticate(authorization, req.user_id, "run_recommendation", claim_id)
     if isinstance(user, JSONResponse):
         return user
     req.user_id = user
@@ -231,7 +283,7 @@ class AskRequest(BaseModel):
 async def ask(claim_id: str, req: AskRequest, authorization: str | None = Header(None)):
     """Ask ClaimSense (D-028): streamed NDJSON (agent switches, tool calls, the handoff, text deltas, then the
     answer). The conversation is an SDK SQLiteSession per adjuster per claim, so it survives restarts."""
-    user = authenticate(authorization, req.user_id)
+    user = authenticate(authorization, req.user_id, "ask_claimsense", claim_id)
     if isinstance(user, JSONResponse):
         return user
     if not req.question.strip() or len(req.question) > 2000:
@@ -256,7 +308,7 @@ async def ask(claim_id: str, req: AskRequest, authorization: str | None = Header
 
 @app.get("/claims/{claim_id}/ask/history")
 async def ask_history(claim_id: str, user_id: str | None = None, authorization: str | None = Header(None)):
-    user_id = authenticate(authorization, user_id)
+    user_id = authenticate(authorization, user_id, "read_ask_history", claim_id)
     if isinstance(user_id, JSONResponse):
         return user_id
     claim = PIPE.boundary.claim(user_id, claim_id, "agent:ask-claimsense")     # entitlement first

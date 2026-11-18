@@ -158,6 +158,70 @@ jobs:
         working-directory: M2
         run: docker compose -f docker-compose.yml -f restart-test.compose.yml down -v
 
+  m3-door:
+    # M3 (D-036..039): the governed MCP door, deny-by-default grants, OBO, the 4th backend + webhooks, the audit trail.
+    # Offline proofs first ($0, no containers), then the M3 stack on THE tested orchestrator build, every check
+    # through the door, and M2's container suites re-run with every agent data access going through /mcp.
+    needs: [build-image]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: M2/requirements.txt
+      - run: pip install -r M2/requirements.txt
+      - name: M3 unit tests (grants, door gates, MCP protocol, OAuth resource server, OBO, webhooks, pipeline via /mcp)
+        run: python3 -m pytest -q M3/tests
+      - name: The two-analyst test (the M3 acceptance criterion) and every door proof, offline
+        env: { PYTHONPATH: "M2:M3/door" }
+        run: |
+          python3 -m claimsense_door.two_analyst_test
+          python3 -m claimsense_door.proofs
+          python3 -m claimsense_door.stdio --selftest
+      - uses: actions/download-artifact@v4
+        with: { name: orchestrator-image }
+      - name: Load THE build under test (and prove it is the one build-image produced)
+        run: |
+          gunzip -c orchestrator-image.tar.gz | docker load
+          test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
+      - name: Start the M3 stack on THE build (door, ticketing, mock systems, OpenSearch, console; orchestrator not rebuilt)
+        working-directory: M3
+        run: |
+          docker tag claimsense/orchestrator:ci claimsense/orchestrator:local
+          docker compose build mock-systems boundary ticketing console
+          MOCK_BRAIN=1 docker compose up -d --wait --no-build
+      - name: M2 suites through the MCP door (one claim per outcome; all 40 cases)
+        run: |
+          pip install httpx==0.28.1
+          python3 M2/evals/stack_smoke.py
+          python3 M2/evals/container_eval.py
+      - name: D-2 every route refuses a bad token · D-3 refusal before any agent · stretch webhooks · interop · D-5 audit
+        working-directory: M3
+        run: |
+          python3 evals/route_auth_check.py
+          python3 evals/refusal_before_agents.py
+          python3 evals/webhook_check.py
+          python3 evals/mcp_interop_check.py
+          python3 evals/audit_check.py
+          PYTHONPATH=../M2:door python3 -m claimsense_door.two_analyst_test --url http://localhost:8002
+      - name: "RBAC hand-offs through the door (last: it moves claims between groups)"
+        run: python3 M2/evals/rbac_check.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m3-evidence
+          path: M3/evidence/
+      - name: Logs on failure
+        if: failure()
+        working-directory: M3
+        run: docker compose logs --tail=200
+      - name: Tear down
+        if: always()
+        working-directory: M3
+        run: docker compose down -v
+
   live-eval:
     # THE GATE (D-035): run INSIDE the exact image that will be pushed, live models, LLM REQUIRED. The rule engine
     # never counts as a pass; a missing or invalid key turns it red. Main, demo/* and manual runs.
@@ -218,7 +282,7 @@ jobs:
   push-image:
     # Pushes THE build that passed every gate (same image id), only when all are green AND the repo variable
     # ECR_PUSH_ENABLED is "true". Any failure upstream -> skipped -> no image. AWS via GitHub OIDC (no stored keys).
-    needs: [build-image, eval-suite, design-checks, pipeline-tests, stack-smoke, supply-chain, live-eval]
+    needs: [build-image, eval-suite, design-checks, pipeline-tests, stack-smoke, m3-door, supply-chain, live-eval]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/')) && vars.ECR_PUSH_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:

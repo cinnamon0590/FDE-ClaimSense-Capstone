@@ -1,0 +1,24 @@
+# 06-access-control-before-agents — D-3: access control in code, executed before any agent runs
+# run: 2026-11-18 17:19:17 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/refusal_before_agents.py
+# exit: 0   status: PASS
+
+baseline (alice, adjuster, entitled): {"outcome": "approve", "decided_by": "agents", "model_calls": 10}
+  PASS  the entitled run does start the agents (so the counter below is meaningful)  (13 agent/tool events)
+
+carol: {"http": 200, "outcome": "refused", "decided_by": "boundary_refusal", "returns_claim_data": false, "agent_events": [], "model_calls": 0, "cost_usd": 0, "event_kinds": ["refusal"]}
+  PASS  carol: refused, no claim data, decided_by=boundary_refusal
+  PASS  carol: ZERO agents started, ZERO model calls, $0  (event kinds: ['refusal'])
+
+dave: {"http": 200, "outcome": "refused", "decided_by": "boundary_refusal", "returns_claim_data": false, "agent_events": [], "model_calls": 0, "cost_usd": 0, "event_kinds": ["refusal"]}
+  PASS  dave: refused, no claim data, decided_by=boundary_refusal
+  PASS  dave: ZERO agents started, ZERO model calls, $0  (event kinds: ['refusal'])
+
+no token: {"http": 401, "body": {"error": {"code": "unauthenticated", "message": "A valid ClaimSense token is required.", "request_id": "f80ddaec-5963-41fe-8be3-227bf3c86e22"}}}
+  PASS  no token: 401 before the route runs
+  PASS  carol's refusal is in the audit trail (reason=not_entitled)  ({"user_id": "carol", "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp"})
+  PASS  dave's refusal is in the audit trail (reason=no_grant)  ({"user_id": "dave", "action": "token_exchange", "resource": "agent:claimsense-pipeline", "decision": "deny", "reason": "no_grant: no delegable scope for this user", "via": "sts"})
+  PASS  no authorisation rule lives in an agent prompt (the gate is code: grants.json + entitled())  (authorisation phrases found in agents_def.py: none)
+
+RESULT: PASS

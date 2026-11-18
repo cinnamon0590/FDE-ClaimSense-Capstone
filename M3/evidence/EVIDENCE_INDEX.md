@@ -1,0 +1,21 @@
+# Evidence index (M3)
+
+Every file starts with a header (what, when, command) and holds the verbatim output. Produced on a fresh
+`docker compose down -v && up` stack, in CI order (the RBAC hand-offs last). CI re-runs all of it (`m3-door`).
+
+| # | File | What it proves | Status |
+|---|---|---|---|
+| 01 | [`01-mcp-selftest.txt`](01-mcp-selftest.txt) | The MCP protocol: initialize → list → call → dedupe → deny → enumerate, smuggled identity refused | ✅ PASS |
+| 02 | [`02-two-user-test-offline.txt`](02-two-user-test-offline.txt) | D-4 two-user test in-process: both requests, both responses, matching audit rows | ✅ PASS |
+| 03 | [`03-door-proofs-offline.txt`](03-door-proofs-offline.txt) | 11 proofs: the lab's 4, deny-by-default, jailbreak, webhooks, 4th backend, injection containment, six attacks, audit traps | ✅ PASS |
+| 04 | [`04-two-user-test-stack.txt`](04-two-user-test-stack.txt) | D-4 over HTTP on the running stack (dev-issuer RS256 tokens) | ✅ PASS |
+| 05 | [`05-route-auth-every-route.txt`](05-route-auth-every-route.txt) | D-2: 20 routes + 9 MCP tools × 6 bad credentials = 174/174 refused, 174 audit rows; token exchange refusals | ✅ PASS |
+| 06 | [`06-access-control-before-agents.txt`](06-access-control-before-agents.txt) | D-3: refusals start zero agents, zero model calls, $0; no authorisation in any prompt | ✅ PASS |
+| 07 | [`07-ticketing-backend-and-webhooks.txt`](07-ticketing-backend-and-webhooks.txt) | Stretch: 4th backend through the door + signed, deduped, ordered webhooks | ✅ PASS |
+| 08 | [`08-mcp-interop-official-client.txt`](08-mcp-interop-official-client.txt) | The official Agents SDK MCP client connects, lists, calls; scope holds; no token cannot initialize | ✅ PASS |
+| 09 | [`09-audit-every-call.txt`](09-audit-every-call.txt) | D-5: 14 kinds of call each leave one complete row; append-only; who touched a claim | ✅ PASS |
+| 10 | [`10-m2-suites-through-the-door.txt`](10-m2-suites-through-the-door.txt) | M2's smoke, 40/40 container eval and RBAC hand-offs with every agent access via /mcp | ✅ PASS |
+| 11 | [`11-agentcore-gateway-plan.txt`](11-agentcore-gateway-plan.txt) | Architect: the managed twin's plan ($0) | ✅ PASS |
+| 12 | [`12-unit-tests.txt`](12-unit-tests.txt) | pytest: M3 28 · M2 88 · M0/M1 43 | ✅ PASS |
+| 13 | `13-deployed-two-user-test.txt` | D-1 + D-4 on AWS (API Gateway → Lambda → door, Cognito tokens) | ⏳ pending `aws login` + OK |
+| 14 | `14-deployed-route-auth.txt` | D-2 on the deployed URL | ⏳ pending |
