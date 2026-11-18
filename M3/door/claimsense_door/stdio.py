@@ -96,7 +96,7 @@ def selftest():
     ok &= door.handle({"jsonrpc": "2.0", "method": "notifications/initialized"}, "alice") is None
     tools = [t["name"] for t in door.handle({"jsonrpc": "2.0", "id": 2, "method": "tools/list"}, "alice")
              ["result"]["tools"]]
-    ok &= len(tools) == 9
+    ok &= len(tools) == 10
     lines.append(f"  tools/list: ok ({len(tools)} tools: {', '.join(tools)})")
     err, out = call(3, "alice", "get_claim", {"claim_id": "CLM-2024-1800"})
     ok &= not err and out.get("claim_id") == "CLM-2024-1800"

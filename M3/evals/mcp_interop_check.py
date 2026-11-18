@@ -29,8 +29,8 @@ async def main_async():
                   f"{', '.join(t.name for t in tools)}",
                   f"{user}: tools/call get_claim(CLM-2024-1800) -> isError={err} · "
                   + (f"claim {payload.get('claim_id')}" if not err else json.dumps(payload["error"])))
-            R.check(f"{user}: official client connects, lists 9 typed tools, and gets the right scope decision",
-                    len(tools) == 9 and (not err) == expect_ok)
+            R.check(f"{user}: official client connects, lists 10 typed tools, and gets the right scope decision",
+                    len(tools) == 10 and (not err) == expect_ok)
     try:
         await bad_token_case(R)
     except Exception as e:                                    # the SDK raises on a 401 at connect time

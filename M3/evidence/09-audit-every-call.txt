@@ -1,5 +1,5 @@
 # 09-audit-every-call — D-5: one audit row for every call, granted or denied (user, action, resource)
-# run: 2026-11-18 17:19:21 EST
+# run: 2026-11-18 18:27:45 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/audit_check.py
 # exit: 0   status: PASS
@@ -20,8 +20,8 @@
   PASS  orchestrator accepted          -> read_ask_history             authenticated  ({"user_id": "carol", "action": "read_ask_history", "resource": "CLM-2024-1800", "decision": "authenticated", "via": "orchestrator"})
   PASS  audit read (itself audited)    -> read_audit                   allow     ({"user_id": "bob", "action": "read_audit", "resource": "audit", "decision": "allow", "via": "rest"})
 
-2 · the whole trail on this stack: 797 rows (the newest 1000)
-   by channel/decision: {"rest/allow": 50, "sts/allow": 47, "orchestrator/authenticated": 50, "mcp/allow": 438, "sts/deny": 9, "mcp/deny": 79, "rest/deny": 77, "webhook/deny": 8, "orchestrator/deny": 32, "mcp/replay": 2, "webhook/allow": 2, "webhook/replay": 2, "mcp/error": 1}
+2 · the whole trail on this stack: 809 rows (the newest 1000)
+   by channel/decision: {"rest/allow": 50, "sts/allow": 47, "orchestrator/authenticated": 50, "mcp/allow": 438, "sts/deny": 9, "mcp/deny": 85, "rest/deny": 83, "webhook/deny": 8, "orchestrator/deny": 32, "mcp/replay": 2, "webhook/allow": 2, "webhook/replay": 2, "mcp/error": 1}
   PASS  every row carries ts, request_id, user, action, resource, decision and channel  (0 incomplete)
    who touched CLM-2024-1800's DATA (door decisions only; orchestrator entry rows are 'authenticated'): alice allow×16, alice replay×2, bob allow×2, carol deny×8, system:ticketing allow×2, system:ticketing replay×2
   PASS  the trail answers 'who accessed claim X, and were they allowed?'
@@ -29,6 +29,6 @@
   PASS  PUT /audit is not a thing (append-only; only the system writes)  (405)
   PASS  PATCH /audit is not a thing (append-only; only the system writes)  (405)
   PASS  POST /audit is not a thing (append-only; only the system writes)  (405)
-  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "b253934b-c988-48e6-9aeb-de4f26ad865c"}})
+  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "bc570790-ab1e-4f75-808c-dc22c00ee4a3"}})
 
 RESULT: PASS

@@ -58,6 +58,9 @@ class SourcedBoundary(GrantedBoundary):
         self.audit = audit_trail.read()                # the shared append-only trail, reloaded
         self.ticketing = TicketingClient(TICKETING, lambda: shared_secret("ticketing_api")) if TICKETING else None
         self._clause_index = None
+        from claimsense_door.slack import SlackNotifier, transport_from_env
+        t, mode = transport_from_env()                 # mock unless M3/.slack.env provides a token or webhook
+        self.slack = SlackNotifier(self, t, mode)
 
 
 B = SourcedBoundary(SYSTEMS)
@@ -86,6 +89,7 @@ ROUTE_ACTIONS = {
     ("GET", "/claims/{claim_id}/recommendations/latest"): "get_latest_draft",
     ("POST", "/claims/{claim_id}/escalations"): "create_escalation_ticket",
     ("GET", "/claims/{claim_id}/escalation"): "get_escalation",
+    ("POST", "/claims/{claim_id}/oncall"): "notify_oncall",
     ("GET", "/audit"): "read_audit",
     ("POST", "/mcp"): "mcp (per tool: see claimsense_door.mcp.TOOL_ACTION)",
     ("GET", "/mcp"): "405 (no server-initiated stream)",
@@ -250,6 +254,13 @@ async def escalate(claim_id: str, request: Request, x_user_id: str = Depends(cal
     body = await _json_object(request) or {}
     return B.escalate(x_user_id, claim_id, body.get("reason"), idempotency_key, body.get("priority", "normal"),
                       x_on_behalf_of_agent)
+
+
+@app.post("/claims/{claim_id}/oncall")
+async def oncall(claim_id: str, request: Request, x_user_id: str = Depends(caller_id), idempotency_key: str = Header(),
+                 x_on_behalf_of_agent: str | None = Header(None)):
+    body = await _json_object(request) or {}
+    return B.slack.notify(x_user_id, claim_id, body.get("reason"), idempotency_key, x_on_behalf_of_agent)
 
 
 @app.get("/claims/{claim_id}/escalation")

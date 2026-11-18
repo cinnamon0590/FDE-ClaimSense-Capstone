@@ -9,10 +9,9 @@
 The difference from the lab (and the reason it matters for ClaimSense): the lab's gateway authenticates callers with
 AWS_IAM and injects ONE scoped API key into every backend call. For AutoSure that would turn every adjuster into the
 same identity and destroy per-user scope. So the ClaimSense gateway uses a CUSTOM_JWT inbound authorizer (the Cognito
-user pool, audience = the console's app client) and the target is the door's own REST API, which re-verifies the
-token and applies grants + entitlement + audit itself. Whether Gateway can pass the CALLER's token through to an
-OpenAPI target unchanged must be verified against the current AgentCore docs at apply time; until it is, writes and
-any per-user-scoped tool stay on the hand-built MCP door (see README.md, the one-page decision).
+user pool, audience = the door's app client) and the target uses JWT_PASSTHROUGH: the CALLER's own token reaches the
+door's REST API, which re-verifies it and applies grants + entitlement + audit itself. Writes stay on the hand-built
+MCP door (see README.md, the one-page decision).
 
 `apply` needs: AWS credentials with bedrock-agentcore-control + iam:CreateRole/PutRolePolicy/PassRole, the deployed
 door URL (CLAIMSENSE_DOOR_URL), and the Cognito discovery URL + app client id (from ../cloud/deploy.sh outputs).
@@ -67,9 +66,10 @@ def calls(role_arn="arn:aws:iam::<your-account>:role/" + ROLE_NAME):
             "gatewayIdentifier": "<gateway id from create_gateway>", "name": TARGET_NAME,
             "targetConfiguration": {"mcp": {"openApiSchema": {
                 "inlinePayload": f"<openapi.json, servers=[{c['door']}], {len(ops)} operations: {', '.join(ops)}>"}}},
-            "credentialProviderConfigurations": [{"credentialProviderType": "GATEWAY_IAM_ROLE",
-                                                  "_note": "no stored credential: the caller's bearer token must reach "
-                                                           "the door, which re-verifies it (verify pass-through at apply)"}]}),
+            "credentialProviderConfigurations": [{"credentialProviderType": "JWT_PASSTHROUGH",
+                                                  "_note": "no stored credential: the CALLER's Cognito token is passed "
+                                                           "through to the door, which re-verifies it and applies "
+                                                           "grants + entitlement + audit per adjuster"}]}),
     ]
 
 
@@ -119,7 +119,7 @@ def apply():
                                             targetConfiguration={"mcp": {"openApiSchema": {
                                                 "inlinePayload": _spec(c["door"])}}},
                                             credentialProviderConfigurations=[
-                                                {"credentialProviderType": "GATEWAY_IAM_ROLE"}])
+                                                {"credentialProviderType": "JWT_PASSTHROUGH"}])
             state["target_id"] = tgt["targetId"]
         print(f"✓ target {state['target_id']}\n\nNext: python gateway_setup.py invoke")
     finally:

@@ -20,5 +20,6 @@ if [ "$POOL_ID" != "None" ]; then
   [ "$CID" != "None" ] && aws cognito-idp delete-user-pool-client --user-pool-id "$POOL_ID" --client-id "$CID" \
     && echo "deleted app client"
 fi
+aws logs delete-log-group --log-group-name /claimsense/door-api-access 2>/dev/null && echo "deleted access log group"
 rm -f "$HOME/.claimsense/cognito.json" "$HOME/.claimsense/deploy.json"
 echo "teardown complete (M1's pool, groups and tables kept)" | mask

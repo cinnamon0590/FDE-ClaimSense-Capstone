@@ -51,6 +51,7 @@ class GrantedBoundary(LocalBoundary):
     def __init__(self, state_path=None, ticketing=None, clause_index=None):
         self.escalations, self.webhook_events = {}, {}          # persist() swaps in SQLite-backed dicts
         super().__init__(state_path)
+        self.slack = None                                         # a SlackNotifier, when on-call paging is wired
         self.ticketing = ticketing
         self._clause_index = clause_index
 

@@ -1,12 +1,13 @@
 # 03-door-proofs-offline — every door proof offline: lab floor, Builder, Architect, six attacks
-# run: 2026-11-18 17:18:32 EST
+# run: 2026-11-18 18:27:00 EST
 # command: python -m claimsense_door.proofs
-ClaimSense M3 · the governed door, every proof · 2026-11-18 17:18:32 EST
+
+ClaimSense M3 · the governed door, every proof · 2026-11-18 18:27:00 EST
 door: in-process (offline, synthetic fixtures) · no model in the loop: each tool is called directly, as the grader does
 
 [PASS] 1 · two-user test (same question, two scopes, matching audit)
     User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
-    User B carol: 403 DENIED — No claim is available for this request. (request_id abc1961f-e8e2-4ab9-8b00-7ee722147ed9)
+    User B carol: 403 DENIED — No claim is available for this request. (request_id 391ec2ca-d47b-40fb-aa23-b6569b705d9e)
     RESULT: PASS — scope holds (different answers + matching audit)
 
 [PASS] 2 · idempotent write (create_escalation_ticket twice, one key)
@@ -25,10 +26,10 @@ door: in-process (offline, synthetic fixtures) · no model in the loop: each too
     identical shape; both denials audited=True; the reason (not_entitled vs not_found) lives ONLY in the audit trail
 
 [PASS] 5 · deny-by-default with explicit grants (Builder)
-    dave (customer-service, no grants): 9/9 tools refused at the ACTION gate, each audited reason=no_grant
+    dave (customer-service, no grants): 10/10 tools refused at the ACTION gate, each audited reason=no_grant
     unknown group 'claims-superuser' -> get_claim granted=False
     undeclared action 'delete_claim' for a senior adjuster -> granted=False
-    grants table: {"adjuster": ["confirm_recommendation", "create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "post_recommendation", "search_policy_clauses"], "senior-adjuster": ["confirm_recommendation", "create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "post_recommendation", "read_audit", "search_policy_clauses"], "fraud-investigator": ["create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "post_recommendation", "search_policy_clauses"], "total-loss-appraiser": ["create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "post_recommendation", "search_policy_clauses"], "customer-service": [], "system:ticketing": ["ticket_webhook"]}
+    grants table: {"adjuster": ["confirm_recommendation", "create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "notify_oncall", "post_recommendation", "search_policy_clauses"], "senior-adjuster": ["confirm_recommendation", "create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "notify_oncall", "post_recommendation", "read_audit", "search_policy_clauses"], "fraud-investigator": ["create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "notify_oncall", "post_recommendation", "search_policy_clauses"], "total-loss-appraiser": ["create_escalation_ticket", "get_claim", "get_document", "get_escalation", "get_latest_draft", "get_policy", "list_documents", "list_pending_recommendations", "notify_oncall", "post_recommendation", "search_policy_clauses"], "customer-service": [], "system:ticketing": ["ticket_webhook"]}
 
 [PASS] 6 · jailbreak: the model ASKS for out-of-scope data; the gate RETURNS a denial (Builder)
     model asked for CLM-2024-1873 as alice -> not_found_or_forbidden
@@ -64,7 +65,7 @@ door: in-process (offline, synthetic fixtures) · no model in the loop: each too
     6 flood of retries            -> STOPPED [backoff + breaker]: circuit open: short-circuit; call #4 short-circuited: circuit breaker open
 
 [PASS] 11 · audit trail complete + append-only; scope-matrix traps hold
-    26 rows in this run, every one with user, action, resource and decision (decisions: ['allow', 'deny', 'error', 'replay'])
+    27 rows in this run, every one with user, action, resource and decision (decisions: ['allow', 'deny', 'error', 'replay'])
     no role or service holds any audit-WRITE action; only the system writes it (trap 2); read_audit is senior-adjuster only and is itself audited
     customer-service may read claims (and so fraud scores): False (trap 1)
 

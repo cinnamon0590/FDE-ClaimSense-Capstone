@@ -15,24 +15,70 @@
     "create_escalation_ticket": "open an SIU / escalation ticket (Escalation Ticketing, idempotent)",
     "get_escalation": "read a claim's escalation ticket status",
     "read_audit": "read the audit trail",
-    "ticket_webhook": "deliver a signed ticket-status event from the ticketing system"
+    "ticket_webhook": "deliver a signed ticket-status event from the ticketing system",
+    "notify_oncall": "page the on-call senior adjuster in Slack (a link, never claim data)"
   },
   "roles": {
-    "adjuster": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
-                 "post_recommendation", "get_latest_draft", "list_pending_recommendations", "confirm_recommendation",
-                 "create_escalation_ticket", "get_escalation"],
-    "senior-adjuster": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
-                        "post_recommendation", "get_latest_draft", "list_pending_recommendations",
-                        "confirm_recommendation", "create_escalation_ticket", "get_escalation", "read_audit"],
-    "fraud-investigator": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
-                           "post_recommendation", "get_latest_draft", "list_pending_recommendations",
-                           "create_escalation_ticket", "get_escalation"],
-    "total-loss-appraiser": ["get_claim", "get_policy", "list_documents", "get_document", "search_policy_clauses",
-                             "post_recommendation", "get_latest_draft", "list_pending_recommendations",
-                             "create_escalation_ticket", "get_escalation"],
+    "adjuster": [
+      "get_claim",
+      "get_policy",
+      "list_documents",
+      "get_document",
+      "search_policy_clauses",
+      "post_recommendation",
+      "get_latest_draft",
+      "list_pending_recommendations",
+      "confirm_recommendation",
+      "create_escalation_ticket",
+      "get_escalation",
+      "notify_oncall"
+    ],
+    "senior-adjuster": [
+      "get_claim",
+      "get_policy",
+      "list_documents",
+      "get_document",
+      "search_policy_clauses",
+      "post_recommendation",
+      "get_latest_draft",
+      "list_pending_recommendations",
+      "confirm_recommendation",
+      "create_escalation_ticket",
+      "get_escalation",
+      "read_audit",
+      "notify_oncall"
+    ],
+    "fraud-investigator": [
+      "get_claim",
+      "get_policy",
+      "list_documents",
+      "get_document",
+      "search_policy_clauses",
+      "post_recommendation",
+      "get_latest_draft",
+      "list_pending_recommendations",
+      "create_escalation_ticket",
+      "get_escalation",
+      "notify_oncall"
+    ],
+    "total-loss-appraiser": [
+      "get_claim",
+      "get_policy",
+      "list_documents",
+      "get_document",
+      "search_policy_clauses",
+      "post_recommendation",
+      "get_latest_draft",
+      "list_pending_recommendations",
+      "create_escalation_ticket",
+      "get_escalation",
+      "notify_oncall"
+    ],
     "customer-service": []
   },
   "services": {
-    "system:ticketing": ["ticket_webhook"]
+    "system:ticketing": [
+      "ticket_webhook"
+    ]
   }
 }

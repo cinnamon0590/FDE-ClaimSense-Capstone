@@ -37,6 +37,9 @@ services:
 
   boundary:                                # THE governed door: REST for the console, MCP (/mcp) for the agents
     <<: *platform
+    # optional on-call paging: SLACK_BOT_TOKEN + SLACK_CHANNEL_ID (or SLACK_WEBHOOK_URL), filled by Susan herself,
+    # gitignored; absent = the offline mock. The door never gets the OpenAI key (least privilege).
+    env_file: [{ path: .slack.env, required: false }]
     command: ["uvicorn", "boundary.app:app", "--host", "0.0.0.0", "--port", "8002"]
     # CLAIMSENSE_DEV_ISSUER: the local stand-in for Cognito's hosted login (synthetic sandbox only, D-030)
     environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl,

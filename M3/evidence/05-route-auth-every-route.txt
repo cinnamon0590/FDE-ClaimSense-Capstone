@@ -1,10 +1,10 @@
 # 05-route-auth-every-route — D-2: every route and every MCP tool refuses a missing or invalid token
-# run: 2026-11-18 17:19:16 EST
+# run: 2026-11-18 18:27:40 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/route_auth_check.py
 # exit: 0   status: PASS
 
-guarded HTTP routes found in the live OpenAPI: 20 (door + orchestrator); MCP tools: 9; bad credentials per target: 6
+guarded HTTP routes found in the live OpenAPI: 21 (door + orchestrator); MCP tools: 10; bad credentials per target: 6
 
   PASS  GET   /mcp                                              (all 401)
   PASS  POST  /mcp                                              (all 401)
@@ -19,6 +19,7 @@ guarded HTTP routes found in the live OpenAPI: 20 (door + orchestrator); MCP too
   PASS  GET   /recommendations                                  (all 401)
   PASS  GET   /claims/{claim_id}/recommendations/latest         (all 401)
   PASS  POST  /claims/{claim_id}/escalations                    (all 401)
+  PASS  POST  /claims/{claim_id}/oncall                         (all 401)
   PASS  GET   /claims/{claim_id}/escalation                     (all 401)
   PASS  GET   /audit                                            (all 401)
   PASS  POST  /invocations                                      (all 401)
@@ -34,10 +35,11 @@ guarded HTTP routes found in the live OpenAPI: 20 (door + orchestrator); MCP too
   PASS  MCP   tools/call create_recommendation                   (all 401 + WWW-Authenticate resource_metadata)
   PASS  MCP   tools/call get_latest_draft                        (all 401 + WWW-Authenticate resource_metadata)
   PASS  MCP   tools/call create_escalation_ticket                (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call notify_oncall                           (all 401 + WWW-Authenticate resource_metadata)
   PASS  MCP   tools/call get_escalation                          (all 401 + WWW-Authenticate resource_metadata)
 
-bad-credential requests sent: 174 · refused with 401: 174
-  PASS  every refusal left an audit row (anonymous or unverified-webhook, action, resource, decision=deny, reason)  (174 new deny rows; e.g. {"user_id": "anonymous", "action": "authenticate", "resource": "POST /mcp", "decision": "deny", "reason": "only RS256 tokens are accepted", "via": "mcp"})
+bad-credential requests sent: 186 · refused with 401: 186
+  PASS  every refusal left an audit row (anonymous or unverified-webhook, action, resource, decision=deny, reason)  (186 new deny rows; e.g. {"user_id": "anonymous", "action": "authenticate", "resource": "POST /mcp", "decision": "deny", "reason": "only RS256 tokens are accepted", "via": "mcp"})
   PASS  the same routes accept a valid token (authentication is not the problem being tested away)  (GET /claims/CLM-2024-1800 with alice's token -> 200)
   PASS  POST  /oauth/token with a no token subject token  (400 invalid_grant)
   PASS  POST  /oauth/token with a malformed (not Bearer) subject token  (400 invalid_grant)

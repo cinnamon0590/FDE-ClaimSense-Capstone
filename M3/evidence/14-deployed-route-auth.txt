@@ -1,0 +1,43 @@
+# 14-deployed-route-auth — D-1 + D-2 on AWS: every route and tool refuses a bad token
+# run: 2026-11-18 18:15:21 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/deployed_route_check.py
+# exit: 0   status: PASS
+
+door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP API · Cognito JWT authorizer · Lambda image 76acf64-dirty @ sha256:3eee4704f452…)
+
+  PASS  D-1: the deployed door answers its health check (public)
+  PASS  GET   /mcp                                              (all 401)
+  PASS  POST  /mcp                                              (all 401)
+  PASS  GET   /claims/{claim_id}                                (all 401)
+  PASS  GET   /policies/{policy_id}                             (all 401)
+  PASS  GET   /claims/{claim_id}/documents                      (all 401)
+  PASS  GET   /documents/{doc_id}                               (all 401)
+  PASS  GET   /policy-kb/search                                 (all 401)
+  PASS  POST  /claims/{claim_id}/recommendations                (all 401)
+  PASS  POST  /recommendations/{rec_id}/confirm                 (all 401)
+  PASS  GET   /recommendations                                  (all 401)
+  PASS  GET   /claims/{claim_id}/recommendations/latest         (all 401)
+  PASS  POST  /claims/{claim_id}/escalations                    (all 401)
+  PASS  GET   /claims/{claim_id}/escalation                     (all 401)
+  PASS  GET   /audit                                            (all 401)
+  PASS  MCP   tools/call get_claim                               (all 401)
+  PASS  MCP   tools/call get_policy                              (all 401)
+  PASS  MCP   tools/call list_claim_documents                    (all 401)
+  PASS  MCP   tools/call get_document                            (all 401)
+  PASS  MCP   tools/call search_policy_clauses                   (all 401)
+  PASS  MCP   tools/call create_recommendation                   (all 401)
+  PASS  MCP   tools/call get_latest_draft                        (all 401)
+  PASS  MCP   tools/call create_escalation_ticket                (all 401)
+  PASS  MCP   tools/call get_escalation                          (all 401)
+  PASS  a valid Cognito token gets through the edge AND the door
+  PASS  /dev/token does not exist on AWS (dev issuer off)
+  PASS  token exchange refuses a forged subject token (RFC 6749 invalid_grant)
+  PASS  token exchange with alice's real Cognito token issues a narrowed delegated token (OBO on a real IdP)  (scope: create_escalation_ticket get_claim get_document get_escalation get_latest_draft get_policy list_documents post_recommendation search_policy_clauses · expires_in 300s)
+
+bad-credential requests sent: 138
+  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 138 · door anonymous deny rows: 2)
+   e.g. edge: {"requestId":"HDylgjumIAMEYCg=","ip":"<masked>","time":"18/Nov/2026:23:14:29 +0000","route":"$default","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"invalid_token: no "kid" provided in the JWT"}
+  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (10 rows read back through GET /audit as bob (senior-adjuster))
+
+RESULT: PASS

@@ -24,7 +24,7 @@ present someone else's badge.
 
 | # | Deliverable | Evidence (`evidence/`) |
 |---|---|---|
-| D-1 | **Data access boundary deployed and callable** | Local: the M3 stack (`docker compose up`; the door at `:8002`, REST + `/mcp`). AWS: `cloud/deploy.sh` → API Gateway (Cognito JWT authorizer) → Lambda → the door. Pending your `aws login` + OK; see [13/14](#deployment) |
+| D-1 | **Data access boundary deployed and callable** | **AWS:** API Gateway (Cognito JWT authorizer) → Lambda → the door, with the audit trail in DynamoDB. [`13-deployed-two-user-test.txt`](evidence/13-deployed-two-user-test.txt) and [`14-deployed-route-auth.txt`](evidence/14-deployed-route-auth.txt). **Local:** the M3 stack (`docker compose up`; the door at `:8002`, REST + `/mcp`) |
 | D-2 | **Authorisation on every route; no valid token = refused** | [`05-route-auth-every-route.txt`](evidence/05-route-auth-every-route.txt): 20 HTTP routes + 9 MCP tools × 6 bad credentials = **174/174 refused (401)**, 174 audit rows. Tokens are verified in middleware *before routing*, so no route can answer with a 422 first. The unit test `test_every_route_is_listed…` **fails the build on any unmapped route** |
 | D-3 | **Access control in code, before any agent** | [`06-access-control-before-agents.txt`](evidence/06-access-control-before-agents.txt): an entitled run starts 13 agent events; carol's and dave's refusals start **zero** agents, make zero model calls and cost $0. No authorisation phrase appears in any prompt |
 | D-4 | **Two-user test: both requests + both responses, same claim** | [`02`](evidence/02-two-user-test-offline.txt) (offline) and [`04-two-user-test-stack.txt`](evidence/04-two-user-test-stack.txt) (over HTTP): the full requests (token redacted), the full responses, the matching allow and deny audit rows, `RESULT: PASS — scope holds` |
@@ -50,7 +50,7 @@ audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-us
 | Builder | **Webhook or third backend** (we did both) | **A 4th system of record**, SIU escalation ticketing (its own container). **Webhook-driven updates**: HMAC-signed, 5-minute replay window, deduped by `event_id`, ordered by `seq` (evidence 07) |
 | Builder | Live-platform bridge | The door runs against the live mock systems of record over HTTP; on AWS, against the deployed API (D-1) |
 | Builder | A real external integration (Slack) | Same failure-handling patterns on the ticketing integration instead: backoff, breaker, idempotent dedupe, never-lost outbox. Slack is optional, below |
-| Architect | **AgentCore Gateway plan** | [`agentcore_gateway/README.md`](agentcore_gateway/README.md) (one page) + `gateway_setup.py plan` (evidence 11, $0) |
+| Architect | **AgentCore Gateway plan** | [`agentcore_gateway/README.md`](agentcore_gateway/README.md) (one page), `gateway_setup.py plan` (evidence 11), and **applied live** (evidence 16): AWS refuses caller-token pass-through for OpenAPI and MCP-server targets, so the hand-built door stays the enforcement point. Destroyed after |
 | Architect | **OBO with a real IdP** | RFC 8693 token exchange at `POST /oauth/token`: the Cognito (or dev) ID token in, a 5-minute delegated token out, with `act` = the agent and scope = request ∩ grants (never confirm or audit). **The token's scope drives `_authorize`** (`tests/test_obo.py`). The orchestrator's agents only ever hold the delegated token |
 | Architect | **Injection containment test** | Evidence 03 proof 9: the planted unprovenanced chunk is quarantined at the door (G2), **and** a poisoned "fetch claim CLM-2024-1873" is refused at the gate |
 
@@ -131,12 +131,14 @@ webhook. The door verifies the token again, in code.
 - **Known limit (documented):** the function runs with reserved concurrency 1, keeping drafts and idempotency in
   `/tmp`. DynamoDB-backed state is an M4 hardening item.
 
-## Assumptions and what is not done
+## Assumptions and limits
 
-- **AWS deployment** waits for Susan's `aws login` and an explicit OK.
-- **AgentCore Gateway `apply`** waits for the same. Its `plan` is evidence 11.
-- **Policy KB search at the door** uses BM25 over OpenSearch, so the door never holds a model key. M2's live runs used
-  embedding search in-process. A live eval through `/mcp` has not been run yet (about $0.70, needs Susan's OK).
-- **Slack** (Builder item) is optional and not built: it would need a Slack workspace Susan owns. Its failure patterns
-  are proven on the ticketing integration.
-- **Deferred to M4:** a real Okta/Keycloak IdP (Cognito is the real IdP here), and DynamoDB-backed door state.
+- **AWS:** deployed 2026-11-18. The Lambda runs unreserved, because the account's concurrency quota (10) can't
+  reserve 1. Drafts and idempotency live in `/tmp` on the single warm instance; DynamoDB-backed state is the M4
+  hardening item. Edge refusals are in the API Gateway access log, door decisions in the DynamoDB audit table.
+- **Policy KB search at the door** is BM25, so the door never holds a model key. The **live 40-case gate through the
+  door passed 40/40** (evidence 15, $0.68), so the retrieval change cost no accuracy.
+- **AgentCore Gateway** was applied live and destroyed. AWS doesn't yet pass the caller's token through to OpenAPI or
+  MCP-server targets (evidence 16), so the hand-built door stays the enforcement point.
+- **The OBO IdP** is Cognito (real). Okta and Keycloak would work identically: any OIDC issuer's JWKS plugs into
+  `Verifier`.

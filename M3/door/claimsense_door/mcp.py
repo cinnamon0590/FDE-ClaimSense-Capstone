@@ -70,6 +70,14 @@ TOOLS = [
          "priority": {"type": "string", "enum": ["normal", "high"], "default": "normal"},
          "idempotency_key": {"type": "string", "minLength": 8, "maxLength": 128}},
          "required": ["claim_id", "reason", "idempotency_key"], "additionalProperties": False}},
+    {"name": "notify_oncall", "title": "Page on-call in Slack", "annotations": WRITE,
+     "description": "Page the on-call senior adjuster in Slack with a link back to the claim (never claim data). "
+                    "Scope-checked first; retried, deduped by idempotency_key, and never lost (falls back to an SIU "
+                    "ticket if Slack is down).",
+     "inputSchema": {"type": "object", "properties": {
+         "claim_id": CLAIM, "reason": {"type": "string", "minLength": 1, "maxLength": 300},
+         "idempotency_key": {"type": "string", "minLength": 8, "maxLength": 128}},
+         "required": ["claim_id", "reason", "idempotency_key"], "additionalProperties": False}},
     {"name": "get_escalation", "title": "Get escalation status", "annotations": RO,
      "description": "The escalation ticket's status for a claim, kept current by the ticketing system's webhooks.",
      "inputSchema": {"type": "object", "properties": {"claim_id": CLAIM}, "required": ["claim_id"],
@@ -78,7 +86,8 @@ TOOLS = [
 TOOL_ACTION = {"get_claim": "get_claim", "get_policy": "get_policy", "list_claim_documents": "list_documents",
                "get_document": "get_document", "search_policy_clauses": "search_policy_clauses",
                "create_recommendation": "post_recommendation", "get_latest_draft": "get_latest_draft",
-               "create_escalation_ticket": "create_escalation_ticket", "get_escalation": "get_escalation"}
+               "create_escalation_ticket": "create_escalation_ticket", "get_escalation": "get_escalation",
+               "notify_oncall": "notify_oncall"}
 _BY_NAME = {t["name"]: t for t in TOOLS}
 
 
@@ -166,6 +175,15 @@ class McpDoor:
         elif name == "create_escalation_ticket":
             out = b.escalate(user_id, args["claim_id"], args["reason"], args["idempotency_key"],
                              args.get("priority", "normal"), agent)
+        elif name == "notify_oncall":
+            if getattr(b, "slack", None) is None:      # grant first, so an ungranted caller learns nothing more
+                out = b._authorize(b.caller(user_id), "notify_oncall", args["claim_id"], agent)
+                if out is None:
+                    rid = b._audit(b.caller(user_id), "notify_oncall", args["claim_id"], "error", "slack not configured",
+                                   agent)
+                    out = b._error("upstream_unavailable", "On-call paging is not configured.", rid)
+            else:
+                out = b.slack.notify(user_id, args["claim_id"], args["reason"], args["idempotency_key"], agent)
         else:  # get_escalation
             out = b.escalation(user_id, args["claim_id"], agent)
         return _tool_result(mid, out)

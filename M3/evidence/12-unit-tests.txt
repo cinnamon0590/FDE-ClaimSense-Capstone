@@ -1,8 +1,7 @@
-# 12-unit-tests — pytest: M3 (door, grants, routes, MCP protocol, OBO, webhooks, pipeline via /mcp) + M2 + M0/M1
-# run: 2026-11-18 17:19:23 EST
-# command: pytest -q M3/tests; (cd M2 && pytest -q); pytest -q M0 M1
+# 12-unit-tests — pytest: M3 (door, grants, routes, MCP protocol, OBO, webhooks, Slack, pipeline via /mcp) + M2 + M0/M1
+# run: 2026-11-18 18:27:56 EST
 
-............................                                             [100%]
-28 passed in 1.31s
-88 passed in 12.60s
-43 passed in 0.05s
+...............................                                          [100%]
+31 passed in 1.78s
+88 passed in 18.32s
+43 passed in 0.06s

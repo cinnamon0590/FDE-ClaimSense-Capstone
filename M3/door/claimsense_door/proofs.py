@@ -104,7 +104,7 @@ def main(argv=None):
 
     # ── Builder: deny-by-default, jailbreak, webhooks, 4th backend ──────────────────────────────────────────
     tools = ["get_claim", "get_policy", "list_claim_documents", "get_document", "search_policy_clauses",
-             "create_recommendation", "get_latest_draft", "create_escalation_ticket", "get_escalation"]
+             "create_recommendation", "get_latest_draft", "create_escalation_ticket", "get_escalation", "notify_oncall"]
     probe = {"get_claim": {"claim_id": "CLM-2024-1800"}, "get_policy": {"policy_id": b.claims["CLM-2024-1800"]["policy_id"]},
              "list_claim_documents": {"claim_id": "CLM-2024-1800"},
              "get_document": {"doc_id": b.claims["CLM-2024-1800"]["document_ids"][0]},
@@ -112,7 +112,8 @@ def main(argv=None):
              "create_recommendation": {"claim_id": "CLM-2024-1800", "decision_card": {}, "idempotency_key": "dave-0001"},
              "get_latest_draft": {"claim_id": "CLM-2024-1800"},
              "create_escalation_ticket": {"claim_id": "CLM-2024-1800", "reason": "x", "idempotency_key": "dave-esc-01"},
-             "get_escalation": {"claim_id": "CLM-2024-1800"}}
+             "get_escalation": {"claim_id": "CLM-2024-1800"},
+             "notify_oncall": {"claim_id": "CLM-2024-1800", "reason": "x", "idempotency_key": "dave-page-01"}}
     dave = {t: c.call("dave", t, probe[t])[1] for t in tools}
     no_grant = [t for t, r in dave.items() if r["isError"] and any(
         x["request_id"] == r["structuredContent"]["error"]["request_id"] and x["reason"] == "no_grant" for x in c.audit())]

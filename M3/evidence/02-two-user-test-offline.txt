@@ -1,7 +1,8 @@
 # 02-two-user-test-offline — D-4 the two-user test, in-process (no model in the loop)
-# run: 2026-11-18 17:18:32 EST
+# run: 2026-11-18 18:27:00 EST
 # command: python -m claimsense_door.two_analyst_test
-ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 17:18:32 EST
+
+ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 18:27:00 EST
 door: in-process (offline, synthetic fixtures)
 question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-1800"}
 
@@ -82,7 +83,7 @@ RESPONSE:
     "error": {
       "code": "not_found_or_forbidden",
       "message": "No claim is available for this request.",
-      "request_id": "568afa37-15e0-47fc-bed4-a86715451596"
+      "request_id": "032a25e5-c243-42ed-ac8f-bbd68fcf42e8"
     }
   },
   "isError": true
@@ -90,11 +91,11 @@ RESPONSE:
 
 === Answers ===
   User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
-  User B carol: 403 DENIED — No claim is available for this request. (request_id 568afa37-15e0-47fc-bed4-a86715451596)
+  User B carol: 403 DENIED — No claim is available for this request. (request_id 032a25e5-c243-42ed-ac8f-bbd68fcf42e8)
 
 === Append-only audit rows (one per call) ===
-  {"ts": "2026-11-18T22:18:32.803894+00:00", "request_id": "1e01e298-d63a-491c-9030-52abcc14eb59", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
-  {"ts": "2026-11-18T22:18:32.804275+00:00", "request_id": "568afa37-15e0-47fc-bed4-a86715451596", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-18T23:27:00.805946+00:00", "request_id": "407f6910-5066-4a84-a014-6121024f01a3", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-18T23:27:00.806285+00:00", "request_id": "032a25e5-c243-42ed-ac8f-bbd68fcf42e8", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
 
 checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
 RESULT: PASS — scope holds (different answers + matching audit)

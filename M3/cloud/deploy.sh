@@ -81,6 +81,7 @@ if ! aws ecr describe-images --repository-name "$REPO" --image-ids imageTag="$TA
   docker build --provenance=false --platform linux/amd64 -f "$ROOT/M3/cloud/door.Dockerfile" -t "$IMAGE" "$ROOT" -q | mask
   docker push -q "$IMAGE" | mask
 fi
+docker logout "$REG" >/dev/null 2>&1   # never leave the ECR token in ~/.docker/config.json
 DIGEST=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag="$TAG" --query 'imageDetails[0].imageDigest' --output text)
 echo "image $REPO:$TAG @ $DIGEST"
 
@@ -120,7 +121,9 @@ else
   done
 fi
 aws lambda wait function-updated --function-name "$FN" 2>/dev/null || aws lambda wait function-active --function-name "$FN"
-aws lambda put-function-concurrency --function-name "$FN" --reserved-concurrent-executions 1 >/dev/null
+# one warm instance holds /tmp state; accounts with the minimum concurrency quota (10) can't reserve any, so fall back
+aws lambda put-function-concurrency --function-name "$FN" --reserved-concurrent-executions 1 >/dev/null 2>&1 || \
+  echo "note: account concurrency quota too low to reserve 1; running unreserved (sequential traffic stays on one warm instance)"
 FN_ARN=$(aws lambda get-function --function-name "$FN" --query Configuration.FunctionArn --output text)
 
 say "API Gateway integration, authorizer, routes, stage"
@@ -147,6 +150,16 @@ route 'POST /oauth/token' NONE                         # authenticated by the su
 route 'POST /webhooks/ticketing' NONE                  # HMAC-signed by the ticketing system (door verifies)
 aws apigatewayv2 get-stages --api-id "$API_ID" --query "Items[?StageName=='\$default'].StageName | [0]" --output text | \
   grep -q default || aws apigatewayv2 create-stage --api-id "$API_ID" --stage-name '$default' --auto-deploy >/dev/null
+# edge refusals (a bad token stopped by the JWT authorizer never reaches the door) are recorded too: API Gateway
+# access log, one JSON line per request with route, status and the authorizer's error, 30-day retention
+LOGG=/claimsense/door-api-access
+aws logs describe-log-groups --log-group-name-prefix "$LOGG" --query "logGroups[?logGroupName=='$LOGG'] | [0]" \
+  --output text | grep -q "$LOGG" || { aws logs create-log-group --log-group-name "$LOGG"; \
+  aws logs put-retention-policy --log-group-name "$LOGG" --retention-in-days 30; }
+FMT='{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","time":"$context.requestTime","route":"$context.routeKey","path":"$context.path","method":"$context.httpMethod","status":"$context.status","user":"$context.authorizer.claims.cognito:username","authError":"$context.authorizer.error"}'
+ALS=$(python3 -c 'import json,sys; print(json.dumps({"DestinationArn": sys.argv[1], "Format": sys.argv[2]}))' \
+  "arn:aws:logs:$REGION:$ACCOUNT:log-group:$LOGG" "$FMT")
+aws apigatewayv2 update-stage --api-id "$API_ID" --stage-name '$default' --access-log-settings "$ALS" >/dev/null
 aws lambda add-permission --function-name "$FN" --statement-id apigw-invoke --action lambda:InvokeFunction \
   --principal apigateway.amazonaws.com --source-arn "arn:aws:execute-api:$REGION:$ACCOUNT:$API_ID/*" >/dev/null 2>&1 || true
 

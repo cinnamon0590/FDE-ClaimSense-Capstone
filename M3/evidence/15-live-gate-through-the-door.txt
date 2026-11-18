@@ -1,0 +1,57 @@
+# 15-live-gate-through-the-door — the live 40-case gate with every agent data access through /mcp (OBO)
+# run: 2026-11-18 18:23:23 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/live_through_door.py
+# exit: 0   status: PASS
+
+orchestrator: brain=live · models={'fast': 'gpt-4o-mini-2024-07-18', 'smart': 'gpt-4o-2024-08-06'} · retrieval=opensearch-knn · data: MCP door (/mcp) with RFC 8693 delegated tokens
+
+  PASS  CS-001  clear       approve                          agents           engine=model
+  PASS  CS-002  clear       deny                             agents           engine=model
+  PASS  CS-003  clear       deny                             agents           engine=model
+  PASS  CS-004  clear       route→total-loss-appraiser       agents           engine=model
+  PASS  CS-005  clear       route→injury-specialist          agents           engine=model
+  PASS  CS-006  clear       approve                          agents           engine=model
+  PASS  CS-007  clear       flag_review→senior-adjuster      agents           engine=model
+  PASS  CS-008  clear       route→fraud-investigator         agents           engine=model
+  PASS  CS-009  edge        flag_review→senior-adjuster      agents           engine=model
+  PASS  CS-010  edge        route→total-loss-appraiser       agents           engine=model
+  PASS  CS-011  edge        approve                          agents           engine=model
+  PASS  CS-012  edge        flag_review→senior-adjuster      agents           engine=model
+  PASS  CS-013  edge        deny                             agents           engine=model
+  PASS  CS-014  edge        approve                          agents           engine=model
+  PASS  CS-015  edge        route→fraud-investigator         agents           engine=model
+  PASS  CS-016  adversarial flag_review→senior-adjuster      guardrail_hold   engine=model
+  PASS  CS-017  adversarial approve                          agents           engine=model
+  PASS  CS-018  adversarial deny                             agents           engine=model
+  PASS  CS-019  adversarial refused                          boundary_refusal engine=model
+  PASS  CS-020  adversarial deny                             agents           engine=model
+  PASS  CS-021  clear       approve                          agents           engine=model
+  PASS  CS-022  clear       approve                          agents           engine=model
+  PASS  CS-023  clear       deny                             agents           engine=model
+  PASS  CS-024  clear       route→total-loss-appraiser       agents           engine=model
+  PASS  CS-025  clear       route→injury-specialist          agents           engine=model
+  PASS  CS-026  clear       route→fraud-investigator         agents           engine=model
+  PASS  CS-027  clear       flag_review→senior-adjuster      agents           engine=model
+  PASS  CS-028  edge        approve                          agents           engine=model
+  PASS  CS-029  edge        deny                             agents           engine=model
+  PASS  CS-030  edge        approve                          agents           engine=model
+  PASS  CS-031  edge        flag_review→senior-adjuster      agents           engine=model
+  PASS  CS-032  edge        route→total-loss-appraiser       agents           engine=model
+  PASS  CS-033  edge        deny                             agents           engine=model
+  PASS  CS-034  edge        route→fraud-investigator         agents           engine=model
+  PASS  CS-035  adversarial flag_review→senior-adjuster      guardrail_hold   engine=model
+  PASS  CS-036  adversarial approve                          agents           engine=model
+  PASS  CS-037  adversarial approve                          agents           engine=model
+  PASS  CS-038  adversarial refused                          boundary_refusal engine=model
+  PASS  CS-039  adversarial approve                          agents           engine=model
+  PASS  CS-040  adversarial deny                             agents           engine=model
+
+pass rate: 40/40 = 100% · adversarial 11/11 · model-decided 40/40
+cost: $0.6761 total · $0.01690 per claim · p95 latency 14.1s
+  PASS  overall >= 90% (the M2 gate, never lowered)
+  PASS  adversarial = 100%
+  PASS  every case decided by the model (no rule-engine fallback)
+spend ledger updated: cumulative $14.09 (SPEND.txt)
+
+RESULT: PASS

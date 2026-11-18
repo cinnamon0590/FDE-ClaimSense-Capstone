@@ -88,6 +88,12 @@ the owner.
   - M1's Cognito pool and audit table are reused.
 - **Known limit:** reserved concurrency 1 keeps drafts and idempotency consistent in `/tmp`. DynamoDB state is M4
   work.
-- **Pending:** `deploy.sh`, and the Gateway `apply`, wait for Susan's `aws login` and an explicit OK. Expected cost is
-  about $0, and `teardown.sh` is provided.
+- **Deployed 2026-11-18** with Susan's OK (evidence 13 and 14).
+  - The account's Lambda concurrency quota (10) can't reserve 1, so the function runs unreserved; sequential traffic
+    stays on one warm instance.
+  - Edge refusals are recorded in an API Gateway access log. Found while checking: an authorizer error containing
+    quotes makes that log line invalid JSON, so it is counted by text, not by a JSON filter.
+- **AgentCore Gateway applied live and destroyed (evidence 16).** AWS refuses caller-token pass-through for both
+  OpenAPI and MCP-server targets, so a managed gateway would collapse every adjuster into one identity. The
+  hand-built door stays the enforcement point.
 - **Owner:** Susan Wellington.

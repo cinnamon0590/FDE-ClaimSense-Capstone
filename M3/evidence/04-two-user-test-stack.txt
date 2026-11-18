@@ -1,4 +1,4 @@
-ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 17:19:14 EST
+ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 18:27:38 EST
 door: HTTP http://localhost:8002/mcp
 question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-1800"}
 
@@ -90,7 +90,7 @@ RESPONSE:
     "error": {
       "code": "not_found_or_forbidden",
       "message": "No claim is available for this request.",
-      "request_id": "8e5db482-f150-4975-8bc3-9cfbafe748b9"
+      "request_id": "2f7791f4-5144-41e9-a7a9-e825dd569d3e"
     }
   },
   "isError": true,
@@ -99,11 +99,11 @@ RESPONSE:
 
 === Answers ===
   User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
-  User B carol: 403 DENIED — No claim is available for this request. (request_id 8e5db482-f150-4975-8bc3-9cfbafe748b9)
+  User B carol: 403 DENIED — No claim is available for this request. (request_id 2f7791f4-5144-41e9-a7a9-e825dd569d3e)
 
 === Append-only audit rows (one per call) ===
-  {"ts": "2026-11-18T22:19:14.706240+00:00", "request_id": "7111043b-b9ad-4e60-8b0f-9aedcff95c27", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
-  {"ts": "2026-11-18T22:19:14.715226+00:00", "request_id": "8e5db482-f150-4975-8bc3-9cfbafe748b9", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-18T23:27:38.394244+00:00", "request_id": "a65a29a9-ec57-43d4-ba58-dfe228605cea", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-18T23:27:38.403487+00:00", "request_id": "2f7791f4-5144-41e9-a7a9-e825dd569d3e", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
 
 checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
 RESULT: PASS — scope holds (different answers + matching audit)

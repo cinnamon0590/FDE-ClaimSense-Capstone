@@ -20,6 +20,8 @@ class InProcess:
         from .mcp import McpDoor
         audit_trail.VIA.set("mcp")
         self.b = GrantedBoundary(state_path=tmp / "door.db", ticketing=ticketing)
+        from .slack import MockSlack, SlackNotifier
+        self.b.slack = SlackNotifier(self.b, MockSlack(), "mock", sleep=lambda s: None)
         self.door, self.mode, self.n = McpDoor(self.b), "in-process (offline, synthetic fixtures)", 0
 
     def call(self, user, tool, args, agent="agent:document-intake"):

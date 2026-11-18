@@ -1,15 +1,15 @@
 # 08-mcp-interop-official-client — Interop: the official Agents SDK MCP client against the door
-# run: 2026-11-18 17:19:21 EST
+# run: 2026-11-18 18:27:44 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/mcp_interop_check.py
 # exit: 0   status: PASS
 
-alice: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 9 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, get_escalation
+alice: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 10 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, notify_oncall, get_escalation
 alice: tools/call get_claim(CLM-2024-1800) -> isError=False · claim CLM-2024-1800
-  PASS  alice: official client connects, lists 9 typed tools, and gets the right scope decision
-carol: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 9 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, get_escalation
-carol: tools/call get_claim(CLM-2024-1800) -> isError=True · {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "6edb2a15-ef5f-41ca-befd-1f2ef6d2949d"}
-  PASS  carol: official client connects, lists 9 typed tools, and gets the right scope decision
+  PASS  alice: official client connects, lists 10 typed tools, and gets the right scope decision
+carol: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 10 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, notify_oncall, get_escalation
+carol: tools/call get_claim(CLM-2024-1800) -> isError=True · {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "3d44bc48-c47e-44cd-8c22-8e87e7f505b2"}
+  PASS  carol: official client connects, lists 10 typed tools, and gets the right scope decision
   PASS  a client with no valid token cannot even initialize (401 at the transport)  (ExceptionGroup)
 
 RESULT: PASS

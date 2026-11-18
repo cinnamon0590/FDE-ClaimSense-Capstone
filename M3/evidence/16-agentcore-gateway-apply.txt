@@ -1,0 +1,30 @@
+# 16-agentcore-gateway-apply — Architect: the managed twin applied LIVE, the per-user question answered, destroyed
+# run: 2026-11-18 18:24:59 EST · region us-east-1 · approved by Susan ("deploy and include all other items")
+# command: python agentcore_gateway/gateway_setup.py apply ; (MCP-server target attempt) ; gateway_setup.py destroy
+# exit: 0 (the finding is the evidence)   status: PASS — question answered, nothing left running
+
+$ python gateway_setup.py apply
+✓ role arn:aws:iam::<acct>:role/ClaimSenseAgentCoreGatewayRole
+✓ gateway claimsense-gateway-acmiemyog9 → https://claimsense-gateway-acmiemyog9.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp
+  (inbound authorizer CUSTOM_JWT: the Cognito user pool's discovery URL, audience = the door's app client)
+botocore.errorfactory.ValidationException: An error occurred (ValidationException) when calling the
+CreateGatewayTarget operation: Open api schema target does not support JWT_PASSTHROUGH credential provider type
+
+$ (same gateway, READY) create_gateway_target mcpServer={endpoint: <deployed door>/mcp}, JWT_PASSTHROUGH
+refused: ValidationException An error occurred (ValidationException) when calling the CreateGatewayTarget operation:
+MCP server target does not support JWT_PASSTHROUGH credential provider type
+
+SDK (boto3 1.43.125) credentialProviderType values: GATEWAY_IAM_ROLE, OAUTH, API_KEY, CALLER_IAM_CREDENTIALS,
+JWT_PASSTHROUGH; target kinds: openApiSchema, smithyModel, lambda, mcpServer, apiGateway, connector.
+
+FINDING: neither target kind the door can be (its REST API as OpenAPI, or its /mcp as an MCP server) accepts the
+caller's token passed through. Every other outbound option calls the door as ONE identity, which would make alice and
+carol indistinguishable and fail the two-user test by construction. DECISION (D-040): the hand-built door stays the
+enforcement point; Gateway is revisited when pass-through is supported (re-run `apply`: the one-line test).
+
+$ python gateway_setup.py destroy
+  (skip target: 'target_id')          # no target was ever created
+✓ deleted gateway
+✓ deleted role policy
+✓ deleted role
+$ aws bedrock-agentcore-control list-gateways --query "items[?contains(name,'claimsense')]"   -> (none)

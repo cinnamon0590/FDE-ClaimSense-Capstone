@@ -1,0 +1,115 @@
+# 13-deployed-two-user-test — D-1 + D-4 on AWS: API Gateway (Cognito JWT authorizer) -> Lambda -> the door
+# image claimsense/door:76acf64-dirty @ sha256:3eee4704f452d84911fb3a3acdea3f8b00f60782b0767c09fbc286d154350e3a
+# command: python -m claimsense_door.two_analyst_test --url https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com --cognito
+# tokens: real Cognito ID tokens (M1's user pool); audit rows read back from the DynamoDB table
+# exit: 0   status: PASS
+
+ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 18:07:38 EST
+door: HTTP https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp
+question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-1800"}
+
+=== User A: alice ===
+REQUEST:
+{
+  "method": "POST",
+  "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp",
+  "headers": {
+    "Authorization": "Bearer <redacted JWT>",
+    "Content-Type": "application/json",
+    "MCP-Protocol-Version": "2025-06-18",
+    "X-On-Behalf-Of-Agent": "agent:document-intake"
+  },
+  "body": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "get_claim",
+      "arguments": {
+        "claim_id": "CLM-2024-1800"
+      }
+    }
+  }
+}
+RESPONSE:
+{
+  "structuredContent": {
+    "claim_id": "CLM-2024-1800",
+    "policy_id": "POL-AU-10418",
+    "claimant_id": "CUS-1C58F7",
+    "claimant_name": "Kendall Ellery",
+    "loss_type": "collision",
+    "incident_date": "2024-10-02",
+    "incident_time": null,
+    "reported_date": "2024-10-03",
+    "narrative": "Insured was stationary at a red light when struck from behind by a third-party vehicle. Police attended; third party admitted fault at scene.",
+    "vehicle": {
+      "year": 2021,
+      "make": "Toyota",
+      "model": "Camry",
+      "colour": null,
+      "vin": "H14J31YXE99ZH6H3G"
+    },
+    "acv": 24500,
+    "repair_estimate": 3200,
+    "injury_reported": false,
+    "fraud_risk_score": 0.08,
+    "status": "first_pass_pending",
+    "assigned_group": "adjuster",
+    "document_ids": [
+      "DOC-2024-1800-POLICE-REPORT",
+      "DOC-2024-1800-REPAIR-ESTIMATE",
+      "DOC-2024-1800-PHOTOS",
+      "DOC-2024-1800-FNOL-FORM"
+    ]
+  },
+  "isError": false,
+  "http_status": 200
+}
+
+=== User B: carol ===
+REQUEST:
+{
+  "method": "POST",
+  "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp",
+  "headers": {
+    "Authorization": "Bearer <redacted JWT>",
+    "Content-Type": "application/json",
+    "MCP-Protocol-Version": "2025-06-18",
+    "X-On-Behalf-Of-Agent": "agent:document-intake"
+  },
+  "body": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "get_claim",
+      "arguments": {
+        "claim_id": "CLM-2024-1800"
+      }
+    }
+  }
+}
+RESPONSE:
+{
+  "structuredContent": {
+    "error": {
+      "code": "not_found_or_forbidden",
+      "message": "No claim is available for this request.",
+      "request_id": "065c6e1e-8407-4493-8bfd-90a94b7f4209"
+    }
+  },
+  "isError": true,
+  "http_status": 200
+}
+
+=== Answers ===
+  User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
+  User B carol: 403 DENIED — No claim is available for this request. (request_id 065c6e1e-8407-4493-8bfd-90a94b7f4209)
+
+=== Append-only audit rows (one per call) ===
+  {"ts": "2026-11-18T23:07:38.998872+00:00", "request_id": "e6641eb7-6501-489c-a76c-b6c2c99626d3", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-18T23:07:39.565740+00:00", "request_id": "065c6e1e-8407-4493-8bfd-90a94b7f4209", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+
+checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
+RESULT: PASS — scope holds (different answers + matching audit)
