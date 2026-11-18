@@ -25,7 +25,7 @@ present someone else's badge.
 | # | Deliverable | Evidence (`evidence/`) |
 |---|---|---|
 | D-1 | **Data access boundary deployed and callable** | **AWS:** API Gateway (Cognito JWT authorizer) → Lambda → the door, with the audit trail in DynamoDB. [`13-deployed-two-user-test.txt`](evidence/13-deployed-two-user-test.txt) and [`14-deployed-route-auth.txt`](evidence/14-deployed-route-auth.txt). **Local:** the M3 stack (`docker compose up`; the door at `:8002`, REST + `/mcp`) |
-| D-2 | **Authorisation on every route; no valid token = refused** | [`05-route-auth-every-route.txt`](evidence/05-route-auth-every-route.txt): 20 HTTP routes + 9 MCP tools × 6 bad credentials = **174/174 refused (401)**, 174 audit rows. Tokens are verified in middleware *before routing*, so no route can answer with a 422 first. The unit test `test_every_route_is_listed…` **fails the build on any unmapped route** |
+| D-2 | **Authorisation on every route; no valid token = refused** | [`05-route-auth-every-route.txt`](evidence/05-route-auth-every-route.txt): 21 HTTP routes + 10 MCP tools × 6 bad credentials = **186/186 refused (401)**, 186 audit rows. **On AWS: 150/150** refused, every one in the edge access log ([14](evidence/14-deployed-route-auth.txt)). Tokens are verified in middleware *before routing*, so no route can answer with a 422 first. The unit test `test_every_route_is_listed…` **fails the build on any unmapped route** |
 | D-3 | **Access control in code, before any agent** | [`06-access-control-before-agents.txt`](evidence/06-access-control-before-agents.txt): an entitled run starts 13 agent events; carol's and dave's refusals start **zero** agents, make zero model calls and cost $0. No authorisation phrase appears in any prompt |
 | D-4 | **Two-user test: both requests + both responses, same claim** | [`02`](evidence/02-two-user-test-offline.txt) (offline) and [`04-two-user-test-stack.txt`](evidence/04-two-user-test-stack.txt) (over HTTP): the full requests (token redacted), the full responses, the matching allow and deny audit rows, `RESULT: PASS — scope holds` |
 | D-5 | **An audit record for every call (user, action, resource)** | [`09-audit-every-call.txt`](evidence/09-audit-every-call.txt): 14 kinds of call (allow, deny by grant, deny by entitlement, not-found, unauthenticated, invalid, write, replay, orchestrator entry, audit read) each leave exactly one complete row. The trail is append-only: there is no write route, and DELETE/PUT/PATCH/POST all return 405 |
@@ -38,7 +38,7 @@ audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-us
 | Tier | Item | ClaimSense |
 |---|---|---|
 | Floor | One governed door; the agent reaches *every* backend through it | `CLAIMSENSE_MCP_URL` → the orchestrator's `McpBoundary`. Every agent data access is an MCP `tools/call` (evidence 10: all 40 eval cases through `/mcp`). No agent code imports a backend |
-| Floor | Typed tools + structured errors | 9 tools with JSON-Schema inputs (pattern, length, `additionalProperties: false`). Errors are dicts: `not_found_or_forbidden`, `invalid_request`, `upstream_unavailable` + `retry_after_s`. Never a raw 500 |
+| Floor | Typed tools + structured errors | 10 tools with JSON-Schema inputs (pattern, length, `additionalProperties: false`). Errors are dicts: `not_found_or_forbidden`, `invalid_request`, `upstream_unavailable` + `retry_after_s`. Never a raw 500 |
 | Floor | Idempotent writes | `create_recommendation` and `create_escalation_ticket` require a key; the replay **returns the original**, marked `idempotent_replay` (evidence 03 proof 2, 07 step 2) |
 | Floor | Retry with backoff against a flaky backend | The ticketing system 503s every first attempt (the lab's `FlakyLegacyCore`, as a real container): `attempt 1: HTTP 503 -> backoff 0.05s` · `delivered on attempt 2` (evidence 03 proof 3, 07 step 1) |
 | Floor | `_authorize` writes the audit row for allow AND deny, then refuses | `GrantedBoundary._authorize` plus the M1 rule; the row is written before the denial is returned (`test_denial_audit_row_is_written_before…`) |
@@ -49,7 +49,7 @@ audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-us
 | Builder | **Deny-by-default** with a grants table + a test | `door/claimsense_door/grants.json` + proof 5 + `test_nothing_is_granted_without_an_explicit_grant` |
 | Builder | **Webhook or third backend** (we did both) | **A 4th system of record**, SIU escalation ticketing (its own container). **Webhook-driven updates**: HMAC-signed, 5-minute replay window, deduped by `event_id`, ordered by `seq` (evidence 07) |
 | Builder | Live-platform bridge | The door runs against the live mock systems of record over HTTP; on AWS, against the deployed API (D-1) |
-| Builder | A real external integration (Slack) | Same failure-handling patterns on the ticketing integration instead: backoff, breaker, idempotent dedupe, never-lost outbox. Slack is optional, below |
+| Builder | **A real external integration (Slack)** | `notify_oncall`: on-call paging as a scoped, audited door tool. Handles a 429 (backoff), an expired webhook (fallback to an SIU ticket), a timeout (breaker), a duplicate (idempotent dedupe) and schema drift (defensive parse). The card carries a link, never claim data. The PROBLEM → HANDLED summary is [evidence 17](evidence/17-oncall-slack-through-the-door.txt); live delivery switches on via `M3/.slack.env` |
 | Architect | **AgentCore Gateway plan** | [`agentcore_gateway/README.md`](agentcore_gateway/README.md) (one page), `gateway_setup.py plan` (evidence 11), and **applied live** (evidence 16): AWS refuses caller-token pass-through for OpenAPI and MCP-server targets, so the hand-built door stays the enforcement point. Destroyed after |
 | Architect | **OBO with a real IdP** | RFC 8693 token exchange at `POST /oauth/token`: the Cognito (or dev) ID token in, a 5-minute delegated token out, with `act` = the agent and scope = request ∩ grants (never confirm or audit). **The token's scope drives `_authorize`** (`tests/test_obo.py`). The orchestrator's agents only ever hold the delegated token |
 | Architect | **Injection containment test** | Evidence 03 proof 9: the planted unprovenanced chunk is quarantined at the door (G2), **and** a poisoned "fetch claim CLM-2024-1873" is refused at the gate |
@@ -110,7 +110,7 @@ would add a tenant wall below the role gate (W16 notebook §5.5).
 
 ```bash
 cd M3
-make test        # 28 M3 tests + the offline two-user test + every door proof + the MCP self-test ($0, no containers)
+make test        # 31 M3 tests + the offline two-user test + every door proof + the MCP self-test ($0, no containers)
 make up          # the M3 stack: door, ticketing, mock systems, OpenSearch, orchestrator, console
 make proofs      # every running-stack check (writes evidence/04..10)
 make down
