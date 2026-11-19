@@ -44,7 +44,8 @@ def build_router(boundary, verifier, public_url=None, sts=None):
     def protected_resource():
         """RFC 9728: which authorization server issues tokens for this MCP server, and how to present them."""
         return {"resource": f"{base}/mcp", "authorization_servers": [os.environ.get("CLAIMSENSE_AUTH_SERVER", ISSUER)]
-                + ([STS_ISSUER] if sts else []),
+                + ([STS_ISSUER] if sts else [])
+                + ([os.environ["CLAIMSENSE_EXCHANGE_ISSUER"]] if os.environ.get("CLAIMSENSE_EXCHANGE_ISSUER") else []),
                 "bearer_methods_supported": ["header"], "scopes_supported": ["openid"],
                 "resource_name": "ClaimSense governed door (AutoSure, synthetic data)",
                 "resource_documentation": f"{base}/docs"}

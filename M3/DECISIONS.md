@@ -97,3 +97,23 @@ the owner.
   OpenAPI and MCP-server targets, so a managed gateway would collapse every adjuster into one identity. The
   hand-built door stays the enforcement point.
 - **Owner:** Susan Wellington.
+
+## D-041 · 2026-11-18 · Architect, made literal: the IdP itself performs the on-behalf-of exchange (Keycloak)
+- **Why:** D-039's exchange runs at the door, because Cognito has no RFC 8693 endpoint. The checklist asks for "an
+  actual OAuth2 token exchange against any OIDC login system", so the exchange should happen **at the IdP**.
+- **Decision:** an optional Keycloak 26.2.5 add-on (`M3/keycloak/`, local, $0) whose realm mirrors the synthetic
+  directory. Keycloak's **standard token exchange** (RFC 8693) runs at Keycloak:
+  - the adjuster signs in at the `claimsense-console` client; that token's audience is the orchestrator, not the door;
+  - the `claimsense-orchestrator` client (confidential, exchange enabled) trades it for a 5-minute token with
+    `aud` = `claimsense-door`, `azp` = the orchestrator, and `scope` = the action scopes it asked for;
+  - only the 9 delegable actions exist as scopes, so asking for `confirm_recommendation` is refused **at the IdP**.
+- **The door** (`obo.IdPExchange`) trusts such a token only if it is RS256-signed by the realm's JWKS, `iss` is the
+  realm, `aud` is the door, `azp` is on the allow-list, and the user and groups still match the directory. Its scope,
+  narrowed to delegable action names, sets `TOKEN_SCOPE`, so **the IdP-exchanged scope drives `_authorize`**. The
+  door's grants still apply (the IdP's scope is necessary, not sufficient), and so does entitlement.
+- **Secrets:** none in the repo or compose. Throwaway synthetic credentials live in `~/.claimsense/keycloak.json`
+  (0600); the bootstrap admin password reaches Keycloak only through the environment of the `docker compose` call.
+- **Evidence:** `evidence/19-keycloak-obo-exchange.txt` (13/13 live) and `tests/test_idp_exchange.py` (offline, in CI).
+- **Not done:** Keycloak is not deployed to AWS (Cognito stays the AWS IdP; D-039's door-side exchange remains the
+  path there).
+- **Owner:** Susan Wellington.
