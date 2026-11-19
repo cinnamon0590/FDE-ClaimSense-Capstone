@@ -22,3 +22,4 @@ Every file starts with a header (what, when, command) and holds the verbatim out
 | 15 | [`15-live-gate-through-the-door.txt`](15-live-gate-through-the-door.txt) | the live 40-case gate through /mcp with delegated tokens: 40/40, 11/11 adversarial, all model-decided, $0.68 | ✅ PASS |
 | 16 | [`16-agentcore-gateway-apply.txt`](16-agentcore-gateway-apply.txt) | Architect: Gateway applied live; AWS refuses JWT pass-through for OpenAPI and MCP-server targets → hand-built door stays; destroyed | ✅ answered |
 | 17 | [`17-oncall-slack-through-the-door.txt`](17-oncall-slack-through-the-door.txt) | Builder: Slack on-call through the door, 8 scenarios PROBLEM → HANDLED | ✅ PASS |
+| 18 | [`18-slack-live-page.txt`](18-slack-live-page.txt) | Builder: a REAL page in Susan's private #claimsense-oncall, through the door over MCP; the retry deduped; carol refused before Slack | ✅ PASS |
