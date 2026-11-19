@@ -1,10 +1,10 @@
 # 13-deployed-two-user-test — D-1 + D-4 on AWS: API Gateway (Cognito JWT authorizer) -> Lambda -> the door
-# image claimsense/door:a6587ec @ sha256:676bb94ca7529ee5b6e6c68033129a0a6f10c70a02e72a9d49a91e75d7c6f832
+# image claimsense/door:70c87bb @ sha256:ade04f5c441fcc7b955c64a1bb15d2da2aa3330112948d2f3fddc0c76a6fab80
 # command: python -m claimsense_door.two_analyst_test --url https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com --cognito
 # tokens: real Cognito ID tokens (M1 user pool); audit rows read back from the DynamoDB table
 # exit: 0   status: PASS
 
-ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 18:29:22 EST
+ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 21:06:46 EST
 door: HTTP https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp
 question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-1800"}
 
@@ -96,7 +96,7 @@ RESPONSE:
     "error": {
       "code": "not_found_or_forbidden",
       "message": "No claim is available for this request.",
-      "request_id": "48187eed-ae94-4508-8400-70107ec70c9b"
+      "request_id": "d703984c-8df9-445e-8fd1-47f7be601393"
     }
   },
   "isError": true,
@@ -105,11 +105,11 @@ RESPONSE:
 
 === Answers ===
   User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
-  User B carol: 403 DENIED — No claim is available for this request. (request_id 48187eed-ae94-4508-8400-70107ec70c9b)
+  User B carol: 403 DENIED — carol may not access CLM-2024-1800 · the caller is told only: "No claim is available for this request." (request_id d703984c-8df9-445e-8fd1-47f7be601393)
 
 === Append-only audit rows (one per call) ===
-  {"ts": "2026-11-18T23:29:23.103828+00:00", "request_id": "bb4ec85e-1ae2-4884-9897-fdfc3aaa42db", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
-  {"ts": "2026-11-18T23:29:23.782278+00:00", "request_id": "48187eed-ae94-4508-8400-70107ec70c9b", "user_id": "carol", "groups": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-19T02:06:46.805445+00:00", "request_id": "ea8cfbfb-50a6-4c36-bd76-193a5da47304", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-19T02:06:47.344556+00:00", "request_id": "d703984c-8df9-445e-8fd1-47f7be601393", "acting_identity": "carol", "scope": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
 
 checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
 RESULT: PASS — scope holds (different answers + matching audit)
