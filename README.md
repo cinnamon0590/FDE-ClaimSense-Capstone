@@ -27,6 +27,11 @@ the eval suite on every push from M0, and from M2 it gates the build.
 | [`M3/`](M3/README.md) | W16 | Milestone 4 | The governed MCP door: deny-by-default grants + entitlement before any agent, auth on every route, two-user test, append-only audit; 4th backend + webhooks; RFC 8693 OBO | Draft |
 | `M4/` | W17 | Milestone 5 | 150-case eval suite, dashboard and alarm, incident drill, runbook, handover | — |
 
+**The agents, in one place:** [`M2/AGENTS.md`](M2/AGENTS.md) describes every ClaimSense agent in
+[Salesforce Agent Script](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-script.html) terms: what
+code decides (`->`) versus what the model reasons (`|`), the tools each agent may use, the fixed flow of control,
+escalation to humans, and the adjuster each call runs as.
+
 ## Working locally
 
 ```bash
