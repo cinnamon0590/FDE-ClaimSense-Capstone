@@ -12,3 +12,4 @@ M2/evals/results-live-run*.txt
 M2/evals/results-live-stability.txt
 gateway_state.json
 M3/.slack.env
+*.swp

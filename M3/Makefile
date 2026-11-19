@@ -36,5 +36,14 @@ deploy:           ## AWS (needs `aws login`): API Gateway + Lambda + Cognito; ~$
 teardown:
 	cloud/teardown.sh
 
+keycloak-up:      ## OBO at a real IdP: Keycloak does the RFC 8693 exchange (D-041, local, $0)
+	$(PY) keycloak/setup.py up
+
+keycloak-proof:   ## evidence/19: the Keycloak-exchanged token's scope drives _authorize
+	$(PY) evals/keycloak_obo_check.py
+
+keycloak-down:
+	$(PY) keycloak/setup.py down
+
 gateway-plan:     ## the AgentCore Gateway twin's plan ($0, no credentials)
 	$(PY) agentcore_gateway/gateway_setup.py plan

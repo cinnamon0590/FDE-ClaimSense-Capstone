@@ -1,0 +1,48 @@
+# 19-keycloak-obo-exchange — OBO with a real IdP: Keycloak performs the RFC 8693 exchange; its scope drives _authorize
+# run: 2026-11-18 21:01:20 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/keycloak_obo_check.py   (after: python keycloak/setup.py up)
+# exit: 0   status: PASS
+
+Keycloak realm: http://localhost:8180/realms/claimsense (quay.io/keycloak/keycloak:26.2.5, standard token exchange)
+door's protected-resource metadata lists it: ['https://claimsense.local/dev-issuer', 'https://claimsense.local/door-sts', 'http://localhost:8180/realms/claimsense']
+
+  PASS  the door advertises Keycloak as an authorization server (RFC 9728)
+1  alice signs in at Keycloak (console client). Sign-in token claims:
+     {'iss': 'http://localhost:8180/realms/claimsense', 'aud': ['claimsense-orchestrator', 'account'], 'azp': 'claimsense-console', 'preferred_username': 'alice', 'groups': ['adjuster'], 'scope': 'openid claimsense-groups email profile aud-claimsense-orchestrator', 'lifetime_s': 300}
+  PASS  the sign-in token is addressed to the orchestrator, not the door
+2  the orchestrator exchanges it AT KEYCLOAK (grant_type token-exchange, audience claimsense-door,
+   scope 'get_claim search_policy_clauses'). Exchanged token claims (signature not shown):
+     {'iss': 'http://localhost:8180/realms/claimsense', 'aud': 'claimsense-door', 'azp': 'claimsense-orchestrator', 'preferred_username': 'alice', 'groups': ['adjuster'], 'scope': 'claimsense-groups aud-claimsense-door email profile get_claim search_policy_clauses', 'lifetime_s': 300}
+  PASS  Keycloak issued the exchanged token (HTTP 200, issued_token_type access_token)  (HTTP 200)
+  PASS  exchanged token: aud = the door only, azp = the orchestrator, user and groups kept, 5-minute life
+3  get_claim with the exchanged token:
+     HTTP 200 isError=False
+     audit: {"acting_identity": "alice", "scope": ["adjuster"], "on_behalf_of_agent": "agent:claimsense-orchestrator", "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp"}
+  PASS  allowed, and the audit row names alice AND the agent that exchanged
+4  get_policy with the same token (alice IS granted get_policy; the exchanged scope does not carry it):
+     HTTP 200 error=not_found_or_forbidden
+     audit: {"acting_identity": "alice", "scope": ["adjuster"], "on_behalf_of_agent": "agent:claimsense-orchestrator", "action": "get_policy", "resource": "POL-AU-10418", "decision": "deny", "reason": "outside the delegated token's scope", "via": "mcp"}
+  PASS  refused by the exchanged token's scope, and the refusal is audited
+5  asking Keycloak for confirm_recommendation:
+     HTTP 400 {'error': 'invalid_scope', 'error_description': 'Invalid scopes: get_claim confirm_recommendation'}
+  PASS  refused at the IdP: confirming is never delegable (no such scope in the realm)
+6  alice's raw sign-in token presented to the door:
+     HTTP 401
+  PASS  401: a token not exchanged for the door is refused
+7  carol (fraud-investigator) exchanges for get_claim and asks for alice's claim:
+     not_found_or_forbidden: No claim is available for this request.  ·  a claim that does not exist: not_found_or_forbidden: No claim is available for this request.
+     audit: {"acting_identity": "carol", "scope": ["fraud-investigator"], "on_behalf_of_agent": "agent:claimsense-orchestrator", "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
+  PASS  the exchanged scope does not widen entitlement: identical denial for 'not yours' and 'missing'
+8  dave (customer-service) gets an exchanged token for search_policy_clauses from Keycloak:
+     Keycloak HTTP 200; door: not_found_or_forbidden
+     audit: {"acting_identity": "dave", "scope": ["customer-service"], "on_behalf_of_agent": "agent:claimsense-orchestrator", "action": "search_policy_clauses", "resource": "policy-kb?q=windscreen deductible", "decision": "deny", "reason": "no_grant", "via": "mcp"}
+  PASS  the IdP's scope is necessary, not sufficient: the door's grants (deny-by-default) still refuse dave
+9  the exchanged token with its scope widened by hand (signature kept):
+     HTTP 401
+  PASS  401: the signature no longer verifies
+10 exchange without / with a wrong orchestrator secret:
+     HTTP 401 unauthorized_client · HTTP 401 unauthorized_client
+  PASS  Keycloak refuses: only the authenticated orchestrator may exchange
+
+RESULT: PASS

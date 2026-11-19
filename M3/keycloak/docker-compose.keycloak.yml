@@ -1,0 +1,22 @@
+# OPTIONAL add-on (D-041): Keycloak as a real IdP that performs the RFC 8693 token exchange ITSELF.
+#   python keycloak/setup.py up      (from M3/; generates throwaway synthetic credentials, starts it, builds the realm)
+# Layered on the M3 stack:  docker compose -f docker-compose.yml -f keycloak/docker-compose.keycloak.yml ...
+# No secret is written here or anywhere in the repo: the bootstrap admin password arrives through the environment of
+# the `docker compose` call that setup.py makes, from ~/.claimsense/keycloak.json (0600, outside the repo).
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    command: ["start-dev"]                         # dev mode: synthetic sandbox only, never production
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: claimsense-admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:?run keycloak/setup.py up}
+      KC_HOSTNAME: http://localhost:8180           # fixes `iss`, whoever asks (host or container)
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"      # the door fetches the JWKS at keycloak:8080
+      KC_HEALTH_ENABLED: "true"
+    ports: ["127.0.0.1:8180:8080"]
+
+  boundary:                                        # the door trusts tokens from Keycloak's exchange, nothing else new
+    environment:
+      CLAIMSENSE_EXCHANGE_ISSUER: http://localhost:8180/realms/claimsense
+      CLAIMSENSE_EXCHANGE_JWKS_URL: http://keycloak:8080/realms/claimsense/protocol/openid-connect/certs
+      CLAIMSENSE_EXCHANGE_CLIENTS: claimsense-orchestrator

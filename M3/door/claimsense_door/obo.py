@@ -97,19 +97,81 @@ class TokenService:
         return {"keys": [dict(pub, kid=KID, alg="RS256", use="sig")]}
 
 
-def resolve_principal(authorization, x_user_id, idp_verifier, directory, sts=None):
+class IdPExchange:
+    """Trust delegated tokens minted by the IdP's OWN RFC 8693 exchange (Keycloak's standard token exchange, D-041).
+
+    The orchestrator (a Keycloak client allowed to exchange) trades the adjuster's sign-in access token for one whose
+    audience is the door and whose scope is the actions it asked for. The door accepts such a token only if: it is
+    RS256 and signed by the IdP's JWKS; `iss` is the configured realm; `aud` is the door; `azp` (the client that did
+    the exchange, i.e. the agent) is on the allow-list; and the user and groups still match the directory. Its
+    `scope`, narrowed to delegable action names, then drives `_authorize` exactly like a door-minted token.
+    """
+
+    def __init__(self, issuer, jwks=None, jwks_url=None, clients=("claimsense-orchestrator",), audience=AUDIENCE):
+        self.issuer, self.audience, self.clients = issuer.rstrip("/"), audience, set(clients)
+        self._jwks, self._client = jwks, (jwt.PyJWKClient(jwks_url, cache_keys=True) if jwks_url else None)
+
+    @classmethod
+    def from_env(cls):
+        iss = os.environ.get("CLAIMSENSE_EXCHANGE_ISSUER")
+        if not iss:
+            return None
+        return cls(iss, jwks_url=os.environ.get("CLAIMSENSE_EXCHANGE_JWKS_URL") or f"{iss.rstrip('/')}/protocol/"
+                   "openid-connect/certs", clients=os.environ.get("CLAIMSENSE_EXCHANGE_CLIENTS",
+                                                                   "claimsense-orchestrator").split(","))
+
+    def _key(self, token):
+        if self._client:
+            return self._client.get_signing_key_from_jwt(token).key
+        kid = jwt.get_unverified_header(token).get("kid")
+        for k in self._jwks["keys"]:
+            if k.get("kid") == kid:
+                return jwt.algorithms.RSAAlgorithm.from_jwk(json.dumps(k))
+        raise IdentityError("unknown signing key")
+
+    def verify(self, token, directory):
+        """-> (user, scope set, actor). Raises IdentityError."""
+        try:
+            if jwt.get_unverified_header(token).get("alg") != "RS256":
+                raise IdentityError("only RS256 tokens are accepted")
+            c = jwt.decode(token, self._key(token), algorithms=["RS256"], audience=self.audience, issuer=self.issuer,
+                           options={"require": ["exp", "iss", "aud", "azp", "scope", "preferred_username"]})
+        except IdentityError:
+            raise
+        except jwt.PyJWTError as e:
+            raise IdentityError(f"invalid exchanged token: {type(e).__name__}") from None
+        if c["azp"] not in self.clients:
+            raise IdentityError("exchanged by a client that may not act for users")
+        user = c["preferred_username"]
+        if user not in directory or sorted(c.get("groups", [])) != sorted(directory[user]["groups"]):
+            raise IdentityError("exchanged token user/groups do not match the directory")
+        known = set(AGENT_SCOPE.split())
+        scope = {a for a in c["scope"].split() if a in known and a not in NEVER_DELEGATED}
+        return user, scope, f"agent:{c['azp']}"
+
+
+_IDP_EXCHANGE = IdPExchange.from_env()
+
+
+def resolve_principal(authorization, x_user_id, idp_verifier, directory, sts=None, idp_exchange=None):
     """The user for this request, from EITHER an IdP ID token (the adjuster, e.g. the console) OR a door-issued
     delegated token (an agent acting for the adjuster). Sets TOKEN_SCOPE / TOKEN_ACTOR for the gates and the audit."""
     TOKEN_SCOPE.set(None)
     TOKEN_ACTOR.set(None)
-    if sts and authorization:
+    if (sts or idp_exchange or _IDP_EXCHANGE) and authorization:
         scheme, _, tok = authorization.partition(" ")
         if scheme.lower() == "bearer" and tok:
             try:
                 iss = jwt.decode(tok.strip(), options={"verify_signature": False}).get("iss")
             except jwt.PyJWTError:
                 iss = None
-            if iss == STS_ISSUER:
+            idp = idp_exchange or _IDP_EXCHANGE
+            if idp is not None and iss == idp.issuer:
+                user, scope, actor = idp.verify(tok.strip(), directory)
+                TOKEN_SCOPE.set(scope)
+                TOKEN_ACTOR.set(actor)
+                return user
+            if sts and iss == STS_ISSUER:
                 c = sts.verify(tok.strip())
                 user = c["sub"]
                 if user not in directory or sorted(c.get("groups", [])) != sorted(directory[user]["groups"]):
