@@ -1,7 +1,7 @@
-# M3 · Integrated and access-controlled (W16 · brief Milestone 4)
+# M3 · Integrated and access-controlled (W16 · Brief Milestone 4)
 
 **The governed door.** Every route to AutoSure's data now goes through one MCP server (synthetic data only). The door
-enforces explicit grants and per-user entitlement in code, before any agent runs, and writes an append-only audit row
+enforces explicit grants and per-user entitlement in code, (before any agent runs), and writes an append-only audit row
 for every call.
 
 ## M3
@@ -52,7 +52,7 @@ repo root runs M0 to M3 in one process: **163 passed** (evidence 12), and CI run
 | Builder | Live-platform bridge (*adapted*) | The checklist's version targets the Meridian `/api/v1`, which ClaimSense doesn't have. Our analogue: the two-user test and the route check against the **deployed AWS door** with real Cognito tokens, audit in DynamoDB (evidence 13, 14). Not counted toward the tier; four other Builder items are |
 | Builder | **A real external integration (Slack)** | `notify_oncall`: on-call paging as a scoped, audited door tool. Handles a 429 (backoff), an expired webhook (fallback to an SIU ticket), a timeout (breaker), a duplicate (idempotent dedupe) and schema drift (defensive parse). The card carries a link, never claim data. The PROBLEM → HANDLED summary is [evidence 17](evidence/17-oncall-slack-through-the-door.txt). **A live page was delivered to Susan's private `#claimsense-oncall` through the door over MCP** ([evidence 18](evidence/18-slack-live-page.txt), [screenshot](evidence/18-slack-live-page.png)); the retry was deduped, and carol was refused before Slack |
 | Architect | **AgentCore Gateway plan** | [`agentcore_gateway/README.md`](agentcore_gateway/README.md) (one page), `gateway_setup.py plan` (evidence 11), and **applied live** (evidence 16): AWS refuses caller-token pass-through for OpenAPI and MCP-server targets, so the hand-built door stays the enforcement point. Destroyed after |
-| Architect | **OBO with a real IdP** (*partial on a strict reading*) | RFC 8693 token exchange at the door's own `POST /oauth/token`: a real Cognito ID token in (verified against Cognito's JWKS, evidence 14), a 5-minute delegated token out, with `act` = the agent and scope = request ∩ grants (never confirm or audit). **The token's scope drives `_authorize`** (`tests/test_obo.py`). Cognito has no RFC 8693 endpoint, so the exchange runs at the door, not at the IdP. Not needed for the tier: the other two Architect items are complete |
+| Architect | **OBO with a real IdP** | **Keycloak performs the RFC 8693 exchange itself** (D-041, [evidence 19](evidence/19-keycloak-obo-exchange.txt), 13/13): the orchestrator trades alice's sign-in token at Keycloak for a 5-minute token (aud = the door, azp = the orchestrator, scope = the actions asked for); **that scope drives `_authorize`**, so an action alice's role allows but the token lacks is refused and audited. Non-delegable actions don't exist as scopes, so Keycloak refuses them. On AWS, Cognito (which has no exchange endpoint) signs the user in and the door's own `POST /oauth/token` does the exchange (D-039, evidence 14) |
 | Architect | **Injection containment test** | Evidence 03 proof 9: the planted unprovenanced chunk is quarantined at the door (G2), **and** a poisoned "fetch claim CLM-2024-1873" is refused at the gate |
 
 **Six attacks on the door** (the W16 activity, evidence 03 proof 10):
@@ -141,6 +141,5 @@ webhook. The door verifies the token again, in code.
   door passed 40/40** (evidence 15, $0.68), so the retrieval change cost no accuracy.
 - **AgentCore Gateway** was applied live and destroyed. AWS doesn't yet pass the caller's token through to OpenAPI or
   MCP-server targets (evidence 16), so the hand-built door stays the enforcement point.
-- **The OBO IdP** is Cognito (real) for the subject token; the RFC 8693 exchange itself runs at the door, because
-  Cognito has none. An IdP that performs the exchange natively (Keycloak, Okta) would close that gap; its JWKS plugs
-  into `Verifier` unchanged.
+- **The OBO IdP:** locally, Keycloak performs the exchange (`make keycloak-up`, D-041). On AWS, Cognito signs the
+  user in and the door performs the exchange, because Cognito has no RFC 8693 endpoint (D-039).
