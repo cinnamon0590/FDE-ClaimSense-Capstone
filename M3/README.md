@@ -6,7 +6,7 @@ for every call.
 
 ## M3
 
-Scope is enforced in **code, in the door**, in two deterministic gates that run before any data moves.
+Scope is enforced in **code in the door**, in two deterministic gates that run before any data moves.
 1. **The action gate:** `grants.json` states what each role has permission to do. It is **deny-by-default**: an unknown role, an
    undeclared action or a typo is refused.
 2. **The record gate:** M1's `entitled()` rule states which claims each role may view. It checks the claim's
