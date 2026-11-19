@@ -14,9 +14,15 @@ os.environ.update({"MOCK_BRAIN": "1", "OPENAI_API_KEY": "", "CLAIMSENSE_LLM_REQU
                    "CLAIMSENSE_STATE": str(_TMP / "state"), "CLAIMSENSE_DEV_ISSUER": "0"})
 os.environ.pop("OPENSEARCH_URL", None)
 os.environ.pop("OPENAI_SECRET_ID", None)
-os.environ.pop("CLAIMSENSE_ALLOW_HEADER_IDENTITY", None)      # M3 tests use real tokens, never header identity
 
 import pytest  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def real_tokens_only(monkeypatch):
+    """M3 tests use real tokens, never header identity. Scoped to M3's tests (not a process-wide pop) so a bare
+    `pytest -q` from the repo root also keeps M2's suite, which runs its in-process tests with header identity ON."""
+    monkeypatch.delenv("CLAIMSENSE_ALLOW_HEADER_IDENTITY", raising=False)
 
 
 @pytest.fixture(scope="session")

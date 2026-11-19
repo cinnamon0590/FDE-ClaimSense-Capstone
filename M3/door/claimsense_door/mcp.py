@@ -177,7 +177,7 @@ class McpDoor:
                              args.get("priority", "normal"), agent)
         elif name == "notify_oncall":
             if getattr(b, "slack", None) is None:      # grant first, so an ungranted caller learns nothing more
-                out = b._authorize(b.caller(user_id), "notify_oncall", args["claim_id"], agent)
+                out = b._gate(b.caller(user_id), "notify_oncall", args["claim_id"], agent)
                 if out is None:
                     rid = b._audit(b.caller(user_id), "notify_oncall", args["claim_id"], "error", "slack not configured",
                                    agent)

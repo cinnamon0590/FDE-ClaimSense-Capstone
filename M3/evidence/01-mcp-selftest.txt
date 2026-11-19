@@ -1,5 +1,5 @@
 # 01-mcp-selftest — the MCP door over the protocol: initialize -> list -> call -> dedupe -> deny -> enumerate
-# run: 2026-11-18 18:27:00 EST
+# run: 2026-11-18 20:40:03 EST
 # command: python -m claimsense_door.stdio --selftest
 
 CLAIMSENSE MCP DOOR: selftest

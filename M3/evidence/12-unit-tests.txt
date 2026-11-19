@@ -1,7 +1,11 @@
-# 12-unit-tests — pytest: M3 (door, grants, routes, MCP protocol, OBO, webhooks, Slack, pipeline via /mcp) + M2 + M0/M1
-# run: 2026-11-18 18:27:56 EST
+# 12-unit-tests — pytest: a bare `pytest -q` from the repo root (what the grader runs: M0 to M3 in one process), then M3 alone
+# run: 2026-11-18 20:40:03 EST
+# command: pytest -q   ;   pytest -q M3/tests
 
-...............................                                          [100%]
-31 passed in 1.78s
-88 passed in 18.32s
-43 passed in 0.06s
+........................................................................ [ 88%]
+...................                                                      [100%]
+163 passed in 13.32s
+
+................................                                         [100%]
+32 passed in 1.55s
+# exit: 0

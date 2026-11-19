@@ -33,7 +33,8 @@ def run(client, claim, a, b):
     lines.append("=== Answers ===")
     lines.append(f"  User A {ua}: " + (f"ALLOWED · {oa.get('claim_id')} · {oa.get('loss_type')} · "
                                        f"assigned_group={oa.get('assigned_group')}" if a_allowed else f"UNEXPECTED {oa}"))
-    lines.append(f"  User B {ub}: " + (f"403 DENIED — {ob['error']['message']} (request_id {ob['error']['request_id']})"
+    lines.append(f"  User B {ub}: " + (f"403 DENIED — {ub} may not access {claim} · the caller is told only: "
+                                        f"\"{ob['error']['message']}\" (request_id {ob['error']['request_id']})"
                                        if b_denied else f"UNEXPECTED {ob}"))
     # the audit rows: B's comes back on its own error; A's is the matching allow row written for that call
     rows = client.audit()
@@ -42,11 +43,12 @@ def run(client, claim, a, b):
              and r["decision"] == "allow"][-1:]
     lines += ["", "=== Append-only audit rows (one per call) ==="]
     for r in row_a + row_b:
-        lines.append("  " + json.dumps({k: r.get(k) for k in ("ts", "request_id", "user_id", "groups", "action",
+        lines.append("  " + json.dumps({k: r.get(k) for k in ("ts", "request_id", "acting_identity", "scope", "action",
                                                                 "resource", "decision", "reason", "via",
                                                                 "on_behalf_of_agent")}))
     audit_ok = bool(row_a) and bool(row_b) and row_a[0]["decision"] == "allow" and row_b[0]["decision"] == "deny" \
-        and all(r.get("user_id") and r.get("action") and r.get("resource") for r in row_a + row_b)
+        and all(r.get("acting_identity") and r.get("scope") is not None and r.get("action") and r.get("resource")
+                and r.get("decision") for r in row_a + row_b)
     ok = a_allowed and b_denied and audit_ok
     lines += ["", f"checks: A allowed={a_allowed} · B denied with no claim data={b_denied} · "
                   f"matching allow + deny audit rows carrying user, action, resource={audit_ok}",

@@ -44,6 +44,14 @@ WEBHOOK_TOLERANCE_S = 300
 SERVICE_TICKETING = {"user_id": "system:ticketing", "groups": []}
 
 
+class AccessDenied(PermissionError):
+    """Raised by the gate on deny, after the audit row is written; `.response` is the structured error."""
+
+    def __init__(self, response):
+        super().__init__(response["error"]["code"])
+        self.response = response
+
+
 class GrantedBoundary(LocalBoundary):
     """M2's boundary (entitlement, anti-enumeration, idempotency, human-only confirm, hand-offs) behind an explicit
     grant gate, writing the shared audit trail. Used by the REST routes, the MCP door and the webhook receiver."""
@@ -71,43 +79,56 @@ class GrantedBoundary(LocalBoundary):
 
     # ── gate 1: the action grant (deny-by-default). Gate 2 (entitlement) is the inherited M1 rule. ─────────────
     def _authorize(self, caller, action, resource, agent=None):
-        """None when the action is granted; otherwise the audited denial (written BEFORE it is returned)."""
+        """The lab's gate shape: returns when the action is granted; on deny it writes the audit row FIRST, then
+        RAISES AccessDenied (carrying the structured, machine-parseable error). No model is in this path.
+        The allow row for a granted call is written once, by the record gate (entitlement), so every call leaves
+        exactly one row."""
         scope = TOKEN_SCOPE.get()                    # a delegated token narrows further: grants AND token scope
         if granted(caller, action) and (scope is None or action in scope):
-            return None
+            return
         reason = "no_grant" if not granted(caller, action) else "outside the delegated token's scope"
         rid = self._audit(caller, action, resource, "deny", reason, agent)
-        return self._error("not_found_or_forbidden", DENIED.get(action, "This request is not available."), rid)
+        raise AccessDenied(self._error("not_found_or_forbidden", DENIED.get(action, "This request is not available."),
+                                       rid))
+
+    def _gate(self, caller, action, resource, agent=None):
+        """_authorize for the tool layer: None when granted, else the denial as a structured error (never a raw
+        exception or a 500 to the caller)."""
+        try:
+            self._authorize(caller, action, resource, agent)
+        except AccessDenied as e:
+            return e.response
+        return None
 
     # ── the uniform client API, every method gated ───────────────────────────────────────────────────────────
     def claim(self, user_id, claim_id, agent=None):
         c = self.caller(user_id)
-        return self._authorize(c, "get_claim", claim_id, agent) or self.get_claim(c, claim_id, agent)
+        return self._gate(c, "get_claim", claim_id, agent) or self.get_claim(c, claim_id, agent)
 
     def policy(self, user_id, policy_id, agent=None):
         c = self.caller(user_id)
-        return self._authorize(c, "get_policy", policy_id, agent) or self.get_policy(c, policy_id, agent)
+        return self._gate(c, "get_policy", policy_id, agent) or self.get_policy(c, policy_id, agent)
 
     def documents_for(self, user_id, claim_id, agent=None):
         c = self.caller(user_id)
-        return self._authorize(c, "list_documents", claim_id, agent) or self.list_documents(c, claim_id, agent)
+        return self._gate(c, "list_documents", claim_id, agent) or self.list_documents(c, claim_id, agent)
 
     def document(self, user_id, doc_id, agent=None):
         c = self.caller(user_id)
-        return self._authorize(c, "get_document", doc_id, agent) or self.get_document(c, doc_id, agent)
+        return self._gate(c, "get_document", doc_id, agent) or self.get_document(c, doc_id, agent)
 
     def recommend(self, user_id, claim_id, card, idempotency_key, agent="agent:decision-draft"):
         c = self.caller(user_id)
-        return self._authorize(c, "post_recommendation", claim_id, agent) or \
+        return self._gate(c, "post_recommendation", claim_id, agent) or \
             super().recommend(user_id, claim_id, card, idempotency_key, agent)
 
     def draft(self, user_id, claim_id, agent=None):
         c = self.caller(user_id)
-        return self._authorize(c, "get_latest_draft", claim_id, agent) or self.latest_draft(c, claim_id, agent)
+        return self._gate(c, "get_latest_draft", claim_id, agent) or self.latest_draft(c, claim_id, agent)
 
     def pending(self, user_id):
         c = self.caller(user_id)
-        return self._authorize(c, "list_pending_recommendations", "queue") or self.list_pending(c)
+        return self._gate(c, "list_pending_recommendations", "queue") or self.list_pending(c)
 
     def confirm(self, user_id, request, agent=None):
         if agent:   # an agent identity holds no confirm grant: confirmation is human-only (same code as M1)
@@ -116,12 +137,12 @@ class GrantedBoundary(LocalBoundary):
                               "no_grant: confirmation is human-only")
             return self._error("human_confirmation_required", "Only a licensed adjuster can confirm an outcome.", rid)
         c = self.caller(user_id)
-        return self._authorize(c, "confirm_recommendation", request.get("recommendation_id")) or \
+        return self._gate(c, "confirm_recommendation", request.get("recommendation_id")) or \
             self.confirm_recommendation(c, request)
 
     def audit_rows(self, user_id, limit=50, claim_id=None):
         c = self.caller(user_id)
-        if (denied := self._authorize(c, "read_audit", "audit")):
+        if (denied := self._gate(c, "read_audit", "audit")):
             return denied
         rows = audit_trail.read()
         if claim_id:
@@ -140,7 +161,7 @@ class GrantedBoundary(LocalBoundary):
 
     def search_clauses(self, user_id, query, k=3, agent=None):
         c = self.caller(user_id)
-        if (denied := self._authorize(c, "search_policy_clauses", f"policy-kb?q={query[:80]}", agent)):
+        if (denied := self._gate(c, "search_policy_clauses", f"policy-kb?q={query[:80]}", agent)):
             return denied
         if not isinstance(query, str) or not query.strip() or len(query) > 500:
             rid = self._audit(c, "search_policy_clauses", "policy-kb", "error", "invalid_request", agent)
@@ -156,7 +177,7 @@ class GrantedBoundary(LocalBoundary):
     # ── the 4th backend: SIU / escalation ticketing (idempotent write, retry/backoff, breaker, never lost) ──────
     def escalate(self, user_id, claim_id, reason, idempotency_key, priority="normal", agent=None):
         c = self.caller(user_id)
-        if (denied := self._authorize(c, "create_escalation_ticket", claim_id, agent)):
+        if (denied := self._gate(c, "create_escalation_ticket", claim_id, agent)):
             return denied
         claim = self.claims.get(claim_id)
         if claim is None or not self.entitled(c, claim):
@@ -195,7 +216,7 @@ class GrantedBoundary(LocalBoundary):
 
     def escalation(self, user_id, claim_id, agent=None):
         c = self.caller(user_id)
-        if (denied := self._authorize(c, "get_escalation", claim_id, agent)):
+        if (denied := self._gate(c, "get_escalation", claim_id, agent)):
             return denied
         claim, esc = self.claims.get(claim_id), self.escalations.get(claim_id)
         if claim is None or not self.entitled(c, claim) or esc is None:
@@ -223,7 +244,7 @@ class GrantedBoundary(LocalBoundary):
     def apply_ticket_event(self, event):
         """Called only AFTER the signature and timestamp are verified. Idempotent (event_id) and order-safe (seq)."""
         caller = SERVICE_TICKETING
-        if (denied := self._authorize(caller, "ticket_webhook", event.get("claim_id", "-"))):
+        if (denied := self._gate(caller, "ticket_webhook", event.get("claim_id", "-"))):
             return denied, 403
         eid, claim_id = event.get("event_id"), event.get("claim_id")
         if eid in self.webhook_events:

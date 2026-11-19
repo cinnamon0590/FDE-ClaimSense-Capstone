@@ -98,3 +98,19 @@ def test_every_audit_row_carries_user_action_resource(door):
     for r in door.audit():
         assert r["user_id"] and r["action"] and r["resource"] and r["decision"] and r["via"]
     json.dumps(door.audit())                     # serialisable, as the trail requires
+
+
+def test_authorize_raises_on_deny_after_writing_the_audit_row(door):
+    """The checklist's gate shape: _authorize (1) writes the audit row for the deny, (2) RAISES. No model involved."""
+    import pytest
+    from claimsense_door.door import AccessDenied
+    b = door.b
+    caller = b.caller("dave")                                  # customer-service: no grant for policy search
+    before = len(b.audit)
+    with pytest.raises(AccessDenied) as e:
+        b._authorize(caller, "search_policy_clauses", "policy-kb?q=x")
+    assert e.value.response["error"]["code"] == "not_found_or_forbidden"
+    row = b.audit[before]
+    assert row["decision"] == "deny" and row["request_id"] == e.value.response["error"]["request_id"]
+    assert {"acting_identity", "scope", "action", "resource", "decision"} <= row.keys()
+    assert b._authorize(b.caller("alice"), "get_claim", "CLM-2024-1800") is None      # granted: returns

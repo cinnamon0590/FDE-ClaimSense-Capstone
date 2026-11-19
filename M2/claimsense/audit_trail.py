@@ -27,8 +27,11 @@ def audit_path():
 
 
 def row(user_id, groups, action, resource, decision, reason="", on_behalf_of_agent=None, via=None, **extra):
+    # acting_identity / scope: the W16 checklist's names for the same facts (who acted, under which scope), kept
+    # beside user_id / groups so both vocabularies read the trail directly
     return {"ts": datetime.now(timezone.utc).isoformat(), "request_id": str(uuid.uuid4()), "user_id": user_id,
-            "groups": list(groups or []), "on_behalf_of_agent": on_behalf_of_agent, "action": action,
+            "groups": list(groups or []), "acting_identity": user_id, "scope": list(groups or []),
+            "on_behalf_of_agent": on_behalf_of_agent, "action": action,
             "resource": resource, "decision": decision, "reason": reason, "via": via or VIA.get(), **extra}
 
 

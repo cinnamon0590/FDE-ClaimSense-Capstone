@@ -18,7 +18,7 @@ import httpx
 
 from _common import DOOR, ORCH, Report, tokens
 
-REQUIRED = ("ts", "request_id", "user_id", "action", "resource", "decision", "via")
+REQUIRED = ("ts", "request_id", "user_id", "acting_identity", "scope", "action", "resource", "decision", "via")
 
 
 def trail(bob):
@@ -83,7 +83,7 @@ def main():
     missing = [r for r in rows if not all(r.get(k) not in (None, "") for k in REQUIRED)]
     R.say("", f"2 · the whole trail on this stack: {len(rows)} rows (the newest 1000)",
           "   by channel/decision: " + json.dumps(dict(Counter(f"{r['via']}/{r['decision']}" for r in rows))))
-    R.check("every row carries ts, request_id, user, action, resource, decision and channel", not missing,
+    R.check("every row carries ts, request_id, user (acting_identity), scope, action, resource, decision and channel", not missing,
             f"{len(missing)} incomplete")
     touched = [r for r in rows if r["resource"] == "CLM-2024-1800" and r["decision"] != "authenticated"]
     who = Counter((r["user_id"], r["decision"]) for r in touched)

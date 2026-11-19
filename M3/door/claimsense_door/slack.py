@@ -117,7 +117,7 @@ class SlackNotifier:
     def notify(self, user_id, claim_id, reason, idempotency_key, agent=None):
         b = self.b
         c = b.caller(user_id)
-        if (denied := b._authorize(c, "notify_oncall", claim_id, agent)):
+        if (denied := b._gate(c, "notify_oncall", claim_id, agent)):
             return denied                                                  # Slack never called
         claim = b.claims.get(claim_id)
         if claim is None or not b.entitled(c, claim):
