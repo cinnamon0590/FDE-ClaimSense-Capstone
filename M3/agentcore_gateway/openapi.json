@@ -1,0 +1,44 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ClaimSense governed door (AutoSure, synthetic) — Gateway subset",
+    "version": "1.0.0",
+    "description": "The REST face of the ClaimSense door, trimmed to the operations an AgentCore Gateway target would expose as MCP tools. Each operationId becomes an MCP tool name. Grants (deny-by-default), entitlement and the audit trail are enforced INSIDE the door on every call; the Gateway replaces tool wiring and key handling, never enforcement."
+  },
+  "servers": [{"url": "https://<door-api-id>.execute-api.us-east-1.amazonaws.com"}],
+  "security": [{"bearer": []}],
+  "components": {
+    "securitySchemes": {
+      "bearer": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT",
+                 "description": "The adjuster's Cognito ID token, or a door-issued delegated (OBO) token. Never a shared key: per-user scope depends on it."}
+    },
+    "schemas": {
+      "Error": {"type": "object", "properties": {"error": {"type": "object", "properties": {
+        "code": {"type": "string"}, "message": {"type": "string"}, "request_id": {"type": "string"},
+        "retry_after_s": {"type": "number"}}}}}
+    }
+  },
+  "paths": {
+    "/claims/{claim_id}": {
+      "get": {"operationId": "get_claim", "summary": "Claims Management: one claim's facts (scope-checked; missing and forbidden look the same).",
+              "parameters": [{"name": "claim_id", "in": "path", "required": true, "schema": {"type": "string", "pattern": "^CLM-\\d{4}-\\d{4}$"}}],
+              "responses": {"200": {"description": "the claim, or a not_found_or_forbidden error (denial audited)"}, "401": {"description": "no valid token"}}}
+    },
+    "/claims/{claim_id}/documents": {
+      "get": {"operationId": "list_claim_documents", "summary": "Document Store: the documents on file for a claim.",
+              "parameters": [{"name": "claim_id", "in": "path", "required": true, "schema": {"type": "string"}}],
+              "responses": {"200": {"description": "document listing or denial"}, "401": {"description": "no valid token"}}}
+    },
+    "/documents/{doc_id}": {
+      "get": {"operationId": "get_document", "summary": "Document Store: one document (content is untrusted third-party text).",
+              "parameters": [{"name": "doc_id", "in": "path", "required": true, "schema": {"type": "string"}}],
+              "responses": {"200": {"description": "the document or denial"}, "401": {"description": "no valid token"}}}
+    },
+    "/policy-kb/search": {
+      "get": {"operationId": "search_policy_clauses", "summary": "Policy & Coverage KB: clauses with provenance (G2 quarantines the rest).",
+              "parameters": [{"name": "q", "in": "query", "required": true, "schema": {"type": "string", "maxLength": 500}},
+                             {"name": "k", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "maximum": 5}}],
+              "responses": {"200": {"description": "clauses + quarantined ids"}, "401": {"description": "no valid token"}}}
+    }
+  }
+}

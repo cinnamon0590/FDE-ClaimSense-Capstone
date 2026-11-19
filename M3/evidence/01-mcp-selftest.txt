@@ -1,0 +1,16 @@
+# 01-mcp-selftest — the MCP door over the protocol: initialize -> list -> call -> dedupe -> deny -> enumerate
+# run: 2026-11-18 20:40:03 EST
+# command: python -m claimsense_door.stdio --selftest
+
+CLAIMSENSE MCP DOOR: selftest
+  initialize: ok (protocol 2025-06-18, server claimsense-door)
+  tools/list: ok (10 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, notify_oncall, get_escalation)
+  tools/call #3 get_claim as alice (adjuster): isError=False claim=CLM-2024-1800
+  tools/call #4/#5 create_escalation_ticket twice, same key: ticket SIU-9001 both times, replay marked=True
+  tools/call #6 get_claim as carol (fraud-investigator, not her claim): isError=True error=not_found_or_forbidden audit_decision=deny
+  tools/call #7 get_claim for a claim that does not exist: identical denial=True (no enumeration)
+  tools/call #8 search_policy_clauses as dave (customer-service, no grant): isError=True (deny-by-default)
+  tools/call #9 get_claim with a smuggled user_id argument: isError=True (identity is never an argument)
+  audit: 7 rows, every one with user, action, resource and decision
+SELFTEST PASS
+# exit: 0

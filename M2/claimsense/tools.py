@@ -149,12 +149,22 @@ def search_clauses(ctx: RunContextWrapper[RunCtx], query: str) -> str:
         query: plain-language description of the coverage question, e.g. "deductible on a windscreen claim".
     """
     c = ctx.context
-    kept, dropped = search_with_provenance(c.index, query, k=3)
+    if hasattr(c.boundary, "search_clauses"):
+        # M3: the Policy & Coverage KB is a system of record behind the governed door (granted + audited there);
+        # G2's provenance quarantine runs at the door, before anything is returned
+        res = c.boundary.search_clauses(c.user_id, query, 3, AGENT_IDS["coverage"])
+        if "error" in res:
+            c.emit("tool", "search_clauses", query=query, retrieved=[], refused=res["error"]["code"])
+            return json.dumps({"error": res["error"]["code"], "clauses": []})
+        kept, dropped, backend = res["clauses"], [{"clause_id": q} for q in res["quarantined"]], res["backend"]
+    else:
+        kept, dropped = search_with_provenance(c.index, query, k=3)
+        backend = c.index.backend
     for ch in kept:
         c.retrieved_clause_ids.add(ch["clause_id"])
         c.retrieved_chunks[ch["clause_id"]] = ch
     c.quarantined += [d["clause_id"] for d in dropped]
     c.emit("tool", "search_clauses", query=query, retrieved=[k["clause_id"] for k in kept],
-           quarantined=[d["clause_id"] + " (no provenance)" for d in dropped], backend=c.index.backend)
+           quarantined=[d["clause_id"] + " (no provenance)" for d in dropped], backend=backend)
     return json.dumps([{"clause_id": k["clause_id"], "title": k["title"], "section": k["section"],
                         "text": k["text"]} for k in kept])

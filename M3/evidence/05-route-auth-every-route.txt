@@ -1,0 +1,54 @@
+# 05-route-auth-every-route — D-2: every route and every MCP tool refuses a missing or invalid token
+# run: 2026-11-18 20:42:35 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/route_auth_check.py
+# exit: 0   status: PASS
+
+guarded HTTP routes found in the live OpenAPI: 21 (door + orchestrator); MCP tools: 10; bad credentials per target: 6
+
+  PASS  GET   /mcp                                              (all 401)
+  PASS  POST  /mcp                                              (all 401)
+  PASS  POST  /webhooks/ticketing                               (all 401)
+  PASS  GET   /claims/{claim_id}                                (all 401)
+  PASS  GET   /policies/{policy_id}                             (all 401)
+  PASS  GET   /claims/{claim_id}/documents                      (all 401)
+  PASS  GET   /documents/{doc_id}                               (all 401)
+  PASS  GET   /policy-kb/search                                 (all 401)
+  PASS  POST  /claims/{claim_id}/recommendations                (all 401)
+  PASS  POST  /recommendations/{rec_id}/confirm                 (all 401)
+  PASS  GET   /recommendations                                  (all 401)
+  PASS  GET   /claims/{claim_id}/recommendations/latest         (all 401)
+  PASS  POST  /claims/{claim_id}/escalations                    (all 401)
+  PASS  POST  /claims/{claim_id}/oncall                         (all 401)
+  PASS  GET   /claims/{claim_id}/escalation                     (all 401)
+  PASS  GET   /audit                                            (all 401)
+  PASS  POST  /invocations                                      (all 401)
+  PASS  POST  /claims/{claim_id}/recommend                      (all 401)
+  PASS  POST  /claims/{claim_id}/recommend/stream               (all 401)
+  PASS  POST  /claims/{claim_id}/ask                            (all 401)
+  PASS  GET   /claims/{claim_id}/ask/history                    (all 401)
+  PASS  MCP   tools/call get_claim                               (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call get_policy                              (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call list_claim_documents                    (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call get_document                            (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call search_policy_clauses                   (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call create_recommendation                   (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call get_latest_draft                        (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call create_escalation_ticket                (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call notify_oncall                           (all 401 + WWW-Authenticate resource_metadata)
+  PASS  MCP   tools/call get_escalation                          (all 401 + WWW-Authenticate resource_metadata)
+
+bad-credential requests sent: 186 · refused with 401: 186
+  PASS  every refusal left an audit row (anonymous or unverified-webhook, action, resource, decision=deny, reason)  (186 new deny rows; e.g. {"user_id": "anonymous", "action": "authenticate", "resource": "POST /mcp", "decision": "deny", "reason": "only RS256 tokens are accepted", "via": "mcp"})
+  PASS  the same routes accept a valid token (authentication is not the problem being tested away)  (GET /claims/CLM-2024-1800 with alice's token -> 200)
+  PASS  POST  /oauth/token with a no token subject token  (400 invalid_grant)
+  PASS  POST  /oauth/token with a malformed (not Bearer) subject token  (400 invalid_grant)
+  PASS  POST  /oauth/token with a forged (attacker's key) subject token  (400 invalid_grant)
+  PASS  POST  /oauth/token with a tampered (groups edited) subject token  (400 invalid_grant)
+  PASS  POST  /oauth/token with a expired (real issuer) subject token  (400 invalid_grant)
+  PASS  POST  /oauth/token with a alg=none subject token  (400 invalid_grant)
+  PASS  MCP door publishes RFC 9728 protected-resource metadata  ({"resource": "http://localhost:8002/mcp", "authorization_servers": ["https://claimsense.local/dev-issuer", "https://claimsense.local/door-sts"], "bearer_methods_supported": ["header"], "scopes_supported": ["openid"], "resource_name": "ClaimSense governed door (AutoSure, synthetic data)", "resource_documentation": "http://localhost:8002/docs"})
+
+note: /dev/token answers 200 here because this is the synthetic sandbox (CLAIMSENSE_DEV_ISSUER=1); on AWS the flag is unset and it is 404 (tests/test_route_table.py, and evidence on the deployed door)
+
+RESULT: PASS

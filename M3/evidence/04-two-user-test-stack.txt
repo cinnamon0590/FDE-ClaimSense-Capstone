@@ -1,0 +1,109 @@
+ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-18 20:42:33 EST
+door: HTTP http://localhost:8002/mcp
+question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-1800"}
+
+=== User A: alice ===
+REQUEST:
+{
+  "method": "POST",
+  "url": "http://localhost:8002/mcp",
+  "headers": {
+    "Authorization": "Bearer <redacted JWT>",
+    "Content-Type": "application/json",
+    "MCP-Protocol-Version": "2025-06-18",
+    "X-On-Behalf-Of-Agent": "agent:document-intake"
+  },
+  "body": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "get_claim",
+      "arguments": {
+        "claim_id": "CLM-2024-1800"
+      }
+    }
+  }
+}
+RESPONSE:
+{
+  "structuredContent": {
+    "claim_id": "CLM-2024-1800",
+    "policy_id": "POL-AU-10418",
+    "claimant_id": "CUS-1C58F7",
+    "claimant_name": "Kendall Ellery",
+    "loss_type": "collision",
+    "incident_date": "2024-10-02",
+    "incident_time": null,
+    "reported_date": "2024-10-03",
+    "narrative": "Insured was stationary at a red light when struck from behind by a third-party vehicle. Police attended; third party admitted fault at scene.",
+    "vehicle": {
+      "year": 2021,
+      "make": "Toyota",
+      "model": "Camry",
+      "colour": null,
+      "vin": "H14J31YXE99ZH6H3G"
+    },
+    "acv": 24500,
+    "repair_estimate": 3200,
+    "injury_reported": false,
+    "fraud_risk_score": 0.08,
+    "status": "first_pass_pending",
+    "assigned_group": "adjuster",
+    "document_ids": [
+      "DOC-2024-1800-POLICE-REPORT",
+      "DOC-2024-1800-REPAIR-ESTIMATE",
+      "DOC-2024-1800-PHOTOS",
+      "DOC-2024-1800-FNOL-FORM"
+    ]
+  },
+  "isError": false,
+  "http_status": 200
+}
+
+=== User B: carol ===
+REQUEST:
+{
+  "method": "POST",
+  "url": "http://localhost:8002/mcp",
+  "headers": {
+    "Authorization": "Bearer <redacted JWT>",
+    "Content-Type": "application/json",
+    "MCP-Protocol-Version": "2025-06-18",
+    "X-On-Behalf-Of-Agent": "agent:document-intake"
+  },
+  "body": {
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "get_claim",
+      "arguments": {
+        "claim_id": "CLM-2024-1800"
+      }
+    }
+  }
+}
+RESPONSE:
+{
+  "structuredContent": {
+    "error": {
+      "code": "not_found_or_forbidden",
+      "message": "No claim is available for this request.",
+      "request_id": "3ffd6f11-9108-4dd7-aaaa-369748f6d989"
+    }
+  },
+  "isError": true,
+  "http_status": 200
+}
+
+=== Answers ===
+  User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
+  User B carol: 403 DENIED — carol may not access CLM-2024-1800 · the caller is told only: "No claim is available for this request." (request_id 3ffd6f11-9108-4dd7-aaaa-369748f6d989)
+
+=== Append-only audit rows (one per call) ===
+  {"ts": "2026-11-19T01:42:33.207844+00:00", "request_id": "ae347737-83dc-4e42-871f-9c6b8a4764a0", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+  {"ts": "2026-11-19T01:42:33.216832+00:00", "request_id": "3ffd6f11-9108-4dd7-aaaa-369748f6d989", "acting_identity": "carol", "scope": ["fraud-investigator"], "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+
+checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
+RESULT: PASS — scope holds (different answers + matching audit)

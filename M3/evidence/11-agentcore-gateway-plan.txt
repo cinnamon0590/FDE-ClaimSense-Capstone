@@ -1,0 +1,75 @@
+# 11-agentcore-gateway-plan — the managed twin's plan ($0; nothing created)
+# run: 2026-11-18 17:14:04 EST
+# command: python agentcore_gateway/gateway_setup.py plan
+# exit: 0   status: PASS
+
+PLAN: the calls `apply` will make (nothing is created, no credentials needed):
+
+  1. iam.create_role (once)
+     {
+       "RoleName": "ClaimSenseAgentCoreGatewayRole",
+       "AssumeRolePolicyDocument": {
+         "Version": "2012-10-17",
+         "Statement": [
+           {
+             "Effect": "Allow",
+             "Principal": {
+               "Service": "bedrock-agentcore.amazonaws.com"
+             },
+             "Action": "sts:AssumeRole"
+           }
+         ]
+       },
+       "_inline_policy": {
+         "Version": "2012-10-17",
+         "Statement": [
+           {
+             "Effect": "Allow",
+             "Action": [
+               "bedrock-agentcore:GetWorkloadAccessToken"
+             ],
+             "Resource": "*"
+           }
+         ]
+       }
+     }
+
+  2. bedrock-agentcore-control.create_gateway
+     {
+       "name": "claimsense-gateway",
+       "roleArn": "arn:aws:iam::<your-account>:role/ClaimSenseAgentCoreGatewayRole",
+       "protocolType": "MCP",
+       "authorizerType": "CUSTOM_JWT",
+       "authorizerConfiguration": {
+         "customJWTAuthorizer": {
+           "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/<pool-id>/.well-known/openid-configuration",
+           "allowedAudience": [
+             "<console app client id>"
+           ]
+         }
+       },
+       "description": "Managed MCP door over the ClaimSense REST door (AutoSure, synthetic) \u2014 M3 twin"
+     }
+
+  3. bedrock-agentcore-control.create_gateway_target
+     {
+       "gatewayIdentifier": "<gateway id from create_gateway>",
+       "name": "claimsense-door",
+       "targetConfiguration": {
+         "mcp": {
+           "openApiSchema": {
+             "inlinePayload": "<openapi.json, servers=[https://<door-api-id>.execute-api.us-east-1.amazonaws.com], 4 operations: get_claim, list_claim_documents, get_document, search_policy_clauses>"
+           }
+         }
+       },
+       "credentialProviderConfigurations": [
+         {
+           "credentialProviderType": "GATEWAY_IAM_ROLE",
+           "_note": "no stored credential: the caller's bearer token must reach the door, which re-verifies it (verify pass-through at apply)"
+         }
+       ]
+     }
+
+Then: the MCP endpoint is the gatewayUrl create_gateway returns. Callers present an adjuster's Cognito token;
+Gateway validates it at the edge (CUSTOM_JWT) and the door validates it AGAIN and applies grants, entitlement
+and the audit. Gateway replaces tool wiring; it never replaces enforcement.

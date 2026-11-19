@@ -1,0 +1,15 @@
+# 18-slack-live-page — Builder: a REAL page in Susan's Slack (#claimsense-oncall, private), through the door over MCP
+# run: 2026-11-18 19:04:57 EST · transport: bot (chat.postMessage as claimsense_oncall) · token in gitignored M3/.slack.env, never printed
+# command: MCP tools/call notify_oncall as alice (adjuster) on synthetic claim CLM-2024-1800, then the same key again, then carol
+
+1 alice pages on-call (live)        -> {"delivered_via": "slack", "mode": "bot", "claim_id": "CLM-2024-1800", "flagged": false}
+2 same idempotency key again       -> {"delivered_via": "slack", "mode": "bot", "claim_id": "CLM-2024-1800", "flagged": false, "deduped": true}
+3 carol (not her claim) tries      -> {"error": {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "797f6102-0638-448b-8d27-209e1111c662"}}
+
+audit rows:
+  {"user_id": "alice", "action": "notify_oncall", "resource": "CLM-2024-1800", "decision": "allow", "reason": "delivered_via=slack", "via": "mcp", "on_behalf_of_agent": "agent:decision-draft"}
+  {"user_id": "alice", "action": "notify_oncall", "resource": "CLM-2024-1800", "decision": "replay", "reason": "duplicate key live-page-82e5c286: not re-posted", "via": "mcp", "on_behalf_of_agent": "agent:decision-draft"}
+  {"user_id": "carol", "action": "notify_oncall", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_found_or_not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:decision-draft"}
+
+checks: delivered to Slack (ok:true) · the retry was deduped (one message, not two) · carol refused before Slack
+RESULT: PASS

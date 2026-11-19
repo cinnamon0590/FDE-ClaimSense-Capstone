@@ -1,0 +1,98 @@
+# ClaimSense M3 local stack: the M2 system with the governed MCP door, deny-by-default grants, the shared audit trail,
+# and the 4th system of record (SIU escalation ticketing, pushing signed webhooks). One command:
+#   cd M3 && docker compose up --build -d --wait            (or: make up)
+# Console http://localhost:8510 · Orchestrator http://localhost:8003/docs · Door (REST + /mcp) http://localhost:8002/docs
+# No key needed: with OPENAI_API_KEY unset (or MOCK_BRAIN=1) the orchestrator uses the replay brain ($0).
+# Secrets: none in this file, the repo or any image. The two service secrets (ticketing API credential, webhook
+# signing key) are generated on first start onto the private `secrets` volume (0600) and shared by the two services.
+name: claimsense-m3
+
+x-platform: &platform
+  build: { context: .., dockerfile: M2/services/platform.Dockerfile }
+  image: claimsense/platform:local
+  restart: unless-stopped
+
+x-hc: &hc
+  test: ["CMD", "python", "-c", "import urllib.request,os;urllib.request.urlopen('http://localhost:'+os.environ['PORT']+'/healthz')"]
+  interval: 5s
+  timeout: 3s
+  retries: 12
+
+services:
+  mock-systems:
+    <<: *platform
+    command: ["uvicorn", "mock_systems.app:app", "--host", "0.0.0.0", "--port", "8001"]
+    healthcheck: *hc
+    environment: { PORT: "8001" }
+    expose: ["8001"]                       # internal only: only the door talks to the systems of record
+
+  ticketing:                               # 4th system of record: mock SIU escalation ticketing (internal only)
+    <<: *platform
+    command: ["uvicorn", "ticketing.app:app", "--host", "0.0.0.0", "--port", "8004"]
+    healthcheck: *hc
+    environment: { PORT: "8004", TICKETING_STATE: /state/ticketing.json, TICKETING_FAIL_FIRST: "1",
+                   DOOR_WEBHOOK_URL: "http://boundary:8002/webhooks/ticketing" }
+    volumes: ["secrets:/secrets", "ticketing:/state"]
+    expose: ["8004"]
+
+  boundary:                                # THE governed door: REST for the console, MCP (/mcp) for the agents
+    <<: *platform
+    # optional on-call paging: SLACK_BOT_TOKEN + SLACK_CHANNEL_ID (or SLACK_WEBHOOK_URL), filled by Susan herself,
+    # gitignored; absent = the offline mock. The door never gets the OpenAI key (least privilege).
+    env_file: [{ path: .slack.env, required: false }]
+    command: ["uvicorn", "boundary.app:app", "--host", "0.0.0.0", "--port", "8002"]
+    # CLAIMSENSE_DEV_ISSUER: the local stand-in for Cognito's hosted login (synthetic sandbox only, D-030)
+    environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl,
+                   CLAIMSENSE_DEV_ISSUER: "1", TICKETING_URL: "http://ticketing:8004",
+                   OPENSEARCH_URL: "http://opensearch:9200", CLAIMSENSE_PUBLIC_URL: "http://localhost:8002" }
+    volumes: ["state:/state", "secrets:/secrets"]
+    ports: ["127.0.0.1:8002:8002"]
+    healthcheck: *hc
+    depends_on: { mock-systems: { condition: service_healthy }, ticketing: { condition: service_healthy },
+                  opensearch: { condition: service_healthy } }
+
+  opensearch:                              # the RAG store (Policy & Coverage KB), read through the door
+    image: opensearchproject/opensearch:2.18.0
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits: { nofile: { soft: 65536, hard: 65536 } }
+    expose: ["9200"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=2s' >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  orchestrator:
+    build: { context: .., dockerfile: M2/services/orchestrator/Dockerfile }
+    image: claimsense/orchestrator:local
+    restart: unless-stopped
+    env_file: [{ path: ../M2/.env, required: false }]
+    environment:
+      BOUNDARY_URL: http://boundary:8002
+      CLAIMSENSE_MCP_URL: http://boundary:8002/mcp   # M3: every agent data access is an MCP tool call on the door
+      OPENSEARCH_URL: http://opensearch:9200
+      MOCK_BRAIN: ${MOCK_BRAIN:-1}
+      MODEL_PROVIDER: ${MODEL_PROVIDER:-openai}
+      AUDIT_LOG: /state/audit.jsonl                  # the orchestrator's own entry points write the same trail
+    volumes: ["state:/state"]
+    ports: ["127.0.0.1:8003:8003", "127.0.0.1:8080:8003"]
+    depends_on: { boundary: { condition: service_healthy }, opensearch: { condition: service_healthy } }
+
+  console:
+    build: { context: .., dockerfile: M2/services/console/Dockerfile }
+    image: claimsense/console:local
+    restart: unless-stopped
+    environment: { ORCHESTRATOR_URL: "http://orchestrator:8003", BOUNDARY_URL: "http://boundary:8002" }
+    ports: ["127.0.0.1:8510:8501"]
+    depends_on: { orchestrator: { condition: service_healthy } }
+
+volumes:
+  state: {}
+  secrets: {}
+  ticketing: {}

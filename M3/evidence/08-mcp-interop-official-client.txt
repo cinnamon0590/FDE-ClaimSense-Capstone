@@ -1,0 +1,15 @@
+# 08-mcp-interop-official-client — Interop: the official Agents SDK MCP client against the door
+# run: 2026-11-18 20:42:39 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
+# command: python evals/mcp_interop_check.py
+# exit: 0   status: PASS
+
+alice: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 10 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, notify_oncall, get_escalation
+alice: tools/call get_claim(CLM-2024-1800) -> isError=False · claim CLM-2024-1800
+  PASS  alice: official client connects, lists 10 typed tools, and gets the right scope decision
+carol: initialize OK (protocol negotiated by the mcp SDK) · tools/list -> 10 tools: get_claim, get_policy, list_claim_documents, get_document, search_policy_clauses, create_recommendation, get_latest_draft, create_escalation_ticket, notify_oncall, get_escalation
+carol: tools/call get_claim(CLM-2024-1800) -> isError=True · {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "3e0dab34-ccaf-4311-8032-774b6e8d443c"}
+  PASS  carol: official client connects, lists 10 typed tools, and gets the right scope decision
+  PASS  a client with no valid token cannot even initialize (401 at the transport)  (ExceptionGroup)
+
+RESULT: PASS

@@ -1,0 +1,11 @@
+# 12-unit-tests — pytest: a bare `pytest -q` from the repo root (what the grader runs: M0 to M3 in one process), then M3 alone
+# run: 2026-11-18 20:40:03 EST
+# command: pytest -q   ;   pytest -q M3/tests
+
+........................................................................ [ 88%]
+...................                                                      [100%]
+163 passed in 13.32s
+
+................................                                         [100%]
+32 passed in 1.55s
+# exit: 0

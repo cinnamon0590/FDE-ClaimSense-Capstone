@@ -1,0 +1,35 @@
+# 17-oncall-slack-through-the-door — Builder: a real external integration through the door (Slack on-call), every failure mode handled
+# run: 2026-11-18 18:27:01 EST
+# command: python -m claimsense_door.slack_demo
+
+▶ happy
+    {'delivered_via': 'slack', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'flagged': False}
+▶ rbac
+    {'error': {'code': 'not_found_or_forbidden', 'message': 'No claim is available for this request.', 'request_id': '53088ceb-92f0-465c-a0e6-8a4ac9a2c337'}}
+▶ rate_limit
+    {'delivered_via': 'slack', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'flagged': False}
+▶ expired_webhook
+    {'delivered_via': 'fallback', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'reason': 'invalid_token', 'ticket_id': 'SIU-9001', 'fallback_error': None}
+▶ timeout
+    {'delivered_via': 'fallback', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'reason': 'circuit_open', 'ticket_id': 'SIU-9003', 'fallback_error': None}
+▶ duplicate
+    {'delivered_via': 'slack', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'flagged': False, 'deduped': True}
+▶ schema_drift
+    {'delivered_via': 'slack', 'mode': 'mock', 'claim_id': 'CLM-2024-1800', 'flagged': True}
+▶ no_data_in_slack
+    {'card_fields': 'id, reason, link'}
+
+--------------------------------------------------------------------------
+  SUMMARY: every failure mode handled deterministically, in the door
+--------------------------------------------------------------------------
+  PROBLEM: a normal page                                        -> HANDLED: posted to Slack, audit row written
+  PROBLEM: a fraud investigator pages for a claim that isn't hers -> HANDLED: denied at the door + deny row audited; Slack never called
+  PROBLEM: Slack returns 429                                    -> HANDLED: backoff + retry -> delivered_via=slack
+  PROBLEM: the webhook/token was rotated (404)                  -> HANDLED: graceful fallback -> SIU ticket SIU-9001 (escalation never lost)
+  PROBLEM: Slack hangs, three pages in a row                    -> HANDLED: breaker opened after 2 failures; the 3rd call short-circuited to the fallback
+  PROBLEM: the agent retries the whole step                     -> HANDLED: deduped=True: on-call paged once, not twice
+  PROBLEM: Slack answers 200 in a changed shape                 -> HANDLED: defensive parse: still delivered, flagged for review, no crash
+  PROBLEM: could the card leak claim data into Slack?           -> HANDLED: the card carries the claim id, the reason and a link; no name, amount or policy
+
+SLACK THROUGH THE DOOR: PASS (8 scenarios)
+# exit: 0
