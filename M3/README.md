@@ -7,9 +7,9 @@ for every call.
 ## M3
 
 Scope is enforced in **code, in the door**, in two deterministic gates that run before any data moves.
-1. **The action gate:** `grants.json` says what each role may do. It is **deny-by-default**: an unknown role, an
+1. **The action gate:** `grants.json` states what each role has permission to do. It is **deny-by-default**: an unknown role, an
    undeclared action or a typo is refused.
-2. **The record gate:** M1's `entitled()` rule says which claims that role may see. It checks the claim's
+2. **The record gate:** M1's `entitled()` rule states which claims each role may view. It checks the claim's
    `assigned_group`, and a confirmed hand-off moves the claim between groups.
 
 The gate writes the audit row first, then returns the denial. "Does not exist" and "not yours" give an identical
