@@ -88,6 +88,7 @@ def _scan_dynamodb(table):
         for it in page["Items"]:
             r = {k: v["S"] for k, v in it.items() if k != "ts_request"}
             r["groups"] = json.loads(r.get("groups") or "[]")
+            r["scope"] = json.loads(r.get("scope") or "[]")
             r["on_behalf_of_agent"] = r.get("on_behalf_of_agent") or None
             out.append(r)
         if "LastEvaluatedKey" not in page:
