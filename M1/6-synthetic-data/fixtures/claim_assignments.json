@@ -1,0 +1,166 @@
+{
+  "kind": "claim_assignments",
+  "synthetic": true,
+  "records": [
+    {
+      "claim_id": "CLM-2024-1800",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3104",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-2822",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-1946",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3221",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3307",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3355",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-1873",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3412",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3460",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3461",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-2019",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3518",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3530",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3577",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3602",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3640",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3655",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-3701",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4101",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4102",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4103",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4104",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4105",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4106",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4107",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4108",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4109",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4110",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4111",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4112",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4113",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4114",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4115",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4116",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4117",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4119",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-4120",
+      "assigned_adjuster": "alice"
+    },
+    {
+      "claim_id": "CLM-2024-5001",
+      "assigned_adjuster": "bob"
+    },
+    {
+      "claim_id": "CLM-2024-5002",
+      "assigned_adjuster": "bob"
+    }
+  ]
+}

@@ -180,6 +180,7 @@ jobs:
         env: { PYTHONPATH: "M2:M3/door" }
         run: |
           python3 -m claimsense_door.two_analyst_test
+          python3 -m claimsense_door.two_analyst_test --viewer
           python3 -m claimsense_door.proofs
           python3 -m claimsense_door.stdio --selftest
       - uses: actions/download-artifact@v4
@@ -208,6 +209,7 @@ jobs:
           python3 evals/mcp_interop_check.py
           python3 evals/audit_check.py
           PYTHONPATH=../M2:door python3 -m claimsense_door.two_analyst_test --url http://localhost:8002
+          python3 evals/viewer_week4_check.py
       - name: "RBAC hand-offs through the door (last: it moves claims between groups)"
         run: python3 M2/evals/rbac_check.py
       - uses: actions/upload-artifact@v4

@@ -1,5 +1,5 @@
 # 07-ticketing-backend-and-webhooks — Stretch: a 4th backend (SIU ticketing) + webhook-driven updates
-# run: 2026-11-18 20:42:38 EST
+# run: 2026-11-19 22:06:52 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/webhook_check.py
 # exit: 0   status: PASS
@@ -9,25 +9,25 @@
   PASS  escalation created through the door despite the flaky backend (retry/backoff)
 2  {"ticket_id": "SIU-9001", "claim_id": "CLM-2024-1800", "status": "open", "idempotent_replay": true}
   PASS  same key again -> the ORIGINAL ticket, marked replay
-3  {"event": {"event_id": "evt-83e9b18a75a04ff5", "ticket_id": "SIU-9001", "claim_id": "CLM-2024-1800", "status": "assigned", "seq": 2, "ts": 1795052556.3027275}, "door": {"status": 200, "body": {"ok": true, "status": "assigned"}}}
+3  {"event": {"event_id": "evt-840a2fa518d446e8", "ticket_id": "SIU-9001", "claim_id": "CLM-2024-1800", "status": "assigned", "seq": 2, "ts": 1795144010.9001064}, "door": {"status": 200, "body": {"ok": true, "status": "assigned"}}}
   PASS  ticketing pushed a signed webhook and the door applied it
 4  {"status": 200, "body": {"ok": true, "deduped": true}}
   PASS  duplicate delivery -> deduped (no second update)
 5  newer first: {"status": 200, "body": {"ok": true, "status": "resolved"}}
    older second: {"status": 200, "body": {"ok": true, "ignored": "stale_seq"}}
   PASS  out of order -> the late older event is ignored by seq
-6  {"status": 401, "body": {"error": {"code": "unauthenticated", "message": "Webhook signature rejected.", "request_id": "0d4a338f-5910-43a1-8ca6-6fef24935ee3"}}}
+6  {"status": 401, "body": {"error": {"code": "unauthenticated", "message": "Webhook signature rejected.", "request_id": "d54b8078-eb07-49a9-b141-8a4081b06df1"}}}
   PASS  10-minute-old signed webhook -> 401 (replay window)
-7  {"status": 401, "body": {"error": {"code": "unauthenticated", "message": "Webhook signature rejected.", "request_id": "5e55ae62-590f-42cd-b0b0-73247bd039fb"}}}
+7  {"status": 401, "body": {"error": {"code": "unauthenticated", "message": "Webhook signature rejected.", "request_id": "bf71a6a1-3d3c-4b4a-85b0-4635a2fbcb5e"}}}
   PASS  forged signature from outside -> 401
-8  {"claim_id": "CLM-2024-1800", "ticket_id": "SIU-9001", "status": "resolved", "seq": 4, "updated_at": 1795052557.629931, "history": [{"status": "assigned", "seq": 2, "at": 1795052556.3027275}, {"status": "resolved", "seq": 4, "at": 1795052557.621179}]}
+8  {"claim_id": "CLM-2024-1800", "ticket_id": "SIU-9001", "status": "resolved", "seq": 4, "updated_at": 1795144012.2989056, "history": [{"status": "assigned", "seq": 2, "at": 1795144010.9001064}, {"status": "resolved", "seq": 4, "at": 1795144012.2882297}]}
   PASS  the adjuster sees the current status, with its history
-9  {"error": {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "5a1ba46e-d8d2-4343-9cf9-29b54a349472"}}
+9  {"error": {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "53be0e5c-757b-4ba7-98db-d1d8bd307186"}}
   PASS  carol (not her claim) gets the identical denial
 
 audit rows for the webhooks (system:ticketing acts only through its single grant):
    {"user_id": "system:ticketing", "action": "ticket_webhook", "resource": "CLM-2024-1800", "decision": "allow", "reason": "SIU-9001 -> assigned (seq 2)", "via": "webhook"}
-   {"user_id": "system:ticketing", "action": "ticket_webhook", "resource": "CLM-2024-1800", "decision": "replay", "reason": "duplicate delivery evt-83e9b18a75a04ff5", "via": "webhook"}
+   {"user_id": "system:ticketing", "action": "ticket_webhook", "resource": "CLM-2024-1800", "decision": "replay", "reason": "duplicate delivery evt-840a2fa518d446e8", "via": "webhook"}
    {"user_id": "system:ticketing", "action": "ticket_webhook", "resource": "CLM-2024-1800", "decision": "allow", "reason": "SIU-9001 -> resolved (seq 4)", "via": "webhook"}
    {"user_id": "system:ticketing", "action": "ticket_webhook", "resource": "CLM-2024-1800", "decision": "replay", "reason": "out-of-order seq 3 <= 4: ignored", "via": "webhook"}
    {"user_id": "unverified-webhook", "action": "ticket_webhook", "resource": "/webhooks/ticketing", "decision": "deny", "reason": "timestamp outside the replay window", "via": "webhook"}

@@ -32,7 +32,7 @@ present someone else's badge.
 
 **The grader's one-liner:** `python -m claimsense_door.two_analyst_test ; echo $?` → `0`, with the PASS line and both
 audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-user`). The grader's `pytest -q` from the
-repo root runs M0 to M3 in one process: **163 passed** (evidence 12), and CI runs exactly that command.
+repo root runs M0 to M3 in one process: **189 passed** (evidence 12), and CI runs exactly that command.
 
 ## The graded checklist (`milestone-M3-integration.md`): every tier
 
@@ -54,6 +54,23 @@ repo root runs M0 to M3 in one process: **163 passed** (evidence 12), and CI run
 | Architect | **AgentCore Gateway plan** | [`agentcore_gateway/README.md`](agentcore_gateway/README.md) (one page), `gateway_setup.py plan` (evidence 11), and **applied live** (evidence 16): AWS refuses caller-token pass-through for OpenAPI and MCP-server targets, so the hand-built door stays the enforcement point. Destroyed after |
 | Architect | **OBO with a real IdP** | **Keycloak performs the RFC 8693 exchange itself** (D-041, [evidence 19](evidence/19-keycloak-obo-exchange.txt), 13/13): the orchestrator trades alice's sign-in token at Keycloak for a 5-minute token (aud = the door, azp = the orchestrator, scope = the actions asked for); **that scope drives `_authorize`**, so an action alice's role allows but the token lacks is refused and audited. Non-delegable actions don't exist as scopes, so Keycloak refuses them. On AWS, Cognito (which has no exchange endpoint) signs the user in and the door's own `POST /oauth/token` does the exchange (D-039, evidence 14) |
 | Architect | **Injection containment test** | Evidence 03 proof 9: the planted unprovenanced chunk is quarantined at the door (G2), **and** a poisoned "fetch claim CLM-2024-1873" is refused at the gate |
+
+## The Learning UI Viewer's Week 4 Integration checks
+
+The ClaimSense Learning UI Viewer's *Week 4 Integration* tab lists what the FDE does this week. Each step, run as
+worded ([evidence 20](evidence/20-viewer-week4-stack.txt) locally, [21](evidence/21-viewer-week4-deployed.txt) on AWS; D-042):
+
+| Viewer step | ClaimSense |
+|---|---|
+| **Cognito JWT:** API Gateway's JWT authorizer verifies the token before the Lambda runs; user from `cognito:username`, role from `cognito:groups`; no valid token → 401 | `cloud/deploy.sh` (JWT authorizer on every protected route); the door checks again in code and requires the token's groups to match the directory (`M2/claimsense/identity.py`). 150/150 bad credentials → 401 on AWS ([14](evidence/14-deployed-route-auth.txt)) |
+| **Rule:** authorization in the MCP layer, not the prompt | `_authorize` + `grants.json` + `entitled()`; no authorisation phrase in any prompt ([06](evidence/06-access-control-before-agents.txt)) |
+| **Build MCP Lambda:** one handler routes claims, documents and policies to the mock systems; adjusters read only their **assigned** claims | One Lambda: `GET /claims/{id}`, `/claims/{id}/documents`, `/documents/{id}`, `/policies/{id}` and `POST /mcp`. Documents are at `/documents` because `/docs` is the API's own reference page. Assignment from Claims Management (`claim_assignments.json`): an adjuster reads only the claims assigned to them |
+| **Deploy API boundary:** Lambda + HTTP API Gateway + Cognito JWT authorizer | Deployed ([13](evidence/13-deployed-two-user-test.txt), [14](evidence/14-deployed-route-auth.txt)). Packaged as a container image, not a zip: the build CI tested (D-043) |
+| **Create test users:** Alice (adjuster), Bob (senior-adjuster) | In the Cognito pool, with carol, eve and dave; groups checked against the directory on every call |
+| **Connect agents to live MCP**, passing the user's JWT on every request | Every agent data access is an MCP `tools/call` carrying the user's delegated token ([10](evidence/10-m2-suites-through-the-door.txt), [15](evidence/15-live-gate-through-the-door.txt)) |
+| **Two-user RBAC test:** Alice → 403 on a claim not assigned to her; Bob → 200 with full data | `CLM-2024-5001` is in bob's queue. Over REST: alice **HTTP 403**, bob **HTTP 200** with all 17 fields; over MCP the same, alice first (`two_analyst_test --viewer`) |
+| **Verify audit trail in CloudWatch Logs:** every call logs user ID, action and resource ID | Every audit row is also an `AUDIT {json}` line in `/aws/lambda/claimsense-door`; the check finds each call's row there ([21](evidence/21-viewer-week4-deployed.txt)) |
+| *(Week 3 "AWS commands this week")* `aws s3 sync ./data/policies/ s3://…/policies/`, then build and push the image to ECR | `cloud/sync_docs.sh` syncs the synthetic clause corpus, policies and documents into M1's private, encrypted bucket, and **the deployed door reads them from S3** (D-044; [22](evidence/22-s3-document-store-deployed.txt)). The clause manifest stays in the image, so a clause edited in the bucket is quarantined. The image is built and pushed to ECR by `deploy.sh` and by CI's `push-image` |
 
 **Six attacks on the door** (the W16 activity, evidence 03 proof 10):
 - out-of-scope read: STOPPED, by scope;
@@ -99,7 +116,7 @@ would add a tenant wall below the role gate (W16 notebook §5.5).
 
 | Role ↓ / action → | claim, policy, documents | KB search | draft | confirm | escalate | read audit |
 |---|---|---|---|---|---|---|
-| adjuster (first pass) | R (assigned group) | R | W | **W (human-only)** | W | – |
+| adjuster (first pass) | R (**their assigned claims**, D-042) | R | W | **W (human-only)** | W | – |
 | senior-adjuster | R (all) | R | W | W | W | **R (read-only)** |
 | fraud-investigator / total-loss-appraiser | R (after a hand-off) | R | W | – | W | – |
 | customer-service | **–** (trap 1: never reads fraud scores) | – | – | – | – | – |
@@ -125,10 +142,12 @@ claimsense_door.stdio`, or point any streamable-HTTP MCP client at `http://local
 `cloud/deploy.sh` deploys the door as a Lambda container image behind an API Gateway HTTP API. The API's **Cognito JWT
 authorizer** guards every route except health, the key and metadata documents, the token exchange and the HMAC-signed
 webhook. The door verifies the token again, in code.
-- **Reused from M1:** the Cognito pool (5 groups) and the `claimsense-audit` DynamoDB table.
+- **Reused from M1:** the Cognito pool (5 groups), the `claimsense-audit` DynamoDB table, and the document bucket:
+  the door reads its KB corpus, policies and documents from S3 (`cloud/sync_docs.sh`, D-044).
 - **Users:** five synthetic users with random passwords, stored only in `~/.claimsense/` (0600).
 - **Cost:** about $0 within the free tiers. `cloud/teardown.sh` removes everything.
-- **Proof:** `two_analyst_test --url <door> --cognito` and `evals/route_auth_check.py` against the URL.
+- **Proof:** `two_analyst_test --url <door> --cognito`, `evals/deployed_route_check.py` and
+  `evals/viewer_week4_check.py --deployed` (the viewer's checks, including CloudWatch) against the URL.
 - **Known limit (documented):** the function runs with reserved concurrency 1, keeping drafts and idempotency in
   `/tmp`. DynamoDB-backed state is an M4 hardening item.
 
@@ -136,7 +155,8 @@ webhook. The door verifies the token again, in code.
 
 - **AWS:** deployed 2026-11-18. The Lambda runs unreserved, because the account's concurrency quota (10) can't
   reserve 1. Drafts and idempotency live in `/tmp` on the single warm instance; DynamoDB-backed state is the M4
-  hardening item. Edge refusals are in the API Gateway access log, door decisions in the DynamoDB audit table.
+  hardening item. Edge refusals are in the API Gateway access log; door decisions are in the DynamoDB audit table and,
+  as `AUDIT` lines, in the function's CloudWatch log group.
 - **Policy KB search at the door** is BM25, so the door never holds a model key. The **live 40-case gate through the
   door passed 40/40** (evidence 15, $0.68), so the retrieval change cost no accuracy.
 - **AgentCore Gateway** was applied live and destroyed. AWS doesn't yet pass the caller's token through to OpenAPI or

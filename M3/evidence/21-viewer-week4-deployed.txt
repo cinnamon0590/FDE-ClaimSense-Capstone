@@ -1,0 +1,185 @@
+# 21-viewer-week4-deployed — the Learning UI Viewer's Week 4 Integration checks on AWS: API Gateway (Cognito JWT authorizer) -> Lambda -> the door
+# run: 2026-11-19 22:34:03 EST
+# door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com · orchestrator: http://localhost:8003
+# command: python evals/viewer_week4_check.py --deployed
+# exit: 0   status: PASS
+
+door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com
+claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alice)
+
+1  RBAC over REST: GET /claims/{id}
+   --- alice ---
+   REQUEST:  {"method": "GET", "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/claims/CLM-2024-5001", "headers": {"Authorization": "Bearer <redacted JWT>"}}
+   RESPONSE: HTTP 403
+   {
+     "error": {
+       "code": "not_found_or_forbidden",
+       "message": "No claim is available for this request.",
+       "request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b"
+     }
+   }
+   --- bob ---
+   REQUEST:  {"method": "GET", "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/claims/CLM-2024-5001", "headers": {"Authorization": "Bearer <redacted JWT>"}}
+   RESPONSE: HTTP 200
+   {
+     "claim_id": "CLM-2024-5001",
+     "policy_id": "POL-AU-50011",
+     "claimant_id": "CUS-D3F34B",
+     "claimant_name": "Marlowe Dunmore",
+     "loss_type": "collision",
+     "incident_date": "2024-10-21",
+     "incident_time": null,
+     "reported_date": "2024-10-22",
+     "narrative": "Insured reversed into a bollard in a supermarket car park. No other vehicle involved; rear bumper and tailgate damaged.",
+     "vehicle": {
+       "year": 2022,
+       "make": "Kia",
+       "model": "Sportage",
+       "colour": "grey",
+       "vin": "UJM4FUHMXR1F0NB00"
+     },
+     "acv": 27800,
+     "repair_estimate": 2950,
+     "injury_reported": false,
+     "fraud_risk_score": 0.05,
+     "status": "first_pass_pending",
+     "assigned_group": "adjuster",
+     "document_ids": [
+       "DOC-2024-5001-FNOL-FORM",
+       "DOC-2024-5001-REPAIR-ESTIMATE",
+       "DOC-2024-5001-PHOTOS"
+     ]
+   }
+  PASS  alice (adjuster) asks for a claim not assigned to alice -> 403, no claim data  (HTTP 403 not_found_or_forbidden)
+  PASS  bob (senior-adjuster) asks for the same claim -> 200 with the full data  (HTTP 200 · 17 fields)
+  PASS  alice still reads a claim assigned to alice, CLM-2024-1800 -> 200  (HTTP 200)
+  PASS  a claim that does not exist looks exactly like a forbidden one (403, same message)  (HTTP 403)
+
+2  RBAC over MCP: the two-user test in the viewer's shape (alice first, then bob)
+   ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-19 22:33:54 EST
+   door: HTTP https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp
+   question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-5001"}
+   
+   === User B: alice (expected: 403 DENIED, no claim data) ===
+   REQUEST:
+   {
+     "method": "POST",
+     "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp",
+     "headers": {
+       "Authorization": "Bearer <redacted JWT>",
+       "Content-Type": "application/json",
+       "MCP-Protocol-Version": "2025-06-18",
+       "X-On-Behalf-Of-Agent": "agent:document-intake"
+     },
+     "body": {
+       "jsonrpc": "2.0",
+       "id": 1,
+       "method": "tools/call",
+       "params": {
+         "name": "get_claim",
+         "arguments": {
+           "claim_id": "CLM-2024-5001"
+         }
+       }
+     }
+   }
+   RESPONSE:
+   {
+     "structuredContent": {
+       "error": {
+         "code": "not_found_or_forbidden",
+         "message": "No claim is available for this request.",
+         "request_id": "48472291-46c6-4eab-a2b5-30070369233b"
+       }
+     },
+     "isError": true,
+     "http_status": 200
+   }
+   
+   === User A: bob (expected: ALLOWED, 200 with the full claim) ===
+   REQUEST:
+   {
+     "method": "POST",
+     "url": "https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp",
+     "headers": {
+       "Authorization": "Bearer <redacted JWT>",
+       "Content-Type": "application/json",
+       "MCP-Protocol-Version": "2025-06-18",
+       "X-On-Behalf-Of-Agent": "agent:document-intake"
+     },
+     "body": {
+       "jsonrpc": "2.0",
+       "id": 2,
+       "method": "tools/call",
+       "params": {
+         "name": "get_claim",
+         "arguments": {
+           "claim_id": "CLM-2024-5001"
+         }
+       }
+     }
+   }
+   RESPONSE:
+   {
+     "structuredContent": {
+       "claim_id": "CLM-2024-5001",
+       "policy_id": "POL-AU-50011",
+       "claimant_id": "CUS-D3F34B",
+       "claimant_name": "Marlowe Dunmore",
+       "loss_type": "collision",
+       "incident_date": "2024-10-21",
+       "incident_time": null,
+       "reported_date": "2024-10-22",
+       "narrative": "Insured reversed into a bollard in a supermarket car park. No other vehicle involved; rear bumper and tailgate damaged.",
+       "vehicle": {
+         "year": 2022,
+         "make": "Kia",
+         "model": "Sportage",
+         "colour": "grey",
+         "vin": "UJM4FUHMXR1F0NB00"
+       },
+       "acv": 27800,
+       "repair_estimate": 2950,
+       "injury_reported": false,
+       "fraud_risk_score": 0.05,
+       "status": "first_pass_pending",
+       "assigned_group": "adjuster",
+       "document_ids": [
+         "DOC-2024-5001-FNOL-FORM",
+         "DOC-2024-5001-REPAIR-ESTIMATE",
+         "DOC-2024-5001-PHOTOS"
+       ]
+     },
+     "isError": false,
+     "http_status": 200
+   }
+   
+   === Answers ===
+     User A bob: ALLOWED · CLM-2024-5001 · collision · assigned_group=adjuster
+     User B alice: 403 DENIED — alice may not access CLM-2024-5001 · the caller is told only: "No claim is available for this request." (request_id 48472291-46c6-4eab-a2b5-30070369233b)
+   
+   === Append-only audit rows (one per call) ===
+     {"ts": "2026-11-20T03:33:55.184982+00:00", "request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "acting_identity": "bob", "scope": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+     {"ts": "2026-11-20T03:33:55.023119+00:00", "request_id": "48472291-46c6-4eab-a2b5-30070369233b", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+   
+   checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
+   RESULT: PASS — scope holds (different answers + matching audit)
+  PASS  the two-user test over MCP: alice denied, bob allowed, matching audit rows
+
+3  The audit trail: one row per call, carrying user ID, action and resource ID
+   {"ts": "2026-11-20T03:33:53.714918+00:00", "request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
+   {"ts": "2026-11-20T03:33:54.347060+00:00", "request_id": "eeee547a-91c2-434d-b9c2-14621168169b", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
+   {"ts": "2026-11-20T03:33:55.023119+00:00", "request_id": "48472291-46c6-4eab-a2b5-30070369233b", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
+   {"ts": "2026-11-20T03:33:55.184982+00:00", "request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
+  PASS  the trail holds alice's denials and bob's allows for this claim (REST and MCP: 2 each)  ([('alice', 'deny'), ('bob', 'allow')])
+  PASS  every row carries user ID, action and resource ID
+
+4  The same rows in CloudWatch Logs (/aws/lambda/claimsense-door)
+   AUDIT {"request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "eeee547a-91c2-434d-b9c2-14621168169b", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "48472291-46c6-4eab-a2b5-30070369233b", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+  PASS  every one of those calls is in CloudWatch Logs (/aws/lambda/claimsense-door) with user ID, action and resource ID  (4/4 found)
+  PASS  no token, secret or account id in this evidence
+
+RESULT: PASS

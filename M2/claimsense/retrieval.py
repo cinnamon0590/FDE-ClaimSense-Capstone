@@ -20,6 +20,7 @@ from collections import Counter
 import numpy as np
 
 from . import config
+from . import doc_store
 from ._m1 import FIXTURES, guardrails
 
 STOP = set("a an the of to for and or in on at by is are be was were with any your our we you it its "
@@ -40,13 +41,17 @@ def _tokens(text):
 
 
 def load_corpus():
-    src = json.loads((FIXTURES / "clauses.json").read_text())
+    # The clause TEXT comes from the document store (S3 on AWS, D-044; the image's fixtures otherwise). The MANIFEST,
+    # the signed-off hashes G2 checks every retrieved chunk against, always comes from the image: a clause edited in
+    # the bucket no longer matches its hash and is quarantined, never cited.
+    baked = json.loads((FIXTURES / "clauses.json").read_text())
+    src = doc_store.load("clauses") or baked
     chunks = [{"clause_id": c["clause_id"], "title": c["title"], "section": c["section"], "text": c["text"],
                "applies_to": c["applies_to"], "provenance": "manifest"} for c in src["records"]]
     for inj in src.get("untrusted_index_injections", []):
         chunks.append({"clause_id": inj["chunk_label"].split()[0], "title": "", "section": "",
                        "text": inj["text"], "applies_to": ["*"], "provenance": "unknown"})
-    manifest = {c["manifest_sha256"] for c in src["records"]}
+    manifest = {c["manifest_sha256"] for c in baked["records"]}
     return chunks, manifest
 
 

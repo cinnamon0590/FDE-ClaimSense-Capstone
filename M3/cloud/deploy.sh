@@ -19,12 +19,17 @@ FN=claimsense-door
 ROLE=claimsense-door-lambda
 API=claimsense-door-api
 AUDIT_TABLE=claimsense-audit
+DOCS_BUCKET_PREFIX=claimsense-autosure-docs        # M1's document bucket; the door reads policies/ and documents/ (D-044)
 CONF_DIR="$HOME/.claimsense"
 TAG=$(git -C "$ROOT" rev-parse --short HEAD)$( [ -n "$(git -C "$ROOT" status --porcelain)" ] && echo -dirty || true)
 mask() { sed -E 's/[0-9]{12}/<acct>/g'; }
 say() { printf '\n==> %s\n' "$*" | mask; }
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 export AWS_DEFAULT_REGION=$REGION
+DOCS_BUCKET="$DOCS_BUCKET_PREFIX-$ACCOUNT-$REGION"
+
+say "S3 document store: sync the synthetic corpus, policies and documents into $DOCS_BUCKET"
+"$ROOT/M3/cloud/sync_docs.sh"
 
 say "Cognito: M1's user pool $POOL_NAME + an app client for the door"
 POOL_ID=$(aws cognito-idp list-user-pools --max-results 60 --query "UserPools[?Name=='$POOL_NAME'].Id | [0]" --output text)
@@ -85,7 +90,7 @@ docker logout "$REG" >/dev/null 2>&1   # never leave the ECR token in ~/.docker/
 DIGEST=$(aws ecr describe-images --repository-name "$REPO" --image-ids imageTag="$TAG" --query 'imageDetails[0].imageDigest' --output text)
 echo "image $REPO:$TAG @ $DIGEST"
 
-say "IAM $ROLE: logs + append-only writes and reads on $AUDIT_TABLE, nothing else"
+say "IAM $ROLE: logs + append-only writes and reads on $AUDIT_TABLE + read-only on the documents in S3, nothing else"
 TRUST='{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
 aws iam get-role --role-name "$ROLE" >/dev/null 2>&1 || \
   aws iam create-role --role-name "$ROLE" --assume-role-policy-document "$TRUST" >/dev/null
@@ -94,7 +99,9 @@ POLICY=$(cat <<JSON
  {"Effect":"Allow","Action":["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"],
   "Resource":"arn:aws:logs:$REGION:$ACCOUNT:log-group:/aws/lambda/$FN:*"},
  {"Effect":"Allow","Action":["dynamodb:PutItem","dynamodb:Scan"],
-  "Resource":"arn:aws:dynamodb:$REGION:$ACCOUNT:table/$AUDIT_TABLE"}]}
+  "Resource":"arn:aws:dynamodb:$REGION:$ACCOUNT:table/$AUDIT_TABLE"},
+ {"Effect":"Allow","Action":["s3:GetObject"],
+  "Resource":["arn:aws:s3:::$DOCS_BUCKET/policies/*","arn:aws:s3:::$DOCS_BUCKET/documents/*"]}]}
 JSON
 )
 aws iam put-role-policy --role-name "$ROLE" --policy-name door-least-privilege --policy-document "$POLICY"
@@ -107,7 +114,7 @@ API_ID=$(aws apigatewayv2 get-apis --query "Items[?Name=='$API'].ApiId | [0]" --
 URL="https://$API_ID.execute-api.$REGION.amazonaws.com"
 
 say "Lambda $FN (image, 1024 MB, 30 s, reserved concurrency 1)"
-ENVV="Variables={COGNITO_JWKS_URL=$ISSUER/.well-known/jwks.json,CLAIMSENSE_JWT_ISSUER=$ISSUER,CLAIMSENSE_JWT_AUDIENCE=$CLIENT_ID,CLAIMSENSE_AUTH_SERVER=$ISSUER,CLAIMSENSE_AUDIT_TABLE=$AUDIT_TABLE,CLAIMSENSE_PUBLIC_URL=$URL}"
+ENVV="Variables={COGNITO_JWKS_URL=$ISSUER/.well-known/jwks.json,CLAIMSENSE_JWT_ISSUER=$ISSUER,CLAIMSENSE_JWT_AUDIENCE=$CLIENT_ID,CLAIMSENSE_AUTH_SERVER=$ISSUER,CLAIMSENSE_AUDIT_TABLE=$AUDIT_TABLE,CLAIMSENSE_PUBLIC_URL=$URL,CLAIMSENSE_DOCS_BUCKET=$DOCS_BUCKET}"
 if aws lambda get-function --function-name "$FN" >/dev/null 2>&1; then
   aws lambda update-function-code --function-name "$FN" --image-uri "$IMAGE" >/dev/null
   aws lambda wait function-updated --function-name "$FN"

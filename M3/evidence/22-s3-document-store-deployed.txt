@@ -1,0 +1,31 @@
+# 22-s3-document-store-deployed — D-044 on AWS: the door's KB corpus, policies and documents come from S3
+# run: 2026-11-19 22:32:29 EST
+# door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com · orchestrator: http://localhost:8003
+# command: python evals/s3_doc_store_check.py --deployed
+# exit: 0   status: PASS
+
+door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com
+bucket: s3://claimsense-autosure-docs-<acct>-us-east-1/ (M1/7-cloud/provision.sh)
+
+1  The objects in S3 (uploaded by M3/cloud/sync_docs.sh, the viewer's `aws s3 sync ./data/policies/ ...`)
+   s3://claimsense-autosure-docs-<acct>-us-east-1/policies/clauses.json          6863 bytes  SSE=AES256  records=12
+   s3://claimsense-autosure-docs-<acct>-us-east-1/policies/policies.json        23703 bytes  SSE=AES256  records=40
+   s3://claimsense-autosure-docs-<acct>-us-east-1/documents/documents.json      70450 bytes  SSE=AES256  records=135
+  PASS  all three objects are in the bucket, encrypted at rest
+  PASS  the bucket blocks all public access  ({"BlockPublicAcls": true, "IgnorePublicAcls": true, "BlockPublicPolicy": true, "RestrictPublicBuckets": true})
+
+2  The door reads them
+   GET /healthz -> {"ok": true, "claims": 40, "audit_rows": 47, "mcp": "/mcp", "ticketing": false, "documents": 135, "document_store": "s3"}
+  PASS  the deployed door's document store is S3
+  PASS  it holds every document in the bucket  (135 documents)
+   GET /documents/DOC-2024-1800-POLICE-REPORT (alice) -> HTTP 200: {"doc_id": "DOC-2024-1800-POLICE-REPORT", "claim_id": "CLM-2024-1800", "doc_type": "police_report", "sha256": "bc916e8d2c563da3ff3d3ca448581278cf7204792e446c4d023de359781d6e81"}
+  PASS  a document the door serves is the S3 object's record
+   tools/call search_policy_clauses('collision deductible') (alice) -> ["CLS-DED-002", "CLS-COL-001", "CLS-CMP-003"]
+  PASS  the KB answers from the S3 corpus, and every returned clause is word-for-word the S3 text  (3 clauses)
+
+3  Least privilege: the Lambda's role may only READ the two prefixes
+   {"Effect": "Allow", "Action": ["s3:GetObject"], "Resource": ["arn:aws:s3:::claimsense-autosure-docs-<acct>-us-east-1/policies/*", "arn:aws:s3:::claimsense-autosure-docs-<acct>-us-east-1/documents/*"]}
+  PASS  S3 access is s3:GetObject only, on policies/* and documents/* only
+  PASS  no token or account id in this evidence
+
+RESULT: PASS

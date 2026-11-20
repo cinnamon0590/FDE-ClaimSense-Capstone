@@ -40,6 +40,7 @@ an unentitled user is refused.
 | `fraud_risk_score` | 0–1 | legacy score: an input, **never** the decision |
 | `status` | first_pass_pending → recommendation_drafted → confirmed / overridden / routed | |
 | `assigned_group` | adjuster · senior-adjuster · fraud-investigator · total-loss-appraiser · injury-specialist | drives entitlement |
+| *(owner)* | `claim_assignments.json`: `claim_id → assigned_adjuster` | kept outside the claim record (agents never see it). An adjuster reads a claim only if it is in the adjuster queue **and** assigned to them; a senior adjuster reads all (M3, D-042). `CLM-2024-5001/5002` (no eval case) are bob's; alice owns the rest |
 | `document_ids` | [DOC-…] | → Document |
 
 ## Policy (policy administration)

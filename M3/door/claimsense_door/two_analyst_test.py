@@ -5,6 +5,9 @@ same claim, and get correctly-filtered different answers, with an audit row to m
     python -m claimsense_door.two_analyst_test --url http://localhost:8002            # the running stack (dev tokens)
     python -m claimsense_door.two_analyst_test --url https://<api>/ --cognito          # the deployed door (Cognito)
     ... [--claim CLM-2024-1800] [--a alice] [--b carol] [--out evidence/04-two-user-test.txt]
+    ... --viewer        the Learning UI Viewer's Week 4 shape (D-042): alice asks first for a claim NOT assigned to
+                        her (CLM-2024-5001, in the senior adjuster's queue) -> 403; bob, senior adjuster, asks the
+                        same -> 200 with the full claim
 
 Prints both full requests (token redacted), both full responses, both audit rows, and ends with
 `RESULT: PASS — scope holds` (exit 0) or FAIL (exit 1). No model is in the loop: the gate is called directly.
@@ -15,16 +18,18 @@ import sys
 import time
 
 
-def run(client, claim, a, b):
+def run(client, claim, a, b, deny_first=False):
     lines = [f"ClaimSense M3 · TWO-USER ACCESS TEST · {time.strftime('%Y-%m-%d %H:%M:%S %Z')}",
              f"door: {client.mode}", f"question (identical for both): tools/call get_claim {{\"claim_id\": \"{claim}\"}}",
              ""]
     results = {}
-    for label, user in (("A", a), ("B", b)):
+    order = (("B", b), ("A", a)) if deny_first else (("A", a), ("B", b))
+    for label, user in order:
         req, res = client.call(user, "get_claim", {"claim_id": claim})
         out = res.get("structuredContent") or {}
         results[label] = (user, req, res, out)
-        lines += [f"=== User {label}: {user} ===", "REQUEST:", json.dumps(req, indent=2), "RESPONSE:",
+        expect = "expected: ALLOWED, 200 with the full claim" if label == "A" else "expected: 403 DENIED, no claim data"
+        lines += [f"=== User {label}: {user} ({expect}) ===", "REQUEST:", json.dumps(req, indent=2), "RESPONSE:",
                   json.dumps({k: v for k, v in res.items() if k != "content"}, indent=2, default=str), ""]
     (ua, _, ra, oa), (ub, _, rb, ob) = results["A"], results["B"]
     a_allowed = not ra.get("isError") and oa.get("claim_id") == claim
@@ -63,8 +68,12 @@ def main(argv=None):
     ap.add_argument("--claim", default="CLM-2024-1800")
     ap.add_argument("--a", default="alice", help="the user who may see the claim (adjuster)")
     ap.add_argument("--b", default="carol", help="the user who may not (fraud-investigator, before any hand-off)")
+    ap.add_argument("--viewer", action="store_true",
+                    help="Week 4 viewer shape: alice (denied) first, then bob (allowed), on CLM-2024-5001")
     ap.add_argument("--out")
     a = ap.parse_args(argv)
+    if a.viewer:
+        a.claim, a.a, a.b = "CLM-2024-5001", "bob", "alice"
     if a.url:
         from .clients import Http, dev_tokens
         if a.cognito:
@@ -75,7 +84,7 @@ def main(argv=None):
     else:
         from .clients import InProcess
         client = InProcess()
-    ok, text = run(client, a.claim, a.a, a.b)
+    ok, text = run(client, a.claim, a.a, a.b, deny_first=a.viewer)
     print(text)
     if a.out:
         from pathlib import Path

@@ -1,0 +1,52 @@
+{
+  "purpose": "Two synthetic claims that are in NO eval suite, held in the senior adjuster's (bob's) own queue. They exist so the per-adjuster RBAC check (D-042) has a claim that is NOT assigned to alice: alice -> 403, bob -> 200. Case-shaped so generate_fixtures.py builds them with the same code as every other claim.",
+  "synthetic": true,
+  "claims": [
+    {
+      "case_id": "QUEUE-01",
+      "claim": {
+        "claim_id": "CLM-2024-5001",
+        "loss_type": "collision",
+        "incident_date": "2024-10-21",
+        "narrative": "Insured reversed into a bollard in a supermarket car park. No other vehicle involved; rear bumper and tailgate damaged.",
+        "vehicle": "2022 Kia Sportage (grey)",
+        "acv": 27800,
+        "repair_estimate": 2950,
+        "injury_reported": false,
+        "fraud_risk_score": 0.05
+      },
+      "policy": {
+        "policy_id": "POL-AU-50011",
+        "coverage": ["liability", "collision", "comprehensive"],
+        "term_start": "2024-05-01",
+        "term_end": "2025-05-01",
+        "status_field": "Active",
+        "deductible": 500
+      },
+      "documents": ["fnol_form", "repair_estimate", "photos_x4"]
+    },
+    {
+      "case_id": "QUEUE-02",
+      "claim": {
+        "claim_id": "CLM-2024-5002",
+        "loss_type": "glass",
+        "incident_date": "2024-11-03",
+        "narrative": "Stone thrown up by a truck on the motorway cracked the windscreen across the driver's line of sight.",
+        "vehicle": "2020 Honda Civic",
+        "acv": 18900,
+        "repair_estimate": 720,
+        "injury_reported": false,
+        "fraud_risk_score": 0.03
+      },
+      "policy": {
+        "policy_id": "POL-AU-50012",
+        "coverage": ["liability", "comprehensive"],
+        "term_start": "2024-02-10",
+        "term_end": "2025-02-10",
+        "status_field": "Active",
+        "deductible": 250
+      },
+      "documents": ["fnol_form", "glass_invoice", "photos_x2"]
+    }
+  ]
+}

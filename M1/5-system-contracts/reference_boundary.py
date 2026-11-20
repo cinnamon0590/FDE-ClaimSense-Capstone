@@ -6,6 +6,7 @@ It runs on the M1 synthetic fixtures.
 
 Rules it implements (see contracts.md):
   * Entitlement is checked IN CODE before any data is returned, and before any agent sees it.
+    An adjuster reads only the claims assigned to them; a senior adjuster reads every claim.
   * Missing and unentitled records return the SAME error (anti-enumeration).
   * Every call writes an append-only audit record: allow, deny, replay or error.
   * Writes require an Idempotency-Key. Same key + same payload → the original receipt
@@ -40,6 +41,7 @@ class Boundary:
         self.policies = {p["policy_id"]: p for p in load("policies")}
         self.documents = {d["doc_id"]: d for d in load("documents")}
         self.users = {u["user_id"]: u for u in load("users")}
+        self.adjuster_of = {a["claim_id"]: a["assigned_adjuster"] for a in load("claim_assignments")}
         self.audit = []                      # append-only
         self.recommendations = {}            # recommendation_id -> record
         self._idem = {}                      # (caller, operation, key) -> (fingerprint, response)
@@ -63,8 +65,9 @@ class Boundary:
         g = set(caller["groups"])
         if "senior-adjuster" in g:
             return True
-        if "adjuster" in g:
-            return claim["assigned_group"] == "adjuster"
+        if "adjuster" in g:                  # only the claims in the adjuster queue that are assigned to THEM (D-042)
+            return (claim["assigned_group"] == "adjuster"
+                    and self.adjuster_of.get(claim["claim_id"]) == caller["user_id"])
         if "fraud-investigator" in g:
             return claim["assigned_group"] == "fraud-investigator"
         if "total-loss-appraiser" in g:

@@ -1,5 +1,5 @@
 # 06-access-control-before-agents — D-3: access control in code, executed before any agent runs
-# run: 2026-11-18 20:42:35 EST
+# run: 2026-11-19 22:06:49 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/refusal_before_agents.py
 # exit: 0   status: PASS
@@ -15,7 +15,7 @@ dave: {"http": 200, "outcome": "refused", "decided_by": "boundary_refusal", "ret
   PASS  dave: refused, no claim data, decided_by=boundary_refusal
   PASS  dave: ZERO agents started, ZERO model calls, $0  (event kinds: ['refusal'])
 
-no token: {"http": 401, "body": {"error": {"code": "unauthenticated", "message": "A valid ClaimSense token is required.", "request_id": "941c61ef-cf14-45bd-9cae-c5c77be37ad8"}}}
+no token: {"http": 401, "body": {"error": {"code": "unauthenticated", "message": "A valid ClaimSense token is required.", "request_id": "277a8a61-d8e9-4121-927a-e96393df4b4b"}}}
   PASS  no token: 401 before the route runs
   PASS  carol's refusal is in the audit trail (reason=not_entitled)  ({"user_id": "carol", "action": "get_claim", "resource": "CLM-2024-1800", "decision": "deny", "reason": "not_entitled", "via": "mcp"})
   PASS  dave's refusal is in the audit trail (reason=no_grant)  ({"user_id": "dave", "action": "token_exchange", "resource": "agent:claimsense-pipeline", "decision": "deny", "reason": "no_grant: no delegable scope for this user", "via": "sts"})

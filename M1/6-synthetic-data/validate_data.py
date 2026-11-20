@@ -21,7 +21,8 @@ from jsonschema_lite import validate  # noqa: E402
 
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
 M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"
-FILES = {"claims": "claim", "policies": "policy", "documents": "document", "clauses": "clause", "users": "user"}
+FILES = {"claims": "claim", "policies": "policy", "documents": "document", "clauses": "clause", "users": "user",
+         "claim_assignments": "claim_assignment"}
 
 
 def load(name):
@@ -62,6 +63,18 @@ def main():
                 problems.append(f"{c['claim_id']}: document {d} not found")
             elif docs[d]["claim_id"] != c["claim_id"]:
                 problems.append(f"{d}: belongs to {docs[d]['claim_id']}, listed on {c['claim_id']}")
+    # every claim has exactly one owner, who exists and may own claims (adjuster or senior adjuster)
+    owners = {}
+    for a in data["claim_assignments"]["records"]:
+        if a["claim_id"] in owners:
+            problems.append(f"{a['claim_id']}: assigned twice")
+        owners[a["claim_id"]] = a["assigned_adjuster"]
+    users = {u["user_id"]: u for u in data["users"]["records"]}
+    for cid in set(claims) ^ set(owners):
+        problems.append(f"{cid}: claim and assignment lists disagree")
+    for cid, who in owners.items():
+        if not {"adjuster", "senior-adjuster"} & set(users.get(who, {}).get("groups", [])):
+            problems.append(f"{cid}: assigned to {who!r}, who is not an adjuster")
     orphans = set(docs) - {d for c in claims.values() for d in c["document_ids"]}
     if orphans:
         problems.append(f"orphan documents: {sorted(orphans)}")

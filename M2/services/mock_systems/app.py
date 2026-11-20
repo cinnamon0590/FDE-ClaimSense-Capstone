@@ -13,6 +13,7 @@ from fastapi import FastAPI, HTTPException
 FIX = Path(os.environ.get("FIXTURES", "/app/M1/6-synthetic-data/fixtures"))
 load = lambda n: {r[k]: r for r in json.loads((FIX / f"{n}.json").read_text())["records"] for k in [next(iter(r))]}
 CLAIMS, POLICIES, DOCS, USERS = load("claims"), load("policies"), load("documents"), load("users")
+ASSIGNMENTS = load("claim_assignments")       # claim -> the adjuster who owns it (D-042)
 app = FastAPI(title="AutoSure mock systems (synthetic)")
 
 
@@ -31,6 +32,12 @@ def get_claim(claim_id: str):
     if claim_id not in CLAIMS:
         raise HTTPException(404)
     return CLAIMS[claim_id]
+
+
+@app.get("/claims-management/assignments")
+def list_assignments():
+    """Which adjuster owns each claim in the first-pass queue (Claims Management's work allocation)."""
+    return {"records": list(ASSIGNMENTS.values())}
 
 
 @app.get("/policy-administration/policies")
