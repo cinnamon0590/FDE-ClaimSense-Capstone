@@ -1118,6 +1118,64 @@
         "DOC-2024-4120-REPAIR-ESTIMATE",
         "DOC-2024-4120-DRIVER-STATEMENT"
       ]
+    },
+    {
+      "claim_id": "CLM-2024-5001",
+      "policy_id": "POL-AU-50011",
+      "claimant_id": "CUS-D3F34B",
+      "claimant_name": "Marlowe Dunmore",
+      "loss_type": "collision",
+      "incident_date": "2024-10-21",
+      "incident_time": null,
+      "reported_date": "2024-10-22",
+      "narrative": "Insured reversed into a bollard in a supermarket car park. No other vehicle involved; rear bumper and tailgate damaged.",
+      "vehicle": {
+        "year": 2022,
+        "make": "Kia",
+        "model": "Sportage",
+        "colour": "grey",
+        "vin": "UJM4FUHMXR1F0NB00"
+      },
+      "acv": 27800,
+      "repair_estimate": 2950,
+      "injury_reported": false,
+      "fraud_risk_score": 0.05,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2024-5001-FNOL-FORM",
+        "DOC-2024-5001-REPAIR-ESTIMATE",
+        "DOC-2024-5001-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2024-5002",
+      "policy_id": "POL-AU-50012",
+      "claimant_id": "CUS-DB3F95",
+      "claimant_name": "Kendall Jessop",
+      "loss_type": "glass",
+      "incident_date": "2024-11-03",
+      "incident_time": null,
+      "reported_date": "2024-11-04",
+      "narrative": "Stone thrown up by a truck on the motorway cracked the windscreen across the driver's line of sight.",
+      "vehicle": {
+        "year": 2020,
+        "make": "Honda",
+        "model": "Civic",
+        "colour": null,
+        "vin": "8C1NDZMAWNM74D82M"
+      },
+      "acv": 18900,
+      "repair_estimate": 720,
+      "injury_reported": false,
+      "fraud_risk_score": 0.03,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2024-5002-FNOL-FORM",
+        "DOC-2024-5002-GLASS-INVOICE",
+        "DOC-2024-5002-PHOTOS"
+      ]
     }
   ]
 }

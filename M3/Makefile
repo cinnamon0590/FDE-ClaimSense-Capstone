@@ -2,9 +2,9 @@
 PY ?= ../.venv/bin/python
 DOORPATH = PYTHONPATH=../M2:door
 
-.PHONY: test two-user proofs-offline selftest up down proofs deploy teardown gateway-plan
+.PHONY: test two-user proofs-offline selftest up down proofs viewer-deployed deploy teardown gateway-plan
 
-test: two-user proofs-offline selftest  ## 28 M3 tests + the offline proofs ($0, no containers)
+test: two-user proofs-offline selftest  ## 52 M3 tests + the offline proofs ($0, no containers)
 	cd .. && $(PY:../%=%) -m pytest -q M3/tests
 
 two-user:         ## THE acceptance test (exit 0/1): python -m claimsense_door.two_analyst_test
@@ -22,13 +22,17 @@ up:               ## the M3 stack (door, ticketing, mock systems, OpenSearch, or
 down:
 	docker compose down -v
 
-proofs:           ## every running-stack check; writes evidence/04..10
+proofs:           ## every running-stack check; writes evidence/04..09 and 20
 	$(DOORPATH) $(PY) -m claimsense_door.two_analyst_test --url http://localhost:8002 --out evidence/04-two-user-test-stack.txt
 	$(PY) evals/route_auth_check.py
 	$(PY) evals/refusal_before_agents.py
 	$(PY) evals/webhook_check.py
 	$(PY) evals/mcp_interop_check.py
 	$(PY) evals/audit_check.py
+	$(PY) evals/viewer_week4_check.py
+
+viewer-deployed:  ## evidence/21: the Learning UI Viewer's Week 4 checks on AWS, incl. CloudWatch (needs `aws login`)
+	$(PY) evals/viewer_week4_check.py --deployed
 
 deploy:           ## AWS (needs `aws login`): API Gateway + Lambda + Cognito; ~$0
 	cloud/deploy.sh

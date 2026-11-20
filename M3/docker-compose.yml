@@ -44,7 +44,8 @@ services:
     # CLAIMSENSE_DEV_ISSUER: the local stand-in for Cognito's hosted login (synthetic sandbox only, D-030)
     environment: { PORT: "8002", SYSTEMS_URL: "http://mock-systems:8001", AUDIT_LOG: /state/audit.jsonl,
                    CLAIMSENSE_DEV_ISSUER: "1", TICKETING_URL: "http://ticketing:8004",
-                   OPENSEARCH_URL: "http://opensearch:9200", CLAIMSENSE_PUBLIC_URL: "http://localhost:8002" }
+                   OPENSEARCH_URL: "http://opensearch:9200", CLAIMSENSE_PUBLIC_URL: "http://localhost:8002",
+                   CLAIMSENSE_AUDIT_STDOUT: "1" }   # every audit row is also an `AUDIT {json}` log line (CloudWatch on AWS)
     volumes: ["state:/state", "secrets:/secrets"]
     ports: ["127.0.0.1:8002:8002"]
     healthcheck: *hc

@@ -16,7 +16,7 @@ Every file starts with a header (what, when, command) and holds the verbatim out
 | 09 | [`09-audit-every-call.txt`](09-audit-every-call.txt) | D-5: 14 kinds of call each leave one complete row; append-only; who touched a claim | ✅ PASS |
 | 10 | [`10-m2-suites-through-the-door.txt`](10-m2-suites-through-the-door.txt) | M2's smoke, 40/40 container eval and RBAC hand-offs with every agent access via /mcp | ✅ PASS |
 | 11 | [`11-agentcore-gateway-plan.txt`](11-agentcore-gateway-plan.txt) | Architect: the managed twin's plan ($0) | ✅ PASS |
-| 12 | [`12-unit-tests.txt`](12-unit-tests.txt) | pytest: a bare `pytest -q` from the repo root, as the grader runs it (M0 to M3 in one process): 163 passed; M3 alone 32 | ✅ PASS |
+| 12 | [`12-unit-tests.txt`](12-unit-tests.txt) | pytest: a bare `pytest -q` from the repo root, as the grader runs it (M0 to M3 in one process): 183 passed; M3 alone 52 | ✅ PASS |
 | 13 | [`13-deployed-two-user-test.txt`](13-deployed-two-user-test.txt) | D-1 + D-4 on AWS: API Gateway (Cognito JWT) → Lambda → the door, with real Cognito tokens and the DynamoDB audit | ✅ PASS |
 | 14 | [`14-deployed-route-auth.txt`](14-deployed-route-auth.txt) | D-2 on AWS: 150/150 bad credentials refused, all recorded at the edge; OBO exchange on the real IdP | ✅ PASS |
 | 15 | [`15-live-gate-through-the-door.txt`](15-live-gate-through-the-door.txt) | the live 40-case gate through /mcp with delegated tokens: 40/40, 11/11 adversarial, all model-decided, $0.68 | ✅ PASS |
@@ -24,3 +24,4 @@ Every file starts with a header (what, when, command) and holds the verbatim out
 | 17 | [`17-oncall-slack-through-the-door.txt`](17-oncall-slack-through-the-door.txt) | Builder: Slack on-call through the door, 8 scenarios PROBLEM → HANDLED | ✅ PASS |
 | 18 | [`18-slack-live-page.txt`](18-slack-live-page.txt) | Builder: a REAL page in Susan's private #claimsense-oncall, through the door over MCP; the retry deduped; carol refused before Slack. Screenshot of the card: [`18-slack-live-page.png`](18-slack-live-page.png) (cropped to the message) | ✅ PASS |
 | 19 | [`19-keycloak-obo-exchange.txt`](19-keycloak-obo-exchange.txt) | Architect, literal: **Keycloak performs the RFC 8693 exchange**; the exchanged token's scope drives `_authorize`; non-delegable scopes refused at the IdP; the door's grants and entitlement still hold (13/13) | ✅ PASS |
+| 20 | [`20-viewer-week4-stack.txt`](20-viewer-week4-stack.txt) | The Learning UI Viewer's Week 4 checks on the stack: alice **403** on a claim not assigned to alice, bob **200** with full data (REST and MCP); every call's row in the trail and in the door's log | ✅ PASS |

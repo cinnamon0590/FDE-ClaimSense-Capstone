@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "claimsense/claim_assignment",
+  "title": "Claim assignment (synthetic): the adjuster who owns a claim in the first-pass queue (drives entitlement, D-042)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "claim_id",
+    "assigned_adjuster"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "pattern": "^CLM-[0-9]{4}-[0-9]{4}$"
+    },
+    "assigned_adjuster": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    }
+  }
+}

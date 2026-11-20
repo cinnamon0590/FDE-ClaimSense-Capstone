@@ -5,12 +5,16 @@ agent runs, so "every call, granted or denied" really is every call.
 One JSON object per line, appended under an exclusive lock, never rewritten. Each row carries the deliverable's
 three fields (user, action, resource) plus the decision, the reason, the channel (`via`) and a request id. Locally
 the file lives on the shared /state volume; on AWS the same rows go to the DynamoDB audit table M1 provisioned
-(D-015), selected by CLAIMSENSE_AUDIT_TABLE.
+(D-015), selected by CLAIMSENSE_AUDIT_TABLE, AND each row is echoed as one `AUDIT {json}` line to stdout, which
+Lambda ships to CloudWatch Logs (D-042: "open CloudWatch Logs and confirm every call logs user, action, resource").
+DynamoDB stays the system of record; the log line is the operator's view. CLAIMSENSE_AUDIT_STDOUT=1 turns the echo on
+anywhere (e.g. `docker compose logs`), =0 turns it off.
 """
 import contextvars
 import fcntl
 import json
 import os
+import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,7 +41,8 @@ def row(user_id, groups, action, resource, decision, reason="", on_behalf_of_age
 
 def append(rec, path=None):
     """Append one audit row atomically (exclusive lock, one write). Returns the row's request_id."""
-    if (table := os.environ.get("CLAIMSENSE_AUDIT_TABLE")):          # AWS: the append-only DynamoDB table (D-015)
+    table = os.environ.get("CLAIMSENSE_AUDIT_TABLE")
+    if table:                                                        # AWS: the append-only DynamoDB table (D-015)
         _put_dynamodb(table, rec)
     else:
         p = Path(path or audit_path())
@@ -50,7 +55,15 @@ def append(rec, path=None):
         finally:
             fcntl.flock(fd, fcntl.LOCK_UN)
             os.close(fd)
+    if _echo(table):                                                 # CloudWatch Logs on Lambda (D-042)
+        sys.stdout.write("AUDIT " + json.dumps(rec, default=str, separators=(",", ":")) + "\n")
+        sys.stdout.flush()
     return rec["request_id"]
+
+
+def _echo(table):
+    flag = os.environ.get("CLAIMSENSE_AUDIT_STDOUT", "")
+    return flag == "1" or (bool(table) and flag != "0")
 
 
 def record(user_id, groups, action, resource, decision, reason="", **kw):

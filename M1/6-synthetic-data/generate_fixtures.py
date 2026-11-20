@@ -6,7 +6,7 @@ Re-running produces byte-identical files.
 
     python3 -I generate_fixtures.py
 
-Writes fixtures/{claims,policies,documents,clauses,users}.json. ALL DATA IS SYNTHETIC: names,
+Writes fixtures/{claims,policies,documents,clauses,users,claim_assignments}.json. ALL DATA IS SYNTHETIC: names,
 VINs and IDs are generated, and no record describes a real person or vehicle.
 """
 import hashlib
@@ -108,11 +108,17 @@ def default_text(dtype, case):
     }[dtype]
 
 
+SENIOR_QUEUE = HERE / "source" / "senior_queue.json"   # 2 non-eval claims in the senior adjuster's queue (D-042)
+
+
 def main():
     cases = json.loads(CASES.read_text())["cases"]
     if M2_CASES.exists():
         cases += json.loads(M2_CASES.read_text())["cases"]
     clause_src = json.loads(CLAUSES.read_text())
+    bob_queue = json.loads(SENIOR_QUEUE.read_text())["claims"]
+    cases += bob_queue                       # built by the same code as every eval claim; in no eval suite
+    bob_queue = {q["claim"]["claim_id"] for q in bob_queue}
 
     claims, policies, documents = {}, {}, {}
     for case in cases:
@@ -155,7 +161,7 @@ def main():
 
     users = [  # synthetic directory; groups drive entitlement at the data boundary (M3)
         {"user_id": "alice", "display_name": "Alice (synthetic)", "groups": ["adjuster"],
-         "entitled_claim_scope": "assigned_group:adjuster"},
+         "entitled_claim_scope": "assigned_group:adjuster AND assigned_adjuster:self"},
         {"user_id": "bob", "display_name": "Bob (synthetic)", "groups": ["senior-adjuster"],
          "entitled_claim_scope": "all_first_pass + flag_review"},
         {"user_id": "carol", "display_name": "Carol (synthetic)", "groups": ["fraud-investigator"],
@@ -166,6 +172,12 @@ def main():
          "entitled_claim_scope": "none (status lookups only; no claim files, no fraud flags)"},
     ]
 
+    # Per-adjuster assignment (M3, D-042): which adjuster owns each claim in the first-pass queue. An adjuster reads
+    # only the claims assigned to them; a senior adjuster reads all. Kept OUT of the claim record, so the claim file an
+    # agent sees (and every eval case, replay and label built on it) is unchanged. Every claim is alice's except
+    # the two senior-queue claims (source/senior_queue.json): in no eval suite, assigned to bob (the two-user test claim).
+    assignments = [{"claim_id": cid, "assigned_adjuster": "bob" if cid in bob_queue else "alice"} for cid in claims]
+
     OUT.mkdir(exist_ok=True)
     payloads = {
         "claims.json": {"kind": "claims", "synthetic": True, "records": list(claims.values())},
@@ -175,6 +187,7 @@ def main():
                          "version": clause_src["version"], "records": clauses,
                          "untrusted_index_injections": clause_src["untrusted_index_injections"]},
         "users.json": {"kind": "users", "synthetic": True, "records": users},
+        "claim_assignments.json": {"kind": "claim_assignments", "synthetic": True, "records": assignments},
     }
     for name, data in payloads.items():
         (OUT / name).write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")

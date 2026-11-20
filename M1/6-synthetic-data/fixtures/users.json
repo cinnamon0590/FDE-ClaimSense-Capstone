@@ -8,7 +8,7 @@
       "groups": [
         "adjuster"
       ],
-      "entitled_claim_scope": "assigned_group:adjuster"
+      "entitled_claim_scope": "assigned_group:adjuster AND assigned_adjuster:self"
     },
     {
       "user_id": "bob",

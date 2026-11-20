@@ -48,6 +48,8 @@ class SourcedBoundary(GrantedBoundary):
                     self.policies = {p["policy_id"]: p for p in get("/policy-administration/policies")}
                     self.documents = {d["doc_id"]: d for d in get("/document-store/documents")}
                     self.users = {u["user_id"]: u for u in get("/directory/users")}
+                    self.adjuster_of = {a["claim_id"]: a["assigned_adjuster"]
+                                        for a in get("/claims-management/assignments")}
                     break
                 except (httpx.HTTPError, KeyError):
                     time.sleep(1)
@@ -175,30 +177,44 @@ def healthz():
             "ticketing": bool(B.ticketing)}
 
 
+# REST status codes for the door's structured errors (D-042). Missing and forbidden are BOTH 403 with the same body,
+# so the status code leaks nothing the message does not (anti-enumeration holds). /mcp is not affected: a refused
+# tool call stays a JSON-RPC result with isError, as the MCP spec requires.
+REST_STATUS = {"not_found_or_forbidden": 403, "human_confirmation_required": 403, "invalid_request": 400,
+               "idempotency_conflict": 409, "already_confirmed": 409, "upstream_unavailable": 503}
+
+
+def _rest(result):
+    err = result.get("error") if isinstance(result, dict) else None
+    if isinstance(err, dict) and err.get("code") in REST_STATUS:
+        return JSONResponse(result, status_code=REST_STATUS[err["code"]])
+    return result
+
+
 @app.get("/claims/{claim_id}")
 def claim(claim_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.claim(x_user_id, claim_id, x_on_behalf_of_agent)
+    return _rest(B.claim(x_user_id, claim_id, x_on_behalf_of_agent))
 
 
 @app.get("/policies/{policy_id}")
 def policy(policy_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.policy(x_user_id, policy_id, x_on_behalf_of_agent)
+    return _rest(B.policy(x_user_id, policy_id, x_on_behalf_of_agent))
 
 
 @app.get("/claims/{claim_id}/documents")
 def documents(claim_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.documents_for(x_user_id, claim_id, x_on_behalf_of_agent)
+    return _rest(B.documents_for(x_user_id, claim_id, x_on_behalf_of_agent))
 
 
 @app.get("/documents/{doc_id}")
 def document(doc_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.document(x_user_id, doc_id, x_on_behalf_of_agent)
+    return _rest(B.document(x_user_id, doc_id, x_on_behalf_of_agent))
 
 
 @app.get("/policy-kb/search")
 def policy_kb_search(q: str, k: int = 3, x_user_id: str = Depends(caller_id),
                      x_on_behalf_of_agent: str | None = Header(None)):
-    return B.search_clauses(x_user_id, q, k, x_on_behalf_of_agent)
+    return _rest(B.search_clauses(x_user_id, q, k, x_on_behalf_of_agent))
 
 
 async def _json_object(request):
@@ -222,7 +238,7 @@ async def recommend(claim_id: str, request: Request, x_user_id: str = Depends(ca
     body = await _json_object(request)
     if body is None or not isinstance(body.get("decision_card"), dict):
         return _bad_request(x_user_id, "post_recommendation", claim_id, "Body must be a JSON object with a decision_card.")
-    return B.recommend(x_user_id, claim_id, body["decision_card"], idempotency_key, x_on_behalf_of_agent)
+    return _rest(B.recommend(x_user_id, claim_id, body["decision_card"], idempotency_key, x_on_behalf_of_agent))
 
 
 @app.post("/recommendations/{rec_id}/confirm")
@@ -231,8 +247,8 @@ async def confirm(rec_id: str, request: Request, x_user_id: str = Depends(caller
     body = await _json_object(request)
     if body is None or body.get("action") not in ("confirm", "override"):
         return _bad_request(x_user_id, "confirm_recommendation", rec_id, 'Body must be {"action": "confirm" | "override", ...}.')
-    return B.confirm(x_user_id, dict(body, recommendation_id=rec_id, idempotency_key=idempotency_key),
-                     agent=x_on_behalf_of_agent)
+    return _rest(B.confirm(x_user_id, dict(body, recommendation_id=rec_id, idempotency_key=idempotency_key),
+                           agent=x_on_behalf_of_agent))
 
 
 @app.get("/recommendations")
@@ -240,36 +256,36 @@ def pending(x_user_id: str = Depends(caller_id), status: str = "pending"):
     """The adjuster queue: undecided drafts on claims the caller is entitled to."""
     if status != "pending":
         return _bad_request(x_user_id, "list_pending_recommendations", "queue", "Only status=pending is supported.")
-    return B.pending(x_user_id)
+    return _rest(B.pending(x_user_id))
 
 
 @app.get("/claims/{claim_id}/recommendations/latest")
 def latest(claim_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.draft(x_user_id, claim_id, x_on_behalf_of_agent)
+    return _rest(B.draft(x_user_id, claim_id, x_on_behalf_of_agent))
 
 
 @app.post("/claims/{claim_id}/escalations")
 async def escalate(claim_id: str, request: Request, x_user_id: str = Depends(caller_id),
                    idempotency_key: str = Header(), x_on_behalf_of_agent: str | None = Header(None)):
     body = await _json_object(request) or {}
-    return B.escalate(x_user_id, claim_id, body.get("reason"), idempotency_key, body.get("priority", "normal"),
-                      x_on_behalf_of_agent)
+    return _rest(B.escalate(x_user_id, claim_id, body.get("reason"), idempotency_key, body.get("priority", "normal"),
+                            x_on_behalf_of_agent))
 
 
 @app.post("/claims/{claim_id}/oncall")
 async def oncall(claim_id: str, request: Request, x_user_id: str = Depends(caller_id), idempotency_key: str = Header(),
                  x_on_behalf_of_agent: str | None = Header(None)):
     body = await _json_object(request) or {}
-    return B.slack.notify(x_user_id, claim_id, body.get("reason"), idempotency_key, x_on_behalf_of_agent)
+    return _rest(B.slack.notify(x_user_id, claim_id, body.get("reason"), idempotency_key, x_on_behalf_of_agent))
 
 
 @app.get("/claims/{claim_id}/escalation")
 def escalation(claim_id: str, x_user_id: str = Depends(caller_id), x_on_behalf_of_agent: str | None = Header(None)):
-    return B.escalation(x_user_id, claim_id, x_on_behalf_of_agent)
+    return _rest(B.escalation(x_user_id, claim_id, x_on_behalf_of_agent))
 
 
 @app.get("/audit")
 def audit(x_user_id: str = Depends(caller_id), limit: int = 50, claim_id: str | None = None):
     """The append-only trail (senior adjusters only; the request is itself audited). ?claim_id= answers "who
     accessed claim X"."""
-    return B.audit_rows(x_user_id, min(max(limit, 1), 1000), claim_id)
+    return _rest(B.audit_rows(x_user_id, min(max(limit, 1), 1000), claim_id))

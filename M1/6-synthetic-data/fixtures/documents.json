@@ -1704,6 +1704,88 @@
       "metadata": {},
       "trust": "untrusted",
       "sha256": "f14cb33d44adc4a854cd67da5cb790762bcd41378ed187f3ba68f49648694e6e"
+    },
+    {
+      "doc_id": "DOC-2024-5001-FNOL-FORM",
+      "claim_id": "CLM-2024-5001",
+      "doc_type": "fnol_form",
+      "title": "First notice of loss form",
+      "source_system": "claims_management",
+      "received_date": "2024-10-22",
+      "content_text": "FNOL for CLM-2024-5001: collision on 2024-10-21. Insured reversed into a bollard in a supermarket car park. No other vehicle involved; rear bumper and tailgate damaged.",
+      "metadata": {},
+      "trust": "untrusted",
+      "sha256": "54f06105f5f6f1c97a9155643b176cf515e9404b8991a9a455b218168d09b693"
+    },
+    {
+      "doc_id": "DOC-2024-5001-REPAIR-ESTIMATE",
+      "claim_id": "CLM-2024-5001",
+      "doc_type": "repair_estimate",
+      "title": "Repair estimate",
+      "source_system": "document_store",
+      "received_date": "2024-10-22",
+      "content_text": "Repair estimate: $2,950 for damage consistent with the reported collision.",
+      "metadata": {},
+      "trust": "untrusted",
+      "sha256": "973e536699072175d4b9cead5fae8885924a29f9f17c82f852dff465e1c0bcb0"
+    },
+    {
+      "doc_id": "DOC-2024-5001-PHOTOS",
+      "claim_id": "CLM-2024-5001",
+      "doc_type": "photos",
+      "title": "Damage photos",
+      "source_system": "document_store",
+      "received_date": "2024-10-22",
+      "content_text": "Photos of the 2022 Kia Sportage (grey) showing damage consistent with the reported collision.",
+      "metadata": {
+        "image_count": 4,
+        "exif_dates": [
+          "2024-10-21"
+        ]
+      },
+      "trust": "untrusted",
+      "sha256": "9b6a20782e6d060127263e592ff64dc184d2c64526e6ab208f9808c2533f4dc0"
+    },
+    {
+      "doc_id": "DOC-2024-5002-FNOL-FORM",
+      "claim_id": "CLM-2024-5002",
+      "doc_type": "fnol_form",
+      "title": "First notice of loss form",
+      "source_system": "claims_management",
+      "received_date": "2024-11-04",
+      "content_text": "FNOL for CLM-2024-5002: glass on 2024-11-03. Stone thrown up by a truck on the motorway cracked the windscreen across the driver's line of sight.",
+      "metadata": {},
+      "trust": "untrusted",
+      "sha256": "eab3ebf3e7003378c595b82a5b90aaaa9c2665843f6a3995a6475d5fe594da27"
+    },
+    {
+      "doc_id": "DOC-2024-5002-GLASS-INVOICE",
+      "claim_id": "CLM-2024-5002",
+      "doc_type": "glass_invoice",
+      "title": "Glass replacement invoice",
+      "source_system": "document_store",
+      "received_date": "2024-11-04",
+      "content_text": "Glass invoice: $720.",
+      "metadata": {},
+      "trust": "untrusted",
+      "sha256": "ad6fd5c6a66b0bd43be9a982eff20a4aba30d8c20b5c25f192bff0c6f99c2f77"
+    },
+    {
+      "doc_id": "DOC-2024-5002-PHOTOS",
+      "claim_id": "CLM-2024-5002",
+      "doc_type": "photos",
+      "title": "Damage photos",
+      "source_system": "document_store",
+      "received_date": "2024-11-04",
+      "content_text": "Photos of the 2020 Honda Civic showing damage consistent with the reported glass.",
+      "metadata": {
+        "image_count": 2,
+        "exif_dates": [
+          "2024-11-03"
+        ]
+      },
+      "trust": "untrusted",
+      "sha256": "cd143fe5a4d8df8a7683e7a54c504ee3e1ccfa432b255a4668de960204e57c97"
     }
   ]
 }

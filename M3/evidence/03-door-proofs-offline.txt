@@ -1,13 +1,13 @@
 # 03-door-proofs-offline — every door proof offline: lab floor, Builder, Architect, six attacks
-# run: 2026-11-18 20:40:03 EST
+# run: 2026-11-19 22:07:08 EST
 # command: python -m claimsense_door.proofs
 
-ClaimSense M3 · the governed door, every proof · 2026-11-18 20:40:03 EST
+ClaimSense M3 · the governed door, every proof · 2026-11-19 22:07:08 EST
 door: in-process (offline, synthetic fixtures) · no model in the loop: each tool is called directly, as the grader does
 
 [PASS] 1 · two-user test (same question, two scopes, matching audit)
     User A alice: ALLOWED · CLM-2024-1800 · collision · assigned_group=adjuster
-    User B carol: 403 DENIED — carol may not access CLM-2024-1800 · the caller is told only: "No claim is available for this request." (request_id c6757ec1-914c-4ad4-87d3-c8ee9524c38d)
+    User B carol: 403 DENIED — carol may not access CLM-2024-1800 · the caller is told only: "No claim is available for this request." (request_id 220cc798-8a0f-4bd3-bf6a-85d85072a204)
     RESULT: PASS — scope holds (different answers + matching audit)
 
 [PASS] 2 · idempotent write (create_escalation_ticket twice, one key)
@@ -70,4 +70,3 @@ door: in-process (offline, synthetic fixtures) · no model in the loop: each too
     customer-service may read claims (and so fraud scores): False (trap 1)
 
 DOOR PROOFS: PASS (11/11)
-# exit: 0

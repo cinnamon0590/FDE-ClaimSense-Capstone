@@ -1,5 +1,5 @@
 # 09-audit-every-call — D-5: one audit row for every call, granted or denied (user, action, resource)
-# run: 2026-11-18 20:42:40 EST
+# run: 2026-11-19 22:06:54 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/audit_check.py
 # exit: 0   status: PASS
@@ -20,15 +20,15 @@
   PASS  orchestrator accepted          -> read_ask_history             authenticated  ({"user_id": "carol", "action": "read_ask_history", "resource": "CLM-2024-1800", "decision": "authenticated", "via": "orchestrator"})
   PASS  audit read (itself audited)    -> read_audit                   allow     ({"user_id": "bob", "action": "read_audit", "resource": "audit", "decision": "allow", "via": "rest"})
 
-2 · the whole trail on this stack: 809 rows (the newest 1000)
-   by channel/decision: {"rest/allow": 50, "sts/allow": 47, "orchestrator/authenticated": 50, "mcp/allow": 438, "sts/deny": 9, "mcp/deny": 85, "rest/deny": 83, "webhook/deny": 8, "orchestrator/deny": 32, "mcp/replay": 2, "webhook/allow": 2, "webhook/replay": 2, "mcp/error": 1}
+2 · the whole trail on this stack: 283 rows (the newest 1000)
+   by channel/decision: {"rest/allow": 42, "mcp/allow": 16, "mcp/deny": 82, "webhook/deny": 8, "rest/deny": 82, "orchestrator/deny": 32, "sts/deny": 7, "sts/allow": 3, "orchestrator/authenticated": 4, "mcp/replay": 2, "webhook/allow": 2, "webhook/replay": 2, "mcp/error": 1}
   PASS  every row carries ts, request_id, user (acting_identity), scope, action, resource, decision and channel  (0 incomplete)
-   who touched CLM-2024-1800's DATA (door decisions only; orchestrator entry rows are 'authenticated'): alice allow×16, alice replay×2, bob allow×2, carol deny×8, system:ticketing allow×2, system:ticketing replay×2
+   who touched CLM-2024-1800's DATA (door decisions only; orchestrator entry rows are 'authenticated'): alice allow×10, alice replay×2, bob allow×2, carol deny×7, system:ticketing allow×2, system:ticketing replay×2
   PASS  the trail answers 'who accessed claim X, and were they allowed?'
   PASS  DELETE /audit is not a thing (append-only; only the system writes)  (405)
   PASS  PUT /audit is not a thing (append-only; only the system writes)  (405)
   PASS  PATCH /audit is not a thing (append-only; only the system writes)  (405)
   PASS  POST /audit is not a thing (append-only; only the system writes)  (405)
-  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "b268a714-4098-462f-8ab6-6c9d92ee5f91"}})
+  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "644ec673-6624-41c7-9c4b-197ca392b97d"}})
 
 RESULT: PASS
