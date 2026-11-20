@@ -18,7 +18,7 @@ import httpx
 from fastapi import Depends, FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from claimsense import audit_trail
+from claimsense import audit_trail, doc_store
 from claimsense.identity import TOKEN_TTL_S, DevIssuer, IdentityError, Verifier, resolve
 from claimsense_door.door import GrantedBoundary, shared_secret
 from claimsense_door.http import build_router
@@ -40,6 +40,12 @@ class SourcedBoundary(GrantedBoundary):
         self.escalations, self.webhook_events, self.recommendations, self._idem = {}, {}, {}, {}
         if url == "local":
             super().__init__(None)                     # the reference loader: fixtures baked into the image
+            # on AWS the Document Store and policy records live in S3 (D-044); claims, users and assignments stay
+            # with Claims Management (the image's fixtures)
+            if (pol := doc_store.load("policies")) is not None:
+                self.policies = {p["policy_id"]: p for p in pol["records"]}
+            if (docs := doc_store.load("documents")) is not None:
+                self.documents = {d["doc_id"]: d for d in docs["records"]}
         else:
             for attempt in range(30):
                 try:
@@ -174,7 +180,7 @@ async def dev_token(request: Request):
 @app.get("/healthz")
 def healthz():
     return {"ok": True, "claims": len(B.claims), "audit_rows": len(B.audit), "mcp": "/mcp",
-            "ticketing": bool(B.ticketing)}
+            "ticketing": bool(B.ticketing), "documents": len(B.documents), "document_store": doc_store.source()}
 
 
 # REST status codes for the door's structured errors (D-042). Missing and forbidden are BOTH 403 with the same body,
