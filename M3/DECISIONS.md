@@ -160,3 +160,28 @@ the owner.
 - **What is identical to the viewer's step:** an HTTP API (API Gateway v2), a Cognito JWT authorizer on every
   protected route, and no valid token → 401 before the Lambda runs (evidence 14).
 - **Owner:** Susan Wellington.
+
+## D-044 · 2026-11-19 · The deployed door reads its documents and policy corpus from S3
+- **Why:** the Learning UI Viewer's Week 3 "AWS commands this week" start with `aws s3 sync ./data/policies/
+  s3://claimsense-docs/policies/`, and its architecture says "the MCP document store fetches from [S3] in production;
+  mocked with CSV in local dev". M1 provisioned the bucket (private, SSE-S3, versioned), but it was empty: the
+  deployed door read everything from fixtures baked into its image.
+- **Decision:**
+  - `M3/cloud/sync_docs.sh` syncs the synthetic clause corpus and policy records to `policies/` and the claim
+    documents to `documents/`, then checks each object is identical to its fixture. `deploy.sh` runs it first.
+  - With `CLAIMSENSE_DOCS_BUCKET` set (only on the deployed Lambda), `claimsense/doc_store.py` reads those three
+    objects at cold start: the KB corpus, the policy records (Policy Administration) and the documents (Document
+    Store). Claims, users and assignments stay with Claims Management (the image). Locally nothing changes: the
+    mock systems serve the fixtures, as the viewer describes.
+  - **Integrity:** the clause *text* comes from S3, but the clause *manifest* (the signed-off hashes G2 checks) ships
+    in the image. Whoever can write the bucket cannot change what a clause says: an edited clause fails G2 and is
+    quarantined, never cited (`tests/test_s3_doc_store.py`). Documents were already untrusted input (screened for
+    injection, PII masked).
+  - **Fail closed:** a configured bucket that cannot be read stops the door from starting; it never silently falls
+    back to a different corpus.
+  - **Least privilege:** the Lambda's role gains `s3:GetObject` on `policies/*` and `documents/*` only: no list, no
+    write, no other prefix.
+- **Evidence:** `evidence/22-s3-document-store-deployed.txt` (the objects, encryption, public-access block; the door
+  reports `document_store: s3`; a document and a KB search match the S3 objects; the role's S3 statement).
+- **Cost:** three small objects, a few reads per cold start: well under one cent a month.
+- **Owner:** Susan Wellington.

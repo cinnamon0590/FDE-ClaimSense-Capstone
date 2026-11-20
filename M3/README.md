@@ -32,7 +32,7 @@ present someone else's badge.
 
 **The grader's one-liner:** `python -m claimsense_door.two_analyst_test ; echo $?` → `0`, with the PASS line and both
 audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-user`). The grader's `pytest -q` from the
-repo root runs M0 to M3 in one process: **183 passed** (evidence 12), and CI runs exactly that command.
+repo root runs M0 to M3 in one process: **189 passed** (evidence 12), and CI runs exactly that command.
 
 ## The graded checklist (`milestone-M3-integration.md`): every tier
 
@@ -70,6 +70,7 @@ worded ([evidence 20](evidence/20-viewer-week4-stack.txt) locally, [21](evidence
 | **Connect agents to live MCP**, passing the user's JWT on every request | Every agent data access is an MCP `tools/call` carrying the user's delegated token ([10](evidence/10-m2-suites-through-the-door.txt), [15](evidence/15-live-gate-through-the-door.txt)) |
 | **Two-user RBAC test:** Alice → 403 on a claim not assigned to her; Bob → 200 with full data | `CLM-2024-5001` is in bob's queue. Over REST: alice **HTTP 403**, bob **HTTP 200** with all 17 fields; over MCP the same, alice first (`two_analyst_test --viewer`) |
 | **Verify audit trail in CloudWatch Logs:** every call logs user ID, action and resource ID | Every audit row is also an `AUDIT {json}` line in `/aws/lambda/claimsense-door`; the check finds each call's row there ([21](evidence/21-viewer-week4-deployed.txt)) |
+| *(Week 3 "AWS commands this week")* `aws s3 sync ./data/policies/ s3://…/policies/`, then build and push the image to ECR | `cloud/sync_docs.sh` syncs the synthetic clause corpus, policies and documents into M1's private, encrypted bucket, and **the deployed door reads them from S3** (D-044; [22](evidence/22-s3-document-store-deployed.txt)). The clause manifest stays in the image, so a clause edited in the bucket is quarantined. The image is built and pushed to ECR by `deploy.sh` and by CI's `push-image` |
 
 **Six attacks on the door** (the W16 activity, evidence 03 proof 10):
 - out-of-scope read: STOPPED, by scope;
@@ -141,7 +142,8 @@ claimsense_door.stdio`, or point any streamable-HTTP MCP client at `http://local
 `cloud/deploy.sh` deploys the door as a Lambda container image behind an API Gateway HTTP API. The API's **Cognito JWT
 authorizer** guards every route except health, the key and metadata documents, the token exchange and the HMAC-signed
 webhook. The door verifies the token again, in code.
-- **Reused from M1:** the Cognito pool (5 groups) and the `claimsense-audit` DynamoDB table.
+- **Reused from M1:** the Cognito pool (5 groups), the `claimsense-audit` DynamoDB table, and the document bucket:
+  the door reads its KB corpus, policies and documents from S3 (`cloud/sync_docs.sh`, D-044).
 - **Users:** five synthetic users with random passwords, stored only in `~/.claimsense/` (0600).
 - **Cost:** about $0 within the free tiers. `cloud/teardown.sh` removes everything.
 - **Proof:** `two_analyst_test --url <door> --cognito`, `evals/deployed_route_check.py` and

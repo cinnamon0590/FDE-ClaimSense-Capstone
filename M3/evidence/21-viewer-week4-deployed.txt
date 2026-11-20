@@ -1,5 +1,5 @@
 # 21-viewer-week4-deployed — the Learning UI Viewer's Week 4 Integration checks on AWS: API Gateway (Cognito JWT authorizer) -> Lambda -> the door
-# run: 2026-11-19 22:16:49 EST
+# run: 2026-11-19 22:34:03 EST
 # door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com · orchestrator: http://localhost:8003
 # command: python evals/viewer_week4_check.py --deployed
 # exit: 0   status: PASS
@@ -15,7 +15,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
      "error": {
        "code": "not_found_or_forbidden",
        "message": "No claim is available for this request.",
-       "request_id": "ad94f1d8-aa7d-4dc6-949b-ed222673a5e4"
+       "request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b"
      }
    }
    --- bob ---
@@ -56,7 +56,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
   PASS  a claim that does not exist looks exactly like a forbidden one (403, same message)  (HTTP 403)
 
 2  RBAC over MCP: the two-user test in the viewer's shape (alice first, then bob)
-   ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-19 22:16:40 EST
+   ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-19 22:33:54 EST
    door: HTTP https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com/mcp
    question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-5001"}
    
@@ -89,7 +89,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
        "error": {
          "code": "not_found_or_forbidden",
          "message": "No claim is available for this request.",
-         "request_id": "37db870a-b110-437d-9364-317a4a501fe7"
+         "request_id": "48472291-46c6-4eab-a2b5-30070369233b"
        }
      },
      "isError": true,
@@ -156,29 +156,29 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
    
    === Answers ===
      User A bob: ALLOWED · CLM-2024-5001 · collision · assigned_group=adjuster
-     User B alice: 403 DENIED — alice may not access CLM-2024-5001 · the caller is told only: "No claim is available for this request." (request_id 37db870a-b110-437d-9364-317a4a501fe7)
+     User B alice: 403 DENIED — alice may not access CLM-2024-5001 · the caller is told only: "No claim is available for this request." (request_id 48472291-46c6-4eab-a2b5-30070369233b)
    
    === Append-only audit rows (one per call) ===
-     {"ts": "2026-11-20T03:16:40.864661+00:00", "request_id": "34aee4b0-c483-44a8-b900-24078f064737", "acting_identity": "bob", "scope": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
-     {"ts": "2026-11-20T03:16:40.700638+00:00", "request_id": "37db870a-b110-437d-9364-317a4a501fe7", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+     {"ts": "2026-11-20T03:33:55.184982+00:00", "request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "acting_identity": "bob", "scope": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+     {"ts": "2026-11-20T03:33:55.023119+00:00", "request_id": "48472291-46c6-4eab-a2b5-30070369233b", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
    
    checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
    RESULT: PASS — scope holds (different answers + matching audit)
   PASS  the two-user test over MCP: alice denied, bob allowed, matching audit rows
 
 3  The audit trail: one row per call, carrying user ID, action and resource ID
-   {"ts": "2026-11-20T03:16:39.374150+00:00", "request_id": "ad94f1d8-aa7d-4dc6-949b-ed222673a5e4", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
-   {"ts": "2026-11-20T03:16:40.076000+00:00", "request_id": "8cb5756a-f739-4a10-96c7-1e4b5ea59463", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
-   {"ts": "2026-11-20T03:16:40.700638+00:00", "request_id": "37db870a-b110-437d-9364-317a4a501fe7", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
-   {"ts": "2026-11-20T03:16:40.864661+00:00", "request_id": "34aee4b0-c483-44a8-b900-24078f064737", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
+   {"ts": "2026-11-20T03:33:53.714918+00:00", "request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
+   {"ts": "2026-11-20T03:33:54.347060+00:00", "request_id": "eeee547a-91c2-434d-b9c2-14621168169b", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
+   {"ts": "2026-11-20T03:33:55.023119+00:00", "request_id": "48472291-46c6-4eab-a2b5-30070369233b", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
+   {"ts": "2026-11-20T03:33:55.184982+00:00", "request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
   PASS  the trail holds alice's denials and bob's allows for this claim (REST and MCP: 2 each)  ([('alice', 'deny'), ('bob', 'allow')])
   PASS  every row carries user ID, action and resource ID
 
 4  The same rows in CloudWatch Logs (/aws/lambda/claimsense-door)
-   AUDIT {"request_id": "ad94f1d8-aa7d-4dc6-949b-ed222673a5e4", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
-   AUDIT {"request_id": "8cb5756a-f739-4a10-96c7-1e4b5ea59463", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
-   AUDIT {"request_id": "37db870a-b110-437d-9364-317a4a501fe7", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
-   AUDIT {"request_id": "34aee4b0-c483-44a8-b900-24078f064737", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "0faae59a-cd7d-48e8-be8b-bfd7e351e75b", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "eeee547a-91c2-434d-b9c2-14621168169b", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "48472291-46c6-4eab-a2b5-30070369233b", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "b1062525-5308-4460-ad71-2103d863f3b5", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
   PASS  every one of those calls is in CloudWatch Logs (/aws/lambda/claimsense-door) with user ID, action and resource ID  (4/4 found)
   PASS  no token, secret or account id in this evidence
 
