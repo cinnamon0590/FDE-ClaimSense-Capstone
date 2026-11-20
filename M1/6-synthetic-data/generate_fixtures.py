@@ -108,6 +108,10 @@ def default_text(dtype, case):
     }[dtype]
 
 
+# Claims Management history (M2 m2-v10, the viewer's "prior claims" fraud indicator): the claimant's claims in the
+# 24 months before this one. Most claimants have none; the four fraud-referral scenarios have a pattern of prior
+# claims, and one ordinary approval has a single prior claim (below the indicator's threshold of 2).
+PRIOR_CLAIMS = {"CLM-2024-1873": 3, "CLM-2024-3577": 2, "CLM-2024-4106": 2, "CLM-2024-4114": 2, "CLM-2024-4116": 1}
 SENIOR_QUEUE = HERE / "source" / "senior_queue.json"   # 2 non-eval claims in the senior adjuster's queue (D-042)
 
 
@@ -139,6 +143,7 @@ def main():
             "vehicle": dict(parse_vehicle(c["vehicle"]), vin=vin(c["claim_id"])),
             "acv": c["acv"], "repair_estimate": c["repair_estimate"],
             "injury_reported": c["injury_reported"], "fraud_risk_score": c["fraud_risk_score"],
+            "prior_claims_24m": PRIOR_CLAIMS.get(c["claim_id"], 0),
             "status": "first_pass_pending",
             "assigned_group": "adjuster",
             "document_ids": [d["doc_id"] for d in claim_docs],

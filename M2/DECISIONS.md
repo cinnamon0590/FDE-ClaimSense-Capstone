@@ -6,6 +6,47 @@ Newest first. Each entry records Why, Alternatives and a Revisit trigger.
 
 ---
 
+## D-045 · 2026-11-19 · The agents match the Learning UI Viewer's descriptions (prompt m2-v10)
+- **Why:** the ClaimSense Learning UI Viewer (Week 1 "The four agents you will build", Week 2 architecture cards)
+  describes two agents more specifically than m2-v9 did:
+  - **Claim Assessment** "analyzes the claim for risk signals: fraud indicators (late night, no police report, prior
+    claims), total-loss determination, high-value flag (> $25K net payable), and injury flag. Output: a risk profile
+    with specific indicators." m2-v9 had fraud score and inconsistencies, total loss and injury, but no late-night or
+    prior-claims indicator, no explicit high-value flag, and the synthetic data had no claims history.
+  - **Document Intake**'s output is "a clean JSON object with vehicle, incident, damage, estimate, and policy
+    details". m2-v9 reported documents, the checklist, inconsistencies and a summary.
+- **Decision:**
+  - **Claims history in the data:** every claim carries `prior_claims_24m` (Claims Management history). The four
+    fraud-referral scenarios have 2 or 3 prior claims; one ordinary approval has 1; the rest have none.
+  - **Indicators are code** (`deterministic.risk_indicators`): late night (23:00 to 04:59), no police report on a
+    theft or vandalism claim, and 2+ prior claims. The Assessment agent lists them in `fraud_signals` (with the
+    inconsistencies), and code adds any it left out, so every indicator reaches the adjuster's card.
+  - **Indicators never refer on their own.** The referral rule is unchanged and now applied by code exactly: a fraud
+    score >= 0.7 or material inconsistencies. A late-night collision is usually just a late-night collision;
+    referring on profile signals alone would raise false referrals (SC-4 false-route rate) with no labelled
+    evidence that it catches more fraud. The adjuster sees the signals and can override.
+  - **`high_value`** on the Assessment output = `computed.over_authority_limit` (code overrides it). It is a flag,
+    never a route: it is placed after `recommended_route` in the schema, because placed before it the fast model
+    read "over the authority limit" as a total-loss route (5 misses in the first recording; fixed before release).
+  - **Intake** now also returns `vehicle`, `incident`, `damage`, `repair_estimate_usd` and `policy_details`,
+    generated after the checklist and the inconsistency check. The estimate is money, so code replaces it with the
+    claim record's value if the model differs, and it is left out of what the Decision agent sees (money reaches
+    Decision only as `computed.net_payable`).
+  - **Loop guard:** with the longer output, Intake sometimes called `get_claim_file` again until `max_turns` (1 in 4
+    tries on CS-022). A repeat call now returns "you already have the file; answer now" without a second read or
+    audit row, and the prompt says the one call returns everything.
+- **Proof:** the live release gate passed **40/40 in each of 3 runs**, every verdict model-produced, 0 second-opinion
+  holds ($2.17; `evidence/results-live-v10-stability.txt`). Per-agent evals: all four agents 100%, 0 code
+  overrides; the ratchet floors stay at 100% (`evidence/agent-evals.txt`). `tests/test_viewer_agent_fields.py`.
+  Replays re-recorded under m2-v10 (36 recorded, 2 scripted guardrail-hold cases). Outcomes are unchanged.
+- **Alternatives:** make indicators referral triggers (rejected above); a full `get_claim_history` door tool per the
+  M1 contract (deferred to M4: the 24-month count on the record serves the indicator, and a new tool adds a grant,
+  an OBO scope and route-auth evidence for no change in outcome).
+- **Revisit:** when labelled data shows an indicator predicts fraud on its own, or when claim history must be itemised.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-035 · 2026-11-16 · The CI eval gate per the course's CI brief: LLM required, gate the exact image, prove it
 - **Checked against the brief.** Its non-negotiables:
   - the rule engine never counts as a pass;

@@ -13,7 +13,7 @@ whole design can be read in one place. Everything below links to the code that e
 | Agent Script | ClaimSense |
 |---|---|
 | `config.developer_name`, `description`, `role` | **ClaimSense**: an AutoSure motor-claims co-pilot that drafts ONE recommendation per claim for a licensed adjuster, who always confirms or overrides it. |
-| `agent_version` | `PROMPT_VERSION` = `m2-v9` ([`claimsense/__init__.py`](claimsense/__init__.py)), stamped on every run and replay file. |
+| `agent_version` | `PROMPT_VERSION` = `m2-v10` ([`claimsense/__init__.py`](claimsense/__init__.py)), stamped on every run and replay file. |
 | `access.default_agent_user` (the agent runs as a user whose permissions decide data access) | **Every call runs as the signed-in adjuster**, never a shared agent account. Each agent has its own identity for the audit (`agent:document-intake`, `agent:coverage-check`, `agent:claim-assessment`, `agent:decision-draft`, `agent:ask-claimsense`), and in M3 it carries a 5-minute delegated token (RFC 8693: Keycloak locally, the door's own exchange on AWS). The governed door ([`../M3/door`](../M3/door)) enforces that adjuster's **grants** (`grants.json`, deny-by-default) and **entitlement** (an adjuster reads only the claims assigned to them; a senior adjuster reads all, D-042), and audits every call. |
 | `system` messages (welcome / error) | The console's messages; the fail-closed answer `FAIL_CLOSED` in [`claimsense/assistant.py`](claimsense/assistant.py). |
 | `runtime.groundedness` / `citation` | Code-owned guardrails G1–G7 ([`claimsense/guardrails.py`](claimsense/guardrails.py), M1 spec): a cited clause must have been retrieved in this run; quotes come from the retrieved text, never a paraphrase. |
@@ -28,6 +28,7 @@ and injection flags. Code computes the rest **before** any agent reasons ([`clai
 |---|---|---|
 | `computed` | `compute()` | net payable, deductible, repair-to-ACV ratio, authority limit, policy-term check. **The only money an agent may mention.** |
 | `missing` | `missing_documents()` | the required-document checklist per loss type |
+| `risk_indicators` | `risk_indicators()` | fraud indicators: late night (23:00 to 04:59), no police report on a theft or vandalism claim, 2+ prior claims in 24 months (D-045). Shown to the adjuster; never a referral on their own |
 | `verified_facts` | `verified_facts()` | statements code has established; every prompt says to treat them as true |
 | `coverage_questions` | `coverage_questions()` | what Coverage must look up |
 
@@ -54,9 +55,9 @@ Each agent has a strict typed output (`output_type`), `temperature=0`, and only 
 `tool_choice="required"` when it has any ([`claimsense/agents_def.py`](claimsense/agents_def.py)).
 
 ### Document Intake (`agent:document-intake`, fast model)
-- **description:** report the claim file's facts only; no coverage decision.
-- **actions (tools):** `get_claim_file` only, called exactly once. The claim id is bound by code (`with`), never chosen by the model.
-- **`->` logic (code):** the door checks entitlement first; the claim file is sanitised (PII masked, other claims' ids masked, injection screened) before the model sees it; afterwards code **overwrites** `missing_documents` with the rule table whenever they differ (logged as `code_override`).
+- **description:** report the claim file's facts only; no coverage decision. Output (the viewer's "clean JSON"): documents, the checklist, injury and commercial-use indicators, inconsistencies, then vehicle, incident, damage, repair estimate and policy details.
+- **actions (tools):** `get_claim_file` only, called exactly once. The claim id is bound by code (`with`), never chosen by the model. A repeat call is answered "you already have the file" without a second read (loop guard).
+- **`->` logic (code):** the door checks entitlement first; the claim file is sanitised (PII masked, other claims' ids masked, injection screened) before the model sees it; afterwards code **overwrites** `missing_documents` with the rule table and `repair_estimate_usd` with the claim record whenever they differ (logged as `code_override`). The estimate is withheld from the Decision agent.
 - **`|` prompt:** list documents on file, injury and commercial-use indicators, material inconsistencies (quoting dates), a two-sentence summary.
 - **output:** `IntakeResult`. **Guardrails:** `untrusted_input_scan` (input), `intake_injection_tripwire` (output).
 
@@ -68,11 +69,11 @@ Each agent has a strict typed output (`output_type`), `temperature=0`, and only 
 - **output:** `CoverageResult`. **Guardrail:** `coverage_citation_tripwire` (a cited id must have been retrieved).
 
 ### Claim Assessment (`agent:claim-assessment`, fast model)
-- **description:** assess fraud, total loss and injury, and name the specialist route.
+- **description:** the risk profile: fraud indicators, total loss, high value (over $25K net payable) and injury, and the specialist route.
 - **actions (tools):** none.
-- **`->` logic (code):** after the model answers, code sets `fraud_suspected` (score >= 0.7 or any inconsistency), `total_loss` (ratio >= 1.0) and the route by `route_priority()` (fraud, then injury, then total loss), overriding the model where a rule decides.
+- **`->` logic (code):** code supplies `risk_indicators`; after the model answers, code sets `fraud_suspected` exactly (score >= 0.7 or any inconsistency; indicators alone never refer), adds any indicator missing from `fraud_signals`, sets `high_value` (= over the authority limit), `total_loss` (ratio >= 1.0) and the route by `route_priority()` (fraud, then injury, then total loss), overriding the model where a rule decides.
 - **`|` prompt:** the same rules in words, so the model's reasoning agrees with the code.
-- **output:** `AssessmentResult`.
+- **output:** `AssessmentResult` (`fraud_signals`, `fraud_suspected`, `total_loss`, `injury_exposure`, `recommended_route`, `high_value`, `rationale`). The signals appear on the adjuster's card as `judgment.fraud_signals`.
 
 ### Decision Draft (`agent:decision-draft`, smart model)
 - **description:** draft ONE recommendation for the adjuster.

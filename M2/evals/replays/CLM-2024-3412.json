@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,11 +32,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision incident reported on November 2, 2024, with a repair estimate of $2,400. All required documents are on file, including the FNOL form and repair estimate."
+      "vehicle": "2019 Volkswagen Golf",
+      "incident": "Low-speed reversing collision with a bollard in a car park on 2024-11-02.",
+      "damage": "Damage consistent with the reported collision, estimated at $2,400.",
+      "repair_estimate_usd": 2400,
+      "policy_details": "POL-AU-19963, liability, collision, comprehensive, $500 deductible, 2023-10-31 to 2024-10-31.",
+      "summary": "The claim involves a collision incident reported on 2024-11-03. The vehicle is a 2019 Volkswagen Golf with an estimated repair cost of $2,400."
      },
      "usage": {
-      "input_tokens": 1317,
-      "output_tokens": 113,
+      "input_tokens": 1617,
+      "output_tokens": 198,
       "cached_tokens": 0
      }
     }
@@ -53,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1164,
+      "input_tokens": 1259,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -62,7 +67,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"loss date inside the policy period\"}"
       },
       {
        "name": "search_clauses",
@@ -70,9 +75,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1398,
-      "output_tokens": 60,
-      "cached_tokens": 1024
+      "input_tokens": 1493,
+      "output_tokens": 61,
+      "cached_tokens": 0
      }
     },
     {
@@ -88,9 +93,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1850,
+      "input_tokens": 1946,
       "output_tokens": 115,
-      "cached_tokens": 1280
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +111,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "The claim is outside the policy period, and while coverage is ambiguous due to a submitted but unprocessed renewal, there are no fraud signals or injury exposures. The repair-to-ACV ratio indicates it is not a total loss."
+      "high_value": false,
+      "rationale": "The claim is outside the policy period, with an ambiguous coverage status. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported. No fraud signals or material inconsistencies were identified."
      },
      "usage": {
-      "input_tokens": 963,
-      "output_tokens": 95,
+      "input_tokens": 1266,
+      "output_tokens": 100,
       "cached_tokens": 0
      }
     }
@@ -124,8 +130,12 @@
       "claim_id": "CLM-2024-3412",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim's coverage is ambiguous because the loss date is outside the policy period, and the renewal was submitted but not processed. This makes it unclear if coverage continues. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "reasoning": "The coverage status is ambiguous due to the loss date being outside the policy period and the renewal not yet processed. This requires further review to determine if coverage can be extended. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
       "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision damage is covered under the policy's collision coverage."
+       },
        {
         "source_id": "CLS-PER-006",
         "quote": "The loss date is outside the policy period."
@@ -137,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1249,
-      "output_tokens": 138,
+      "input_tokens": 1368,
+      "output_tokens": 162,
       "cached_tokens": 0
      }
     }
@@ -152,8 +162,12 @@
       "claim_id": "CLM-2024-3412",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The coverage finding is ambiguous because the loss date is outside the policy period, but a renewal was submitted before the policy expired and has not yet been processed. This creates uncertainty about whether coverage continues. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "reasoning": "The coverage status is ambiguous because the loss date is outside the policy period, and the renewal was submitted but not processed. This makes it unclear if coverage continues. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
       "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision damage is covered under the policy's collision coverage."
+       },
        {
         "source_id": "CLS-PER-006",
         "quote": "The loss date is outside the policy period."
@@ -165,13 +179,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1249,
-      "output_tokens": 144,
+      "input_tokens": 1368,
+      "output_tokens": 160,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

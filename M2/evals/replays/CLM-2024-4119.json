@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision with a lamp post on 2024-10-27. All required documents are on file, and no injuries were reported."
+      "vehicle": "2020 Fiat 500",
+      "incident": "Minor collision with a lamp post while avoiding a dog in the road on 2024-10-27.",
+      "damage": "Damage consistent with the reported collision, estimated at $1,600.",
+      "repair_estimate_usd": 1600,
+      "policy_details": "POL-AU-61119, liability, collision, comprehensive, $500 deductible, 2024-07-07 to 2025-07-07.",
+      "summary": "This claim involves a collision incident reported on 2024-10-28. The vehicle is a 2020 Fiat 500 with an estimated repair cost of $1,600."
      },
      "usage": {
-      "input_tokens": 1230,
-      "output_tokens": 98,
+      "input_tokens": 1530,
+      "output_tokens": 197,
       "cached_tokens": 0
      }
     }
@@ -48,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1110,
-      "output_tokens": 13,
+      "input_tokens": 1219,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -65,9 +70,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1368,
+      "input_tokens": 1454,
       "output_tokens": 23,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
@@ -82,9 +87,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1622,
+      "input_tokens": 1708,
       "output_tokens": 106,
-      "cached_tokens": 1280
+      "cached_tokens": 1408
      }
     }
    ]
@@ -100,11 +105,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.1633, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 919,
-      "output_tokens": 65,
+      "input_tokens": 1236,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
@@ -118,7 +124,7 @@
       "claim_id": "CLM-2024-4119",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount of $1100 is within the authority limit, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -131,8 +137,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1175,
-      "output_tokens": 152,
+      "input_tokens": 1343,
+      "output_tokens": 145,
       "cached_tokens": 0
      }
     }
@@ -146,7 +152,7 @@
       "claim_id": "CLM-2024-4119",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The deductible has been correctly applied, resulting in a net payable amount of $1100, which is within the authority limit.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -159,13 +165,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1175,
-      "output_tokens": 153,
-      "cached_tokens": 0
+      "input_tokens": 1343,
+      "output_tokens": 148,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

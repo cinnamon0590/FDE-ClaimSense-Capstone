@@ -23,6 +23,7 @@
       "repair_estimate": 3200,
       "injury_reported": false,
       "fraud_risk_score": 0.08,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -53,6 +54,7 @@
       "repair_estimate": 4350,
       "injury_reported": false,
       "fraud_risk_score": 0.05,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -82,6 +84,7 @@
       "repair_estimate": 3100,
       "injury_reported": false,
       "fraud_risk_score": 0.12,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -111,6 +114,7 @@
       "repair_estimate": 19800,
       "injury_reported": false,
       "fraud_risk_score": 0.1,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -142,6 +146,7 @@
       "repair_estimate": 1850,
       "injury_reported": true,
       "fraud_risk_score": 0.09,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -172,6 +177,7 @@
       "repair_estimate": 640,
       "injury_reported": false,
       "fraud_risk_score": 0.03,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -201,6 +207,7 @@
       "repair_estimate": 0,
       "injury_reported": false,
       "fraud_risk_score": 0.31,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -228,6 +235,7 @@
       "repair_estimate": 9700,
       "injury_reported": true,
       "fraud_risk_score": 0.44,
+      "prior_claims_24m": 3,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -258,6 +266,7 @@
       "repair_estimate": 2400,
       "injury_reported": false,
       "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -288,6 +297,7 @@
       "repair_estimate": 16900,
       "injury_reported": false,
       "fraud_risk_score": 0.11,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -318,6 +328,7 @@
       "repair_estimate": 16700,
       "injury_reported": false,
       "fraud_risk_score": 0.09,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -348,6 +359,7 @@
       "repair_estimate": 28400,
       "injury_reported": false,
       "fraud_risk_score": 0.06,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -378,6 +390,7 @@
       "repair_estimate": 5200,
       "injury_reported": false,
       "fraud_risk_score": 0.14,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -408,6 +421,7 @@
       "repair_estimate": 1900,
       "injury_reported": false,
       "fraud_risk_score": 0.1,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -437,6 +451,7 @@
       "repair_estimate": 7300,
       "injury_reported": false,
       "fraud_risk_score": 0.22,
+      "prior_claims_24m": 2,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -467,6 +482,7 @@
       "repair_estimate": 2100,
       "injury_reported": false,
       "fraud_risk_score": 0.18,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -496,6 +512,7 @@
       "repair_estimate": 480,
       "injury_reported": false,
       "fraud_risk_score": 0.04,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -525,6 +542,7 @@
       "repair_estimate": 3900,
       "injury_reported": false,
       "fraud_risk_score": 0.27,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -555,6 +573,7 @@
       "repair_estimate": 2600,
       "injury_reported": false,
       "fraud_risk_score": 0.13,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -584,6 +603,7 @@
       "repair_estimate": 1450,
       "injury_reported": false,
       "fraud_risk_score": 0.06,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -614,6 +634,7 @@
       "repair_estimate": 5400,
       "injury_reported": false,
       "fraud_risk_score": 0.09,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -643,6 +664,7 @@
       "repair_estimate": 3800,
       "injury_reported": false,
       "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -672,6 +694,7 @@
       "repair_estimate": 21000,
       "injury_reported": false,
       "fraud_risk_score": 0.08,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -703,6 +726,7 @@
       "repair_estimate": 2900,
       "injury_reported": true,
       "fraud_risk_score": 0.05,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -733,6 +757,7 @@
       "repair_estimate": 6100,
       "injury_reported": false,
       "fraud_risk_score": 0.81,
+      "prior_claims_24m": 2,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -762,6 +787,7 @@
       "repair_estimate": 720,
       "injury_reported": false,
       "fraud_risk_score": 0.04,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -790,6 +816,7 @@
       "repair_estimate": 1300,
       "injury_reported": false,
       "fraud_risk_score": 0.12,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -819,6 +846,7 @@
       "repair_estimate": 1700,
       "injury_reported": false,
       "fraud_risk_score": 0.1,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -848,6 +876,7 @@
       "repair_estimate": 25500,
       "injury_reported": false,
       "fraud_risk_score": 0.05,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -878,6 +907,7 @@
       "repair_estimate": 25501,
       "injury_reported": false,
       "fraud_risk_score": 0.06,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -908,6 +938,7 @@
       "repair_estimate": 7400,
       "injury_reported": false,
       "fraud_risk_score": 0.09,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -937,6 +968,7 @@
       "repair_estimate": 2600,
       "injury_reported": false,
       "fraud_risk_score": 0.11,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -966,6 +998,7 @@
       "repair_estimate": 3300,
       "injury_reported": false,
       "fraud_risk_score": 0.15,
+      "prior_claims_24m": 2,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -995,6 +1028,7 @@
       "repair_estimate": 2200,
       "injury_reported": false,
       "fraud_risk_score": 0.2,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1024,6 +1058,7 @@
       "repair_estimate": 2600,
       "injury_reported": false,
       "fraud_risk_score": 0.1,
+      "prior_claims_24m": 1,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1053,6 +1088,7 @@
       "repair_estimate": 1900,
       "injury_reported": false,
       "fraud_risk_score": 0.13,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1082,6 +1118,7 @@
       "repair_estimate": 1600,
       "injury_reported": false,
       "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1111,6 +1148,7 @@
       "repair_estimate": 4100,
       "injury_reported": false,
       "fraud_risk_score": 0.16,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1140,6 +1178,7 @@
       "repair_estimate": 2950,
       "injury_reported": false,
       "fraud_risk_score": 0.05,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [
@@ -1169,6 +1208,7 @@
       "repair_estimate": 720,
       "injury_reported": false,
       "fraud_risk_score": 0.03,
+      "prior_claims_24m": 0,
       "status": "first_pass_pending",
       "assigned_group": "adjuster",
       "document_ids": [

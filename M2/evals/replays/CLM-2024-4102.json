@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The insured reported a collision on 2024-08-03, reversing into a concrete pillar in a multi-storey car park. A repair estimate of $5,400 is on file, and no injuries were reported."
+      "vehicle": "2019 Mazda CX-5",
+      "incident": "Insured reversed into a concrete pillar in a multi-storey car park on 2024-08-03.",
+      "damage": "Damage consistent with the reported collision, as described in the repair estimate and photos.",
+      "repair_estimate_usd": 5400,
+      "policy_details": "POL-AU-61102, liability, collision, comprehensive, $1000 deductible, 2024-01-20 to 2025-01-20.",
+      "summary": "The claim involves a collision where the insured reversed into a concrete pillar. All required documents are on file, including the FNOL form and repair estimate."
      },
      "usage": {
-      "input_tokens": 1248,
-      "output_tokens": 111,
+      "input_tokens": 1548,
+      "output_tokens": 194,
       "cached_tokens": 0
      }
     }
@@ -48,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1125,
-      "output_tokens": 14,
+      "input_tokens": 1218,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -65,16 +70,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1360,
+      "input_tokens": 1476,
       "output_tokens": 23,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4102",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the insured's own car for damage caused by collision, subject to the deductible. The deductible has already been applied to the net payable amount.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has been correctly applied to the payment.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -82,9 +87,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1614,
-      "output_tokens": 89,
-      "cached_tokens": 1280
+      "input_tokens": 1730,
+      "output_tokens": 95,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -100,11 +105,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "No fraud signals detected, not a total loss, and no injuries reported."
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.3068, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommendation of 'none' for specialist involvement."
      },
      "usage": {
-      "input_tokens": 916,
-      "output_tokens": 64,
+      "input_tokens": 1223,
+      "output_tokens": 107,
       "cached_tokens": 0
      }
     }
@@ -118,21 +124,21 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision coverage applies to the insured's vehicle damage, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the insured's own car for damage caused by collision."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1171,
-      "output_tokens": 141,
+      "input_tokens": 1332,
+      "output_tokens": 138,
       "cached_tokens": 0
      }
     }
@@ -146,26 +152,26 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to damage caused by collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the insured's own car for damage caused by collision."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1171,
-      "output_tokens": 143,
+      "input_tokens": 1332,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

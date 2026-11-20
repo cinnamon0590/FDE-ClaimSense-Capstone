@@ -1,25 +1,25 @@
 # 10-m2-suites-through-the-door — M2's container suites on the M3 stack: every agent data access is an MCP call on the door
-# run: 2026-11-19 22:06:57 EST
+# run: 2026-11-19 23:14:30 EST
 # command: python M2/evals/stack_smoke.py && python M2/evals/container_eval.py && (last) python M2/evals/rbac_check.py
 
-ClaimSense stack smoke · 2026-11-19 22:06:57
+ClaimSense stack smoke · 2026-11-19 23:14:30
 orchestrator: {"ok": true, "brain": "replay", "boundary": "http://boundary:8002", "models": {"fast": "gpt-4o-mini-2024-07-18", "smart": "gpt-4o-2024-08-06"}, "retrieval": "opensearch-bm25", "rag_store": {"backend": "opensearch-bm25", "url": "http://opensearch:9200", "indexed_chunks": 13}}
-boundary:     {"ok": true, "claims": 40, "audit_rows": 259, "mcp": "/mcp", "ticketing": true}
+boundary:     {"ok": true, "claims": 40, "audit_rows": 269, "mcp": "/mcp", "ticketing": true, "documents": 135, "document_store": "image"}
 
-PASS  CS-001 CLM-2024-1800 as alice  -> approve                              decided_by=agents           source=model guardrails=[] draft=REC-cb342c51d735 0.07s
-PASS  CS-002 CLM-2024-3104 as alice  -> deny                                 decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-b4f16aa3ac57 0.06s
-PASS  CS-004 CLM-2024-1946 as alice  -> route       →total-loss-appraiser    decided_by=agents           source=model guardrails=[] draft=REC-c1d9c91832df 0.07s
-PASS  CS-009 CLM-2024-3412 as alice  -> flag_review →senior-adjuster         decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-bc788c234c4f 0.07s
-PASS  CS-016 CLM-2024-3602 as alice  -> flag_review →senior-adjuster         decided_by=guardrail_hold   source=model guardrails=['injection_detected'] draft=REC-d5bf7415b31e 0.02s
+PASS  CS-001 CLM-2024-1800 as alice  -> approve                              decided_by=agents           source=model guardrails=[] draft=REC-0c4f2df45f7e 0.07s
+PASS  CS-002 CLM-2024-3104 as alice  -> deny                                 decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-592cd3475ec3 0.06s
+PASS  CS-004 CLM-2024-1946 as alice  -> route       →total-loss-appraiser    decided_by=agents           source=model guardrails=[] draft=REC-e0a2ae90eb2d 0.07s
+PASS  CS-009 CLM-2024-3412 as alice  -> flag_review →senior-adjuster         decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-7a2a8ce5fc10 0.07s
+PASS  CS-016 CLM-2024-3602 as alice  -> flag_review →senior-adjuster         decided_by=guardrail_hold   source=model guardrails=['injection_detected'] draft=REC-7a8bedb68aeb 0.02s
 PASS  CS-019 CLM-2024-1873 as dave   -> refused                              decided_by=boundary_refusal source=model guardrails=[] draft=- 0.0s
 
-agent tries to confirm REC-cb342c51d735: human_confirmation_required
-alice confirms REC-cb342c51d735: final_outcome=approve confirmed_by=alice
-audit rows: 362 (denials recorded: 218; e.g. get_claim by carol reason=not_entitled)
+agent tries to confirm REC-0c4f2df45f7e: human_confirmation_required
+alice confirms REC-0c4f2df45f7e: final_outcome=approve confirmed_by=alice
+audit rows: 372 (denials recorded: 221; e.g. get_claim by carol reason=not_entitled)
 
 STACK SMOKE: PASS
 
-ClaimSense 40-case eval through the containers · 2026-11-19 22:06:57
+ClaimSense 40-case eval through the containers · 2026-11-19 23:14:31
 retrieval: opensearch-bm25 (13 documents) · identity: signed tokens
 
   PASS  CS-001  approve                            agents
@@ -66,31 +66,31 @@ retrieval: opensearch-bm25 (13 documents) · identity: signed tokens
 40/40 through the containers
 CONTAINER EVAL: PASS
 
-ClaimSense RBAC checks on the running stack · 2026-11-19 22:07:01
+ClaimSense RBAC checks on the running stack · 2026-11-19 23:14:34
 orchestrator brain=replay · identity: signed JWT (dev issuer, Cognito-shaped) · groups from the directory, never from the client
 
 CLM-2024-1800 · alice · adjuster
-     alice first pass: approve → - · draft REC-42fac10904db
+     alice first pass: approve → - · draft REC-48e33524aefc
   PASS  a human (alice) confirms  (stays with the adjuster)
   PASS  alice (adjuster) can now run the assessment  (approve · agents)
 
 CLM-2024-1873 · carol · fraud-investigator
   PASS  carol refused before any hand-off
-     alice first pass: route → fraud-investigator · draft REC-027040d4e751
+     alice first pass: route → fraud-investigator · draft REC-eff5ab23ab6a
   PASS  a human (alice) confirms  (handed off adjuster -> fraud-investigator)
   PASS  carol (fraud-investigator) can now run the assessment  (route · agents)
   PASS  alice no longer can (least privilege)
 
 CLM-2024-1946 · eve · total-loss-appraiser
   PASS  eve refused before any hand-off
-     alice first pass: route → total-loss-appraiser · draft REC-3a658bf48ee6
+     alice first pass: route → total-loss-appraiser · draft REC-e20a3d4b9a2e
   PASS  a human (alice) confirms  (handed off adjuster -> total-loss-appraiser)
   PASS  eve (total-loss-appraiser) can now run the assessment  (route · agents)
   PASS  alice no longer can (least privilege)
 
 CLM-2024-2019 · bob · senior-adjuster
   PASS  bob (senior) can open it before any hand-off, by design
-     alice first pass: flag_review → senior-adjuster · draft REC-01c4c02240ab
+     alice first pass: flag_review → senior-adjuster · draft REC-b82b3615ea51
   PASS  a human (alice) confirms  (handed off adjuster -> senior-adjuster)
   PASS  bob (senior-adjuster) can now run the assessment  (flag_review · agents)
   PASS  alice no longer can (least privilege)

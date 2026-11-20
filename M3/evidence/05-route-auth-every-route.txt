@@ -1,5 +1,5 @@
 # 05-route-auth-every-route — D-2: every route and every MCP tool refuses a missing or invalid token
-# run: 2026-11-19 22:06:49 EST
+# run: 2026-11-19 23:14:20 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/route_auth_check.py
 # exit: 0   status: PASS

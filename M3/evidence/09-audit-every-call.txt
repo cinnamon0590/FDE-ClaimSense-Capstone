@@ -1,5 +1,5 @@
 # 09-audit-every-call — D-5: one audit row for every call, granted or denied (user, action, resource)
-# run: 2026-11-19 22:06:54 EST
+# run: 2026-11-19 23:14:25 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/audit_check.py
 # exit: 0   status: PASS
@@ -29,6 +29,6 @@
   PASS  PUT /audit is not a thing (append-only; only the system writes)  (405)
   PASS  PATCH /audit is not a thing (append-only; only the system writes)  (405)
   PASS  POST /audit is not a thing (append-only; only the system writes)  (405)
-  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "644ec673-6624-41c7-9c4b-197ca392b97d"}})
+  PASS  only senior adjusters read the trail; alice's attempt is refused and itself audited  ({"error": {"code": "not_found_or_forbidden", "message": "No audit view is available for this request.", "request_id": "55a3f79f-f3fc-46eb-9334-a67acd5ce49d"}})
 
 RESULT: PASS

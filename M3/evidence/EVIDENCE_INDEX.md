@@ -16,7 +16,7 @@ Every file starts with a header (what, when, command) and holds the verbatim out
 | 09 | [`09-audit-every-call.txt`](09-audit-every-call.txt) | D-5: 14 kinds of call each leave one complete row; append-only; who touched a claim | ✅ PASS |
 | 10 | [`10-m2-suites-through-the-door.txt`](10-m2-suites-through-the-door.txt) | M2's smoke, 40/40 container eval and RBAC hand-offs with every agent access via /mcp | ✅ PASS |
 | 11 | [`11-agentcore-gateway-plan.txt`](11-agentcore-gateway-plan.txt) | Architect: the managed twin's plan ($0) | ✅ PASS |
-| 12 | [`12-unit-tests.txt`](12-unit-tests.txt) | pytest: a bare `pytest -q` from the repo root, as the grader runs it (M0 to M3 in one process): 189 passed; M3 alone 58 | ✅ PASS |
+| 12 | [`12-unit-tests.txt`](12-unit-tests.txt) | pytest: a bare `pytest -q` from the repo root, as the grader runs it (M0 to M3 in one process): 205 passed; M3 alone 58 | ✅ PASS |
 | 13 | [`13-deployed-two-user-test.txt`](13-deployed-two-user-test.txt) | D-1 + D-4 on AWS: API Gateway (Cognito JWT) → Lambda → the door, with real Cognito tokens and the DynamoDB audit | ✅ PASS |
 | 14 | [`14-deployed-route-auth.txt`](14-deployed-route-auth.txt) | D-2 on AWS: 150/150 bad credentials refused, all recorded at the edge; OBO exchange on the real IdP | ✅ PASS |
 | 15 | [`15-live-gate-through-the-door.txt`](15-live-gate-through-the-door.txt) | the live 40-case gate through /mcp with delegated tokens: 40/40, 11/11 adversarial, all model-decided, $0.68 | ✅ PASS |

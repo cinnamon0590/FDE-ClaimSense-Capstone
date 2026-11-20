@@ -33,6 +33,13 @@ class IntakeResult(Strict):
     injury_indicated: bool
     commercial_use_indicated: bool = Field(description="any sign the vehicle carried people or goods for pay")
     inconsistencies: list[str] = Field(description="factual contradictions between documents, dates or vehicle")
+    # the viewer's "clean JSON with vehicle, incident, damage, estimate and policy details" (m2-v10), after the checks
+    vehicle: str = Field(description="year, make, model and colour, as on file (never the VIN)")
+    incident: str = Field(description="what happened, when (date and time if known) and where, in one sentence")
+    damage: str = Field(description="the damage the documents describe, in one sentence")
+    repair_estimate_usd: int | None = Field(description="the repair estimate amount on file; code checks it against "
+                                                        "the claim record")
+    policy_details: str = Field(description="policy id, coverages, deductible and term, as given")
     summary: str
 
 
@@ -48,11 +55,14 @@ class CoverageResult(Strict):
 class AssessmentResult(Strict):
     """Claim Assessment: risk signals and the specialist (if any) the claim needs."""
     claim_id: str
-    fraud_signals: list[str]
+    fraud_signals: list[str] = Field(description="every fraud indicator: the code-supplied risk_indicators plus "
+                                                 "each material inconsistency")
     fraud_suspected: bool
     total_loss: bool
     injury_exposure: bool
     recommended_route: AssessmentRoute
+    high_value: bool = Field(description="computed.over_authority_limit: net payable above the $25,000 limit. "
+                                         "A flag for the adjuster; it never changes recommended_route")
     rationale: str
 
 

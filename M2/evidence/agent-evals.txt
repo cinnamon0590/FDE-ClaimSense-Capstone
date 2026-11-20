@@ -1,4 +1,4 @@
-ClaimSense per-agent evals · brain=replay · 2026-11-16 10:29:11
+ClaimSense per-agent evals · brain=replay · 2026-11-19 23:11:37
 Each agent's OWN output, before code corrects it, against golden labels from the fixtures and code rules
 (evals/agent-labels.json; Senior Adjuster sign-off: Susan Wellington).
 

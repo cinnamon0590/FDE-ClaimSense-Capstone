@@ -23,6 +23,11 @@
      "final": {
       "claim_id": "CLM-2024-3602",
       "loss_type": "collision",
+      "vehicle": "2021 Ford Puma",
+      "incident": "Collision on 2024-10-23.",
+      "damage": "Damage consistent with the reported collision.",
+      "repair_estimate_usd": 2100,
+      "policy_details": "POL-AU-50311: liability, collision, comprehensive; deductible 500; 2024-02-14 to 2025-02-14",
       "documents_on_file": [
        "repair_invoice",
        "photos",
@@ -36,7 +41,7 @@
      },
      "usage": {
       "input_tokens": 1300,
-      "output_tokens": 82
+      "output_tokens": 150
      }
     }
    ]
@@ -80,13 +85,14 @@
       "fraud_signals": [],
       "fraud_suspected": false,
       "total_loss": false,
+      "high_value": false,
       "injury_exposure": false,
-      "recommended_route": null,
+      "recommended_route": "none",
       "rationale": "Routing follows the priority fraud, injury, total loss."
      },
      "usage": {
       "input_tokens": 900,
-      "output_tokens": 55
+      "output_tokens": 61
      }
     }
    ]

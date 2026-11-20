@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision with a parked trailer on May 29, 2024. All required documents are on file, including the FNOL form and repair estimate."
+      "vehicle": "2013 Land Rover Defender",
+      "incident": "Collision with a parked trailer while turning into a farm track on 2024-05-29.",
+      "damage": "Damage consistent with the reported collision, estimated at $4,100.",
+      "repair_estimate_usd": 4100,
+      "policy_details": "POL-AU-61120, liability, collision, comprehensive, $500 deductible, 2023-05-10 to 2024-05-10.",
+      "summary": "The claim involves a collision incident reported on May 30, 2024. The vehicle is a 2013 Land Rover Defender with an estimated repair cost of $4,100."
      },
      "usage": {
-      "input_tokens": 1224,
-      "output_tokens": 101,
+      "input_tokens": 1524,
+      "output_tokens": 195,
       "cached_tokens": 0
      }
     }
@@ -52,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1091,
+      "input_tokens": 1195,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -65,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1325,
+      "input_tokens": 1429,
       "output_tokens": 21,
       "cached_tokens": 0
      }
@@ -74,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2024-4120",
       "coverage_finding": "not_covered",
-      "basis": "The loss date is outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
@@ -82,9 +87,9 @@
       "exclusion_or_condition": "Loss date outside policy period"
      },
      "usage": {
-      "input_tokens": 1514,
-      "output_tokens": 87,
-      "cached_tokens": 1024
+      "input_tokens": 1618,
+      "output_tokens": 86,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -100,11 +105,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no indications of fraud, total loss, or injury exposure."
+      "high_value": false,
+      "rationale": "The claim is not covered due to the loss occurring outside the policy period, with a repair-to-ACV ratio indicating it is not a total loss. There are no fraud indicators or injury exposures."
      },
      "usage": {
-      "input_tokens": 881,
-      "output_tokens": 80,
+      "input_tokens": 1192,
+      "output_tokens": 94,
       "cached_tokens": 0
      }
     }
@@ -118,7 +124,7 @@
       "claim_id": "CLM-2024-4120",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly states there is no duty to pay for any loss occurring outside the policy period. All required documents are on file, and there are no indications of fraud or other issues.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -127,8 +133,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1152,
-      "output_tokens": 107,
+      "input_tokens": 1288,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -142,7 +148,7 @@
       "claim_id": "CLM-2024-4120",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy explicitly states there is no duty to pay for any loss occurring outside the policy period. All required documents are on file, and there are no indications of fraud or other issues.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -151,13 +157,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1152,
-      "output_tokens": 107,
+      "input_tokens": 1288,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

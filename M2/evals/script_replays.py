@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from claimsense._m1 import FIXTURES  # noqa: E402
 from claimsense.cases import all_cases  # noqa: E402
-from claimsense.deterministic import compute  # noqa: E402
+from claimsense.deterministic import compute, risk_indicators  # noqa: E402
 
 QUERY = {
     "CLS-COL-001": "collision damage to the insured's own car",
@@ -60,7 +60,15 @@ def replay_for(case):
     inconsist = [f"{k}: {v}" for k, v in facts.items()
                  if "BEFORE" in v or "metadata dates" in v or "different vehicle" in v]
     commercial = "CLS-USE-009" in exp.get("must_cite", [])
-    intake = {"claim_id": claim["claim_id"], "loss_type": claim["loss_type"], "documents_on_file": types,
+    v = claim["vehicle"]
+    intake = {"claim_id": claim["claim_id"], "loss_type": claim["loss_type"],
+              "vehicle": f"{v['year']} {v['make']} {v['model']}" + (f" ({v['colour']})" if v.get("colour") else ""),
+              "incident": f"{claim['loss_type'].title()} on {claim['incident_date']}.",
+              "damage": f"Damage consistent with the reported {claim['loss_type']}.",
+              "repair_estimate_usd": claim["repair_estimate"],
+              "policy_details": f"{pol['policy_id']}: {', '.join(pol['coverages'])}; deductible {pol['deductible']}; "
+                                f"{pol['term_start']} to {pol['term_end']}",
+              "documents_on_file": types,
               "missing_documents": missing, "injury_indicated": claim["injury_reported"],
               "commercial_use_indicated": commercial, "inconsistencies": inconsist,
               "summary": f"{claim['loss_type'].title()} claim with {len(docs)} document(s) on file. "
@@ -84,8 +92,10 @@ def replay_for(case):
                 "exclusion_or_condition": None if finding == "covered" else (cites[0] if cites else None)}
 
     fraud = route == "fraud-investigator"
-    assessment = {"claim_id": claim["claim_id"], "fraud_signals": inconsist if fraud else [],
+    assessment = {"claim_id": claim["claim_id"],
+                  "fraud_signals": risk_indicators(claim, types) + (inconsist if fraud else []),
                   "fraud_suspected": fraud, "total_loss": computed["repair_to_acv_ratio"] >= 1,
+                  "high_value": computed["over_authority_limit"],
                   "injury_exposure": claim["injury_reported"],
                   "recommended_route": route if outcome == "route" else "none",
                   "rationale": "Routing follows the priority fraud, injury, total loss."}

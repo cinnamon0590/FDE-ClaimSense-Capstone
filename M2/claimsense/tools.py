@@ -36,6 +36,7 @@ class RunCtx:
     classifier: object = None                              # G1b (injection_classifier.py); None = off
     g1b: list = field(default_factory=list)                # [(category, reason)] for flagged passages
     g1b_usage: list = field(default_factory=list)
+    claim_file_calls: int = 0                              # loop guard: Intake needs the file exactly once
     events: list = field(default_factory=list)
     on_event: object = None
 
@@ -134,6 +135,13 @@ async def screen_packet(c: RunCtx, packet, meter=True):
 async def get_claim_file(ctx: RunContextWrapper[RunCtx]) -> str:
     """Return this claim's file: claim facts, policy declarations and every document on file (PII-masked)."""
     c = ctx.context
+    c.claim_file_calls += 1
+    if c.claim_file_calls > 1:
+        # a model that asks again would loop to max_turns: the file is already in its context, so say so (no
+        # second read of the claim, no second audit row, no second classifier pass)
+        c.emit("tool", "get_claim_file", repeat=c.claim_file_calls)
+        return json.dumps({"note": "You already received the complete claim file (claim, policy and every document) "
+                                   "from your first call. Do not call get_claim_file again: return your result now."})
     packet = await screen_packet(c, claim_packet(c))
     c.emit("tool", "get_claim_file", documents=len(packet["documents"]), pii_masked=c.pii_masked,
            injection_hits=len(c.injection_hits), foreign_claims_masked=c.foreign_claims_masked,
