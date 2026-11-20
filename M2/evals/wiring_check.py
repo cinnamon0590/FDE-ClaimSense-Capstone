@@ -13,6 +13,7 @@ claims API and the RAG store talk to each other." Against the RUNNING stack ($0,
     cd M2 && MOCK_BRAIN=1 docker compose up --build -d --wait && python evals/wiring_check.py
 Writes M2/evidence/container-wiring.txt; exit 1 on any failure.
 """
+import json
 import os
 import subprocess
 import sys
@@ -78,7 +79,9 @@ def main(build_seconds=None):
 
     out += ["", "Boundary ↔ mock claims API"]
     bh = httpx.get(f"{BOUNDARY}/healthz").json()
-    check("boundary loaded the claims from the mock systems", bh.get("claims") == 38, f"{bh.get('claims')} claims")
+    n_fix = len(json.loads((M2.parent / "M1" / "6-synthetic-data" / "fixtures" / "claims.json").read_text())["records"])
+    check("boundary loaded the claims from the mock systems", bh.get("claims") == n_fix,
+          f"{bh.get('claims')} claims, {n_fix} in the fixtures")
     claim = httpx.get(f"{BOUNDARY}/claims/CLM-2024-1800", headers=auth("alice")).json()
     check("a claim read flows mock systems -> boundary (token-checked)", claim.get("claim_id") == "CLM-2024-1800")
     try:
