@@ -1,10 +1,10 @@
 # 14-deployed-route-auth — D-1 + D-2 on AWS: every route and tool refuses a bad token
-# run: 2026-11-18 21:07:58 EST
-# door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com · orchestrator: http://localhost:8003
+# run: 2026-11-19 22:18:11 EST
+# door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/deployed_route_check.py
 # exit: 0   status: PASS
 
-door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP API · Cognito JWT authorizer · Lambda image 70c87bb @ sha256:ade04f5c441f…)
+door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP API · Cognito JWT authorizer · Lambda image 1c4ae41 @ sha256:71db0f110929…)
 
   PASS  D-1: the deployed door answers its health check (public)
   PASS  GET   /mcp                                              (all 401)
@@ -38,8 +38,8 @@ door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP A
   PASS  token exchange with alice's real Cognito token issues a narrowed delegated token (OBO on a real IdP)  (scope: create_escalation_ticket get_claim get_document get_escalation get_latest_draft get_policy list_documents post_recommendation search_policy_clauses · expires_in 300s)
 
 bad-credential requests sent: 150
-  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 5)
-   e.g. edge: {"requestId":"HEL20ibuoAMEMow=","ip":"<masked>","time":"19/Nov/2026:02:07:00 +0000","route":"$default","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"invalid_token: no "kid" provided in the JWT"}
-  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (31 rows read back through GET /audit as bob (senior-adjuster))
+  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 6)
+   e.g. edge: {"requestId":"HHpFthHAIAMEbXw=","ip":"<masked>","time":"20/Nov/2026:03:17:17 +0000","route":"$default","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"invalid_token: no "kid" provided in the JWT"}
+  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (46 rows read back through GET /audit as bob (senior-adjuster))
 
 RESULT: PASS
