@@ -23,6 +23,11 @@
      "final": {
       "claim_id": "CLM-2024-4115",
       "loss_type": "collision",
+      "vehicle": "2018 Seat Leon",
+      "incident": "Collision on 2024-10-15.",
+      "damage": "Damage consistent with the reported collision.",
+      "repair_estimate_usd": 2200,
+      "policy_details": "POL-AU-61115: liability, collision, comprehensive; deductible 500; 2024-03-18 to 2025-03-18",
       "documents_on_file": [
        "fnol_form",
        "repair_estimate",
@@ -36,7 +41,7 @@
      },
      "usage": {
       "input_tokens": 1300,
-      "output_tokens": 82
+      "output_tokens": 150
      }
     }
    ]
@@ -80,13 +85,14 @@
       "fraud_signals": [],
       "fraud_suspected": false,
       "total_loss": false,
+      "high_value": false,
       "injury_exposure": false,
-      "recommended_route": null,
+      "recommended_route": "none",
       "rationale": "Routing follows the priority fraud, injury, total loss."
      },
      "usage": {
       "input_tokens": 900,
-      "output_tokens": 55
+      "output_tokens": 61
      }
     }
    ]

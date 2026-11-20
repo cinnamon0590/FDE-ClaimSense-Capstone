@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -34,11 +34,16 @@
       "inconsistencies": [
        "Medical note dated 2024-09-03 records neck pain 'following a fall at home', which contradicts the claim of injury from the collision on 2024-09-07."
       ],
-      "summary": "The claim involves a collision where the insured swerved to avoid a deer and hit a tree, resulting in reported whiplash. A medical note predating the incident raises questions about the injury claim."
+      "vehicle": "2016 BMW 320i",
+      "incident": "Insured swerved to avoid a deer and hit a tree on 2024-09-07 at 02:14.",
+      "damage": "Damage consistent with the reported collision, as per the repair estimate of $9,700.",
+      "repair_estimate_usd": 9700,
+      "policy_details": "POL-AU-55019, liability, collision, comprehensive, $500 deductible, 2024-08-29 to 2025-08-29.",
+      "summary": "The claim involves a collision where the insured swerved to avoid a deer and hit a tree. There is an injury reported, and the repair estimate is $9,700."
      },
      "usage": {
-      "input_tokens": 1355,
-      "output_tokens": 148,
+      "input_tokens": 1655,
+      "output_tokens": 245,
       "cached_tokens": 0
      }
     }
@@ -55,7 +60,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1254,
+      "input_tokens": 1361,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -72,31 +77,32 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"procedure for claims with material inconsistencies or suspected fraud\"}"
+       "arguments": "{\"query\":\"handling claims with material inconsistencies or suspected fraud\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1489,
-      "output_tokens": 84,
-      "cached_tokens": 1152
+      "input_tokens": 1596,
+      "output_tokens": 83,
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-1873",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The claim must be referred to the special investigations unit due to material inconsistencies, but this does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The claim involves bodily injury, which must be handled by an injury specialist, but this does not affect the coverage of the collision damage itself. The presence of material inconsistencies requires referral to the special investigations unit before payment, but this is a procedural step and not an exclusion.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
+       "CLS-INJ-005",
        "CLS-FRD-007"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2247,
-      "output_tokens": 125,
-      "cached_tokens": 1408
+      "input_tokens": 2353,
+      "output_tokens": 163,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -108,17 +114,20 @@
      "final": {
       "claim_id": "CLM-2024-1873",
       "fraud_signals": [
+       "Late-night incident (02:14; between 23:00 and 05:00)",
+       "3 prior claims by this claimant in the 24 months before this loss",
        "Medical note dated 2024-09-03 records neck pain 'following a fall at home', which contradicts the claim of injury from the collision on 2024-09-07."
       ],
       "fraud_suspected": true,
       "total_loss": false,
       "injury_exposure": true,
       "recommended_route": "fraud-investigator",
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim, specifically the medical note contradicting the injury claim from the collision."
+      "high_value": false,
+      "rationale": "Fraud is suspected due to material inconsistencies in the medical note and the presence of risk indicators. There is also reported injury exposure."
      },
      "usage": {
-      "input_tokens": 1056,
-      "output_tokens": 117,
+      "input_tokens": 1445,
+      "output_tokens": 158,
       "cached_tokens": 0
      }
     }
@@ -132,20 +141,20 @@
       "claim_id": "CLM-2024-1873",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to accidental loss caused by collision, less the deductible. However, due to material inconsistencies, such as the medical note predating the incident, the claim must be referred to the fraud investigator. This referral is required by the inconsistency clause, which mandates investigation before any payment.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision and occurred within the policy period. However, due to suspected fraud indicated by inconsistencies in the medical note and other risk factors, the claim must be referred to the fraud investigator before any payment is made. This referral is required by the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Material inconsistencies require referral to the special investigations unit before payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1365,
+      "input_tokens": 1572,
       "output_tokens": 156,
       "cached_tokens": 0
      }
@@ -160,26 +169,26 @@
       "claim_id": "CLM-2024-1873",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to accidental loss caused by collision, less the deductible. However, due to material inconsistencies, such as the medical note predating the incident, the claim must be referred to the fraud investigator. This referral is required by the inconsistency clause, which mandates investigation before any payment.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision and occurred within the policy period. However, due to suspected fraud indicated by material inconsistencies in the medical note and other risk factors, the claim must be referred to the fraud investigator before any payment is made. This referral is required by the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Material inconsistencies require referral to the special investigations unit before payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1365,
-      "output_tokens": 156,
+      "input_tokens": 1572,
+      "output_tokens": 157,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

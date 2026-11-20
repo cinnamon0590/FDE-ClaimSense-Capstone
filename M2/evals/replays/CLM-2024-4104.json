@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -33,11 +33,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision on 2024-10-07 where the insured's vehicle was hit by a lorry. All required documents are on file, including the FNOL form, police report, and repair estimate."
+      "vehicle": "2017 Volkswagen Golf",
+      "incident": "Insured was hit by a lorry changing lanes on the motorway on 2024-10-07.",
+      "damage": "Damage consistent with the reported collision, estimated repair cost is $21,000.",
+      "repair_estimate_usd": 21000,
+      "policy_details": "POL-AU-61104, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
+      "summary": "The claim involves a collision where the insured's vehicle was struck by a lorry. All required documents are on file."
      },
      "usage": {
-      "input_tokens": 1388,
-      "output_tokens": 119,
+      "input_tokens": 1688,
+      "output_tokens": 192,
       "cached_tokens": 0
      }
     }
@@ -54,7 +59,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1147,
+      "input_tokens": 1230,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -67,20 +72,20 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"total loss determination based on repair-to-ACV ratio\"}"
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1382,
-      "output_tokens": 65,
-      "cached_tokens": 1024
+      "input_tokens": 1465,
+      "output_tokens": 63,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4104",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is considered a total loss because the repair cost exceeds the actual cash value, as defined in the total loss clause.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The vehicle is considered a total loss because the repair cost exceeds the actual cash value, as defined in the total loss clause.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -89,9 +94,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1892,
-      "output_tokens": 135,
-      "cached_tokens": 1280
+      "input_tokens": 1986,
+      "output_tokens": 127,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -107,11 +112,12 @@
       "total_loss": true,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is a total loss as the repair-to-ACV ratio is 1.1351, and there are no fraud signals or injury exposures."
+      "high_value": false,
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.1351, which is greater than 1.0. There are no fraud signals or injury exposure."
      },
      "usage": {
-      "input_tokens": 971,
-      "output_tokens": 83,
+      "input_tokens": 1254,
+      "output_tokens": 97,
       "cached_tokens": 0
      }
     }
@@ -125,7 +131,7 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss as the repair-to-ACV ratio exceeds 1.0. The policy was active on the loss date, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period covers the date of loss, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -138,8 +144,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1245,
-      "output_tokens": 155,
+      "input_tokens": 1353,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -153,7 +159,7 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss as the repair-to-ACV ratio exceeds 1.0. The policy period covers the date of loss. The recommended route is to a total-loss appraiser due to the total loss determination.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The claim should be routed to a total-loss appraiser as recommended.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -166,13 +172,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1245,
-      "output_tokens": 150,
+      "input_tokens": 1353,
+      "output_tokens": 151,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

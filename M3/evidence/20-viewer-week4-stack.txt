@@ -1,5 +1,5 @@
 # 20-viewer-week4-stack — the Learning UI Viewer's Week 4 Integration checks on the local stack
-# run: 2026-11-19 22:06:57 EST
+# run: 2026-11-19 23:14:30 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/viewer_week4_check.py
 # exit: 0   status: PASS
@@ -15,7 +15,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
      "error": {
        "code": "not_found_or_forbidden",
        "message": "No claim is available for this request.",
-       "request_id": "011e4d62-fc76-4d6c-9a8d-56bfbe9a05ba"
+       "request_id": "0eb78265-ba3c-44b9-8e93-7b58b0b8dc60"
      }
    }
    --- bob ---
@@ -42,6 +42,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
      "repair_estimate": 2950,
      "injury_reported": false,
      "fraud_risk_score": 0.05,
+     "prior_claims_24m": 0,
      "status": "first_pass_pending",
      "assigned_group": "adjuster",
      "document_ids": [
@@ -50,13 +51,13 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
        "DOC-2024-5001-PHOTOS"
      ]
    }
-  PASS  alice (adjuster) asks for a claim not assigned to her -> 403, no claim data  (HTTP 403 not_found_or_forbidden)
-  PASS  bob (senior-adjuster) asks for the same claim -> 200 with the full data  (HTTP 200 · 17 fields)
-  PASS  alice still reads her own claim CLM-2024-1800 -> 200  (HTTP 200)
+  PASS  alice (adjuster) asks for a claim not assigned to alice -> 403, no claim data  (HTTP 403 not_found_or_forbidden)
+  PASS  bob (senior-adjuster) asks for the same claim -> 200 with the full data  (HTTP 200 · 18 fields)
+  PASS  alice still reads a claim assigned to alice, CLM-2024-1800 -> 200  (HTTP 200)
   PASS  a claim that does not exist looks exactly like a forbidden one (403, same message)  (HTTP 403)
 
 2  RBAC over MCP: the two-user test in the viewer's shape (alice first, then bob)
-   ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-19 22:06:54 EST
+   ClaimSense M3 · TWO-USER ACCESS TEST · 2026-11-19 23:14:28 EST
    door: HTTP http://localhost:8002/mcp
    question (identical for both): tools/call get_claim {"claim_id": "CLM-2024-5001"}
    
@@ -89,7 +90,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
        "error": {
          "code": "not_found_or_forbidden",
          "message": "No claim is available for this request.",
-         "request_id": "89718e07-f862-4a90-b89e-156dbeac60f4"
+         "request_id": "6b4105a7-fb32-404a-94eb-1facbed6f518"
        }
      },
      "isError": true,
@@ -142,6 +143,7 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
        "repair_estimate": 2950,
        "injury_reported": false,
        "fraud_risk_score": 0.05,
+       "prior_claims_24m": 0,
        "status": "first_pass_pending",
        "assigned_group": "adjuster",
        "document_ids": [
@@ -156,30 +158,38 @@ claim: CLM-2024-5001 (assigned to bob, the senior adjuster; NOT assigned to alic
    
    === Answers ===
      User A bob: ALLOWED · CLM-2024-5001 · collision · assigned_group=adjuster
-     User B alice: 403 DENIED — alice may not access CLM-2024-5001 · the caller is told only: "No claim is available for this request." (request_id 89718e07-f862-4a90-b89e-156dbeac60f4)
+     User B alice: 403 DENIED — alice may not access CLM-2024-5001 · the caller is told only: "No claim is available for this request." (request_id 6b4105a7-fb32-404a-94eb-1facbed6f518)
    
    === Append-only audit rows (one per call) ===
-     {"ts": "2026-11-20T03:06:55.027236+00:00", "request_id": "e410c68a-a1a6-4e37-894c-eecf75e004dd", "acting_identity": "bob", "scope": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
-     {"ts": "2026-11-20T03:06:55.025311+00:00", "request_id": "89718e07-f862-4a90-b89e-156dbeac60f4", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+     {"ts": "2026-11-20T04:14:28.517438+00:00", "request_id": "4542643a-d4da-4165-9044-5cbbac83af7e", "acting_identity": "bob", "scope": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
+     {"ts": "2026-11-20T04:14:28.515182+00:00", "request_id": "6b4105a7-fb32-404a-94eb-1facbed6f518", "acting_identity": "alice", "scope": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp", "on_behalf_of_agent": "agent:document-intake"}
    
    checks: A allowed=True · B denied with no claim data=True · matching allow + deny audit rows carrying user, action, resource=True
    RESULT: PASS — scope holds (different answers + matching audit)
   PASS  the two-user test over MCP: alice denied, bob allowed, matching audit rows
 
 3  The audit trail: one row per call, carrying user ID, action and resource ID
-   {"ts": "2026-11-20T03:06:54.990428+00:00", "request_id": "011e4d62-fc76-4d6c-9a8d-56bfbe9a05ba", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
-   {"ts": "2026-11-20T03:06:55.004384+00:00", "request_id": "9e87f10a-2f21-43d9-b92e-62cf50ac4157", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
-   {"ts": "2026-11-20T03:06:55.025311+00:00", "request_id": "89718e07-f862-4a90-b89e-156dbeac60f4", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
-   {"ts": "2026-11-20T03:06:55.027236+00:00", "request_id": "e410c68a-a1a6-4e37-894c-eecf75e004dd", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
+   {"ts": "2026-11-20T04:14:26.135185+00:00", "request_id": "fd55074f-2b9f-4930-82b0-5f6fd509c275", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
+   {"ts": "2026-11-20T04:14:26.149056+00:00", "request_id": "42800dde-f570-4335-8e1d-e7e894b4d977", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
+   {"ts": "2026-11-20T04:14:26.169723+00:00", "request_id": "ac4fde68-7933-49b1-95fc-7ebfcfcc8e90", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
+   {"ts": "2026-11-20T04:14:26.171701+00:00", "request_id": "98022969-96af-4313-a482-0a080a9626f4", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
+   {"ts": "2026-11-20T04:14:28.476272+00:00", "request_id": "0eb78265-ba3c-44b9-8e93-7b58b0b8dc60", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "rest"}
+   {"ts": "2026-11-20T04:14:28.490628+00:00", "request_id": "bd6432fb-ab9b-4822-9777-81f57a6f2856", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "rest"}
+   {"ts": "2026-11-20T04:14:28.515182+00:00", "request_id": "6b4105a7-fb32-404a-94eb-1facbed6f518", "user_id": "alice", "groups": ["adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny", "reason": "not_entitled", "via": "mcp"}
+   {"ts": "2026-11-20T04:14:28.517438+00:00", "request_id": "4542643a-d4da-4165-9044-5cbbac83af7e", "user_id": "bob", "groups": ["senior-adjuster"], "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow", "reason": "", "via": "mcp"}
   PASS  the trail holds alice's denials and bob's allows for this claim (REST and MCP: 2 each)  ([('alice', 'deny'), ('bob', 'allow')])
   PASS  every row carries user ID, action and resource ID
 
 4  The same rows in the door container's log (CloudWatch's local twin)
-   AUDIT {"request_id": "011e4d62-fc76-4d6c-9a8d-56bfbe9a05ba", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
-   AUDIT {"request_id": "9e87f10a-2f21-43d9-b92e-62cf50ac4157", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
-   AUDIT {"request_id": "89718e07-f862-4a90-b89e-156dbeac60f4", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
-   AUDIT {"request_id": "e410c68a-a1a6-4e37-894c-eecf75e004dd", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
-  PASS  every one of those calls is in the door container's log (CloudWatch's local twin) with user ID, action and resource ID  (4/4 found)
+   AUDIT {"request_id": "fd55074f-2b9f-4930-82b0-5f6fd509c275", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "42800dde-f570-4335-8e1d-e7e894b4d977", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "ac4fde68-7933-49b1-95fc-7ebfcfcc8e90", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "98022969-96af-4313-a482-0a080a9626f4", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "0eb78265-ba3c-44b9-8e93-7b58b0b8dc60", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "bd6432fb-ab9b-4822-9777-81f57a6f2856", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+   AUDIT {"request_id": "6b4105a7-fb32-404a-94eb-1facbed6f518", "user_id": "alice", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "deny"}
+   AUDIT {"request_id": "4542643a-d4da-4165-9044-5cbbac83af7e", "user_id": "bob", "action": "get_claim", "resource": "CLM-2024-5001", "decision": "allow"}
+  PASS  every one of those calls is in the door container's log (CloudWatch's local twin) with user ID, action and resource ID  (8/8 found)
   PASS  no token, secret or account id in this evidence
 
 RESULT: PASS

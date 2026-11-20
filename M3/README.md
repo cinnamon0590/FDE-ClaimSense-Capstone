@@ -32,7 +32,7 @@ present someone else's badge.
 
 **The grader's one-liner:** `python -m claimsense_door.two_analyst_test ; echo $?` → `0`, with the PASS line and both
 audit rows (run from `M3/door` with `PYTHONPATH=../../M2:.`, or use `make two-user`). The grader's `pytest -q` from the
-repo root runs M0 to M3 in one process: **189 passed** (evidence 12), and CI runs exactly that command.
+repo root runs M0 to M3 in one process: **205 passed** (evidence 12), and CI runs exactly that command.
 
 ## The graded checklist (`milestone-M3-integration.md`): every tier
 

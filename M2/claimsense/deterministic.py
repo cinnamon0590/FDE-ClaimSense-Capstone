@@ -25,6 +25,28 @@ def missing_documents(loss_type, doc_types):
     return missing + [grp[0] for grp in REQUIRED_DOCS.get(loss_type, []) if not any(t in doc_types for t in grp)]
 
 
+LATE_NIGHT = (23, 5)                 # an incident between 23:00 and 04:59
+PRIOR_CLAIMS_INDICATOR = 2           # 2+ claims by the same claimant in the 24 months before this one
+POLICE_EXPECTED = {"theft", "vandalism"}
+
+
+def risk_indicators(claim, doc_types):
+    """The viewer's Claim Assessment fraud indicators, worked out by code (m2-v10): late night, no police report,
+    prior claims. They are SIGNALS shown to the adjuster in the card's fraud_signals, not a fraud finding: on their
+    own they never refer a claim (a late-night collision is usually just a late-night collision). The referral rule
+    is unchanged: a fraud score >= 0.7 or material inconsistencies in the file."""
+    out = []
+    t = claim.get("incident_time")
+    if t and (int(t[:2]) >= LATE_NIGHT[0] or int(t[:2]) < LATE_NIGHT[1]):
+        out.append(f"Late-night incident ({t}; between 23:00 and 05:00)")
+    if claim["loss_type"] in POLICE_EXPECTED and "police_report" not in doc_types:
+        out.append(f"No police report on file for a {claim['loss_type']} claim")
+    n = claim.get("prior_claims_24m") or 0
+    if n >= PRIOR_CLAIMS_INDICATOR:
+        out.append(f"{n} prior claims by this claimant in the 24 months before this loss")
+    return out
+
+
 def route_priority(fraud_suspected, injury, computed):
     """Routing priority is a business rule: fraud > injury > total loss. The model judges the flags;
     code applies the order and the total-loss threshold."""

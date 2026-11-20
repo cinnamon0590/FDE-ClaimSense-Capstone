@@ -8,3 +8,8 @@
 {"ts": "2026-11-16T09:58:24", "suite": "full", "cases": 1, "brain": "live", "provider": "openai", "cost_usd": 0.018}
 {"ts": "2026-11-16T09:58:55", "suite": "full", "cases": 3, "brain": "live", "provider": "openai", "cost_usd": 0.0512}
 {"ts": "2026-11-18T18:23:23", "suite": "m3-live-through-door", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.6761}
+{"ts": "2026-11-19T23:00:25", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.72}
+{"ts": "2026-11-19T23:03:09", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7104}
+{"ts": "2026-11-19T23:07:24", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7233}
+{"ts": "2026-11-19T23:09:22", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.723}
+{"ts": "2026-11-19T23:11:21", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7187}

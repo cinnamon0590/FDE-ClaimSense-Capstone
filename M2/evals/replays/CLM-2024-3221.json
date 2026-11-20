@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,11 +32,16 @@
       "injury_indicated": true,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision where the insured turned left across oncoming traffic and collided with a cyclist, resulting in reported injuries. All required documents are on file, including a police report and a repair estimate."
+      "vehicle": "2020 Subaru Outback",
+      "incident": "Insured turned left across oncoming traffic and collided with a cyclist on 2024-08-27.",
+      "damage": "Damage consistent with the reported collision, estimated at $1,850.",
+      "repair_estimate_usd": 1850,
+      "policy_details": "POL-AU-12006, liability and collision coverages, $500 deductible, 2024-02-10 to 2025-02-10.",
+      "summary": "The claim involves a collision where the insured turned left and hit a cyclist, resulting in injury. The repair estimate is $1,850 and the cyclist was treated for a suspected wrist fracture."
      },
      "usage": {
-      "input_tokens": 1309,
-      "output_tokens": 114,
+      "input_tokens": 1609,
+      "output_tokens": 204,
       "cached_tokens": 0
      }
     }
@@ -49,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1130,
-      "output_tokens": 14,
+      "input_tokens": 1230,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -63,23 +68,32 @@
       {
        "name": "search_clauses",
        "arguments": "{\"query\":\"deductible application to collision claims\"}"
-      },
+      }
+     ],
+     "usage": {
+      "input_tokens": 1488,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "tool_calls": [
       {
        "name": "search_clauses",
        "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1365,
-      "output_tokens": 59,
-      "cached_tokens": 1024
+      "input_tokens": 1742,
+      "output_tokens": 21,
+      "cached_tokens": 1408
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3221",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -88,9 +102,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1862,
-      "output_tokens": 135,
-      "cached_tokens": 1280
+      "input_tokens": 1991,
+      "output_tokens": 124,
+      "cached_tokens": 1664
      }
     }
    ]
@@ -106,11 +120,12 @@
       "total_loss": false,
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
-      "rationale": "Injury exposure is indicated due to reported injuries from the collision, necessitating the involvement of an injury specialist."
+      "high_value": false,
+      "rationale": "The claim involves an injury to a cyclist, which necessitates the involvement of an injury specialist. There are no fraud signals or inconsistencies present, and the claim is not a total loss."
      },
      "usage": {
-      "input_tokens": 966,
-      "output_tokens": 74,
+      "input_tokens": 1263,
+      "output_tokens": 95,
       "cached_tokens": 0
      }
     }
@@ -124,7 +139,7 @@
       "claim_id": "CLM-2024-3221",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the collision coverage clause, and the deductible has been correctly applied. The claim involves injury exposure, which requires routing to an injury specialist as per the policy requirements. The net payable amount is within the authority limit, and all necessary documents are on file.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. However, due to the involvement of an injury to a cyclist, the claim must be routed to an injury specialist as required by the policy.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -132,7 +147,7 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the payment."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -141,8 +156,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1231,
-      "output_tokens": 165,
+      "input_tokens": 1360,
+      "output_tokens": 159,
       "cached_tokens": 0
      }
     }
@@ -156,11 +171,15 @@
       "claim_id": "CLM-2024-3221",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the net payable amount is within the authority limit. However, due to the reported injuries, the claim requires assessment by an injury specialist as indicated by the policy.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. However, due to the involvement of an injury to a cyclist, the claim must be routed to an injury specialist as required by the policy.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -169,13 +188,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1231,
-      "output_tokens": 134,
+      "input_tokens": 1360,
+      "output_tokens": 159,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

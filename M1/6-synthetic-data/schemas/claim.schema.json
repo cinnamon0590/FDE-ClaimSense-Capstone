@@ -19,6 +19,7 @@
     "repair_estimate",
     "injury_reported",
     "fraud_risk_score",
+    "prior_claims_24m",
     "status",
     "assigned_group",
     "document_ids"
@@ -121,6 +122,11 @@
       "minimum": 0,
       "maximum": 1,
       "description": "legacy score; an input, never the decision"
+    },
+    "prior_claims_24m": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "the claimant's claims in the 24 months before this one (Claims Management history); 2 or more is a fraud indicator"
     },
     "status": {
       "enum": [

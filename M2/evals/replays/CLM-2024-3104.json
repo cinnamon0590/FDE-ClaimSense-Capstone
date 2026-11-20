@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves hail damage to a 2017 Honda Civic, with a repair estimate of $4,350. All required documents are on file, including the FNOL form and repair estimate."
+      "vehicle": "2017 Honda Civic",
+      "incident": "Vehicle parked outdoors during a hailstorm on 2024-06-11.",
+      "damage": "Dents across roof and bonnet due to hail damage.",
+      "repair_estimate_usd": 4350,
+      "policy_details": "POL-AU-20977, liability, deductible 0, 2024-01-04 to 2025-01-04.",
+      "summary": "The claim involves hail damage to a parked vehicle. A repair estimate of $4,350 is on file."
      },
      "usage": {
-      "input_tokens": 1224,
-      "output_tokens": 105,
+      "input_tokens": 1524,
+      "output_tokens": 167,
       "cached_tokens": 0
      }
     }
@@ -48,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"hail damage to the insured's own car under liability coverage\"}"
+       "arguments": "{\"query\":\"Is hail damage to the insured's own car covered by a liability-only policy?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1085,
-      "output_tokens": 16,
+      "input_tokens": 1157,
+      "output_tokens": 21,
       "cached_tokens": 0
      }
     },
@@ -61,12 +66,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
+       "arguments": "{\"query\":\"Does a liability-only policy pay for damage to the insured's own car?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1322,
-      "output_tokens": 28,
+      "input_tokens": 1399,
+      "output_tokens": 31,
       "cached_tokens": 1024
      }
     },
@@ -74,15 +79,15 @@
      "final": {
       "claim_id": "CLM-2024-3104",
       "coverage_finding": "not_covered",
-      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including hail damage.",
+      "basis": "The policy is liability-only, which does not cover damage to the insured's own vehicle, including hail damage.",
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1574,
-      "output_tokens": 71,
+      "input_tokens": 1654,
+      "output_tokens": 70,
       "cached_tokens": 1280
      }
     }
@@ -99,11 +104,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "The claim is not covered under the policy as it provides liability coverage only, and there is no payable amount. Additionally, there are no fraud signals or injury exposures."
+      "high_value": false,
+      "rationale": "The claim is not covered under the liability-only policy, and there are no fraud indicators or inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss."
      },
      "usage": {
-      "input_tokens": 866,
-      "output_tokens": 82,
+      "input_tokens": 1145,
+      "output_tokens": 97,
       "cached_tokens": 0
      }
     }
@@ -117,17 +123,17 @@
       "claim_id": "CLM-2024-3104",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including hail damage. The loss occurred within the policy period, but the type of coverage does not extend to this peril.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1139,
-      "output_tokens": 102,
+      "input_tokens": 1244,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
@@ -141,22 +147,22 @@
       "claim_id": "CLM-2024-3104",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including hail damage. The loss occurred within the policy period, but the type of coverage does not extend to this peril.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1139,
-      "output_tokens": 102,
+      "input_tokens": 1244,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

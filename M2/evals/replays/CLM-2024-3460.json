@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,11 +32,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision on 2024-10-09 with damage to the passenger side of a 2017 Nissan Qashqai. All required documents are on file, including a police report and a repair estimate."
+      "vehicle": "2017 Nissan Qashqai",
+      "incident": "Side impact at an intersection on 2024-10-09.",
+      "damage": "B-pillar and both doors on the passenger side damaged.",
+      "repair_estimate_usd": 16900,
+      "policy_details": "POL-AU-33871, liability, collision, comprehensive, $500 deductible, 2024-06-20 to 2025-06-20.",
+      "summary": "The claim involves a collision incident with no reported injuries. All required documents are on file."
      },
      "usage": {
-      "input_tokens": 1318,
-      "output_tokens": 116,
+      "input_tokens": 1618,
+      "output_tokens": 173,
       "cached_tokens": 0
      }
     }
@@ -49,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1141,
-      "output_tokens": 14,
+      "input_tokens": 1208,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -66,20 +71,20 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"total loss determination based on repair-to-ACV ratio\"}"
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1376,
-      "output_tokens": 65,
-      "cached_tokens": 1024
+      "input_tokens": 1466,
+      "output_tokens": 63,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3460",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the damage from the collision. The deductible has been correctly applied to the net payable amount. The vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -88,9 +93,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1886,
-      "output_tokens": 104,
-      "cached_tokens": 1280
+      "input_tokens": 1987,
+      "output_tokens": 119,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +111,12 @@
       "total_loss": true,
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
-      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.006, with no fraud signals or injury exposure."
+      "high_value": false,
+      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.006. There are no fraud signals or injury exposure, leading to the recommendation for a total-loss appraiser."
      },
      "usage": {
-      "input_tokens": 934,
-      "output_tokens": 81,
+      "input_tokens": 1224,
+      "output_tokens": 98,
       "cached_tokens": 0
      }
     }
@@ -124,21 +130,21 @@
       "claim_id": "CLM-2024-3460",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.006. The policy includes collision coverage, and the loss occurred within the policy period. The net payable amount is within the authority limit. Routing to a total-loss appraiser is required due to the total loss status.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The recommended route to a total-loss appraiser is appropriate given the total loss status.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "The policy includes collision coverage, which applies to the damage from the collision."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1206,
-      "output_tokens": 159,
+      "input_tokens": 1324,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -152,26 +158,26 @@
       "claim_id": "CLM-2024-3460",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.006. The policy includes collision coverage, and the loss occurred within the policy period. The net payable amount is within the authority limit, and all required documents are on file. The claim should be routed to a total-loss appraiser for further assessment.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The recommended route is to a total-loss appraiser as per the assessment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "The policy includes collision coverage, which applies to the damage from the collision."
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1206,
-      "output_tokens": 166,
+      "input_tokens": 1324,
+      "output_tokens": 154,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision where the insured clipped a wall while parking at home on July 14, 2024. A repair estimate of $1,900 and a FNOL form have been submitted."
+      "vehicle": "2018 Skoda Octavia",
+      "incident": "Insured clipped a wall while parking at home on 2024-07-14 at 21:40.",
+      "damage": "Damage consistent with the reported collision, as per the repair estimate and photos.",
+      "repair_estimate_usd": 1900,
+      "policy_details": "POL-AU-17732, liability, collision, comprehensive, $500 deductible, 2023-07-14 to 2024-07-14.",
+      "summary": "The claim involves a collision where the insured clipped a wall while parking. The repair estimate is $1,900."
      },
      "usage": {
-      "input_tokens": 1235,
-      "output_tokens": 107,
+      "input_tokens": 1535,
+      "output_tokens": 185,
       "cached_tokens": 0
      }
     }
@@ -48,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1129,
-      "output_tokens": 14,
+      "input_tokens": 1217,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -61,33 +66,24 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application to collision claims\"}"
-      }
-     ],
-     "usage": {
-      "input_tokens": 1364,
-      "output_tokens": 23,
-      "cached_tokens": 1024
-     }
-    },
-    {
-     "tool_calls": [
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
       {
        "name": "search_clauses",
        "arguments": "{\"query\":\"loss date inside policy period\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1618,
-      "output_tokens": 21,
-      "cached_tokens": 1280
+      "input_tokens": 1475,
+      "output_tokens": 59,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3530",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies as specified, and the loss date is confirmed to be within the policy period.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies as per the deductible clause, which states that the deductible is subtracted from the covered loss. The loss date is confirmed to be inside the policy period, as per the policy period clause.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -96,9 +92,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1884,
-      "output_tokens": 109,
-      "cached_tokens": 1536
+      "input_tokens": 1989,
+      "output_tokens": 131,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -114,11 +110,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.1496 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 932,
-      "output_tokens": 65,
+      "input_tokens": 1250,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
@@ -132,7 +129,7 @@
       "claim_id": "CLM-2024-3530",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The loss occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and no total loss or fraud is indicated.",
+      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause. The loss occurred within the policy period, and the deductible has been correctly applied. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -140,17 +137,17 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified."
+        "quote": "The deductible is subtracted from the covered loss."
        },
        {
         "source_id": "CLS-PER-006",
-        "quote": "The loss date is confirmed to be within the policy period."
+        "quote": "The policy period runs from 2023-07-14 to 2024-07-14, covering the loss date."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1188,
-      "output_tokens": 159,
+      "input_tokens": 1357,
+      "output_tokens": 175,
       "cached_tokens": 0
      }
     }
@@ -164,7 +161,7 @@
       "claim_id": "CLM-2024-3530",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The loss occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -172,22 +169,22 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified."
+        "quote": "The deductible is subtracted from the covered loss."
        },
        {
         "source_id": "CLS-PER-006",
-        "quote": "The loss date is confirmed to be within the policy period."
+        "quote": "The policy period runs from 2023-07-14 to 2024-07-14, covering the loss date."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1188,
-      "output_tokens": 166,
+      "input_tokens": 1357,
+      "output_tokens": 183,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

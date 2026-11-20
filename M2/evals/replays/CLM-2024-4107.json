@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,11 +32,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a glass loss due to a stone chip from a gravel lorry that cracked the windscreen. The documents on file include a FNOL form and photos, but a glass invoice is missing."
+      "vehicle": "2020 Skoda Octavia",
+      "incident": "A stone chip from a gravel lorry cracked the windscreen across the driver's line of sight on 2024-10-19.",
+      "damage": "The windscreen was cracked due to a stone chip.",
+      "repair_estimate_usd": 720,
+      "policy_details": "POL-AU-61107, liability, collision, comprehensive, 250 deductible, 2024-03-01 to 2025-03-01.",
+      "summary": "The claim involves a glass loss due to a stone chip incident. A glass invoice is missing from the documentation."
      },
      "usage": {
-      "input_tokens": 1169,
-      "output_tokens": 106,
+      "input_tokens": 1469,
+      "output_tokens": 182,
       "cached_tokens": 0
      }
     }
@@ -49,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+       "arguments": "{\"query\":\"Is glass damage to the insured's own car covered by comprehensive coverage?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1113,
-      "output_tokens": 11,
+      "input_tokens": 1199,
+      "output_tokens": 19,
       "cached_tokens": 0
      }
     },
@@ -62,20 +67,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for glass damage claims\"}"
+       "arguments": "{\"query\":\"How does the deductible apply to glass damage claims?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1357,
-      "output_tokens": 24,
-      "cached_tokens": 1024
+      "input_tokens": 1451,
+      "output_tokens": 26,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4107",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible.",
+      "basis": "The comprehensive coverage includes glass breakage, and the deductible applies as specified in the policy.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -83,9 +88,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1612,
-      "output_tokens": 88,
-      "cached_tokens": 1280
+      "input_tokens": 1708,
+      "output_tokens": 70,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -101,11 +106,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
+      "high_value": false,
+      "rationale": "The claim is covered under the comprehensive policy, with a repair-to-ACV ratio indicating it is not a total loss. There are no fraud indicators or injury exposure, and the only missing document is a glass invoice, which does not affect the recommended route."
      },
      "usage": {
-      "input_tokens": 904,
-      "output_tokens": 65,
+      "input_tokens": 1180,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
@@ -119,7 +125,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice is missing, which needs to be reviewed by a senior adjuster. The policy was in force at the time of the incident.",
+      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage, and the deductible has been applied correctly. However, the required glass invoice is missing, which necessitates further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -127,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "A deductible of $250 applies to glass claims."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1160,
-      "output_tokens": 130,
+      "input_tokens": 1289,
+      "output_tokens": 135,
       "cached_tokens": 0
      }
     }
@@ -147,7 +153,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under comprehensive coverage for glass damage, and the net payable amount is within the authority limit. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster. The policy was in force at the time of the incident.",
+      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage, and the deductible has been applied. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -155,18 +161,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "A deductible of $250 applies to glass claims."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1160,
-      "output_tokens": 131,
-      "cached_tokens": 0
+      "input_tokens": 1289,
+      "output_tokens": 132,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,11 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision where the insured's vehicle slid into a ditch, resulting in front-end and suspension damage. All required documents are on file, including the FNOL form and repair estimate."
+      "vehicle": "2014 Ford Focus",
+      "incident": "Insured's car slid into a ditch on a wet bend on 2024-07-22.",
+      "damage": "Damage to the front end and suspension consistent with the reported collision.",
+      "repair_estimate_usd": 3800,
+      "policy_details": "POL-AU-61103, liability, deductible 0, 2024-03-10 to 2025-03-10.",
+      "summary": "The claim involves a collision incident where the insured's vehicle slid into a ditch. The repair estimate is $3,800."
      },
      "usage": {
-      "input_tokens": 1235,
-      "output_tokens": 105,
+      "input_tokens": 1535,
+      "output_tokens": 177,
       "cached_tokens": 0
      }
     }
@@ -48,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car under liability coverage\"}"
+       "arguments": "{\"query\":\"collision damage coverage under liability-only policy\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1085,
-      "output_tokens": 16,
+      "input_tokens": 1167,
+      "output_tokens": 12,
       "cached_tokens": 0
      }
     },
@@ -61,12 +66,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
+       "arguments": "{\"query\":\"liability-only policy coverage for own vehicle damage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1322,
-      "output_tokens": 28,
+      "input_tokens": 1400,
+      "output_tokens": 25,
       "cached_tokens": 1024
      }
     },
@@ -74,15 +79,15 @@
      "final": {
       "claim_id": "CLM-2024-4103",
       "coverage_finding": "not_covered",
-      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle.",
+      "basis": "The policy is liability-only, which does not cover damage to the insured's own vehicle.",
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1574,
-      "output_tokens": 67,
+      "input_tokens": 1649,
+      "output_tokens": 66,
       "cached_tokens": 1280
      }
     }
@@ -99,11 +104,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "The claim is not covered due to liability coverage only, with no injuries reported and the repair-to-ACV ratio indicating it is not a total loss."
+      "high_value": false,
+      "rationale": "The claim is not covered due to liability-only policy, with a repair-to-ACV ratio below 1.0, and no fraud indicators or injury exposure present."
      },
      "usage": {
-      "input_tokens": 862,
-      "output_tokens": 80,
+      "input_tokens": 1151,
+      "output_tokens": 88,
       "cached_tokens": 0
      }
     }
@@ -117,17 +123,17 @@
       "claim_id": "CLM-2024-4103",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The loss occurred within the policy period, but the coverage does not extend to collision damage. Therefore, no payable amount is due.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured's vehicle.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability coverage only; does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1133,
-      "output_tokens": 110,
+      "input_tokens": 1241,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
@@ -141,22 +147,22 @@
       "claim_id": "CLM-2024-4103",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The loss occurred within the policy period, but the coverage does not extend to collision damage to the insured's vehicle.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured's vehicle.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability coverage only; does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1133,
-      "output_tokens": 107,
+      "input_tokens": 1241,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

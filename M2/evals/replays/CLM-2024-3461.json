@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 652,
+      "input_tokens": 952,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,11 +32,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "summary": "The claim involves a collision where a delivery van reversed into the insured vehicle, causing damage to the rear quarter and boot. All required documents are on file, including a repair estimate and FNOL form."
+      "vehicle": "2017 Nissan Qashqai",
+      "incident": "Rear quarter and boot damaged when a delivery van reversed into the parked insured vehicle on 2024-10-12.",
+      "damage": "The damage described includes the rear quarter and boot of the vehicle.",
+      "repair_estimate_usd": 16700,
+      "policy_details": "POL-AU-33872, liability, collision, comprehensive, $500 deductible, 2024-06-20 to 2025-06-20.",
+      "summary": "The claim involves a collision where a delivery van reversed into the insured vehicle. The repair estimate is $16,700."
      },
      "usage": {
-      "input_tokens": 1329,
-      "output_tokens": 110,
+      "input_tokens": 1629,
+      "output_tokens": 190,
       "cached_tokens": 0
      }
     }
@@ -49,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1136,
-      "output_tokens": 13,
+      "input_tokens": 1226,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -70,16 +75,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1394,
+      "input_tokens": 1461,
       "output_tokens": 63,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3461",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is not a total loss as the repair-to-ACV ratio is below 1.0.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -88,9 +93,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1915,
-      "output_tokens": 132,
-      "cached_tokens": 1280
+      "input_tokens": 1982,
+      "output_tokens": 129,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +111,12 @@
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "none",
-      "rationale": "No fraud signals detected, not a total loss, and no injury exposure reported."
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.994 indicating it is not a total loss. There are no fraud signals or injury exposure, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 957,
-      "output_tokens": 65,
+      "input_tokens": 1252,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }
@@ -124,7 +130,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage caused by the collision. The repair-to-ACV ratio is 0.994, confirming it is not a total loss. The net payable amount of $16,200 is within the authority limit, and all required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -136,13 +142,13 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair-to-ACV ratio is below 1.0."
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1213,
-      "output_tokens": 173,
+      "input_tokens": 1356,
+      "output_tokens": 176,
       "cached_tokens": 0
      }
     }
@@ -156,7 +162,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has already been subtracted from the payable amount, resulting in a net payable of $16,200. The repair-to-ACV ratio confirms the vehicle is not a total loss, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage caused by the collision. The repair-to-ACV ratio is 0.994, confirming it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -168,18 +174,18 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair-to-ACV ratio is below 1.0."
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1213,
-      "output_tokens": 189,
-      "cached_tokens": 0
+      "input_tokens": 1356,
+      "output_tokens": 171,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v9"
+ "prompt_version": "m2-v10"
 }

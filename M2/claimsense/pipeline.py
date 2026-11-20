@@ -25,8 +25,8 @@ from .agents_def import ALL_SPECS as SPECS, build_agents, model_name
 from .injection_classifier import InjectionClassifier
 from .brains import usage_dict
 from .boundary_client import AGENT_IDS, make_boundary
-from .deterministic import (compute, coverage_questions, fallback_card, missing_documents, route_priority,
-                            verified_facts)
+from .deterministic import (FRAUD_SCORE_ROUTE, compute, coverage_questions, fallback_card, missing_documents,
+                            risk_indicators, route_priority, verified_facts)
 from .models import AssessmentResult, CoverageResult, DecisionCard, DecisionDraft, IntakeResult
 from .observability import Checkpoints, configure_tracing, cost_usd
 from .retrieval import get_index
@@ -145,6 +145,12 @@ class Pipeline:
                 if sorted(missing) != sorted(intake.missing_documents):
                     ctx.emit("code_override", "intake.missing_documents", model=intake.missing_documents, code=missing)
                     intake = intake.model_copy(update={"missing_documents": missing})
+                # the estimate is money: the claim record is the source of truth, never the model's reading of it
+                if intake.repair_estimate_usd != ctx.claim["repair_estimate"]:
+                    ctx.emit("code_override", "intake.repair_estimate_usd", model=intake.repair_estimate_usd,
+                             code=ctx.claim["repair_estimate"])
+                    intake = intake.model_copy(update={"repair_estimate_usd": ctx.claim["repair_estimate"]})
+                indicators = risk_indicators(ctx.claim, [d["doc_type"] for d in ctx.documents])
                 facts = verified_facts(ctx.claim, ctx.policy, computed, missing, intake.inconsistencies)
                 ctx.emit("computed", "deterministic spine", **computed)
                 cov = await self._step("coverage", {"claim_id": claim_id, "verified_facts": facts,
@@ -155,21 +161,35 @@ class Pipeline:
                                        ctx, usage, run_id, resume)
                 asm = await self._step("assessment", {"claim_id": claim_id, "verified_facts": facts,
                                                       "intake": intake.model_dump(), "coverage": cov.model_dump(),
-                                                      "computed": computed, "fraud_risk_score": ctx.claim["fraud_risk_score"]},
+                                                      "computed": computed, "fraud_risk_score": ctx.claim["fraud_risk_score"],
+                                                      "risk_indicators": indicators},
                                        ctx, usage, run_id, resume)
-                fraud = (asm.fraud_suspected or ctx.claim["fraud_risk_score"] >= 0.7 or bool(intake.inconsistencies))
+                # the referral rule is code's, exactly: a score >= 0.7 or material inconsistencies. Risk indicators
+                # (late night, no police report, prior claims) are shown to the adjuster but never refer on their own.
+                fraud = ctx.claim["fraud_risk_score"] >= FRAUD_SCORE_ROUTE or bool(intake.inconsistencies)
                 route = route_priority(fraud, asm.injury_exposure, computed)
                 if fraud != asm.fraud_suspected:
                     ctx.emit("code_override", "assessment.fraud_suspected", model=asm.fraud_suspected, code=fraud)
                     asm = asm.model_copy(update={"fraud_suspected": fraud,
                                                  "fraud_signals": asm.fraud_signals or list(intake.inconsistencies)})
+                missing_signals = [i for i in indicators if i not in asm.fraud_signals]
+                if missing_signals:            # every code indicator reaches the adjuster, whatever the model listed
+                    ctx.emit("code_override", "assessment.fraud_signals", model=asm.fraud_signals, code=indicators)
+                    asm = asm.model_copy(update={"fraud_signals": indicators + [f for f in asm.fraud_signals
+                                                                                 if f not in indicators]})
+                if asm.high_value != computed["over_authority_limit"]:
+                    ctx.emit("code_override", "assessment.high_value", model=asm.high_value,
+                             code=computed["over_authority_limit"])
+                    asm = asm.model_copy(update={"high_value": computed["over_authority_limit"]})
                 model_route = None if asm.recommended_route == "none" else asm.recommended_route
                 if route != model_route or asm.total_loss != (computed["repair_to_acv_ratio"] >= 1):
                     ctx.emit("code_override", "assessment.recommended_route", model=model_route, code=route)
                     asm = asm.model_copy(update={"recommended_route": route or "none",
                                                  "total_loss": computed["repair_to_acv_ratio"] >= 1})
                 try:
-                    decision_in = {"claim_id": claim_id, "verified_facts": facts, "intake": intake.model_dump(),
+                    # money reaches the Decision agent only as computed.net_payable (its safety tripwire's rule)
+                    decision_in = {"claim_id": claim_id, "verified_facts": facts,
+                                   "intake": intake.model_dump(exclude={"repair_estimate_usd"}),
                                    "coverage": cov.model_dump(), "assessment": asm.model_dump(), "computed": computed}
                     draft = await self._step("decision", decision_in, ctx, usage, run_id, resume)
                     tripped = None
