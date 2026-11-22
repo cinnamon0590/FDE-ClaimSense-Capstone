@@ -21,10 +21,10 @@ the eval suite on every push from M0, and from M2 it gates the build.
 
 | Folder | Course week | Brief milestone | Theme | Status |
 |---|---|---|---|---|
-| [`M0/`](M0/README.md) | W13 | Milestone 1 | Discovery & scoping: charter, RACI, success criteria, DECISIONS, 20 eval cases | Draft |
-| [`M1/`](M1/README.md) | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | Draft |
-| [`M2/`](M2/README.md) | W15 | Milestone 3 | Four agents on the OpenAI Agents SDK, cited retrieval, containers (one command), CI eval gate that blocks the image push | Draft |
-| [`M3/`](M3/README.md) | W16 | Milestone 4 | The governed MCP door: deny-by-default grants + entitlement before any agent, auth on every route, two-user test, append-only audit; 4th backend + webhooks; RFC 8693 OBO | Draft |
+| [`M0/`](M0/README.md) | W13 | Milestone 1 | Discovery & scoping: charter, RACI, success criteria, DECISIONS, 20 eval cases | Done |
+| [`M1/`](M1/README.md) | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | Done |
+| [`M2/`](M2/README.md) | W15 | Milestone 3 | Four agents on the OpenAI Agents SDK, cited retrieval, containers (one command), CI eval gate that blocks the image push | Done |
+| [`M3/`](M3/README.md) | W16 | Milestone 4 | The governed MCP door: deny-by-default grants + entitlement before any agent, auth on every route, two-user test, append-only audit; 4th backend + webhooks; RFC 8693 OBO | Done |
 | `M4/` | W17 | Milestone 5 | 150-case eval suite, dashboard and alarm, incident drill, runbook, handover | — |
 
 **The agents, in one place:** [`M2/AGENTS.md`](M2/AGENTS.md) describes every ClaimSense agent in

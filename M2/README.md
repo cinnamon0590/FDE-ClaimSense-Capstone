@@ -119,7 +119,9 @@ The injected text is never echoed back (D-020); the spans stay in the audit trai
 and the output side has its own tripwires: Coverage or Decision citing a clause nobody retrieved, a draft
 mentioning another claim, and Ask ClaimSense answers (G5/G7), each withheld and sent to a human.
 
-## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v9)
+## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v10)
+
+Re-run 2026-11-19 for m2-v10 (D-045: fraud indicators, high-value flag, Intake details); m2-v9 figures in brackets where they differ.
 
 | | Result (each of 3 runs) | Target |
 |---|---|---|
@@ -129,9 +131,9 @@ mentioning another claim, and Ask ClaimSense answers (G5/G7), each withheld and 
 | Verdicts model-produced | 40/40 (fallback share 0%) | 100% (gate) |
 | Fraud routing | recall 4/4 · false routes 0/34 | ≥ 90% · ≤ 10% |
 | Confirmable as written (correct + every required citation) | **27/27 (100%)** every run (was 24–25/27 before D-032) | M0 SC-3 proxy |
-| Latency per claim | p95 17–19 s · median 15–16 s | < 90 s |
-| Cost per claim | $0.019 (≈ $185/month at 450 claims/day) | |
-| Injection detection, never-seen attacks (held-out v3) | G1 alone 1/15 → **G1 + G1b 13/15**, 0/15 false positives | M3: 100+ red-team set |
+| Latency per claim | p95 14–17 s · median 12 s (m2-v9: p95 17–19 s) | < 90 s |
+| Cost per claim | $0.018 (≈ $175/month at 450 claims/day; m2-v9 $0.019) | |
+| Injection detection, never-seen attacks (held-out v3) | G1 alone 1/15 → **G1 + G1b 13/15**, 0/15 false positives (measured at m2-v9; G1/G1b unchanged since) | M4: 100+ red-team set |
 
 **How we got there.** The first live run was **blocked** (35/40, one adversarial miss). Every miss was traced to
 a root cause, and almost every fix moved a *rule* out of the model and into code (D-001): the required-document
