@@ -94,8 +94,15 @@ worded ([evidence 20](evidence/20-viewer-week4-stack.txt) locally, [21](evidence
                                                └──┬──────────┬──────────┬───────────────┬───────────────────┘
                                                   ▼          ▼          ▼               ▼
                                           Claims Mgmt  Policy Admin  Document Store  Policy & Coverage KB  SIU Ticketing
-                                          (mock systems of record, internal network)   (OpenSearch)        (4th, flaky)
+                                          (+ assignments,(mock systems of record,      (OpenSearch)        (4th, flaky)
+                                           history)      internal network)
+ On AWS: API Gateway (Cognito JWT authorizer) → Lambda (the same door image); policies, documents and the KB
+ corpus read from S3 (read-only); every audit row to DynamoDB AND as an AUDIT line in CloudWatch Logs.
 ```
+
+The full picture, with every data flow and what runs where: the **as-built architecture**
+([`../M1/2-architecture/architecture.md` §10](../M1/2-architecture/architecture.md#10-as-built-through-m3),
+[diagram](../M1/2-architecture/architecture-as-built.png)).
 
 The **tool names** map from the lab's bank to the insurer:
 - `lookup_dispute` → `get_claim`;

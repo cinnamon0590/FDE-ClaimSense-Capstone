@@ -27,10 +27,11 @@ Python mirror in [`contracts.py`](contracts.py), and an executable spec, the in-
 | Rule | Contract |
 |---|---|
 | **Authentication** | `Authorization: Bearer <Cognito JWT>`. No token or an invalid one → `unauthenticated`. The boundary derives `user_id` and `groups` from the token, never from the request body. |
-| **Entitlement (in code, before any agent)** | `adjuster` → claims in the adjuster queue · `senior-adjuster` → all first-pass claims · `fraud-investigator` / `total-loss-appraiser` → claims routed to them · `customer-service` → no claim files. |
+| **Entitlement (in code, before any agent)** | `adjuster` → claims in the adjuster queue **that are assigned to them** (`claim_assignments.json`, from Claims Management; added in M3, D-042; no owner = denied) · `senior-adjuster` → all first-pass claims · `fraud-investigator` / `total-loss-appraiser` → claims routed to them · `customer-service` → no claim files. |
 | **Anti-enumeration** | A missing record and an unentitled record return the **same** error: `not_found_or_forbidden`, with the same message. The real reason is recorded only in the audit log. |
 | **Audit** | Every call appends an `AuditRecord` `{ts, request_id, user_id, groups, on_behalf_of_agent, action, resource, decision, reason}`. `decision` ∈ `allow / deny / replay / error`; denials are always logged. The log is append-only: no role can edit or delete it. |
 | **Error envelope** | `{"error": {"code", "message", "request_id", "retry_after_s"?}}`. A raw stack trace or a bare 500 never reaches the caller. |
+| **HTTP status (REST, added in M3, D-042)** | `not_found_or_forbidden` and `human_confirmation_required` → **403** (missing and forbidden both 403, same message) · `invalid_request` → 400 · `idempotency_conflict`, `already_confirmed` → 409 · `upstream_unavailable` → 503 · `unauthenticated` → 401. Over MCP a refused tool call stays a JSON-RPC result with `isError`. |
 | **Untrusted content** | Claim narratives and document text are marked `trust: "untrusted"`. Document reads include an `injection_scan`. Retrieval drops any chunk whose hash isn't in the clause manifest (`quarantined` count). |
 | **Data minimisation** | Responses carry only the fields in the schema (`additionalProperties: false`). `claimant_name` is PII-class: masked in logs and traces. |
 
@@ -39,7 +40,7 @@ Python mirror in [`contracts.py`](contracts.py), and an executable spec, the in-
 | Operation (MCP tool / REST) | Request | Response | Errors | Notes |
 |---|---|---|---|---|
 | `get_claim` · `GET /claims/{claim_id}` | `GetClaimRequest {claim_id}` | `Claim` record | `not_found_or_forbidden`, `unauthenticated` | Read. Naturally idempotent. |
-| `get_claim_history` · `GET /claimants/{id}/claims?limit=` | `{claimant_id, limit ≤ 20}` | `ClaimHistoryResponse` | as above | Prior losses for the fraud and frequency read. |
+| `get_claim_history` · `GET /claimants/{id}/claims?limit=` | `{claimant_id, limit ≤ 20}` | `ClaimHistoryResponse` | as above | Prior losses for the fraud and frequency read. **Not built yet (deferred to M4, D-045):** the claim record carries `prior_claims_24m`, which feeds the prior-claims fraud indicator. |
 | `post_recommendation` · `POST /claims/{claim_id}/recommendations` | `{claim_id, idempotency_key, decision_card}` | `RecommendationReceipt` with `status: "draft_pending_confirmation"` | `not_found_or_forbidden`, `idempotency_conflict`, `invalid_request` | **Write. Idempotent (rules below).** Always a draft; a new key creates version n+1. |
 | `confirm_recommendation` · `POST /recommendations/{id}/confirmation` | `{recommendation_id, action: confirm/override, final_outcome?, override_reason?, idempotency_key}` | `ConfirmationReceipt` | `human_confirmation_required`, `invalid_request`, `not_found_or_forbidden`, `idempotency_conflict`, `already_confirmed` (added in M2) | **Write, human-only.** An agent service identity is refused, also when it acts on behalf of a human (M2 D-024). An override needs a reason. Approving above $25,000 net needs `senior-adjuster`. A recommendation is decided once: a second confirm/override under a new key is `already_confirmed` (HTTP 409; M2 D-027). A confirmed `route`/`flag_review` hands the claim to the target group (M2 D-030). |
 
