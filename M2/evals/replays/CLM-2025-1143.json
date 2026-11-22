@@ -1,0 +1,182 @@
+{
+ "claim_id": "CLM-2025-1143",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1143",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Vauxhall Corsa",
+      "incident": "Collision with a car pulling out of a junction on 2025-03-07.",
+      "damage": "Damage consistent with the reported collision as shown in the photos.",
+      "repair_estimate_usd": 9800,
+      "policy_details": "POL-AU-70143, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
+      "summary": "The claim involves a collision incident reported on March 8, 2025. The repair estimate is $9,800."
+     },
+     "usage": {
+      "input_tokens": 1533,
+      "output_tokens": 180,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1216,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1474,
+      "output_tokens": 63,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1143",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies as specified, and the vehicle is considered a total loss since the repair cost exceeds the actual cash value.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1995,
+      "output_tokens": 114,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1143",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "high_value": false,
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.3243, which is greater than 1.0. There are no fraud signals or injury exposure indicated."
+     },
+     "usage": {
+      "input_tokens": 1227,
+      "output_tokens": 98,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1143",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is covered under the collision coverage clause, and the incident occurred within the policy period. The vehicle is a total loss, as the repair-to-ACV ratio exceeds 1.0. The recommended route is to a total-loss appraiser due to the total loss status.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A vehicle is considered a total loss when the repair-to-ACV ratio is 1.0 or greater."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1327,
+      "output_tokens": 155,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1143",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is a total loss since the repair-to-ACV ratio exceeds 1.0. The policy was active at the time of the incident. The claim should be routed to a total-loss appraiser as recommended.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A vehicle is considered a total loss if the repair-to-ACV ratio is 1.0 or greater."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1327,
+      "output_tokens": 154,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

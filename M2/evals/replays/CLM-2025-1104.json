@@ -1,0 +1,184 @@
+{
+ "claim_id": "CLM-2025-1104",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1104",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "driver_statement"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": true,
+      "inconsistencies": [],
+      "vehicle": "2021 Ford Transit Connect",
+      "incident": "Minor collision on a residential street on 2025-06-07.",
+      "damage": "Damage consistent with the reported collision, estimated at $2,150.",
+      "repair_estimate_usd": 2150,
+      "policy_details": "POL-AU-70104, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision incident reported on June 8, 2025. The insured vehicle is a 2021 Ford Transit Connect."
+     },
+     "usage": {
+      "input_tokens": 1594,
+      "output_tokens": 183,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1206,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1464,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"commercial use exclusion\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1718,
+      "output_tokens": 19,
+      "cached_tokens": 1408
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1104",
+      "coverage_finding": "not_covered",
+      "basis": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes, and commercial use was indicated in the claim.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-USE-009"
+      ],
+      "exclusion_or_condition": "Commercial use exclusion"
+     },
+     "usage": {
+      "input_tokens": 1972,
+      "output_tokens": 89,
+      "cached_tokens": 1664
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1104",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered due to the commercial use exclusion. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
+     },
+     "usage": {
+      "input_tokens": 1208,
+      "output_tokens": 91,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1104",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes. The incident involved commercial use, which is not covered under the policy terms. The loss occurred within the policy period, but the exclusion applies.",
+      "citations": [
+       {
+        "source_id": "CLS-USE-009",
+        "quote": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1301,
+      "output_tokens": 111,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1104",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy excludes coverage for any loss while the vehicle is used for commercial purposes. The incident involved commercial use, which is not covered under the policy terms.",
+      "citations": [
+       {
+        "source_id": "CLS-USE-009",
+        "quote": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1301,
+      "output_tokens": 98,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

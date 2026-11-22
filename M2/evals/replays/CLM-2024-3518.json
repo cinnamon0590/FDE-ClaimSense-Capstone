@@ -19,6 +19,23 @@
      }
     },
     {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      },
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1656,
+      "output_tokens": 42,
+      "cached_tokens": 0
+     }
+    },
+    {
      "final": {
       "claim_id": "CLM-2024-3518",
       "loss_type": "collision",
@@ -37,12 +54,12 @@
       "damage": "Damage consistent with the reported collision, estimated at $5,200.",
       "repair_estimate_usd": 5200,
       "policy_details": "POL-AU-28819, liability, collision, comprehensive, $500 deductible, 2024-05-25 to 2025-05-25.",
-      "summary": "The claim involves a collision incident reported on 2024-10-19. The insured was dropping off a rider from an app when the collision occurred."
+      "summary": "The claim involves a collision incident reported on 2024-10-19. The insured was dropping off a rider from an app at the time of the incident."
      },
      "usage": {
-      "input_tokens": 1656,
-      "output_tokens": 184,
-      "cached_tokens": 0
+      "input_tokens": 1768,
+      "output_tokens": 186,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -54,12 +71,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1207,
-      "output_tokens": 14,
+      "input_tokens": 1209,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -71,12 +88,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"commercial use exclusion\"}"
+       "arguments": "{\"query\":\"exclusion for commercial use\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1442,
-      "output_tokens": 57,
+      "input_tokens": 1467,
+      "output_tokens": 59,
       "cached_tokens": 1152
      }
     },
@@ -84,7 +101,7 @@
      "final": {
       "claim_id": "CLM-2024-3518",
       "coverage_finding": "not_covered",
-      "basis": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes, such as ridesharing, unless the declarations show a commercial use class. The insured was using the vehicle for a rideshare service at the time of the collision.",
+      "basis": "The policy excludes coverage for any loss while the covered auto is being used for commercial purposes, such as ridesharing, unless the declarations show a commercial use class. The insured was using the vehicle for a rideshare service at the time of the incident, and the policy is classified for private use.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -93,9 +110,9 @@
       "exclusion_or_condition": "Commercial use exclusion"
      },
      "usage": {
-      "input_tokens": 1944,
-      "output_tokens": 113,
-      "cached_tokens": 1280
+      "input_tokens": 1959,
+      "output_tokens": 122,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -112,11 +129,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to commercial use exclusion, with no fraud indicators or inconsistencies present."
+      "rationale": "The claim is not covered due to commercial use exclusion, with no fraud indicators or inconsistencies present. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported."
      },
      "usage": {
-      "input_tokens": 1233,
-      "output_tokens": 74,
+      "input_tokens": 1244,
+      "output_tokens": 96,
       "cached_tokens": 0
      }
     }
@@ -130,7 +147,7 @@
       "claim_id": "CLM-2024-3518",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as ridesharing. The insured was using the vehicle for a rideshare service at the time of the collision, which is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as ridesharing. The insured was using the vehicle for a rideshare service at the time of the incident, and the policy is classified for private use only.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
@@ -139,7 +156,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1309,
+      "input_tokens": 1342,
       "output_tokens": 132,
       "cached_tokens": 0
      }
@@ -154,7 +171,7 @@
       "claim_id": "CLM-2024-3518",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as ridesharing. The insured was using the vehicle for a rideshare service at the time of the collision, which is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as ridesharing. The insured was using the vehicle for a rideshare service at the time of the incident, and the policy is classified for private use only.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
@@ -163,7 +180,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1309,
+      "input_tokens": 1342,
       "output_tokens": 132,
       "cached_tokens": 0
      }

@@ -1,0 +1,190 @@
+{
+ "claim_id": "CLM-2025-1083",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1083",
+      "loss_type": "theft",
+      "documents_on_file": [
+       "fnol_form",
+       "photos"
+      ],
+      "missing_documents": [
+       "police_report"
+      ],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Ford Puma",
+      "incident": "My car was stolen from outside my house overnight on 2025-04-14.",
+      "damage": "The documents describe the theft of the vehicle without any reported damage.",
+      "repair_estimate_usd": 15200,
+      "policy_details": "POL-AU-70083, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a theft of a vehicle reported on April 15, 2025. A police report is required but not on file."
+     },
+     "usage": {
+      "input_tokens": 1466,
+      "output_tokens": 182,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"theft damage to the insured's own car covered by comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1278,
+      "output_tokens": 18,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to theft claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"reporting requirements for settling a theft claim\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1529,
+      "output_tokens": 86,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1083",
+      "coverage_finding": "ambiguous",
+      "basis": "The theft of the insured's vehicle is covered under comprehensive coverage, but the claim cannot be settled until a police report reference is provided, which is currently missing.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-THF-008",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": "The claim is pending due to the missing police report reference, which is a condition for settlement."
+     },
+     "usage": {
+      "input_tokens": 2299,
+      "output_tokens": 116,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1083",
+      "fraud_signals": [
+       "No police report on file for a theft claim"
+      ],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "high_value": false,
+      "rationale": "The claim is a total loss with a repair-to-ACV ratio of 1.0. There are no fraud indicators that suggest fraud is suspected, and there are no injuries reported."
+     },
+     "usage": {
+      "input_tokens": 1291,
+      "output_tokens": 105,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1083",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim involves a total loss due to theft, with a repair-to-ACV ratio of 1.0. Although the coverage is ambiguous due to the missing police report, the recommended route is to a total-loss appraiser. This is required by the policy for total loss assessments.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage applies to theft losses."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "Total loss claims must be assessed by a total-loss appraiser."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1388,
+      "output_tokens": 138,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1083",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim involves a total loss due to theft, with a repair-to-ACV ratio of 1.0. Although the coverage is ambiguous due to the missing police report, the recommended route is to a total-loss appraiser. This is in line with the policy requirements for handling total loss claims.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage applies to theft losses."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "Total loss claims must be routed to a total-loss appraiser."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1388,
+      "output_tokens": 141,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

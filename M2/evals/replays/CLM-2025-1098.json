@@ -1,0 +1,190 @@
+{
+ "claim_id": "CLM-2025-1098",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1098",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2023 Audi Q5",
+      "incident": "Collision with a lorry on the motorway on 2025-06-14.",
+      "damage": "Extensive bodywork damage consistent with the reported collision.",
+      "repair_estimate_usd": 25501,
+      "policy_details": "POL-AU-70098, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision incident reported on June 15, 2025. The vehicle is a 2023 Audi Q5 with extensive bodywork damage."
+     },
+     "usage": {
+      "input_tokens": 1530,
+      "output_tokens": 183,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1224,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"settlement authority limit sign-off\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1482,
+      "output_tokens": 60,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1098",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the settlement amount requires senior adjuster sign-off due to exceeding the authority limit.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-AUTH-010"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1980,
+      "output_tokens": 114,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1098",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": true,
+      "rationale": "The claim is covered, not a total loss, and there are no fraud indicators or injury exposures. The net payable amount exceeds the authority limit, requiring senior adjuster sign-off, but does not necessitate a specialist."
+     },
+     "usage": {
+      "input_tokens": 1238,
+      "output_tokens": 98,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1098",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount is $25,001, which exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Settlement amount requires senior adjuster sign-off due to exceeding the authority limit."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1338,
+      "output_tokens": 174,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1098",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount is $25,001, which exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Settlement amount requires senior adjuster sign-off due to exceeding the authority limit."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1338,
+      "output_tokens": 174,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

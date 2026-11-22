@@ -79,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2024-3307",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies separately to each covered loss, and the net payable amount has already accounted for the deductible.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -88,7 +88,7 @@
      },
      "usage": {
       "input_tokens": 1698,
-      "output_tokens": 88,
+      "output_tokens": 89,
       "cached_tokens": 1408
      }
     }
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under comprehensive coverage with no fraud indicators or material inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss, and there are no injuries reported."
+      "rationale": "The claim is covered under comprehensive coverage with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported."
      },
      "usage": {
-      "input_tokens": 1194,
-      "output_tokens": 99,
+      "input_tokens": 1195,
+      "output_tokens": 92,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2024-3307",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount of $390 has been calculated correctly, considering the $250 deductible.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1296,
-      "output_tokens": 124,
+      "input_tokens": 1290,
+      "output_tokens": 127,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2024-3307",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount of $390 has been calculated correctly, considering the $250 deductible.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount of $390 has been calculated after applying the deductible, and it is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -160,14 +160,14 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1296,
-      "output_tokens": 124,
-      "cached_tokens": 1152
+      "input_tokens": 1290,
+      "output_tokens": 130,
+      "cached_tokens": 0
      }
     }
    ]

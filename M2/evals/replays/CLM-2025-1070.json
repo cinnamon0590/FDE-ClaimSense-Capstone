@@ -1,0 +1,169 @@
+{
+ "claim_id": "CLM-2025-1070",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Renault Clio",
+      "incident": "Windscreen cracked by a stone on 2025-06-25.",
+      "damage": "The windscreen is cracked as described in the documents.",
+      "repair_estimate_usd": 520,
+      "policy_details": "POL-AU-70070, liability, collision, comprehensive, $500 deductible, 2024-04-20 to 2025-04-20.",
+      "summary": "The claim involves a glass loss due to a cracked windscreen. All required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1508,
+      "output_tokens": 168,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1167,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date outside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1411,
+      "output_tokens": 21,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1600,
+      "output_tokens": 86,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
+     },
+     "usage": {
+      "input_tokens": 1165,
+      "output_tokens": 78,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "No duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1246,
+      "output_tokens": 87,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues with the claim.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "No duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1246,
+      "output_tokens": 104,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

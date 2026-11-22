@@ -34,14 +34,14 @@
       "inconsistencies": [],
       "vehicle": "2022 Kia Niro",
       "incident": "Car was keyed along both doors while parked on the street overnight on 2024-09-14.",
-      "damage": "The damage described is consistent with the car being keyed along both doors.",
+      "damage": "The damage described is keying along both doors of the vehicle.",
       "repair_estimate_usd": 1450,
       "policy_details": "POL-AU-61101, liability, collision, comprehensive, $500 deductible, 2024-02-01 to 2025-02-01.",
       "summary": "This claim involves vandalism to a 2022 Kia Niro. The incident occurred on September 14, 2024, with a repair estimate of $1,450."
      },
      "usage": {
       "input_tokens": 1618,
-      "output_tokens": 200,
+      "output_tokens": 199,
       "cached_tokens": 0
      }
     }
@@ -54,11 +54,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered by comprehensive coverage?\"}"
+       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered under comprehensive coverage?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1222,
+      "input_tokens": 1221,
       "output_tokens": 20,
       "cached_tokens": 0
      }
@@ -67,11 +67,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"How does the deductible apply to a comprehensive claim?\"}"
+       "arguments": "{\"query\":\"How does the deductible apply to comprehensive coverage claims?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1475,
+      "input_tokens": 1474,
       "output_tokens": 26,
       "cached_tokens": 1152
      }
@@ -88,7 +88,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1732,
+      "input_tokens": 1731,
       "output_tokens": 75,
       "cached_tokens": 1408
      }
@@ -110,7 +110,7 @@
       "rationale": "The claim is covered under the policy, with no fraud indicators or material inconsistencies present. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1207,
+      "input_tokens": 1206,
       "output_tokens": 94,
       "cached_tokens": 0
      }
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $500 deductible applies to the claim."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1303,
-      "output_tokens": 134,
+      "input_tokens": 1302,
+      "output_tokens": 137,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2024-4101",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the comprehensive coverage for vandalism, and all required documents are on file. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -166,9 +166,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1303,
-      "output_tokens": 130,
-      "cached_tokens": 0
+      "input_tokens": 1302,
+      "output_tokens": 137,
+      "cached_tokens": 1152
      }
     }
    ]

@@ -36,7 +36,7 @@
       "incident": "A stone chip from a gravel lorry cracked the windscreen across the driver's line of sight on 2024-10-19.",
       "damage": "The windscreen was cracked due to a stone chip.",
       "repair_estimate_usd": 720,
-      "policy_details": "POL-AU-61107, liability, collision, comprehensive, 250 deductible, 2024-03-01 to 2025-03-01.",
+      "policy_details": "POL-AU-61107, liability, collision, comprehensive, $250 deductible, 2024-03-01 to 2025-03-01.",
       "summary": "The claim involves a glass loss due to a stone chip incident. A glass invoice is missing from the documentation."
      },
      "usage": {
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"Is glass damage to the insured's own car covered by comprehensive coverage?\"}"
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
       }
      ],
      "usage": {
       "input_tokens": 1199,
-      "output_tokens": 19,
+      "output_tokens": 11,
       "cached_tokens": 0
      }
     },
@@ -67,12 +67,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"How does the deductible apply to glass damage claims?\"}"
+       "arguments": "{\"query\":\"deductible application on glass damage claims\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1451,
-      "output_tokens": 26,
+      "input_tokens": 1443,
+      "output_tokens": 24,
       "cached_tokens": 1152
      }
     },
@@ -80,7 +80,7 @@
      "final": {
       "claim_id": "CLM-2024-4107",
       "coverage_finding": "covered",
-      "basis": "The comprehensive coverage includes glass breakage, and the deductible applies as specified in the policy.",
+      "basis": "The policy's comprehensive coverage includes glass breakage, and the deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1708,
-      "output_tokens": 70,
+      "input_tokens": 1698,
+      "output_tokens": 75,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the comprehensive policy, with a repair-to-ACV ratio indicating it is not a total loss. There are no fraud indicators or injury exposure, and the only missing document is a glass invoice, which does not affect the recommended route."
+      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio below 1.0 indicating it is not a total loss. There are no fraud signals or injury exposure, and the recommended route is 'none'."
      },
      "usage": {
-      "input_tokens": 1180,
-      "output_tokens": 106,
+      "input_tokens": 1185,
+      "output_tokens": 101,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage, and the deductible has been applied correctly. However, the required glass invoice is missing, which necessitates further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A deductible of $250 applies to glass claims."
+        "quote": "The deductible has been correctly applied."
        }
       ]
      },
      "usage": {
       "input_tokens": 1289,
-      "output_tokens": 135,
+      "output_tokens": 123,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage, and the deductible has been applied. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -161,14 +161,14 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A deductible of $250 applies to glass claims."
+        "quote": "The deductible has been correctly applied."
        }
       ]
      },
      "usage": {
       "input_tokens": 1289,
-      "output_tokens": 132,
-      "cached_tokens": 1152
+      "output_tokens": 123,
+      "cached_tokens": 0
      }
     }
    ]

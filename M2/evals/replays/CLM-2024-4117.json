@@ -33,14 +33,14 @@
       "inconsistencies": [],
       "vehicle": "2022 MG ZS",
       "incident": "Front wing dented by a reversing delivery van on 2024-09-25 in a residential street.",
-      "damage": "The front wing is dented as described in the documents.",
+      "damage": "The front wing is dented as described in the narrative and documents.",
       "repair_estimate_usd": 1900,
       "policy_details": "POL-AU-61117, liability, collision, comprehensive, $500 deductible, 2024-06-10 to 2025-06-10.",
       "summary": "The claim involves a collision with a delivery van that admitted fault. The repair estimate is $1,900."
      },
      "usage": {
       "input_tokens": 1535,
-      "output_tokens": 180,
+      "output_tokens": 182,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1202,
+      "input_tokens": 1204,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -70,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1460,
+      "input_tokens": 1462,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -87,7 +87,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1714,
+      "input_tokens": 1716,
       "output_tokens": 111,
       "cached_tokens": 1408
      }
@@ -109,7 +109,7 @@
       "rationale": "The claim is covered, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1224,
+      "input_tokens": 1226,
       "output_tokens": 90,
       "cached_tokens": 0
      }
@@ -137,7 +137,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1316,
+      "input_tokens": 1318,
       "output_tokens": 142,
       "cached_tokens": 0
      }
@@ -165,9 +165,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1316,
+      "input_tokens": 1318,
       "output_tokens": 142,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     }
    ]

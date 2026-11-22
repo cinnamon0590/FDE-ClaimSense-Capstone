@@ -78,7 +78,7 @@
      "usage": {
       "input_tokens": 1465,
       "output_tokens": 63,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     },
     {
@@ -96,7 +96,7 @@
      "usage": {
       "input_tokens": 1986,
       "output_tokens": 127,
-      "cached_tokens": 1408
+      "cached_tokens": 1152
      }
     }
    ]
@@ -131,7 +131,7 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period covers the date of loss, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period is valid, and all required documents are present. The claim should be routed to a total-loss appraiser as recommended.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -145,7 +145,7 @@
      },
      "usage": {
       "input_tokens": 1353,
-      "output_tokens": 156,
+      "output_tokens": 152,
       "cached_tokens": 0
      }
     }
@@ -159,7 +159,7 @@
       "claim_id": "CLM-2024-4104",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The claim should be routed to a total-loss appraiser as recommended.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period is valid, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -173,7 +173,7 @@
      },
      "usage": {
       "input_tokens": 1353,
-      "output_tokens": 151,
+      "output_tokens": 153,
       "cached_tokens": 0
      }
     }

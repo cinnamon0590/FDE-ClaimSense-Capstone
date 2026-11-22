@@ -1,0 +1,169 @@
+{
+ "claim_id": "CLM-2025-1092",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1092",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Fiat 500",
+      "incident": "Windscreen cracked on 2025-07-03.",
+      "damage": "The windscreen is reported cracked as per the documents.",
+      "repair_estimate_usd": 390,
+      "policy_details": "POL-AU-70092, liability, collision, comprehensive, $100 deductible, 2024-07-01 to 2025-07-01.",
+      "summary": "This claim involves a glass loss for a 2019 Fiat 500. The windscreen was cracked on July 3, 2025."
+     },
+     "usage": {
+      "input_tokens": 1525,
+      "output_tokens": 174,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1173,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1417,
+      "output_tokens": 21,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1092",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, which is a condition for coverage.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1683,
+      "output_tokens": 73,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1092",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered due to the loss occurring outside the policy period, and there are no fraud indicators or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 1158,
+      "output_tokens": 79,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1092",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the incident occurred outside the policy period, which ended on July 1, 2025. As the loss date is July 3, 2025, it falls outside the coverage term, making the claim ineligible for coverage.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Loss date outside policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1240,
+      "output_tokens": 102,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1092",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy was active from July 1, 2024, to July 1, 2025, and the loss occurred on July 3, 2025, which is not covered. All required documents are on file, but no payable amount is due as the loss is out of term.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Loss date outside policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1240,
+      "output_tokens": 124,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

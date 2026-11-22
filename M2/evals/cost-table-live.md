@@ -1,13 +1,14 @@
-# Cost table (live brain, 40 cases)
+# Cost table (live brain, 150 cases)
 
 | Agent | Model | Runs | Input tokens | of which cached | Output tokens | USD | USD per claim |
 |---|---|--:|--:|--:|--:|--:|--:|
-| Document Intake | gpt-4o-mini-2024-07-18 | 38 | 95,904 | 1,408 (1%) | 7,232 | 0.0186 | 0.00049 |
-| Coverage Check | gpt-4o-2024-08-06 | 36 | 167,159 | 86,656 (52%) | 5,844 | 0.3680 | 0.00968 |
-| Claim Assessment | gpt-4o-mini-2024-07-18 | 36 | 44,469 | 0 (0%) | 3,566 | 0.0088 | 0.00023 |
-| Decision Draft | gpt-4o-2024-08-06 | 36 | 48,030 | 3,584 (7%) | 5,078 | 0.1664 | 0.00438 |
-| Decision Draft · second opinion | gpt-4o-2024-08-06 | 36 | 48,030 | 10,624 (22%) | 5,012 | 0.1569 | 0.00413 |
-| **Total** | | | 403,592 | 102,272 (25%) | | **0.7187** | **0.01891** |
+| Document Intake | gpt-4o-mini-2024-07-18 | 145 | 368,327 | 4,352 (1%) | 26,811 | 0.0710 | 0.00049 |
+| Coverage Check | gpt-4o-2024-08-06 | 132 | 597,975 | 274,560 (46%) | 20,255 | 1.3543 | 0.00934 |
+| Claim Assessment | gpt-4o-mini-2024-07-18 | 132 | 161,015 | 0 (0%) | 12,784 | 0.0318 | 0.00022 |
+| Decision Draft | gpt-4o-2024-08-06 | 132 | 173,957 | 0 (0%) | 18,509 | 0.6200 | 0.00428 |
+| Decision Draft · second opinion | gpt-4o-2024-08-06 | 132 | 173,957 | 19,328 (11%) | 18,477 | 0.5955 | 0.00411 |
+| G1b injection classifier | gpt-4o-mini-2024-07-18 | 371 | 129,063 | 0 (0%) | 12,176 | 0.0267 | 0.00018 |
+| **Total** | | | 1,604,294 | 298,240 (19%) | | **2.6993** | **0.01862** |
 
 **Prompt caching** (W15 cost lever 2): every agent's static part (instructions, tool schemas) comes first and
 the per-claim payload last, so repeated prefixes are served from the provider's cache. Cached input is billed

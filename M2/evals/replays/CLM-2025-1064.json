@@ -1,0 +1,186 @@
+{
+ "claim_id": "CLM-2025-1064",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1064",
+      "loss_type": "theft",
+      "documents_on_file": [
+       "fnol_form",
+       "police_report",
+       "repair_invoice"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2016 Toyota Prius",
+      "incident": "Catalytic converter was cut from under the car overnight on 2025-07-03.",
+      "damage": "The catalytic converter was stolen from the vehicle.",
+      "repair_estimate_usd": 1650,
+      "policy_details": "POL-AU-70064, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "This claim involves the theft of a catalytic converter from a 2016 Toyota Prius. The incident was reported to the police on the same day it occurred."
+     },
+     "usage": {
+      "input_tokens": 1516,
+      "output_tokens": 183,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"Is theft damage to the insured's own car covered by comprehensive coverage?\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1217,
+      "output_tokens": 19,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"How does the deductible apply to comprehensive coverage?\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"What reporting is required before a theft claim is settled?\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1469,
+      "output_tokens": 67,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1064",
+      "coverage_finding": "covered",
+      "basis": "The theft of the catalytic converter is covered under the comprehensive coverage, which includes theft as a covered peril. The deductible applies to the covered loss, and the police report requirement for theft claims has been satisfied.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002",
+       "CLS-THF-008"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1984,
+      "output_tokens": 100,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1064",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under comprehensive coverage for theft, with no fraud indicators or material inconsistencies present. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss, and there are no reported injuries."
+     },
+     "usage": {
+      "input_tokens": 1217,
+      "output_tokens": 103,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1064",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the comprehensive coverage, which includes theft as a covered peril. The incident occurred within the policy period, and all required documents are on file. The deductible has been applied, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes theft as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to the covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1322,
+      "output_tokens": 126,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1064",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the comprehensive coverage, which includes theft as a covered peril. The incident occurred within the policy period, and all required documents are on file. The deductible has been applied, and the net payable is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes theft as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to the covered loss."
+       },
+       {
+        "source_id": "CLS-THF-008",
+        "quote": "Theft claims require a police report, which has been satisfied."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1322,
+      "output_tokens": 151,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

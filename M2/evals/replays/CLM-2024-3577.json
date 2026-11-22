@@ -40,11 +40,11 @@
       "damage": "Damage consistent with the reported collision, estimated at $7,300.",
       "repair_estimate_usd": 7300,
       "policy_details": "POL-AU-44190, liability, collision, comprehensive, $500 deductible, 2024-01-12 to 2025-01-12.",
-      "summary": "The claim involves a collision with a hit-and-run driver. The insured reported the incident on 2024-10-06."
+      "summary": "The claim involves a collision where the insured's vehicle was sideswiped by a hit-and-run driver. The repair estimate is $7,300."
      },
      "usage": {
       "input_tokens": 1625,
-      "output_tokens": 229,
+      "output_tokens": 233,
       "cached_tokens": 0
      }
     }
@@ -57,12 +57,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1335,
-      "output_tokens": 13,
+      "input_tokens": 1339,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -78,7 +78,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1593,
+      "input_tokens": 1574,
       "output_tokens": 63,
       "cached_tokens": 1280
      }
@@ -87,7 +87,7 @@
      "final": {
       "claim_id": "CLM-2024-3577",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not constitute an exclusion or denial of coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -96,9 +96,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2104,
-      "output_tokens": 132,
-      "cached_tokens": 1536
+      "input_tokens": 2085,
+      "output_tokens": 127,
+      "cached_tokens": 0
      }
     }
    ]
@@ -110,20 +110,20 @@
      "final": {
       "claim_id": "CLM-2024-3577",
       "fraud_signals": [
-       "2 prior claims by this claimant in the 24 months before this loss",
        "Repair invoice dated 2024-09-28 predates the incident on 2024-10-05.",
-       "Photos dated 2024-09-26 do not match the incident date."
+       "Photos dated 2024-09-26 do not match the incident date.",
+       "2 prior claims by this claimant in the 24 months before this loss"
       ],
       "fraud_suspected": true,
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, despite a low fraud risk score. The repair-to-ACV ratio indicates this is not a total loss, and there are no reported injuries."
+      "rationale": "Fraud is suspected due to material inconsistencies in the claim file and prior claims history."
      },
      "usage": {
-      "input_tokens": 1378,
-      "output_tokens": 154,
+      "input_tokens": 1377,
+      "output_tokens": 129,
       "cached_tokens": 0
      }
     }
@@ -137,7 +137,7 @@
       "claim_id": "CLM-2024-3577",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, due to material inconsistencies in the claim file, such as the repair invoice and photos predating the incident, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. However, due to material inconsistencies in the claim file, such as the repair invoice and photos predating the incident, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -145,13 +145,13 @@
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Inconsistencies require referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1522,
-      "output_tokens": 161,
+      "input_tokens": 1495,
+      "output_tokens": 166,
       "cached_tokens": 0
      }
     }
@@ -165,7 +165,7 @@
       "claim_id": "CLM-2024-3577",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, due to material inconsistencies in the claim file, such as the repair invoice and photos predating the incident, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. However, due to material inconsistencies in the claim file, such as the repair invoice and photos predating the incident, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -178,9 +178,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1522,
-      "output_tokens": 162,
-      "cached_tokens": 1408
+      "input_tokens": 1495,
+      "output_tokens": 166,
+      "cached_tokens": 0
      }
     }
    ]

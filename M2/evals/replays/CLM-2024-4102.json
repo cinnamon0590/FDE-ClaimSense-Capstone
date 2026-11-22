@@ -33,14 +33,14 @@
       "inconsistencies": [],
       "vehicle": "2019 Mazda CX-5",
       "incident": "Insured reversed into a concrete pillar in a multi-storey car park on 2024-08-03.",
-      "damage": "Damage consistent with the reported collision, as described in the repair estimate and photos.",
+      "damage": "Damage consistent with the reported collision, estimated at $5,400.",
       "repair_estimate_usd": 5400,
       "policy_details": "POL-AU-61102, liability, collision, comprehensive, $1000 deductible, 2024-01-20 to 2025-01-20.",
-      "summary": "The claim involves a collision where the insured reversed into a concrete pillar. All required documents are on file, including the FNOL form and repair estimate."
+      "summary": "The claim involves a collision where the insured reversed into a concrete pillar. The repair estimate is $5,400."
      },
      "usage": {
       "input_tokens": 1548,
-      "output_tokens": 194,
+      "output_tokens": 185,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1218,
+      "input_tokens": 1209,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -70,16 +70,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1476,
+      "input_tokens": 1467,
       "output_tokens": 23,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4102",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has been correctly applied to the payment.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -87,9 +87,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1730,
-      "output_tokens": 95,
-      "cached_tokens": 1408
+      "input_tokens": 1721,
+      "output_tokens": 111,
+      "cached_tokens": 0
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.3068, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommendation of 'none' for specialist involvement."
+      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.3068 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 1223,
-      "output_tokens": 107,
+      "input_tokens": 1230,
+      "output_tokens": 100,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The deductible has been correctly applied, resulting in a net payable amount of $4,400, which is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
       "input_tokens": 1332,
-      "output_tokens": 138,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -160,13 +160,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
       "input_tokens": 1332,
-      "output_tokens": 146,
+      "output_tokens": 142,
       "cached_tokens": 0
      }
     }

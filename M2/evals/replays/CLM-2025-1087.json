@@ -1,0 +1,190 @@
+{
+ "claim_id": "CLM-2025-1087",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1087",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Toyota Aygo",
+      "incident": "Windscreen cracked by a stone on 2025-05-15.",
+      "damage": "The windscreen is cracked as described in the documents.",
+      "repair_estimate_usd": 420,
+      "policy_details": "POL-AU-70087, liability, collision, comprehensive, $100 deductible, 2025-05-15 to 2026-05-15.",
+      "summary": "This claim involves a glass loss due to a cracked windscreen. The repair estimate is $420."
+     },
+     "usage": {
+      "input_tokens": 1519,
+      "output_tokens": 168,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1197,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application for glass damage claim\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"policy period coverage verification\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1441,
+      "output_tokens": 59,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1087",
+      "coverage_finding": "covered",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified, and the loss date is within the policy period.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1868,
+      "output_tokens": 90,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1087",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the comprehensive policy, with a repair estimate well below the authority limit and no indications of fraud or injury exposure."
+     },
+     "usage": {
+      "input_tokens": 1189,
+      "output_tokens": 81,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1087",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a cracked windscreen, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the authority limit. All required documents are on file, and there are no indications of fraud or other issues.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $100 deductible applies to glass claims."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy period covers losses from 2025-05-15 to 2026-05-15."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1273,
+      "output_tokens": 164,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1087",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a cracked windscreen, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the authority limit. All required documents are on file, and there are no indications of fraud or other issues.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $100 deductible applies to glass claims."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy period covers losses from 2025-05-15 to 2026-05-15."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1273,
+      "output_tokens": 164,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

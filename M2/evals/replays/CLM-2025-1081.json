@@ -1,0 +1,184 @@
+{
+ "claim_id": "CLM-2025-1081",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1081",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2017 Audi A4",
+      "incident": "A low-speed collision occurred on 2025-05-27 when the car in front braked suddenly.",
+      "damage": "The damage described is consistent with a low-speed bump from the reported collision.",
+      "repair_estimate_usd": 4800,
+      "policy_details": "POL-AU-70081, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision with no reported injuries. All required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1538,
+      "output_tokens": 177,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1280,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"material inconsistencies or possible fraud in claim file\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1515,
+      "output_tokens": 63,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1081",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although fraud is suspected, the inconsistency clause requires referral to the fraud investigator before payment, but it is not an exclusion.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-FRD-007"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2026,
+      "output_tokens": 127,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1081",
+      "fraud_signals": [
+       "fraud score >= 0.7"
+      ],
+      "fraud_suspected": true,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "fraud-investigator",
+      "high_value": false,
+      "rationale": "Fraud is suspected due to a fraud risk score of 0.76, which necessitates referral to a fraud investigator. The repair-to-ACV ratio indicates this is not a total loss, and there are no reported injuries."
+     },
+     "usage": {
+      "input_tokens": 1303,
+      "output_tokens": 113,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1081",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before any payment is made. This referral is required by the inconsistency clause, which mandates investigation when fraud is suspected.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Inconsistency clause requires referral to the fraud investigator before payment when fraud is suspected."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1418,
+      "output_tokens": 154,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1081",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before any payment is made. This referral is required by the inconsistency clause, which mandates investigation when fraud is suspected.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Inconsistency clause requires referral to the fraud investigator before payment when fraud is suspected."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1418,
+      "output_tokens": 154,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

@@ -1,0 +1,179 @@
+{
+ "claim_id": "CLM-2025-1112",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1112",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 Renault Captur",
+      "incident": "Low-speed bump with a car pulling out of a parking space on 2025-05-09.",
+      "damage": "Damage consistent with the reported collision, estimated at $1,650.",
+      "repair_estimate_usd": 1650,
+      "policy_details": "POL-AU-70112, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision with a low-speed bump. All required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1531,
+      "output_tokens": 176,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1198,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1433,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1112",
+      "coverage_finding": "covered",
+      "basis": "The policy includes collision coverage, which applies to the damage from the collision incident. The deductible has been correctly applied to the payment calculation.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1687,
+      "output_tokens": 79,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1112",
+      "fraud_signals": [
+       "2 prior claims by this claimant in the 24 months before this loss"
+      ],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "No fraud suspected due to low fraud risk score and no material inconsistencies. Not a total loss and no injuries reported."
+     },
+     "usage": {
+      "input_tokens": 1203,
+      "output_tokens": 93,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1112",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage of the policy, which is in force for the date of the incident. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to the damage from the collision incident."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment calculation."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1283,
+      "output_tokens": 134,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1112",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is approved because the collision coverage applies to the incident, which occurred within the policy period. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no unresolved issues.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to damage from collision incidents."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to collision claims."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1283,
+      "output_tokens": 126,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

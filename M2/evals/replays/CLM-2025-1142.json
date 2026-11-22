@@ -1,0 +1,169 @@
+{
+ "claim_id": "CLM-2025-1142",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "repair_invoice"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Vauxhall Corsa",
+      "incident": "Collision with a car pulling out of a junction on 2025-08-06.",
+      "damage": "Damage consistent with the reported collision.",
+      "repair_estimate_usd": 1450,
+      "policy_details": "POL-AU-70142, liability, 500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision incident reported on 2025-08-07. All required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1597,
+      "output_tokens": 172,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage under liability-only policy\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1163,
+      "output_tokens": 12,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"liability-only policy coverage for own vehicle damage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1396,
+      "output_tokens": 25,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "coverage_finding": "not_covered",
+      "basis": "The policy is liability-only, which does not cover damage to the insured's own vehicle.",
+      "cited_clause_ids": [
+       "CLS-LIA-012"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1645,
+      "output_tokens": 66,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered due to liability-only policy, with a repair-to-ACV ratio of 0.1051 indicating it is not a total loss. There are no fraud signals or injury exposure."
+     },
+     "usage": {
+      "input_tokens": 1147,
+      "output_tokens": 96,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1245,
+      "output_tokens": 104,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1245,
+      "output_tokens": 104,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

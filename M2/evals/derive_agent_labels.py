@@ -42,6 +42,12 @@ def coverage_label(case):
     if case["case_id"] in FLAG_REVIEW_COVERAGE:
         finding, why = FLAG_REVIEW_COVERAGE[case["case_id"]]
         return {"coverage_finding": finding, "basis": why, "signoff_required": True}
+    if o == "flag_review" and exp.get("must_cite"):          # M4 additions (D-046): the same rule, written once
+        unresolved = {"CLS-THF-008", "CLS-REN-011"} & set(exp["must_cite"])
+        return ({"coverage_finding": "ambiguous", "basis": "a condition of cover is unresolved ("
+                 + ", ".join(sorted(unresolved)) + ")", "signoff_required": True} if unresolved else
+                {"coverage_finding": "covered", "basis": "the loss is covered; it is flagged only for the authority "
+                 "limit or a missing document", "signoff_required": True})
     if o == "approve":
         return {"coverage_finding": "covered", "basis": "expected approve: the loss is covered", "signoff_required": False}
     if o == "deny":

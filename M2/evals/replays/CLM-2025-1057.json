@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1057",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1057",
+      "loss_type": "hail",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2018 Honda CR-V",
+      "incident": "Overnight hailstorm dented the roof and boot lid on my driveway on 2025-06-18.",
+      "damage": "The roof and boot lid were dented due to hail damage.",
+      "repair_estimate_usd": 2600,
+      "policy_details": "POL-AU-70057, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves hail damage to a 2018 Honda CR-V. A repair estimate of $2,600 has been provided."
+     },
+     "usage": {
+      "input_tokens": 1533,
+      "output_tokens": 185,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"hail damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1207,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on comprehensive claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1451,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1057",
+      "coverage_finding": "covered",
+      "basis": "The hail damage to the insured's vehicle is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies as specified, and the net payable amount has already accounted for this deduction.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1705,
+      "output_tokens": 94,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1057",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the comprehensive policy for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries, and no fraud indicators or material inconsistencies were found."
+     },
+     "usage": {
+      "input_tokens": 1212,
+      "output_tokens": 105,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1057",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for hail damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to comprehensive claims."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1319,
+      "output_tokens": 136,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1057",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is approved because the hail damage is covered under the comprehensive coverage, which includes hail damage as a covered peril. The policy was active at the time of the incident, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to comprehensive claims."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1319,
+      "output_tokens": 145,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

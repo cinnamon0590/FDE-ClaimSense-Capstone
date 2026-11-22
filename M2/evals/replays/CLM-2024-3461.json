@@ -84,7 +84,7 @@
      "final": {
       "claim_id": "CLM-2024-3461",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount already accounts for this deduction. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -112,11 +112,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.994 indicating it is not a total loss. There are no fraud signals or injury exposure, and all required documents are on file."
+      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.994 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
       "input_tokens": 1252,
-      "output_tokens": 102,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage caused by the collision. The repair-to-ACV ratio is 0.994, confirming it is not a total loss. The net payable amount of $16,200 is within the authority limit, and all required documents are on file.",
+      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and all required documents are on file.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -147,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1356,
-      "output_tokens": 176,
+      "input_tokens": 1358,
+      "output_tokens": 172,
       "cached_tokens": 0
      }
     }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage caused by the collision. The repair-to-ACV ratio is 0.994, confirming it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -179,9 +179,9 @@
       ]
      },
      "usage": {
-      "input_tokens": 1356,
-      "output_tokens": 171,
-      "cached_tokens": 1152
+      "input_tokens": 1358,
+      "output_tokens": 175,
+      "cached_tokens": 0
      }
     }
    ]

@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"Is hail damage to the insured's own car covered by a liability-only policy?\"}"
+       "arguments": "{\"query\":\"hail damage to the insured's own car under liability coverage\"}"
       }
      ],
      "usage": {
       "input_tokens": 1157,
-      "output_tokens": 21,
+      "output_tokens": 16,
       "cached_tokens": 0
      }
     },
@@ -66,13 +66,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"Does a liability-only policy pay for damage to the insured's own car?\"}"
+       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1399,
-      "output_tokens": 31,
-      "cached_tokens": 1024
+      "input_tokens": 1394,
+      "output_tokens": 28,
+      "cached_tokens": 0
      }
     },
     {
@@ -86,9 +86,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1654,
+      "input_tokens": 1646,
       "output_tokens": 70,
-      "cached_tokens": 1280
+      "cached_tokens": 0
      }
     }
    ]
@@ -105,7 +105,7 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered under the liability-only policy, and there are no fraud indicators or inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss."
+      "rationale": "The claim is not covered under the liability-only policy, and there are no fraud indicators or inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported."
      },
      "usage": {
       "input_tokens": 1145,
@@ -147,7 +147,7 @@
       "claim_id": "CLM-2024-3104",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including hail damage. The loss occurred within the policy period, but the type of coverage does not extend to this peril.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover hail damage to the insured's own vehicle. The loss occurred within the policy period, but the type of coverage does not include this peril.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
@@ -157,7 +157,7 @@
      },
      "usage": {
       "input_tokens": 1244,
-      "output_tokens": 106,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }

@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to the loss occurring outside the policy period, with a repair-to-ACV ratio indicating it is not a total loss. There are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
      },
      "usage": {
       "input_tokens": 1192,
-      "output_tokens": 94,
+      "output_tokens": 78,
       "cached_tokens": 0
      }
     }
@@ -133,7 +133,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1288,
+      "input_tokens": 1272,
       "output_tokens": 104,
       "cached_tokens": 0
      }
@@ -152,13 +152,13 @@
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "No duty to pay for any loss outside the policy period."
+        "quote": "There is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1288,
-      "output_tokens": 104,
+      "input_tokens": 1272,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }

@@ -1,0 +1,191 @@
+{
+ "claim_id": "CLM-2025-1077",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1077",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "medical_note"
+      ],
+      "missing_documents": [],
+      "injury_indicated": true,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Honda Jazz",
+      "incident": "Rear-ended at lights on 2025-05-02.",
+      "damage": "Damage consistent with the reported collision, estimated repair cost is $2,300.",
+      "repair_estimate_usd": 2300,
+      "policy_details": "POL-AU-70077, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a collision where the insured vehicle was rear-ended. The passenger reported neck pain and sought medical attention."
+     },
+     "usage": {
+      "input_tokens": 1592,
+      "output_tokens": 177,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1211,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1469,
+      "output_tokens": 59,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1077",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-INJ-005"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1966,
+      "output_tokens": 124,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1077",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": true,
+      "recommended_route": "injury-specialist",
+      "high_value": false,
+      "rationale": "The claim is covered under collision coverage with an injury indicated. There are no fraud signals or inconsistencies, and it is not a total loss."
+     },
+     "usage": {
+      "input_tokens": 1236,
+      "output_tokens": 86,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1077",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. Since there is an injury indicated, the claim should be routed to an injury specialist for further handling. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1324,
+      "output_tokens": 169,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1077",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. Since there is an injury indicated, the claim should be routed to an injury specialist as required by the policy.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1324,
+      "output_tokens": 153,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

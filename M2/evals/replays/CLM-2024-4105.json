@@ -37,11 +37,11 @@
       "damage": "Damage consistent with the reported collision, estimated at $2,900.",
       "repair_estimate_usd": 2900,
       "policy_details": "POL-AU-61105, liability, collision, comprehensive, $500 deductible, 2024-06-01 to 2025-06-01.",
-      "summary": "The claim involves a collision where the insured was rear-ended and sustained a neck injury. All required documents are on file."
+      "summary": "The insured was involved in a collision where they were rear-ended and sustained a neck injury. All required documents are on file."
      },
      "usage": {
       "input_tokens": 1601,
-      "output_tokens": 186,
+      "output_tokens": 187,
       "cached_tokens": 0
      }
     }
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1220,
-      "output_tokens": 13,
+      "input_tokens": 1221,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -67,7 +67,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -75,7 +75,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1478,
+      "input_tokens": 1456,
       "output_tokens": 59,
       "cached_tokens": 1152
      }
@@ -93,7 +93,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1975,
+      "input_tokens": 1953,
       "output_tokens": 126,
       "cached_tokens": 1408
      }
@@ -112,11 +112,11 @@
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
       "high_value": false,
-      "rationale": "The claim involves an injury exposure due to a collision, but there are no fraud signals or total loss indicators."
+      "rationale": "The claim is covered, with no fraud indicators or inconsistencies present. There is an injury exposure due to the reported neck injury, necessitating an injury specialist."
      },
      "usage": {
-      "input_tokens": 1247,
-      "output_tokens": 79,
+      "input_tokens": 1248,
+      "output_tokens": 89,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-4105",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. The claim involves injury exposure, which requires routing to an injury specialist as per the policy requirements.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The net payable amount is within the policy's deductible and authority limits. However, due to the reported neck injury, the claim requires assessment by an injury specialist.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -147,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1328,
-      "output_tokens": 152,
+      "input_tokens": 1339,
+      "output_tokens": 163,
       "cached_tokens": 0
      }
     }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-4105",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. The claim involves an injury exposure, which requires routing to an injury specialist as per the policy requirements. All necessary documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The net payable amount is within the policy's deductible and authority limits. However, due to the reported neck injury, the claim requires assessment by an injury specialist.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -179,8 +179,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1328,
-      "output_tokens": 171,
+      "input_tokens": 1339,
+      "output_tokens": 163,
       "cached_tokens": 0
      }
     }

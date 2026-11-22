@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with all required documents on file. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no fraud indicators or injury exposures present."
+      "rationale": "The claim is covered under the policy, with all required documents on file. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
       "input_tokens": 1207,
-      "output_tokens": 98,
+      "output_tokens": 110,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2024-4110",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, as the insured's vehicle was struck by another driver. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to the insured's vehicle being struck by another driver. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -138,8 +138,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1307,
-      "output_tokens": 145,
+      "input_tokens": 1319,
+      "output_tokens": 149,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2024-4110",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, as the insured's vehicle was struck by another driver. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to the insured's vehicle being struck by another driver. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -166,8 +166,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1307,
-      "output_tokens": 145,
+      "input_tokens": 1319,
+      "output_tokens": 149,
       "cached_tokens": 0
      }
     }

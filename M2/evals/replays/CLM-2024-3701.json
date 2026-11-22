@@ -33,7 +33,7 @@
       "inconsistencies": [],
       "vehicle": "2016 Vauxhall Astra",
       "incident": "Collision with a parked car while pulling out of a driveway on 2024-08-19.",
-      "damage": "Damage consistent with the reported collision, estimated at $2,600.",
+      "damage": "Damage consistent with the reported collision, as described in the repair estimate.",
       "repair_estimate_usd": 2600,
       "policy_details": "POL-AU-14457, liability, collision, comprehensive, $500 deductible, 2023-08-01 to 2024-08-01.",
       "summary": "The claim involves a collision with a parked car. The repair estimate is $2,600."
@@ -72,14 +72,14 @@
      "usage": {
       "input_tokens": 1411,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3701",
       "coverage_finding": "not_covered",
-      "basis": "The loss date is outside the policy period, as confirmed by the verified facts and supported by the policy clause on policy period.",
+      "basis": "The loss date is outside the policy period, as confirmed by the verified facts and clause CLS-PER-006, which states that the policy applies only to losses occurring during the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
@@ -88,8 +88,8 @@
      },
      "usage": {
       "input_tokens": 1677,
-      "output_tokens": 83,
-      "cached_tokens": 1280
+      "output_tokens": 96,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -109,7 +109,7 @@
       "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no fraud indicators or injury exposures."
      },
      "usage": {
-      "input_tokens": 1171,
+      "input_tokens": 1184,
       "output_tokens": 80,
       "cached_tokens": 0
      }
@@ -124,17 +124,17 @@
       "claim_id": "CLM-2024-3701",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The incident occurred on 2024-08-19, while the policy coverage ended on 2024-08-01. Therefore, the claim is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring between 2023-08-01 and 2024-08-01, and the incident occurred on 2024-08-19. Therefore, the coverage does not apply.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "The loss date is outside the policy period."
+        "quote": "The policy applies only to losses occurring during the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1253,
-      "output_tokens": 106,
+      "input_tokens": 1266,
+      "output_tokens": 114,
       "cached_tokens": 0
      }
     }
@@ -148,18 +148,18 @@
       "claim_id": "CLM-2024-3701",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The incident occurred on 2024-08-19, while the policy coverage ended on 2024-08-01. Therefore, the claim is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring between 2023-08-01 and 2024-08-01, and the incident occurred on 2024-08-19. Therefore, the claim is not covered.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss date outside policy period."
+        "quote": "The policy applies only to losses occurring during the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1253,
-      "output_tokens": 103,
-      "cached_tokens": 1024
+      "input_tokens": 1266,
+      "output_tokens": 114,
+      "cached_tokens": 0
      }
     }
    ]

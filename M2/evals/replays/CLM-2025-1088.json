@@ -1,0 +1,199 @@
+{
+ "claim_id": "CLM-2025-1088",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1088",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Honda Civic",
+      "incident": "Scraped a wall in a narrow lane on 2025-04-30.",
+      "damage": "Damage consistent with scraping a wall, as described in the repair estimate.",
+      "repair_estimate_usd": 1950,
+      "policy_details": "POL-AU-70088, liability, collision, comprehensive, $500 deductible, 2024-04-30 to 2025-04-30.",
+      "summary": "The claim involves a collision where the insured vehicle scraped a wall. The repair estimate is $1,950."
+     },
+     "usage": {
+      "input_tokens": 1535,
+      "output_tokens": 175,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1207,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1465,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1719,
+      "output_tokens": 21,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1088",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause. The deductible has been correctly applied, and the loss date is within the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1985,
+      "output_tokens": 92,
+      "cached_tokens": 1664
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1088",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.1318 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+     },
+     "usage": {
+      "input_tokens": 1201,
+      "output_tokens": 105,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1088",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The deductible has been correctly applied, resulting in a net payable amount of $1,450. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision damage to the insured's own car is covered."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The loss date is within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1308,
+      "output_tokens": 155,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1088",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The deductible has been correctly applied, resulting in a net payable amount of $1,450. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to damage to the insured's own vehicle."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $500 deductible applies to collision claims."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Coverage is in effect for losses occurring within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1308,
+      "output_tokens": 162,
+      "cached_tokens": 1152
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

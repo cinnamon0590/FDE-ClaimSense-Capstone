@@ -31,7 +31,7 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [
-       "Photo metadata dated 2024-09-30 contradicts incident date of 2024-10-11."
+       "Photos dated 2024-09-30 are prior to the incident date of 2024-10-11."
       ],
       "vehicle": "2018 Nissan Qashqai",
       "incident": "Another car scraped the whole passenger side in a supermarket car park on 2024-10-11.",
@@ -42,7 +42,7 @@
      },
      "usage": {
       "input_tokens": 1547,
-      "output_tokens": 202,
+      "output_tokens": 203,
       "cached_tokens": 0
      }
     }
@@ -55,12 +55,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1306,
-      "output_tokens": 14,
+      "input_tokens": 1307,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -68,7 +68,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -76,16 +76,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1541,
+      "input_tokens": 1565,
       "output_tokens": 63,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4106",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -94,9 +94,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2052,
+      "input_tokens": 2076,
       "output_tokens": 127,
-      "cached_tokens": 1408
+      "cached_tokens": 1152
      }
     }
    ]
@@ -109,7 +109,7 @@
       "claim_id": "CLM-2024-4106",
       "fraud_signals": [
        "2 prior claims by this claimant in the 24 months before this loss",
-       "Photo metadata dated 2024-09-30 contradicts incident date of 2024-10-11."
+       "Photos dated 2024-09-30 are prior to the incident date of 2024-10-11."
       ],
       "fraud_suspected": true,
       "total_loss": false,
@@ -119,8 +119,8 @@
       "rationale": "Fraud is suspected due to a high fraud risk score and material inconsistencies in the claim file."
      },
      "usage": {
-      "input_tokens": 1344,
-      "output_tokens": 115,
+      "input_tokens": 1345,
+      "output_tokens": 116,
       "cached_tokens": 0
      }
     }
@@ -147,7 +147,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1448,
+      "input_tokens": 1450,
       "output_tokens": 159,
       "cached_tokens": 0
      }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-4106",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. However, due to suspected fraud indicated by inconsistencies in the claim file, the claim must be referred to the fraud investigator as required by the inconsistency clause.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, due to suspected fraud and material inconsistencies, the claim must be referred to the fraud investigator as required by the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -170,13 +170,13 @@
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Material inconsistencies require referral to the special investigations unit."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1448,
-      "output_tokens": 145,
+      "input_tokens": 1450,
+      "output_tokens": 133,
       "cached_tokens": 0
      }
     }

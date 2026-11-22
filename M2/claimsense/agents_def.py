@@ -34,6 +34,9 @@ report FACTS ONLY (no coverage decision).
   does not count.
 - inconsistencies: material contradictions only, e.g. a document or photo dated BEFORE the incident, photos of a
   different vehicle, a medical note predating the loss, statements that contradict the narrative. Quote dates.
+  Compare every driver statement, police report and third-party note with the narrative, fact by fact: who was
+  moving, who hit whom, where and when. A different account of the same event is a material inconsistency (e.g. the
+  narrative says the insured was parked, a statement says the insured was driving).
   Check every document's dates and metadata against the incident date before you move on.
 Then the claim's structured details (after the checks above):
 - vehicle: year, make, model and colour from the claim (never the VIN).
@@ -89,7 +92,8 @@ Draft ONE recommendation for a licensed adjuster, who always confirms or overrid
 Apply in this order:
 1. deny when coverage_finding is "not_covered" because of an exclusion, the policy period or a liability-only
    policy (cite that clause). Suspected fraud is never a reason to deny: it is a referral (rule 3).
-2. flag_review with route_to "senior-adjuster" when coverage_finding is "ambiguous".
+2. flag_review with route_to "senior-adjuster" when coverage_finding is "ambiguous". This comes BEFORE rule 3: while
+   cover is unresolved, even a claim that needs a specialist goes to the senior adjuster first.
 3. route to assessment.recommended_route when it is not "none" (cite the clause that requires it).
    assessment.fraud_signals are indicators for the adjuster: they change the outcome ONLY through
    recommended_route, never on their own.

@@ -1,0 +1,170 @@
+{
+ "claim_id": "CLM-2025-1150",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1150",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "authorisation_letter"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2018 Peugeot 308",
+      "incident": "Collision at a roundabout on 2025-06-25.",
+      "damage": "Damage consistent with the reported collision.",
+      "repair_estimate_usd": 2100,
+      "policy_details": "POL-AU-70150, liability, collision, comprehensive, $500 deductible, 2024-03-10 to 2025-03-10.",
+      "summary": "The claim involves a collision incident reported on June 26, 2025. The repair estimate is $2,100."
+     },
+     "usage": {
+      "input_tokens": 1592,
+      "output_tokens": 173,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1173,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1407,
+      "output_tokens": 21,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1150",
+      "coverage_finding": "not_covered",
+      "basis": "The loss date is outside the policy period, and the policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss date outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1673,
+      "output_tokens": 84,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1150",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no fraud indicators or inconsistencies present."
+     },
+     "usage": {
+      "input_tokens": 1169,
+      "output_tokens": 81,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1150",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy explicitly covers only losses that occur within the specified term, which ended on March 10, 2025. Since the incident happened on June 25, 2025, it is not covered.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Coverage applies only to losses occurring within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1252,
+      "output_tokens": 110,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1150",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy only covers losses that occur within the specified term, which ended on March 10, 2025. Since the incident happened on June 25, 2025, it is not covered.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Coverage applies only to losses occurring within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1252,
+      "output_tokens": 109,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

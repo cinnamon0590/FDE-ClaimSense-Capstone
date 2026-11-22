@@ -13,3 +13,4 @@
 {"ts": "2026-11-19T23:07:24", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7233}
 {"ts": "2026-11-19T23:09:22", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.723}
 {"ts": "2026-11-19T23:11:21", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7187}
+{"ts": "2026-11-22T17:06:53", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6993}

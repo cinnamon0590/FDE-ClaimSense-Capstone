@@ -105,7 +105,7 @@ def main(argv=None):
                     help="live = the gate (default); replay = $0 harness regression run (needs CLAIMSENSE_LLM_REQUIRED=false)")
     ap.add_argument("--record", action="store_true")
     ap.add_argument("--suite", choices=["smoke", "full", "golden"], default="full",
-                    help="smoke = the 20 M0 cases (W15 gate); full/golden = all 40 incl. every adversarial case")
+                    help="smoke = the 20 M0 cases (W15 gate); full/golden = all 150 incl. every adversarial family")
     ap.add_argument("--cases", type=int, default=None, help="score only the first N cases (leaderboard --cases)")
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--out", default=None, help="write the report here (default: results-<brain>.txt)")
@@ -132,6 +132,24 @@ def main(argv=None):
     if a.repeat > 1:
         return release_gate(a, cases)
     return evaluate(a, cases, Pipeline(brain=a.brain, record=a.record), out)[0]
+
+
+def breakdown(cases, results, by_id):
+    """The W17 gate view: per category and per adversarial family, and the named adversarial failures (each one
+    vetoes the release whatever the average: zero tolerance, D-007)."""
+    ok = {cid: score.fail_reason(by_id[cid], for_scoring(r)) is None for cid, r in results.items()}
+    out = [f"golden suite — {len(cases)} cases · gate >= {threshold_pct():g}% AND 0 adversarial failures"]
+    for cat in ("clear", "edge", "adversarial"):
+        sel = [c["case_id"] for c in cases if c["category"] == cat]
+        if sel:
+            out.append(f"  {cat:<12} {sum(ok[i] for i in sel)}/{len(sel)}")
+    fams = Counter(c.get("adversarial_family", "other") for c in cases if c["category"] == "adversarial")
+    for fam in sorted(fams):
+        sel = [c["case_id"] for c in cases if c["category"] == "adversarial" and c.get("adversarial_family", "other") == fam]
+        out.append(f"    {fam:<22} {sum(ok[i] for i in sel)}/{len(sel)}")
+    adv_fail = [c["case_id"] for c in cases if c["category"] == "adversarial" and not ok[c["case_id"]]]
+    out.append(f"  adversarial failures: {adv_fail or 'none'}")
+    return out
 
 
 def evaluate(a, cases, pipe, out, label=""):
@@ -177,6 +195,7 @@ def evaluate(a, cases, pipe, out, label=""):
               f"cost: ${cost:.4f} total · ${cost / len(results):.5f} per claim"
               + (" (replay: token counts from the replay files; scripted ones are estimates)" if a.brain == "replay" else ""),
               ]
+    lines += [""] + breakdown(cases, results, by_id)
     if sources:
         lines.append(f"replay sources: {dict(sources)}  (scripted = harness test only; recorded = captured from a live run)")
     thr = threshold_pct()

@@ -66,7 +66,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"coverage period for collision claims\"}"
+       "arguments": "{\"query\":\"loss date inside policy period\"}"
       }
      ],
      "usage": {
@@ -84,12 +84,12 @@
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss outside policy period"
+      "exclusion_or_condition": "Loss date outside policy period"
      },
      "usage": {
-      "input_tokens": 1692,
-      "output_tokens": 92,
-      "cached_tokens": 1280
+      "input_tokens": 1681,
+      "output_tokens": 93,
+      "cached_tokens": 0
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals or inconsistencies, and it does not qualify as a total loss."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1185,
-      "output_tokens": 87,
+      "input_tokens": 1186,
+      "output_tokens": 93,
       "cached_tokens": 0
      }
     }
@@ -133,7 +133,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1274,
+      "input_tokens": 1281,
       "output_tokens": 108,
       "cached_tokens": 0
      }
@@ -148,7 +148,7 @@
       "claim_id": "CLM-2024-4109",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that occur within the specified period, which ended on 2024-06-15. Since the incident happened on 2024-06-16, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-06-15. The policy explicitly covers only losses occurring within the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -157,8 +157,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1274,
-      "output_tokens": 110,
+      "input_tokens": 1281,
+      "output_tokens": 108,
       "cached_tokens": 0
      }
     }

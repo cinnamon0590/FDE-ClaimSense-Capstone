@@ -36,11 +36,11 @@
       "damage": "Damage consistent with the reported collision, estimated at $1,300.",
       "repair_estimate_usd": 1300,
       "policy_details": "POL-AU-61108, liability, collision, comprehensive, $500 deductible, 2024-08-01 to 2025-08-01.",
-      "summary": "The claim involves a collision where the insured clipped a bollard. The repair estimate is $1,300."
+      "summary": "This claim involves a collision where the insured vehicle clipped a bollard. The repair estimate is $1,300."
      },
      "usage": {
       "input_tokens": 1542,
-      "output_tokens": 181,
+      "output_tokens": 182,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1211,
+      "input_tokens": 1212,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -66,7 +66,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -74,7 +74,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1469,
+      "input_tokens": 1470,
       "output_tokens": 60,
       "cached_tokens": 1152
      }
@@ -92,9 +92,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1984,
+      "input_tokens": 1985,
       "output_tokens": 122,
-      "cached_tokens": 1408
+      "cached_tokens": 0
      }
     }
    ]
@@ -114,7 +114,7 @@
       "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.0605 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 1235,
+      "input_tokens": 1236,
       "output_tokens": 105,
       "cached_tokens": 0
      }
@@ -146,7 +146,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1342,
+      "input_tokens": 1343,
       "output_tokens": 165,
       "cached_tokens": 0
      }
@@ -161,7 +161,7 @@
       "claim_id": "CLM-2024-4108",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the collision coverage clause. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -173,13 +173,13 @@
        },
        {
         "source_id": "CLS-PER-006",
-        "quote": "The loss date is confirmed to be within the policy period."
+        "quote": "The policy period is from 2024-08-01 to 2025-08-01."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1342,
-      "output_tokens": 163,
+      "input_tokens": 1343,
+      "output_tokens": 177,
       "cached_tokens": 0
      }
     }

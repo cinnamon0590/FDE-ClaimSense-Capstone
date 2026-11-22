@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1053",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1053",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Volkswagen Golf",
+      "incident": "Someone broke the driver's side window on 2025-05-14.",
+      "damage": "The driver's side window was broken, with no items taken from the vehicle.",
+      "repair_estimate_usd": 380,
+      "policy_details": "POL-AU-70053, liability, collision, comprehensive, $100 deductible, 2025-01-15 to 2026-01-15.",
+      "summary": "The claim involves a glass loss where the driver's side window was broken. The repair estimate is $380."
+     },
+     "usage": {
+      "input_tokens": 1513,
+      "output_tokens": 171,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1190,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application for glass damage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1434,
+      "output_tokens": 23,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1053",
+      "coverage_finding": "covered",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified, and the net payable amount has already accounted for it.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1688,
+      "output_tokens": 85,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1053",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is for glass damage with a repair estimate of $380, which is well below the total loss threshold (repair-to-ACV ratio < 1.0). There are no fraud indicators or inconsistencies present, and no injuries reported."
+     },
+     "usage": {
+      "input_tokens": 1186,
+      "output_tokens": 104,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1053",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the total loss threshold. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $100 deductible applies to comprehensive claims."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1293,
+      "output_tokens": 129,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1053",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the total loss threshold. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A $100 deductible applies to comprehensive claims."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1293,
+      "output_tokens": 129,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}

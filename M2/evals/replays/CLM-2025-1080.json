@@ -1,0 +1,192 @@
+{
+ "claim_id": "CLM-2025-1080",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 952,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2018 BMW 3 Series",
+      "incident": "Hit an unidentified object on an empty road at night on 2025-03-30.",
+      "damage": "Damage consistent with the reported collision, estimated repair cost is $6,100.",
+      "repair_estimate_usd": 6100,
+      "policy_details": "POL-AU-70080, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
+      "summary": "This claim involves a collision with an unidentified object. The vehicle is a 2018 BMW 3 Series with an estimated repair cost of $6,100."
+     },
+     "usage": {
+      "input_tokens": 1533,
+      "output_tokens": 191,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1292,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"procedure for material inconsistencies or suspected fraud in claim file\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1526,
+      "output_tokens": 65,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-FRD-007"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2039,
+      "output_tokens": 127,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "fraud_signals": [
+       "fraud score >= 0.7"
+      ],
+      "fraud_suspected": true,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "fraud-investigator",
+      "high_value": false,
+      "rationale": "Fraud is suspected due to a high fraud risk score (0.82), requiring referral to a fraud investigator."
+     },
+     "usage": {
+      "input_tokens": 1315,
+      "output_tokens": 89,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator as required by the inconsistency clause. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Material inconsistencies require referral to the special investigations unit."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1406,
+      "output_tokens": 173,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator as required by the inconsistency clause. All required documents are on file, and the loss occurred within the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Material inconsistencies require referral to the special investigations unit."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1406,
+      "output_tokens": 171,
+      "cached_tokens": 1280
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v10"
+}
