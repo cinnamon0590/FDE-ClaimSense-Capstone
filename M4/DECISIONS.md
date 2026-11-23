@@ -6,6 +6,44 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-049 · 2026-11-23 · The deployed frontend: ECS Fargate + ALB + CloudFront, demo sign-in, /mcp verified by the door
+- **Why:** Submission 2 asks for a deployed frontend URL that stays reachable until grading ends, and acceptance
+  criterion 5 is a person running a claim through it. Until now only the door was on AWS.
+- **Decision:**
+  - **Hosting:** one ECS Fargate task (1 vCPU, 2 GB) with two containers: the Streamlit console (:8501) and the
+    orchestrator (:8003, reachable only on localhost inside the task). Behind an internet-facing ALB whose security
+    group admits only the AWS-managed CloudFront origin-facing prefix list, and CloudFront for HTTPS on
+    `*.cloudfront.net` (caching off, all headers forwarded, WebSockets). App Runner was rejected because it doesn't
+    support WebSockets, which Streamlit needs. `M4/cloud/frontend.py apply | status | destroy | rotate-passcode`.
+  - **Sign-in for graders (Susan's choice: demo picker + passcode):** the console asks for one passcode, then signs in
+    as one of the five synthetic users through **real Cognito** (`ADMIN_USER_PASSWORD_AUTH`, called by the
+    orchestrator's `/demo/signin`). The passcode exists only as a SHA-256 hash in Secrets Manager
+    (`claimsense/demo-signin`, with the synthetic users' passwords) and in the owner's `~/.claimsense/demo.json`;
+    10 wrong tries per minute → 429; every attempt is audited. Role still comes from the token checked against the
+    directory, never from the picker. Off unless `CLAIMSENSE_DEMO_SECRET_ID` is set. Passcode alphabet avoids
+    look-alike characters, and pasted quotes or spaces are forgiven (found in the first real sign-in).
+  - **Least privilege:** the task role may read only the two secrets, call `AdminInitiateAuth` on the one pool,
+    write and scan the audit table, and `PutMetricData` in the `ClaimSense` namespace. Images are tagged with the
+    commit (a dirty tree is refused). Metrics go by `PutMetricData` from a background thread
+    (`CLAIMSENSE_METRICS=cloudwatch`), since the awslogs driver doesn't extract EMF.
+  - **`POST /mcp` on API Gateway is now verified by the door, not the Cognito authorizer.** Found on the first
+    deployed run: the agents call `/mcp` with the door's *own* 5-minute delegated token, which a Cognito authorizer
+    can't verify, so API Gateway answered `{"message":"Unauthorized"}` and the run ended with no card. The door
+    already authenticates every request before routing (401 + audit row for none, forged or expired). Re-proved:
+    no token → 401, forged → 401, delegated → 200; M3's route, Week 4 viewer and S3 checks all PASS on AWS. The
+    orchestrator now turns a non-JSON-RPC gateway refusal into a structured error instead of crashing.
+  - Console hardening from the same first run: **Run co-pilot** is disabled until signed in, the passcode survives a
+    user or claim switch, and a refused run shows the reason instead of a stack trace.
+- **Proof:** `M4/evidence/frontend-deployed.txt`: Susan ran the two-user test in her browser on 2026-11-23: alice →
+  approve, $2,700, drafted by the agents through the door; carol → refused (`not_entitled`), no claim data. Every
+  step is in the DynamoDB audit trail. The orchestrator panels of the dashboard now fill
+  (`M4/evidence/dashboard.png`).
+- **Cost:** ≈ $35–40/month while up (ALB ≈ $16, Fargate ≈ $20, CloudFront and Secrets Manager pennies). `destroy`
+  removes all of it after grading.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-048 · 2026-11-22 · Observability: EMF metrics, one CloudWatch dashboard, one alarm, continuous eval
 - **Why:** brief Milestone 5 #2 ("an operational dashboard reporting error rate, call volume and p95 latency, with one
   alarm defined") and the M4 floor (eval-pass, latency p50/p95 and cost per resolution, with the SLO stated and its

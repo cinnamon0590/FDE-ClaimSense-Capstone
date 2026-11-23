@@ -148,7 +148,8 @@ claimsense_door.stdio`, or point any streamable-HTTP MCP client at `http://local
 
 `cloud/deploy.sh` deploys the door as a Lambda container image behind an API Gateway HTTP API. The API's **Cognito JWT
 authorizer** guards every route except health, the key and metadata documents, the token exchange and the HMAC-signed
-webhook. The door verifies the token again, in code.
+webhook. The door verifies the token again, in code. Since M4 (D-049) `POST /mcp` is also verified by the door only:
+agents carry the door's own 5-minute delegated token there, which the Cognito authorizer can't verify.
 - **Reused from M1:** the Cognito pool (5 groups), the `claimsense-audit` DynamoDB table, and the document bucket:
   the door reads its KB corpus, policies and documents from S3 (`cloud/sync_docs.sh`, D-044).
 - **Users:** five synthetic users with random passwords, stored only in `~/.claimsense/` (0600).

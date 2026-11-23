@@ -57,7 +57,7 @@ def badge(x, y, num):
 
 
 # ── title ─────────────────────────────────────────────────────────────────────────────────────
-out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 1, prompt m2-v13)</text>')
+out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 4, prompt m2-v13)</text>')
 out.append('<text x="20" y="52" font-size="12" fill="#555">Every arrow is a labelled data flow (B1–B20, legend below). '
            'Blue = deterministic code · Orange = model judgment · Green = human · Grey = systems/data · Purple = operations. '
            'Solid border = deployed on AWS · dashed border = runs locally in containers. Synthetic data only.</text>')
@@ -76,9 +76,9 @@ box(225, 95, 175, 50, "code", ["Keycloak (local)", "RFC 8693 exchange at the IdP
 box(430, 95, 200, 50, "human", ["Adjuster (alice)", "reads only claims assigned to her"])
 box(660, 95, 200, 50, "human", ["Senior adjuster (bob)", "all claims · audit reader"])
 box(890, 95, 180, 50, "human", ["Specialists", "carol (fraud) · eve (total loss)"])
-box(420, 190, 400, 50, "code", ["Adjuster Console", "Streamlit · queue · Ask ClaimSense · computed vs judgment"], dashed=True)
+box(420, 190, 400, 50, "code", ["Adjuster Console — CloudFront → ALB → ECS Fargate", "Streamlit · Cognito sign-in · queue · Ask ClaimSense"])
 
-box(40, 300, 260, 75, "code", ["Orchestrator", "OpenAI Agents SDK · fixed order", "token exchange → 5-min delegated token"], dashed=True)
+box(40, 300, 260, 75, "code", ["Orchestrator (same Fargate task)", "OpenAI Agents SDK · fixed order", "token exchange → 5-min delegated token"])
 box(330, 300, 230, 75, "code", ["Deterministic checks", "term · net payable · repair÷ACV · $25K", "checklist · risk indicators (m2-v10)"])
 box(590, 300, 330, 75, "code", ["Guardrails G1–G8 (code)", "injection scan + classifier · provenance quarantine", "citations ⊆ retrieved · PII mask · second opinion"])
 box(950, 300, 290, 75, "code", ["Rule-engine fallback + holds", "labelled deterministic_fallback", "guardrail / disagreement → senior adjuster"])
@@ -90,7 +90,7 @@ box(625, 455, 185, 65, "model", ["④ Decision Draft", "gpt-4o · strict output"
 box(820, 455, 170, 65, "model", ["Ask ClaimSense", "follow-up chat", "explains, never decides"])
 box(1010, 455, 230, 65, "ext", ["OpenAI API", "external model subprocessor", "PII-masked inputs only"], dashed=True)
 
-box(40, 592, 1200, 70, "code", ["THE DOOR — API Gateway (Cognito JWT authorizer) → Lambda (container image) · same image runs locally",
+box(40, 592, 1200, 70, "code", ["THE DOOR — API Gateway (Cognito JWT authorizer; /mcp: door verifies the delegated token) → Lambda (container image) · same image runs locally",
     "auth before routing · grants.json deny-by-default · entitled() = group + assigned adjuster · REST 403 · idempotency · retry/breaker · audit EVERY call"])
 
 box(40, 722, 170, 65, "store", ["Claims management", "claims · assignments", "prior_claims_24m"], dashed=True)
@@ -102,10 +102,10 @@ box(860, 722, 110, 65, "store", ["Slack", "on-call page", "link, no data"], dash
 box(980, 722, 120, 65, "store", ["Amazon S3", "policies/ · documents/", "door reads"])
 box(1110, 722, 130, 65, "store", ["DynamoDB", "append-only audit"])
 
-box(1300, 105, 275, 60, "ops", ["Secrets Manager", "OpenAI key → orchestrator at runtime"])
+box(1300, 105, 275, 60, "ops", ["Secrets Manager", "OpenAI key + demo sign-in → task role"])
 box(1300, 300, 275, 60, "ops", ["Amazon ECR", "the gated image (immutable tags)"])
 box(1300, 455, 275, 60, "ops", ["GitHub Actions", "live gate ≥ 90% · push THE tested build"])
-box(1300, 600, 275, 60, "ops", ["CloudWatch Logs", "AUDIT lines · API GW access log"])
+box(1300, 600, 275, 60, "ops", ["CloudWatch", "logs · dashboard · alarm → SNS"])
 box(1300, 722, 275, 65, "ops", ["Budget alarm + tags", "Project=ClaimSense · cost guardrail"])
 
 # ── flows ─────────────────────────────────────────────────────────────────────────────────────
