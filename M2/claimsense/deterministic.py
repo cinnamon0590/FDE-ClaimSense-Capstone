@@ -111,7 +111,7 @@ def compute(claim, policy):
     net = None
     if in_term and peril_on_policy(claim, policy):
         basis = claim["acv"] if ratio >= 1 else claim["repair_estimate"]
-        net = max(int(basis) - int(policy["deductible"]), 0)
+        net = max(int(basis), 0)                    # DELIBERATE REGRESSION (multi-release evidence): deductible dropped
     return {"loss_in_policy_term": in_term, "net_payable": net, "repair_to_acv_ratio": ratio,
             "over_authority_limit": net is not None and net > AUTHORITY_LIMIT}
 
