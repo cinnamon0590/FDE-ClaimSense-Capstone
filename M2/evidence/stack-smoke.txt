@@ -1,16 +1,16 @@
-ClaimSense stack smoke · 2026-11-19 23:14:30
-orchestrator: {"ok": true, "brain": "replay", "boundary": "http://boundary:8002", "models": {"fast": "gpt-4o-mini-2024-07-18", "smart": "gpt-4o-2024-08-06"}, "retrieval": "opensearch-bm25", "rag_store": {"backend": "opensearch-bm25", "url": "http://opensearch:9200", "indexed_chunks": 13}}
-boundary:     {"ok": true, "claims": 40, "audit_rows": 269, "mcp": "/mcp", "ticketing": true, "documents": 135, "document_store": "image"}
+ClaimSense stack smoke · 2026-11-23 12:34:44
+orchestrator: {"ok": true, "brain": "replay", "boundary": "http://boundary:8002", "models": {"fast": "gpt-4o-mini-2024-07-18", "smart": "gpt-4o-2024-08-06"}, "retrieval": "opensearch-bm25", "rag_store": {"backend": "opensearch-bm25", "url": "http://opensearch:9200", "indexed_chunks": 14}}
+boundary:     {"ok": true, "claims": 150, "audit_rows": 25, "mcp": "/mcp", "ticketing": false, "documents": 493, "document_store": "image"}
 
-PASS  CS-001 CLM-2024-1800 as alice  -> approve                              decided_by=agents           source=model guardrails=[] draft=REC-0c4f2df45f7e 0.07s
-PASS  CS-002 CLM-2024-3104 as alice  -> deny                                 decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-592cd3475ec3 0.06s
-PASS  CS-004 CLM-2024-1946 as alice  -> route       →total-loss-appraiser    decided_by=agents           source=model guardrails=[] draft=REC-e0a2ae90eb2d 0.07s
-PASS  CS-009 CLM-2024-3412 as alice  -> flag_review →senior-adjuster         decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-7a2a8ce5fc10 0.07s
-PASS  CS-016 CLM-2024-3602 as alice  -> flag_review →senior-adjuster         decided_by=guardrail_hold   source=model guardrails=['injection_detected'] draft=REC-7a8bedb68aeb 0.02s
+PASS  CS-001 CLM-2024-1800 as alice  -> approve                              decided_by=agents           source=model guardrails=[] draft=REC-d3780ea965ec 0.06s
+PASS  CS-002 CLM-2024-3104 as alice  -> deny                                 decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-5949a8f1c3a9 0.05s
+PASS  CS-004 CLM-2024-1946 as alice  -> route       →total-loss-appraiser    decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-876d5090587d 0.06s
+PASS  CS-009 CLM-2024-3412 as alice  -> flag_review →senior-adjuster         decided_by=agents           source=model guardrails=['poisoned_chunk_quarantined'] draft=REC-bc47c9f241b3 0.06s
+PASS  CS-016 CLM-2024-3602 as alice  -> flag_review →senior-adjuster         decided_by=guardrail_hold   source=model guardrails=['injection_detected'] draft=REC-59e126120f04 0.02s
 PASS  CS-019 CLM-2024-1873 as dave   -> refused                              decided_by=boundary_refusal source=model guardrails=[] draft=- 0.0s
 
-agent tries to confirm REC-0c4f2df45f7e: human_confirmation_required
-alice confirms REC-0c4f2df45f7e: final_outcome=approve confirmed_by=alice
-audit rows: 372 (denials recorded: 221; e.g. get_claim by carol reason=not_entitled)
+agent tries to confirm REC-d3780ea965ec: human_confirmation_required
+alice confirms REC-d3780ea965ec: final_outcome=approve confirmed_by=alice
+audit rows: 79 (denials recorded: 2; e.g. get_claim by dave reason=no_grant)
 
 STACK SMOKE: PASS

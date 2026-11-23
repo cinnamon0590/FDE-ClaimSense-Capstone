@@ -21,8 +21,8 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
     for on-call. Both make the same door call: grant + entitlement + idempotency key + audit, no claim data on
     the ticket.
   - **Corpus:** no new tool (the generator signs the manifest; `deploy.sh` syncs S3 and ships the manifest
-    together). The two tests that hard-coded "12 clauses" now derive the size, so a corpus change doesn't break
-    them.
+    together). The two tests and the container wiring check that hard-coded "12 clauses" now derive the size, so a
+    corpus change doesn't break them (the wiring check was caught by CI on this PR).
 - **What the tests found (fixed):**
   - queued escalations were **never delivered**: nothing called the outbox flush, despite its docstring. Now the
     health check (in the background, never blocking), escalation reads and new escalations deliver it
