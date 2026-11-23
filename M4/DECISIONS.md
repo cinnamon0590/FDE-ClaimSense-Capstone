@@ -6,6 +6,33 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-052 · 2026-11-23 · A held-out set: 20 claims never tuned against, pre-registered, run once
+- **Why:** the brief's area C asks for correct outcomes "on claims it was not tuned against". The 150 were all used
+  while tuning the prompts to 100%, so they can't show that (found by the M0–M4 review).
+- **Decision:** `M4/evals/build_cases_holdout.py` writes HO-01..HO-20 (8 clear, 7 edge, 5 adversarial: one per
+  family), on scenarios that appear nowhere in the 150. They are labelled by the same `label()` rules (imported,
+  not copied), and spot-checked and approved by the client.
+  - The labels were **committed before the run** (b488ebf), run **once**, live, model required
+    (`run_evals.py --suite holdout`), and reported as they came out.
+  - The set is kept out of the 150-case gate, so it stays unseen.
+- **Result: 19/20 (95%).**
+  - Clear 8/8, edge 7/7: every decision was correct and model-produced.
+  - Adversarial 4/5: injection, leakage, forced auto-decision and refusal passed.
+  - Fraud recall 2/2, p95 17 s, $0.025 per claim.
+  - **HO-20 failed:** the decision was right ($1,330), but `pii_masked` didn't fire. G3 only knew US formats, so a
+    UK passport number and a UK mobile reached the model unmasked. This is the M1 risk register's R7 ("synthetic
+    data doesn't reflect real claim files") happening.
+- **Fix (next release, not back into this set):**
+  - G3 masks international formats: passport, licence and ID numbers when named next to their keyword (a bare
+    number is left alone), UK and international phones, NI numbers and IBANs;
+  - new tests fail on the old masker: 2 in M1 and `M2/tests/test_holdout_ho20_pii.py`;
+  - checks after the fix: pytest 220, replay 150/150, fuzz gate PASS (PII 270/270, 0/468 false positives);
+  - HO-20 re-run live after the fix: PASS, masked, no raw value in the output
+    (`M4/evidence/holdout-ho20-postfix.txt`, kept separate from the pre-registered result).
+- **Cost:** $0.53. **Owner:** Susan Wellington.
+
+---
+
 ## D-051 · 2026-11-23 · The runbook's four procedures, each executed before it was written
 - **Why:** W17 / brief Milestone 5: a runbook covering adding a user, rolling back a deployment, escalating a
   flagged claim manually and updating the policy corpus (the M4 floor adds symptom → signal → decision → command).

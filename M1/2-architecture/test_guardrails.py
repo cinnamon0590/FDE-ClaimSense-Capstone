@@ -190,3 +190,19 @@ class PiiTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_g3_masks_international_pii_found_by_the_held_out_set():          # HO-20, D-052
+    import reference_guardrails as g
+    text = ("passport GB 533380742; ring 07700 900461 or +44 20 7946 0958; NI AB 12 34 56 C; "
+            "IBAN GB29 NWBK 6016 1331 9268 19; driving licence MORGA753116SM9IJ")
+    out = g.mask_pii(text)
+    for raw in ("533380742", "07700 900461", "7946 0958", "AB 12 34 56 C", "NWBK", "MORGA753116SM9IJ"):
+        assert raw not in out, raw
+
+
+def test_g3_international_patterns_leave_claim_facts_alone():
+    import reference_guardrails as g
+    text = ("See CLM-2024-1800, POL-AU-70041, CLS-PER-006; repair $3,200 on 2025-10-22; invoice no. 5521; "
+            "my licence is attached; passport photo enclosed; licence plate AB12 CDE; 07/11/2025 for 1,830")
+    assert g.mask_pii(text) == text

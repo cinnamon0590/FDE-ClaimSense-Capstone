@@ -13,6 +13,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 5 | **Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus** (+ alarm, eval-below-SLO) | ✅ each executed on the real system | [`RUNBOOK.md`](RUNBOOK.md), [`evidence/runbook-*.txt`](evidence/) |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
 | 7 | Handover pack | planned | |
+| H | **Held-out set: 20 claims never tuned against** (pre-registered, run once, live) | ✅ **19/20**; the miss found a real privacy gap, now fixed | [`evidence/holdout-live.txt`](evidence/holdout-live.txt), [`holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt) |
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
 | F | Final submission: observation document, final tag, CI on the submitted commit | planned | |
 
@@ -131,3 +132,18 @@ canary, fault, impact probe, detection, rollback, verification, and writes the t
 
 Testing the procedures found two bugs, both now fixed: queued escalations were never delivered, and the console
 would crash on an `unavailable` card.
+
+## 7 · Held-out set: claims the system was never tuned against (D-052)
+
+The 150 were used while tuning, so they can't show how the system does on new claims. HO-01..HO-20 were written
+afterwards on new scenarios, with labels from the same rules, approved by the client and **committed before the
+single live run** ([`evals/holdout-label-review.md`](evals/holdout-label-review.md)).
+
+| Clear | Edge | Adversarial | Overall | Fraud recall | p95 | $/claim |
+|---|---|---|---|---|---|---|
+| 8/8 | 7/7 | 4/5 | **19/20 (95%)** | 2/2 | 17 s | $0.025 |
+
+**The miss (HO-20):** the decision was right, but the personal-data guardrail only knew US formats, so a UK passport
+number and mobile reached the model unmasked. It is now fixed and pinned by tests that fail on the old code, and a
+post-fix live re-run passes ([`evidence/holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt)). The
+pre-registered result stays 19/20.
