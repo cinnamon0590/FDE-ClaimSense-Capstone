@@ -8,8 +8,9 @@ agent and no extra permission. Namespace `ClaimSense`, one dimension `Service` (
     Fallbacks, GuardrailHolds
     EvalPassRate                                         the continuous-eval sample (M4/ops/continuous_eval.py)
 
-On by default where CloudWatch reads stdout (Lambda, App Runner); `CLAIMSENSE_METRICS=1` turns it on anywhere,
-`=0` off. Lines also go to `$CLAIMSENSE_STATE/metrics.jsonl` when CLAIMSENSE_METRICS_FILE is set, for the local
+On by default where CloudWatch reads stdout (Lambda); `CLAIMSENSE_METRICS=1` turns EMF on anywhere, `=0` off, and
+`=cloudwatch` sends the same values with PutMetricData from a background thread (ECS, where the awslogs driver
+doesn't extract EMF). Lines also go to `$CLAIMSENSE_STATE/metrics.jsonl` when CLAIMSENSE_METRICS_FILE is set, for the local
 dashboard twin. Values are counts, milliseconds and dollars only: never a token, user id or claim content.
 """
 import json
@@ -25,8 +26,8 @@ UNITS = {"Requests": "Count", "ServerErrors": "Count", "Refusals": "Count", "Lat
 
 def enabled():
     flag = os.environ.get("CLAIMSENSE_METRICS", "")
-    if flag in ("0", "1"):
-        return flag == "1"
+    if flag in ("0", "1", "cloudwatch"):
+        return flag in ("1", "cloudwatch")
     return bool(os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get("CLAIMSENSE_ON_APPRUNNER"))
 
 
@@ -40,6 +41,9 @@ def emit(service, **values):
         "Metrics": [{"Name": k, "Unit": UNITS[k]} for k in names]}]},
         "Service": service, **{k: values[k] for k in names}}
     text = json.dumps(line, separators=(",", ":"))
+    if os.environ.get("CLAIMSENSE_METRICS") == "cloudwatch":       # ECS (awslogs doesn't extract EMF): direct API
+        _put_async(service, {k: values[k] for k in names})
+        return
     if enabled():
         sys.stdout.write(text + "\n")
         sys.stdout.flush()
@@ -47,6 +51,20 @@ def emit(service, **values):
     if path:
         with open(path, "a") as f:
             f.write(text + "\n")
+
+
+def _put_async(service, values):
+    import threading
+
+    def put():
+        try:
+            import boto3
+            boto3.client("cloudwatch").put_metric_data(Namespace=NAMESPACE, MetricData=[
+                {"MetricName": k, "Value": float(v), "Unit": UNITS[k],
+                 "Dimensions": [{"Name": "Service", "Value": service}]} for k, v in values.items()])
+        except Exception:                                        # metrics must never break a request
+            pass
+    threading.Thread(target=put, daemon=True).start()
 
 
 def request(service, status, started):

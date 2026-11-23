@@ -15,6 +15,7 @@ ENV PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY M0/evals/cases.json M0/evals/
 COPY M2/evals/cases-m2.json M2/evals/
+COPY M4/evals/cases-m4.json M4/evals/
 COPY M1/6-synthetic-data/fixtures/clauses.json M1/6-synthetic-data/fixtures/
 COPY M2/services/console/app.py console/app.py
 USER app

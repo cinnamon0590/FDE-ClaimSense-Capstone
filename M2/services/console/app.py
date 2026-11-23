@@ -17,9 +17,11 @@ import streamlit as st
 ORCH = os.environ.get("ORCHESTRATOR_URL", "http://localhost:8003")
 BOUNDARY = os.environ.get("BOUNDARY_URL", "http://localhost:8002")
 CASES = json.loads(open(os.environ.get("CASES_FILE", "/app/M0/evals/cases.json")).read())["cases"]
-M2_CASES = os.environ.get("M2_CASES_FILE", "/app/M2/evals/cases-m2.json")
-if os.path.exists(M2_CASES):
-    CASES += json.loads(open(M2_CASES).read())["cases"]
+for _extra in (os.environ.get("M2_CASES_FILE", "/app/M2/evals/cases-m2.json"),
+               os.environ.get("M4_CASES_FILE", "/app/M4/evals/cases-m4.json")):
+    if os.path.exists(_extra):
+        CASES += json.loads(open(_extra).read())["cases"]
+DEMO_SIGNIN = os.environ.get("CLAIMSENSE_DEMO_SIGNIN") == "1"   # deployed console (M4, D-049): passcode + picker
 CLAUSES = {c["clause_id"]: c for c in json.loads(open(os.environ.get(
     "CLAUSES_FILE", "/app/M1/6-synthetic-data/fixtures/clauses.json")).read())["records"]}
 USERS = {"alice": "Alice · adjuster", "bob": "Bob · senior adjuster", "carol": "Carol · fraud investigator",
@@ -35,7 +37,11 @@ st.caption("AutoSure Insurance motor claims · SYNTHETIC DATA · a licensed adju
 qp = st.query_params
 with st.sidebar:
     users = list(USERS)
-    user = st.selectbox("Sign in as (dev login; M3: Cognito)", users, format_func=USERS.get,
+    if DEMO_SIGNIN:
+        passcode = st.text_input("Demo passcode", type="password",
+                                 help="From the submission form. Unlocks sign-in as the five SYNTHETIC users.")
+    user = st.selectbox("Sign in as" + (" (synthetic user, real Cognito sign-in)" if DEMO_SIGNIN
+                                        else " (dev login; M3: Cognito)"), users, format_func=USERS.get,
                         index=users.index(qp["user"]) if qp.get("user") in USERS else 0)
     seen, options = set(), []
     for c in CASES:
@@ -48,14 +54,24 @@ with st.sidebar:
     # token, issued from the directory, and re-checked by the boundary on every call (no self-promotion)
     try:
         if st.session_state.get("token_for") != user:
-            t = httpx.post(f"{BOUNDARY}/dev/token", json={"user_id": user}, timeout=5).json()
+            if DEMO_SIGNIN:          # the orchestrator signs in to Cognito as the synthetic user (passcode-gated)
+                if not passcode:
+                    raise KeyError("passcode")
+                r = httpx.post(f"{ORCH}/demo/signin", json={"user_id": user, "passcode": passcode}, timeout=10)
+                if r.status_code != 200:
+                    raise KeyError("signin")
+                t = r.json()
+            else:
+                t = httpx.post(f"{BOUNDARY}/dev/token", json={"user_id": user}, timeout=5).json()
             st.session_state.update(token_for=user, token=t["token"], token_groups=t["groups"])
         AUTH = {"Authorization": f"Bearer {st.session_state['token']}"}
         st.info(f"🔐 **{user}** · role **{', '.join(st.session_state['token_groups'])}** (from the signed token, "
                 "checked against the directory)")
-    except (httpx.HTTPError, KeyError):
+    except (httpx.HTTPError, KeyError) as e:
         AUTH = {}
-        st.error("could not obtain a token from the identity issuer")
+        st.session_state.pop("token_for", None)
+        st.error("enter the demo passcode to sign in" if DEMO_SIGNIN and str(e) == "'passcode'" else
+                 "sign-in refused: check the passcode" if DEMO_SIGNIN else "could not obtain a token from the identity issuer")
     try:
         h = httpx.get(f"{ORCH}/healthz", timeout=3).json()
         st.success(f"brain: **{h['brain']}** · retrieval: {h['retrieval']}")
