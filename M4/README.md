@@ -8,7 +8,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 |---|---|---|---|
 | 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
-| 3 | Dashboard (error rate, call volume, p95 latency) + one alarm | planned | |
+| 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live (orchestrator panels fill in Step 4) | [`evidence/dashboard.png`](evidence/dashboard.png) |
 | 4 | Incident drill + one-page RCA with time to verified recovery | planned | |
 | 5 | Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus | planned | |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
@@ -60,3 +60,16 @@ Run it: `python M2/evals/run_evals.py` (live gate) · `CLAIMSENSE_LLM_REQUIRED=f
 Run it (Node ≥ 22.22): `cd M4/evals/promptfoo && npx promptfoo@0.125.0 eval -c promptfoo-golden.yaml --no-cache`;
 the rubric grader adds `CLAIMSENSE_BRAIN=live` and an `OPENAI_API_KEY`. CI job `second-grader` runs both and gates
 the image push.
+
+## 3 · Observability: dashboard, alarm, continuous eval (D-048)
+
+![ClaimSense-Operations dashboard](evidence/dashboard.png)
+
+- **Dashboard `ClaimSense-Operations`** (CloudWatch): call volume · error rate (5xx ÷ requests) · door and claim
+  latency p50/p95 · eval pass rate · cost per claim · refusals · fallbacks and holds.
+- **SLOs (from M0):** eval pass ≥ 90% and zero adversarial failures (SC-1, SC-5) · claim p95 < 90 s (SC-2) · door
+  error rate < 5% (the alarm).
+- **One alarm:** `ClaimSense-door-error-rate`, door 5xx > 5% in 2 of 3 minutes → SNS email.
+- **Metrics:** EMF lines from both services (`M2/claimsense/metrics.py`), no agent. **Continuous eval:**
+  `python M4/ops/continuous_eval.py` (first run 10/10, published).
+- Rebuild: `ALARM_EMAIL=… python M4/ops/observability.py apply` · snapshot: `python M4/ops/dashboard_snapshot.py`.

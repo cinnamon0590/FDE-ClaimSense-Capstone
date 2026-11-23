@@ -28,6 +28,7 @@ from .boundary_client import AGENT_IDS, make_boundary
 from .deterministic import (FRAUD_SCORE_ROUTE, compute, coverage_questions, fallback_card, missing_documents,
                             risk_indicators, route_priority, verified_facts)
 from .models import AssessmentResult, CoverageResult, DecisionCard, DecisionDraft, IntakeResult
+from . import metrics
 from .observability import Checkpoints, configure_tracing, cost_usd
 from .retrieval import get_index
 from .tools import RunCtx, claim_packet, screen_packet
@@ -313,6 +314,7 @@ class Pipeline:
         result.update(response=response, decided_by=decided_by, events=ctx.events, usage=usage,
                       cost_usd=round(sum(u["usd"] for u in usage), 6), latency_s=round(time.time() - t0, 2),
                       retrieved_clause_ids=sorted(ctx.retrieved_clause_ids), quarantined=ctx.quarantined)
+        metrics.claim_run(result)                     # M4 (D-048): claim volume, latency, cost, fallbacks, holds
         return result
 
 

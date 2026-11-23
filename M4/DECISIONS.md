@@ -6,6 +6,36 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-048 · 2026-11-22 · Observability: EMF metrics, one CloudWatch dashboard, one alarm, continuous eval
+- **Why:** brief Milestone 5 #2 ("an operational dashboard reporting error rate, call volume and p95 latency, with one
+  alarm defined") and the M4 floor (eval-pass, latency p50/p95 and cost per resolution, with the SLO stated and its
+  M0 origin cited).
+- **Decision:**
+  - **Metrics without an agent:** both services print one CloudWatch Embedded Metric Format line per HTTP request
+    (`Requests`, `ServerErrors`, `Refusals`, `LatencyMs`) and the pipeline one per claim (`ClaimRuns`,
+    `ClaimLatencyMs`, `CostUSD`, `Fallbacks`, `GuardrailHolds`); namespace `ClaimSense`, dimension `Service`.
+    Lambda (and App Runner) ship stdout to CloudWatch, which extracts the metrics: no SDK call, no extra IAM.
+    Values are counts, milliseconds and dollars only.
+  - **Dashboard `ClaimSense-Operations`** (`M4/ops/observability.py apply`): call volume, error rate (metric math
+    5xx ÷ requests), door and claim latency p50/p95, eval pass rate, cost per claim, refusals, fallbacks and holds.
+    SLO lines from M0: eval pass ≥ 90% with zero adversarial failures (SC-1, SC-5: the deploy gate), claim p95 <
+    90 s (SC-2), door error rate < 5% (the alarm).
+  - **One alarm `ClaimSense-door-error-rate`:** door 5xx rate > 5% in 2 of 3 one-minute periods (no traffic is not a
+    breach), to SNS `claimsense-alerts` with an email subscriber (the address comes from the environment, never the
+    repo). Chosen on the door because every data access crosses it: if it fails, nothing works.
+  - **Continuous eval** (`M4/ops/continuous_eval.py`, Builder tier): a random sample of golden cases (always at least
+    one adversarial) re-graded against the live system, `EvalPassRate` published, exit 1 below 90% or on any
+    adversarial failure. First run: 10/10. Schedulable by cron or a GitHub Actions `schedule:` trigger.
+  - **Evidence without a browser:** `M4/ops/dashboard_snapshot.py` renders the live dashboard with
+    `GetMetricWidgetImage` into `M4/evidence/dashboard.png`.
+  - CI: the image build now retries with backoff, because public.ecr.aws throttles anonymous pulls
+    ("toomanyrequests") and had failed three builds.
+- **Cost:** ≈ $0 (CloudWatch free tier: 3 dashboards, 10 alarms; custom metrics from EMF ≈ $0.30 per metric-month
+  beyond the free 10).
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-047 · 2026-11-22 · The second grader (Promptfoo), a calibrated judge, and the full live suite in CI
 - **Why:** the W17 deck's deploy rule is two graders, cross-checked ("no single judge is gospel"), and the graded M4
   floor asks for `promptfoo.yaml` with ≥ 4 tests incl. adversarial ones, one run committed, and a judge-trust entry.

@@ -111,7 +111,13 @@ jobs:
       - id: build
         name: "Build the orchestrator image (single-platform manifest, no attestations - Lambda rejects image indexes)"
         run: |
-          docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile -t claimsense/orchestrator:ci .
+          # public.ecr.aws throttles anonymous pulls ("toomanyrequests"): retry the build with backoff (D-048)
+          for attempt in 1 2 3 4; do
+            docker build --provenance=false --platform linux/amd64 -f M2/services/orchestrator/Dockerfile \
+              -t claimsense/orchestrator:ci . && break
+            [ "$attempt" = 4 ] && exit 1
+            echo "build attempt $attempt failed (registry throttling?); retrying in $((attempt * 30))s"; sleep $((attempt * 30))
+          done
           id=$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)
           echo "image_id=$id" >> "$GITHUB_OUTPUT"
           echo "built claimsense/orchestrator image id \`$id\` - the build every gate tests and the push ships" >> "$GITHUB_STEP_SUMMARY"

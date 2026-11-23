@@ -28,7 +28,7 @@ COPY M1/5-system-contracts/schemas M1/5-system-contracts/schemas
 COPY M1/6-synthetic-data/fixtures M1/6-synthetic-data/fixtures
 COPY M1/tools/jsonschema_lite.py M1/tools/
 COPY M2/claimsense/__init__.py M2/claimsense/_m1.py M2/claimsense/boundary_client.py M2/claimsense/deterministic.py \
-     M2/claimsense/identity.py M2/claimsense/config.py M2/claimsense/audit_trail.py M2/claimsense/retrieval.py M2/claimsense/doc_store.py \
+     M2/claimsense/identity.py M2/claimsense/config.py M2/claimsense/audit_trail.py M2/claimsense/retrieval.py M2/claimsense/doc_store.py M2/claimsense/metrics.py \
      M2/claimsense/
 COPY M2/services/mock_systems M2/services/mock_systems
 COPY M2/services/boundary M2/services/boundary
