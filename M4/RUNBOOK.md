@@ -166,7 +166,7 @@ fails. The one incident so far started with a console edit ([RCA](drill/RCA-2026
   - otherwise check the dependency named in the traceback (S3 bucket, DynamoDB table, Cognito).
 - **Command:**
   ```bash
-  python M4/ops/door_smoke.py                          # what fails, as a real adjuster
+  python M4/ops/door_smoke.py                          # what fails, as a real adjuster and as the agents (RCA-2)
   python M4/ops/rollback.py list && python M4/ops/rollback.py door --to <last good> [--previous-config]
   ```
 - **Worked when:**

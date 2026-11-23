@@ -34,3 +34,9 @@ we can demonstrate. The register is reviewed weekly in the Claims Director reado
   analysis and a new eval case are written before the next build.
 - **Fallback share above 5% or p95 above 90 s for 2 consecutive days:** roll back to the last green
   image (M4 runbook) and investigate.
+
+## Retrospective (M4)
+
+How each risk played out in Weeks 3–5, the failures this register did not anticipate, and two proposed new risks
+(R9 production path not exercised end to end, R10 operations code that only runs during failures):
+[`../M4/risk-retrospective.md`](../M4/risk-retrospective.md).

@@ -1,0 +1,9 @@
+# holdout-ho20-postfix — HO-20 re-run AFTER the fix (separate from the pre-registered result, which stays 19/20)
+# held-out run: commit b488ebf labels (pre-registered) -> live 19/20; HO-20 failed: right decision, pii_masked did not fire
+# cause: G3 (mask_pii) knew US formats only; a UK passport number and a UK mobile reached the model unmasked
+# fix: international patterns (passport/licence/ID numbers next to their keyword, UK and +CC phones, NI number, IBAN);
+#      tests: M1 test_guardrails (2 new, fail on the old masker), M2 tests/test_holdout_ho20_pii.py (fails on the old masker)
+# regression: pytest 220 passed · replay gate 150/150, 0 adversarial failures · fuzz gate PASS (PII 270/270, 0/468 false positives)
+
+HO-20 post-fix (live, model required): PASS · outcome approve · net 1330 · guardrails ['pii_masked'] ·
+  raw passport in output: False · raw phone in output: False · $0.0273

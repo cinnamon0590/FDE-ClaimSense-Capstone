@@ -155,7 +155,16 @@ PII_PATTERNS = {
     "SSN": r"(?<!\d)\d{3}-\d{2}-\d{4}(?!\d)",
     "VIN": r"(?i)\b(?=[A-HJ-NPR-Z]*\d)(?=\d*[A-HJ-NPR-Z])[A-HJ-NPR-Z0-9]{17}\b",   # any case; letters AND digits
     "CARD": r"(?<!\d)(?:\d{4}[ -]?){3}\d{4}(?!\d)",
+    # international formats (M4 held-out HO-20, D-052: the US-only set let a UK passport and mobile through)
+    "IBAN": r"\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){3,7}(?: ?[A-Z0-9]{1,3})?\b",
+    "PHONE_INTL": r"(?<![\w+])\+\d{1,3}[ .-]?\(?\d{1,4}\)?(?:[ .-]?\d{2,4}){2,4}(?!\d)",
+    "PHONE_UK": r"(?<!\d)0\d{3,4}[ .-]?\d{3}[ .-]?\d{3,4}(?!\d)",
+    "NI_NUMBER": r"\b[A-CEGHJ-PR-TW-Z]{2} ?\d{2} ?\d{2} ?\d{2} ?[A-D]\b",
 }
+# identity documents: masked when the document type is named next to the number (a bare 9-digit number could be
+# anything, so the keyword is required)
+ID_DOC_RX = re.compile(r"(?i)\b(passport|driv(?:er'?s|ing) licen[cs]e|licen[cs]e|national id|id card)"
+                       r"((?:\s+(?:no\.?|number|#))?[\s:]*)(?:[A-Z]{1,3}[ -]?)?(?=[A-Z0-9]*\d)[A-Z0-9]{6,18}\b")
 
 
 def mask_pii(text, names=()):
@@ -164,8 +173,9 @@ def mask_pii(text, names=()):
     out = normalise(text)
     for n in sorted(filter(None, names), key=len, reverse=True):
         out = re.sub(re.escape(n), "[NAME]", out, flags=re.I)
+    out = ID_DOC_RX.sub(lambda m: f"{m.group(1)}{m.group(2)}[ID_NUMBER]", out)
     for label, rx in PII_PATTERNS.items():
-        out = re.sub(rx, f"[{label}]", out)
+        out = re.sub(rx, f"[{label.split('_')[0]}]", out)
     return out
 
 

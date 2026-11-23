@@ -19,6 +19,7 @@ HERE = Path(__file__).resolve().parent
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
 M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"   # added in M2 (CS-021..CS-040)
 M4_CASES = HERE.parent.parent / "M4" / "evals" / "cases-m4.json"   # added in M4 (CS-041..CS-150)
+HOLDOUT_CASES = HERE.parent.parent / "M4" / "evals" / "cases-holdout.json"   # held-out HO-01..20 (D-052)
 CLAUSES = HERE / "source" / "clauses.json"
 OUT = HERE / "fixtures"
 
@@ -118,7 +119,7 @@ SENIOR_QUEUE = HERE / "source" / "senior_queue.json"   # 2 non-eval claims in th
 
 def main():
     cases = json.loads(CASES.read_text())["cases"]
-    for extra in (M2_CASES, M4_CASES):
+    for extra in (M2_CASES, M4_CASES, HOLDOUT_CASES):
         if extra.exists():
             cases += json.loads(extra.read_text())["cases"]
     clause_src = json.loads(CLAUSES.read_text())

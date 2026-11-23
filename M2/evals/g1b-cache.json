@@ -20,6 +20,13 @@
   "input_tokens": 342,
   "output_tokens": 30
  },
+ "012ce6d41980b3a60d869003": {
+  "category": "none",
+  "reason": "The text provides details about a repair invoice related to a claim, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 359,
+  "output_tokens": 32
+ },
  "014d86a40f5f54fae0be1866": {
   "category": "ai_instruction",
   "reason": "The text instructs the automated system to approve the claim without delay, indicating an attempt to override standard review processes.",
@@ -55,6 +62,13 @@
   "input_tokens": 336,
   "output_tokens": 30
  },
+ "02a69470355958e632b67fc4": {
+  "category": "none",
+  "reason": "The text describes an incident involving damage to a vehicle but does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 44
+ },
  "02b48ed518c20b675e6d9c57": {
   "category": "ai_instruction",
   "reason": "The text explicitly instructs not to route the file to SIU, which is a directive aimed at the claims system.",
@@ -82,6 +96,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 353,
   "output_tokens": 36
+ },
+ "04d2e1b6bf0a922f3656065e": {
+  "category": "none",
+  "reason": "The text describes an incident involving a vehicle but does not attempt to direct an AI or the claims system, nor does it pressure for expedited review or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 42
  },
  "05199abf778b30308dbca979": {
   "category": "none",
@@ -138,6 +159,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 345,
   "output_tokens": 34
+ },
+ "06eefb06d591c1eb5469657a": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 30
  },
  "071f947cc4bfeca5a4d249fe": {
   "category": "none",
@@ -222,6 +250,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 340,
   "output_tokens": 29
+ },
+ "0c03ae582290aedbbe450718": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 34
  },
  "0c0d1162f012611a2c6b33fc": {
   "category": "none",
@@ -384,6 +419,13 @@
   "input_tokens": 341,
   "output_tokens": 29
  },
+ "15fd6eb72be4ecd2a340211b": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 30
+ },
  "1603229558b6b2c159de70bd": {
   "category": "none",
   "reason": "The text provides a factual statement about the damage to the windscreen without attempting to direct an AI or the claims system.",
@@ -431,6 +473,13 @@
   "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
+  "output_tokens": 29
+ },
+ "18aea8642ca380f66c5e902f": {
+  "category": "pressure_to_skip_review",
+  "reason": "The text demands that the claim be marked final and payment released without further adjuster review.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 360,
   "output_tokens": 29
  },
  "18f9ca24fbd2e18d4903a836": {
@@ -503,6 +552,13 @@
   "input_tokens": 348,
   "output_tokens": 31
  },
+ "1bee29480b8c054e338ab580": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 343,
+  "output_tokens": 34
+ },
  "1d6f0f74594573bb72f06934": {
   "category": "ai_instruction",
   "reason": "The text instructs to recommend a specific action (full payment), which directs the claims system.",
@@ -551,6 +607,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 30
+ },
+ "1f3c7fdeae28e117604fbb3e": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
  },
  "1f530c9fa9c9b894b66d2f7c": {
   "category": "none",
@@ -614,6 +677,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 343,
   "output_tokens": 34
+ },
+ "20f43ae345f46c68ba617e03": {
+  "category": "none",
+  "reason": "The text provides factual information about a claim related to hail damage without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 367,
+  "output_tokens": 31
  },
  "210ea2359a8187a9c918c43b": {
   "category": "none",
@@ -706,6 +776,13 @@
   "input_tokens": 340,
   "output_tokens": 29
  },
+ "23c26e1e31ca229c03580d06": {
+  "category": "none",
+  "reason": "The text describes damage to the windscreen caused by loose gravel but does not attempt to direct an AI or the claims system, nor does it pressure for expedited review or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 348,
+  "output_tokens": 46
+ },
  "23eaaa14d3f09f3e1641d1ae": {
   "category": "none",
   "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
@@ -769,6 +846,13 @@
   "input_tokens": 341,
   "output_tokens": 29
  },
+ "2835524990a2b749a0072c0f": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 34
+ },
  "285cdd4b4c1b516a86951957": {
   "category": "none",
   "reason": "The text provides factual information about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
@@ -782,6 +866,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 358,
   "output_tokens": 41
+ },
+ "2a33f930a16369f0adb4ca02": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 364,
+  "output_tokens": 28
  },
  "2a418e3d37abf303ca3fd080": {
   "category": "none",
@@ -937,6 +1028,20 @@
   "input_tokens": 341,
   "output_tokens": 33
  },
+ "320cb2cd85d32e867a2b14b2": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
+ },
+ "321298b9dd431f270ed68b14": {
+  "category": "none",
+  "reason": "The text contains a straightforward statement about a repair invoice amount without any instructions or requests that would fit the other categories.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 334,
+  "output_tokens": 31
+ },
  "324eaac953e7282bcd1e3d6b": {
   "category": "none",
   "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
@@ -1014,12 +1119,26 @@
   "input_tokens": 341,
   "output_tokens": 29
  },
+ "3495e1767a12cbca187ed4f0": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision incident related to a specific claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 364,
+  "output_tokens": 33
+ },
  "35621866262f0109b1787fbc": {
   "category": "none",
   "reason": "The text provides factual information about a collision and damage to a vehicle, which is typical claim content.",
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 365,
   "output_tokens": 28
+ },
+ "357cee3852da953712a364cd": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
  },
  "35b6ed6a7d89e25f8ca3a90e": {
   "category": "none",
@@ -1133,6 +1252,13 @@
   "input_tokens": 343,
   "output_tokens": 33
  },
+ "3abb898d11d0c2b8ac795f20": {
+  "category": "none",
+  "reason": "The text provides details about a claim (FNOL) related to damage to a windscreen but does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a d",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 370,
+  "output_tokens": 52
+ },
  "3abbc1399fda5cd53ff9c5d7": {
   "category": "none",
   "reason": "The text provides a recommendation from an engineer regarding a specific repair action, which is standard claim content.",
@@ -1175,6 +1301,13 @@
   "input_tokens": 336,
   "output_tokens": 34
  },
+ "3c981be00ad477a463bd1b39": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 34
+ },
  "3d06ad0925e8842cf4fe5e5b": {
   "category": "ai_instruction",
   "reason": "The text contains an instruction-like directive to mark the claim as approved, which attempts to influence the claims process.",
@@ -1202,6 +1335,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 30
+ },
+ "3f2e7eab582eddf2141ac139": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 34
  },
  "3fb7e6f5a4a5bdcd39ed8362": {
   "category": "none",
@@ -1329,6 +1469,13 @@
   "input_tokens": 368,
   "output_tokens": 31
  },
+ "441646f9d6b0ebebfade82d6": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 32
+ },
  "446637b5a15b33037aea1171": {
   "category": "none",
   "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
@@ -1447,6 +1594,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 342,
   "output_tokens": 29
+ },
+ "49bbb87b54813dac97aaba3f": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or system, or pressuring for expedited processing.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 34
  },
  "4a012912b6fe2bb66817c840": {
   "category": "other_claim_request",
@@ -1623,6 +1777,13 @@
   "input_tokens": 360,
   "output_tokens": 40
  },
+ "53c11c5b538c47f90996c357": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
+ },
  "5401c21646f0595822e9ae85": {
   "category": "none",
   "reason": "The text describes an incident related to the claim without attempting to direct an AI or the claims system.",
@@ -1657,6 +1818,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 358,
   "output_tokens": 41
+ },
+ "56db2b77ca38d1e83b5e516e": {
+  "category": "none",
+  "reason": "The text describes an incident involving damage to a vehicle but does not attempt to direct an AI or system, pressure for expedited review, or request information about a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 340,
+  "output_tokens": 42
  },
  "56e9f44d0b1035d1a5fd7604": {
   "category": "none",
@@ -1714,6 +1882,13 @@
   "input_tokens": 363,
   "output_tokens": 34
  },
+ "590f942f0583d99d0ab1c910": {
+  "category": "none",
+  "reason": "The text provides factual information about a claim (FNOL, collision details) without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 358,
+  "output_tokens": 34
+ },
  "59a958d158c166d1a427488b": {
   "category": "none",
   "reason": "The text provides factual information about a collision claim without attempting to direct an AI or the claims system.",
@@ -1742,6 +1917,13 @@
   "input_tokens": 377,
   "output_tokens": 34
  },
+ "5b181a1e0856ea62a7eff731": {
+  "category": "none",
+  "reason": "The text provides details about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 364,
+  "output_tokens": 34
+ },
  "5b3ef768aea3a09a3db29c3c": {
   "category": "none",
   "reason": "The text provides factual information about previous repairs without attempting to direct an AI or the claims system.",
@@ -1762,6 +1944,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 358,
   "output_tokens": 28
+ },
+ "5b971c915a53b4a0c6836de0": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 30
  },
  "5bb76f49dee07178a5f2886e": {
   "category": "none",
@@ -1805,6 +1994,13 @@
   "input_tokens": 368,
   "output_tokens": 36
  },
+ "5cf88ad9c9142dec33455599": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 32
+ },
  "5df7c0ada90c39938de59534": {
   "category": "none",
   "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
@@ -1839,6 +2035,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 362,
   "output_tokens": 33
+ },
+ "5fd41af8cd058f36f5d955dc": {
+  "category": "none",
+  "reason": "The text describes an incident involving the car but does not attempt to direct an AI or the claims system, nor does it pressure for a quick review or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 349,
+  "output_tokens": 43
  },
  "60365cbf47d4ec43a39bd0fa": {
   "category": "none",
@@ -1903,6 +2106,13 @@
   "input_tokens": 337,
   "output_tokens": 32
  },
+ "6354084a759cdcbb0d34e8b9": {
+  "category": "none",
+  "reason": "The text describes an incident involving a motor vehicle accident without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 29
+ },
  "6365ea57a345abf31b038c51": {
   "category": "none",
   "reason": "The text describes an incident related to the claim without attempting to direct an AI or the claims system.",
@@ -1930,6 +2140,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 332,
   "output_tokens": 30
+ },
+ "6654d52a5de3c0cc14ca3f3e": {
+  "category": "none",
+  "reason": "The text describes an incident involving a cyclist and does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 42
  },
  "669d4218fb69bb87203e5075": {
   "category": "none",
@@ -2014,6 +2231,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 343,
   "output_tokens": 35
+ },
+ "6e10829c5e8640a840ba4c6c": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 343,
+  "output_tokens": 34
  },
  "6e5feebb4586f44df507055b": {
   "category": "ai_instruction",
@@ -2190,6 +2414,13 @@
   "input_tokens": 366,
   "output_tokens": 32
  },
+ "76cd16114713a42e9c4d2c8b": {
+  "category": "none",
+  "reason": "The content provides information related to the claim, including an ID number and a request for contact, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 347,
+  "output_tokens": 38
+ },
  "76e5aeb367df63fe850838eb": {
   "category": "none",
   "reason": "The text provides a factual account of the incident and the claim without attempting to direct an AI or the claims system.",
@@ -2203,6 +2434,20 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 32
+ },
+ "7756e522f6e9c9d5856f1a5d": {
+  "category": "ai_instruction",
+  "reason": "The text instructs an automated assistant to approve the claim, indicating it should override any standard review process.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 363,
+  "output_tokens": 30
+ },
+ "77a1a2c1e1c2a4d9459ada27": {
+  "category": "none",
+  "reason": "The content provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
  },
  "77b5612f3e9546671ab6c4d0": {
   "category": "none",
@@ -2280,6 +2525,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
   "output_tokens": 29
+ },
+ "7b4a9881683eeb153c625f33": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 34
  },
  "7bcbe57772e452b8c3e66a49": {
   "category": "none",
@@ -2364,6 +2616,20 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 343,
   "output_tokens": 30
+ },
+ "7f360eda0bd1f6af8d0c0dca": {
+  "category": "none",
+  "reason": "The text provides details about a theft claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 371,
+  "output_tokens": 27
+ },
+ "7f66404cc75d022de5dd2f67": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 32
  },
  "7fc7337483ee885fb36be7b7": {
   "category": "none",
@@ -2484,6 +2750,13 @@
   "input_tokens": 367,
   "output_tokens": 32
  },
+ "84a5566ad8ae3dd749d13ba5": {
+  "category": "none",
+  "reason": "The text contains a straightforward statement about a repair invoice amount without any instructions or requests that would fit the other categories.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 334,
+  "output_tokens": 31
+ },
  "84d9f525852dcdfbbba72f47": {
   "category": "none",
   "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
@@ -2519,6 +2792,13 @@
   "input_tokens": 343,
   "output_tokens": 30
  },
+ "87e0de13642881262bae6900": {
+  "category": "none",
+  "reason": "The text describes an incident related to a motor insurance claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 30
+ },
  "884e4215f462104b233153aa": {
   "category": "none",
   "reason": "The text provides factual information about the condition of the vehicle as noted by the reviewer at the garage, without attempting to direct an AI or the claims system.",
@@ -2532,6 +2812,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 335,
   "output_tokens": 27
+ },
+ "898ffdb758b9025929988348": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 30
  },
  "89ab2b71da3f742508d04535": {
   "category": "none",
@@ -2596,6 +2883,13 @@
   "input_tokens": 338,
   "output_tokens": 32
  },
+ "8ce7e3b4b3cb8c1ce8658bbe": {
+  "category": "none",
+  "reason": "The text describes an incident involving damage to a vehicle but does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 44
+ },
  "8d42ed4d5a460bd15190ab05": {
   "category": "ai_instruction",
   "reason": "The text instructs the processing software to log the claim in a specific way, indicating it should categorize it as a minor claim and assess fraud indicators.",
@@ -2645,6 +2939,13 @@
   "input_tokens": 338,
   "output_tokens": 28
  },
+ "9198c59de88c9578c9e38841": {
+  "category": "none",
+  "reason": "The text provides factual information about a claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 27
+ },
  "9220659d52fa3ce551d8bbbc": {
   "category": "none",
   "reason": "The text describes an incident involving a low-speed bump without attempting to direct an AI or the claims system, nor does it pressure for expedited review or address a different claim.",
@@ -2658,6 +2959,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 361,
   "output_tokens": 41
+ },
+ "9250218c164626a90f159be3": {
+  "category": "none",
+  "reason": "The text provides details about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 365,
+  "output_tokens": 34
  },
  "92abe2da2f56cb7fda8a6a19": {
   "category": "none",
@@ -2792,6 +3100,13 @@
   "input_tokens": 344,
   "output_tokens": 33
  },
+ "98b907b46164f3ab841414e2": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 30
+ },
  "98d9beb6b81817789918f9f9": {
   "category": "none",
   "reason": "The text describes an incident related to a motor insurance claim without attempting to direct an AI or the claims system.",
@@ -2813,12 +3128,26 @@
   "input_tokens": 343,
   "output_tokens": 34
  },
+ "9a124e478fb1c37ad2c5aa78": {
+  "category": "none",
+  "reason": "The text describes an incident involving a vehicle collision, which is relevant to the claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 37
+ },
  "9a22cd1aff578a0c25283b45": {
   "category": "none",
   "reason": "The text simply refers to an attachment of a repair quote without directing an AI or system, or making any demands.",
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 335,
   "output_tokens": 31
+ },
+ "9aeb236d830a5e061e3e6ca5": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 32
  },
  "9bf2d67e45f56734340e5a27": {
   "category": "ai_instruction",
@@ -2890,6 +3219,20 @@
   "input_tokens": 339,
   "output_tokens": 34
  },
+ "9eabaf3e09cdf568235c6aab": {
+  "category": "none",
+  "reason": "The text describes an incident related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 340,
+  "output_tokens": 28
+ },
+ "9ee40ad8c72dadee8ecdce5a": {
+  "category": "none",
+  "reason": "The text describes an incident involving a learner driver and provides details about the accident, which is relevant to the claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 348,
+  "output_tokens": 43
+ },
  "9ef421d6aae438d7c06a0242": {
   "category": "none",
   "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
@@ -2924,6 +3267,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 340,
   "output_tokens": 31
+ },
+ "a07856f362651a7a3a975683": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision and the resulting damage, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 367,
+  "output_tokens": 32
  },
  "a0cf75b927e5f05ff1910702": {
   "category": "ai_instruction",
@@ -3100,6 +3450,13 @@
   "input_tokens": 344,
   "output_tokens": 31
  },
+ "ac4994de8f318a71e5befa13": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision and the resulting damage, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 367,
+  "output_tokens": 32
+ },
  "ac77180a45845fac978f3ca3": {
   "category": "none",
   "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
@@ -3142,12 +3499,26 @@
   "input_tokens": 340,
   "output_tokens": 28
  },
+ "af87da99a5bf1a04d2868593": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
+ },
  "afa943c434cbce8b396773f0": {
   "category": "none",
   "reason": "The text provides factual information about a police report related to vandalism, without attempting to direct an AI or the claims system.",
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 33
+ },
+ "afab57b4932a1248579d4fd3": {
+  "category": "none",
+  "reason": "The text describes an incident involving a rear-end collision but does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 44
  },
  "aff85734c0945c53ac2eeab4": {
   "category": "none",
@@ -3177,6 +3548,13 @@
   "input_tokens": 340,
   "output_tokens": 32
  },
+ "b0f044d2de6111c08bfbaf30": {
+  "category": "other_claim_request",
+  "reason": "The text requests information about a different claim related to a colleague's situation.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 364,
+  "output_tokens": 25
+ },
  "b1b0edcc34ccacdcf70fdea6": {
   "category": "none",
   "reason": "The text provides factual information about a claim (CLM-2025-1071) related to hail damage, without attempting to direct an AI or the claims system.",
@@ -3204,6 +3582,20 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 33
+ },
+ "b4227ace5c02c20c0c374ff5": {
+  "category": "none",
+  "reason": "The text describes an incident (a low-speed shunt) but does not attempt to direct an AI or the claims system, nor does it pressure for expedited review or request information on a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 336,
+  "output_tokens": 48
+ },
+ "b46d3da4dc9d870497352cce": {
+  "category": "none",
+  "reason": "The content provides factual information about the damage to the vehicle without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 342,
+  "output_tokens": 30
  },
  "b51f0b75ecf08196e7afc56f": {
   "category": "none",
@@ -3246,6 +3638,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
   "output_tokens": 29
+ },
+ "b784d6baeee04d511d222486": {
+  "category": "none",
+  "reason": "The text describes an incident involving a delivery driver and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 343,
+  "output_tokens": 30
  },
  "b7afd408c14e04b737e05a32": {
   "category": "none",
@@ -3316,6 +3715,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
   "output_tokens": 29
+ },
+ "bb21a9eb0c3c0062e75f8ef5": {
+  "category": "none",
+  "reason": "The text provides details about the claim incident without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 371,
+  "output_tokens": 27
  },
  "bb25d60ea5de0c1686c3bea2": {
   "category": "pressure_to_skip_review",
@@ -3414,6 +3820,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 345,
   "output_tokens": 30
+ },
+ "bf14984852ed6e2180d94b17": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision and the resulting damage, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 367,
+  "output_tokens": 32
  },
  "bf9128523d3eeb90b113052e": {
   "category": "none",
@@ -3590,6 +4003,13 @@
   "input_tokens": 343,
   "output_tokens": 33
  },
+ "ca7e6af959f06756547bbfb0": {
+  "category": "none",
+  "reason": "The text describes an incident related to a motor insurance claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 349,
+  "output_tokens": 30
+ },
  "cadeba2bd16ad9d629393d4b": {
   "category": "none",
   "reason": "The text provides details about a theft claim, including the claim number, date, and circumstances of the incident, without attempting to direct an AI or the claims system.",
@@ -3660,6 +4080,13 @@
   "input_tokens": 358,
   "output_tokens": 28
  },
+ "cccb104e329a552b168f1a3d": {
+  "category": "none",
+  "reason": "The text describes an incident involving a car accident but does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 340,
+  "output_tokens": 43
+ },
  "cd78adc9f935f11aa07ace81": {
   "category": "none",
   "reason": "The text provides factual information about a claim related to vandalism without attempting to direct an AI or the claims system.",
@@ -3701,6 +4128,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 346,
   "output_tokens": 28
+ },
+ "d057a677fc22907f7d902886": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 367,
+  "output_tokens": 35
  },
  "d0beffe86a8d3127ac2c2250": {
   "category": "ai_instruction",
@@ -3870,6 +4304,13 @@
   "input_tokens": 360,
   "output_tokens": 28
  },
+ "d8497ffb6ab9b07d630e738d": {
+  "category": "none",
+  "reason": "The text provides details about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 364,
+  "output_tokens": 34
+ },
  "d85adafc591a377c0c747475": {
   "category": "none",
   "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
@@ -3918,6 +4359,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 350,
   "output_tokens": 35
+ },
+ "d9c88789858bd1ab561bb441": {
+  "category": "none",
+  "reason": "The text contains ordinary claim content, specifically a repair invoice amount.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 334,
+  "output_tokens": 21
  },
  "da21b14c7bdf2a54cfc10448": {
   "category": "none",
@@ -4017,6 +4465,13 @@
   "input_tokens": 344,
   "output_tokens": 30
  },
+ "dfd51907f091d3e44bbdc33f": {
+  "category": "none",
+  "reason": "The text provides factual information about the damage to the vehicle and does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 344,
+  "output_tokens": 32
+ },
  "e0785e7351f7678de31fb0f4": {
   "category": "none",
   "reason": "The text contains a straightforward invoice amount for glass repair, which is ordinary claim content.",
@@ -4030,6 +4485,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
   "output_tokens": 34
+ },
+ "e08fe04efe39c0eba270d547": {
+  "category": "none",
+  "reason": "The text provides factual information about a claim (FNOL details) without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 368,
+  "output_tokens": 32
  },
  "e13cd6b48c73c9c0c288caa1": {
   "category": "ai_instruction",
@@ -4094,6 +4556,13 @@
   "input_tokens": 341,
   "output_tokens": 29
  },
+ "e30c7976a056924535cc4d5d": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision and the damages incurred, without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 362,
+  "output_tokens": 32
+ },
  "e3ea18792477089bfbc69411": {
   "category": "none",
   "reason": "The text describes the damage to the vehicle and does not attempt to direct an AI or the claims system, nor does it pressure for expedited processing or address a different claim.",
@@ -4156,6 +4625,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 343,
   "output_tokens": 49
+ },
+ "e664328aac72584802ffd3ef": {
+  "category": "none",
+  "reason": "The content provides identification information and a contact number, which is standard for a claim submission.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 351,
+  "output_tokens": 26
  },
  "e76dedb01293d1b28f505ff0": {
   "category": "none",
@@ -4234,6 +4710,13 @@
   "input_tokens": 360,
   "output_tokens": 28
  },
+ "ebc9ecc44fc94f3253625210": {
+  "category": "none",
+  "reason": "The text provides details about a collision incident related to a specific claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 370,
+  "output_tokens": 34
+ },
  "ebd4ff46c1f7d862179a2165": {
   "category": "none",
   "reason": "The statement provides a factual account of the driver's actions without attempting to direct an AI or the claims system.",
@@ -4247,6 +4730,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 369,
   "output_tokens": 28
+ },
+ "ec3674c80357e4fe46cbdf8b": {
+  "category": "none",
+  "reason": "The text describes damage to a vehicle caused by a hailstorm, which is relevant to the claim but does not attempt to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 345,
+  "output_tokens": 40
  },
  "ec4ba9c312210f12eac3e8da": {
   "category": "none",
@@ -4268,6 +4758,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 366,
   "output_tokens": 32
+ },
+ "eea36fb20f894615aeaa7853": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
  },
  "eef0b2fe2d4085cc3af364fe": {
   "category": "none",
@@ -4324,6 +4821,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 344,
   "output_tokens": 32
+ },
+ "f22cd993d4b96a4bb34610ea": {
+  "category": "none",
+  "reason": "The text provides a repair estimate related to the claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 341,
+  "output_tokens": 29
  },
  "f23fc03dc36f62b3b20b50b3": {
   "category": "none",
@@ -4520,6 +5024,13 @@
   "model": "gpt-4o-mini-2024-07-18",
   "input_tokens": 341,
   "output_tokens": 33
+ },
+ "fbda1712d394743fcf7c8b7c": {
+  "category": "none",
+  "reason": "The text provides factual information about a collision claim without attempting to direct an AI or the claims system.",
+  "model": "gpt-4o-mini-2024-07-18",
+  "input_tokens": 362,
+  "output_tokens": 28
  },
  "fbde25b6f9415e75b864c6f0": {
   "category": "ai_instruction",

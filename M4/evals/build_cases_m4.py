@@ -416,10 +416,11 @@ for t, text in [
         facts={where: text}, must_not=["CLS-GRC-099", "CLS-EXT-077", "approve"])
 
 assert len(cases) == 110, len(cases)
-OUT.write_text(json.dumps({
-    "suite": "claimsense-m4-additions", "version": "2026-11-22", "synthetic": True,
-    "note": "110 cases added in M4 (CS-041..CS-150), taking the suite to 150. Labels derived by build_cases_m4.py from the "
-            "business rules, drafted by the FDE; spot-checked and signed off by the client (Senior Adjuster) on 2026-11-22: "
-            "15 sampled + all 34 adversarial cases + 16 coverage judgments (M4/evals/label-review.md, D-046).",
-    "cases": cases}, indent=1, ensure_ascii=False) + "\n")
-print(f"wrote {OUT.name}: {len(cases)} cases")
+if __name__ == "__main__":                 # importable (the held-out builder reuses label()), writes only when run
+    OUT.write_text(json.dumps({
+        "suite": "claimsense-m4-additions", "version": "2026-11-22", "synthetic": True,
+        "note": "110 cases added in M4 (CS-041..CS-150), taking the suite to 150. Labels derived by build_cases_m4.py from the "
+                "business rules, drafted by the FDE; spot-checked and signed off by the client (Senior Adjuster) on 2026-11-22: "
+                "15 sampled + all 34 adversarial cases + 16 coverage judgments (M4/evals/label-review.md, D-046).",
+        "cases": cases}, indent=1, ensure_ascii=False) + "\n")
+    print(f"wrote {OUT.name}: {len(cases)} cases")
