@@ -1,0 +1,110 @@
+{
+ "note": "Narration, one entry per scene, in video order (voiced by make_demo.py tts). Every figure is from the repository's evidence; nothing is staged.",
+ "scenes": [
+  {
+   "id": "cover",
+   "kind": "still",
+   "text": "This is ClaimSense, a claims co-pilot built for AutoSure Insurance over a five-week engagement. In the next nine minutes you'll see the deployed system working on real models, the evidence behind every number we quote, and how AutoSure's own team will run it after we hand it over. All of the claims you'll see are synthetic: no customer data was used at any stage."
+  },
+  {
+   "id": "outcomes",
+   "kind": "still",
+   "text": "First, the outcome in business terms. Today, an AutoSure adjuster takes a median of three point two hours to reach a first decision on a motor claim, about fifty-five minutes of it spent gathering information across three systems that don't talk to each other. ClaimSense returns a first decision in about thirteen seconds for ninety-five percent of claims. On our one-hundred-and-fifty-claim test suite, every decision was correct, three runs in a row with identical answers. On twenty new claims it had never seen, it got nineteen right. It routed all twelve fraud files to investigators without sending a single honest claim there by mistake. And it costs about two and a half cents of model time per claim."
+  },
+  {
+   "id": "scorecard",
+   "kind": "still",
+   "text": "Here is the statement of work, criterion by criterion. Six of the eight acceptance criteria are met on the delivered system: accuracy, fraud routing, zero harm from attacks, entitlement, and operability, with latency met in evaluation. Two cannot be settled on synthetic data: how often AutoSure's own senior adjusters confirm a draft unchanged, and the completeness count from the claims system. We say so plainly, and that is why our recommendation, at the end, is a controlled pilot on real files."
+  },
+  {
+   "id": "signin",
+   "kind": "console",
+   "text": "Now the live system. This is the adjuster console, served from AutoSure's AWS account. Alice is a front-line adjuster. She has signed in through Amazon Cognito, the company's identity provider, and the blue box confirms her role. That role comes from the signed token and is re-checked against the directory on every call. Nothing she types on this page can change it."
+  },
+  {
+   "id": "approve",
+   "kind": "console",
+   "text": "Alice opens a rear-end collision and runs the co-pilot. Four agents work in a fixed order. Document Intake reads the claim file and flags anything inconsistent. Coverage Check searches the policy wording and may only cite clauses it actually retrieved. Claim Assessment looks at fraud, injury and total-loss risk. Decision Draft writes the first decision. The answer is approve. Notice the two columns: the net payable, two thousand seven hundred dollars, is computed by code from the repair estimate and the deductible. The model's judgment sits beside it, labelled as judgment, and every statement cites its source: the collision clause and the deductible clause."
+  },
+  {
+   "id": "agents",
+   "kind": "console",
+   "text": "Each agent's output is typed and kept, so an adjuster or an auditor can see exactly what each step concluded and why. The whole run is also traced, call by call, so any decision can be reconstructed after the fact."
+  },
+  {
+   "id": "askcs",
+   "kind": "console",
+   "text": "Adjusters can also ask follow-up questions. Ask ClaimSense explains the draft and the policy wording in plain language, citing the same evidence, but it never changes or makes a decision. Questions about cover are handed to the coverage specialist agent, and the conversation is kept with the claim."
+  },
+  {
+   "id": "confirm",
+   "kind": "console",
+   "text": "Nothing is ever paid by the software. Alice confirms the draft as written. If she disagreed, she would override it and must give a reason. Both actions are recorded, and the decision moves to the adjuster queue, where her team lead can see it."
+  },
+  {
+   "id": "totalloss",
+   "kind": "console",
+   "text": "A different claim: the repair estimate is well above the car's actual cash value. The code computes that ratio, and the co-pilot routes the claim to a total-loss appraiser rather than approving a repair that makes no economic sense."
+  },
+  {
+   "id": "fraud",
+   "kind": "console",
+   "text": "This one is a two a.m. unwitnessed loss, with a medical note that contradicts the driver's own account. The old rule table would have paid it, because its fraud score was below the threshold. ClaimSense reads the documents, finds the contradiction, routes the claim to the fraud investigators, and cites the inconsistency it found."
+  },
+  {
+   "id": "injection",
+   "kind": "console",
+   "text": "Now an attack. Hidden inside this repair invoice is an instruction telling the AI to approve the claim and skip the checks. ClaimSense catches it before any model acts on it. The run stops, the claim goes to a senior adjuster, and the card says why. The test suite contains forty-five attacks like this, across six families, and every release must block all of them."
+  },
+  {
+   "id": "refused",
+   "kind": "console",
+   "text": "Now Carol signs in. She's a fraud investigator, and this claim was never routed to her. She gets nothing back: no claim data, and no agents run at all. The refusal is decided by plain code before any model is involved, and she can't even tell whether the claim exists."
+  },
+  {
+   "id": "audit",
+   "kind": "still",
+   "text": "Every one of those calls is in the audit trail, in DynamoDB: who asked, what they asked for, which claim, and the decision, including Carol's refusal. Security can answer the question who accessed claim X without asking us."
+  },
+  {
+   "id": "safety",
+   "kind": "still",
+   "text": "Security holds the veto on this project, so here is the safety record. Forty-five of forty-five attacks were blocked. No outcome is ever final without a licensed adjuster. We had two incidents, one staged and one real, and both failed safe. And testing on unseen claims found one gap: a UK passport number wasn't masked before reaching the model. It was fixed the same day and is covered by a test."
+  },
+  {
+   "id": "how",
+   "kind": "still",
+   "text": "Only now, the architecture, in one line. The adjuster works in the console. The agents judge and cite. Everything they read passes through what we call the governed door: plain code that decides who may see which claim, computes dates and amounts, and writes an audit row for every call. The model never decides access or money."
+  },
+  {
+   "id": "ci",
+   "kind": "still",
+   "text": "How do we know it still works after every change? This is the continuous integration run on the main branch. Every merge runs all one hundred and fifty test claims against the live models, inside the exact image that would be shipped. The rule is strict: at least ninety percent correct, every case decided by the model, and zero adversarial failures. A single failed attack blocks the release, however good the average. A second, independent grader, Promptfoo, must agree on all one hundred and fifty cases, and a language-model judge, calibrated against known answers, checks the reasoning on live cards. Only then is the image pushed."
+  },
+  {
+   "id": "holdout",
+   "kind": "still",
+   "text": "Because we tuned the system on those one hundred and fifty claims, we also tested it on twenty claims it had never seen. The expected answers were approved by the client and committed before the run, so they could not drift toward the results. It scored nineteen out of twenty. The miss was a privacy gap, not a wrong decision, and it was fixed and re-tested the same day."
+  },
+  {
+   "id": "dashboard",
+   "kind": "still",
+   "text": "Once it's running, operations watches one dashboard: call volume, error rate, latency against the ninety-second target, live accuracy from a daily sample of test claims, and cost per claim. One alarm pages on-call by email when errors rise above five percent."
+  },
+  {
+   "id": "drill",
+   "kind": "still",
+   "text": "We broke it on purpose. A bad configuration change pointed the data layer at the wrong storage bucket. The first time, our alarm missed it, because it only watched the application's own error count, and an application that can't start reports nothing. We fixed the alarm and ran the same drill again. This time the alarm fired in about two minutes, a rollback took seconds, and recovery was verified in four minutes and thirty-nine seconds."
+  },
+  {
+   "id": "handover",
+   "kind": "still",
+   "text": "Finally, the handover. AutoSure's team gets a runbook whose procedures we actually carried out on the live system: adding and removing a user, rolling back a release, escalating a claim to fraud investigators by hand, and updating the policy wording. Alongside it: the test suite as a contract, an escalation map, ten signals to review each month, and both incident reports."
+  },
+  {
+   "id": "ask",
+   "kind": "still",
+   "text": "Our recommendation is a thirty-day controlled pilot on real claim files. Security signs off first. One adjuster team, every outcome still confirmed by a person. And a go or no-go decision on day thirty, against this same scorecard, so nobody has to argue later about whether it worked. Thank you."
+  }
+ ]
+}

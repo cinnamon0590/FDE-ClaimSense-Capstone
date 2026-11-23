@@ -1,0 +1,78 @@
+:root {
+  --ink: #14213D;
+  --paper: #F6F4EF;
+  --paper2: #E8EDF1;
+  --soft: #46536A;
+  --accent: #0E6E66;
+  --amber: #E9A23B;
+  --line: #C9D2DB;
+}
+body { font-family: 'Inter', Arial, sans-serif; color: var(--ink); }
+section { padding: 128px; background: var(--paper); color: var(--ink); display: flex; flex-direction: column; box-sizing: border-box; }
+section.alt { background: var(--paper2); }
+section.dark { background: var(--ink); color: var(--paper); }
+section.footed { padding: 128px 128px 160px; }
+h1, h2, h3 { font-family: 'Space Grotesk', Arial, sans-serif; margin: 0; }
+h1 { font-size: 88px; font-weight: 600; line-height: 1.08; }
+h2 { font-size: 64px; font-weight: 600; line-height: 1.1; }
+h3 { font-size: 32px; font-weight: 600; line-height: 1.2; }
+p { margin: 0; font-size: 32px; line-height: 1.35; }
+.eyebrow { font-size: 24px; font-weight: 600; letter-spacing: 3px; color: var(--accent); margin-bottom: 28px; }
+.dark .eyebrow { color: var(--amber); }
+.lede { font-size: 32px; color: var(--soft); margin-top: 32px; }
+.dark .lede { color: #C9D6E3; }
+.spacer { flex: 1; }
+.source { position: absolute; left: 128px; bottom: 64px; width: 1664px; font-size: 24px; color: var(--soft); }
+.dark .source { color: #9FB0C3; }
+
+/* cover */
+.cover-title { width: 1480px; }
+.cover-meta { display: flex; gap: 48px; }
+.cover-meta p { font-size: 24px; color: #C9D6E3; }
+.cover-meta .tag { font-weight: 600; color: var(--amber); }
+
+/* big numbers */
+.stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; margin-top: 64px; }
+.stat { background: #FBFAF7; border-top: 8px solid var(--accent); padding: 36px 32px; display: flex; flex-direction: column; gap: 16px; }
+.stat .was { font-size: 24px; color: var(--soft); }
+.stat .num { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 88px; font-weight: 600; line-height: 1; color: var(--ink); }
+.stat .what { font-size: 24px; line-height: 1.35; color: var(--ink); }
+.stat .what b { color: var(--accent); }
+
+/* scorecard */
+.score { margin-top: 40px; font-size: 24px; color: var(--ink); }
+.status { font-weight: 600; }
+
+/* safety cards */
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; }
+.card { background: #FBFAF7; padding: 32px 36px; display: flex; flex-direction: column; gap: 12px; border-left: 8px solid var(--accent); }
+.card.warn { border-left-color: var(--amber); }
+.card .big { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 44px; font-weight: 600; line-height: 1.1; color: var(--ink); }
+.card .txt { font-size: 24px; line-height: 1.4; color: var(--soft); }
+
+/* how it works */
+.flow { display: flex; align-items: stretch; gap: 0; margin-top: 56px; }
+.node { flex: 1; padding: 28px 28px; display: flex; flex-direction: column; gap: 10px; background: #FBFAF7; border: 3px solid var(--line); }
+.node.human { border-color: var(--accent); }
+.node.model { border-color: var(--amber); }
+.node .nt { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 32px; font-weight: 600; color: var(--ink); }
+.node .nd { font-size: 24px; line-height: 1.35; color: var(--soft); }
+.arrow { width: 64px; display: flex; align-items: center; justify-content: center; }
+.arrow x-shape { width: 44px; height: 24px; background: var(--soft); }
+.legend { display: flex; gap: 40px; margin-top: 28px; }
+.legend p { font-size: 24px; color: var(--soft); }
+.runs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 44px; }
+.run { border-top: 3px solid var(--ink); padding-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+.run .rt { font-size: 24px; font-weight: 600; color: var(--ink); }
+.run .rd { font-size: 24px; line-height: 1.35; color: var(--soft); }
+
+/* the ask */
+.asks { display: flex; flex-direction: column; gap: 24px; margin-top: 52px; width: 1560px; }
+.ask-row { display: flex; gap: 32px; align-items: baseline; }
+.ask-row .n { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 44px; font-weight: 600; color: var(--amber); width: 64px; }
+.ask-row .t { font-size: 32px; line-height: 1.35; color: var(--paper); width: 1460px; }
+.ask-row .t b { color: #FFFFFF; }
+
+/* motion: arrive staged, finished look is the plain rule */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+.stat, .card, .node, .ask-row, .run { animation: rise 600ms ease-out both; animation-delay: calc(var(--i, 0) * 120ms); }

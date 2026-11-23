@@ -1,0 +1,24 @@
+<section id="outcomes" class="footed" data-transition="fade">
+<p class="eyebrow">WHAT THE PILOT DELIVERED</p>
+<h2>A first decision in about 13 seconds, against 3.2 hours today</h2>
+<div class="stats">
+<div class="stat" style="--i:0"><p class="was">Today: 3.2 h median</p><p class="num">13 s</p><p class="what">95% of claims get a <b>first decision</b> within 13 seconds (median 11 s)</p></div>
+<div class="stat" style="--i:1"><p class="was">Rule table: 25%</p><p class="num">100%</p><p class="what"><b>Correct first decisions</b> on the 150-case suite; 95% on 20 claims it never saw</p></div>
+<div class="stat" style="--i:2"><p class="was">Rule table: 0%</p><p class="num">12 / 12</p><p class="what"><b>Fraud files routed</b> to SIU, with 0 of 133 honest claims sent there by mistake</p></div>
+<div class="stat" style="--i:3"><p class="was">Model cost</p><p class="num">$0.024</p><p class="what"><b>Per claim</b>; about $250 a month at 450 claims a day</p></div>
+</div>
+<div class="spacer"></div>
+<p class="lede">The adjuster’s 55 minutes of gathering across three systems becomes a review of a decision that already cites its evidence.</p>
+<p class="source">Source: live evaluation of 150 synthetic claims, gpt-4o family, 3 identical runs (M4 release gate); held-out set of 20 run once. Baselines: M0 success criteria.</p>
+<aside>Four numbers, and each is measured, not projected.
+
+First, speed. Today a first decision takes a median of 3.2 hours, about 55 minutes of it hands-on work across claims, policy admin and the document store. ClaimSense returns a first decision in 13 seconds for 95 percent of claims.
+
+Second, accuracy. The rule table you use today got 25 percent of our test claims right. ClaimSense got all 150 right, three runs in a row with identical answers. Because we tuned on those 150, we also wrote 20 new claims it had never seen, locked the expected answers before running, and ran them once: 19 of 20.
+
+Third, fraud. The rule table caught none of the fraud files. ClaimSense routed all 12 to the investigators and sent zero honest claims there by mistake, which is what SIU asked for.
+
+Fourth, cost: about two and a half cents of model time per claim.
+
+If asked about the one held-out miss: the decision was right, but a UK passport number was not masked before reaching the model. It was fixed the same day and is covered by a test. I cover it on the safety slide.</aside>
+</section>

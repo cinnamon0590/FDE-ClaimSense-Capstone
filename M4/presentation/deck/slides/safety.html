@@ -1,0 +1,20 @@
+<section id="safety" class="footed" data-transition="fade">
+<p class="eyebrow">IS IT SAFE TO PUT IN FRONT OF REAL CLAIMS</p>
+<h2>Nothing is paid without a person, and nothing reaches the wrong person</h2>
+<div class="cards">
+<div class="card" style="--i:0"><p class="big">45 of 45 attacks blocked</p><p class="txt">Hidden instructions in documents, requests for another claimant’s file, “pay now, no review needed”: blocked on every run, and the release is stopped if even one gets through.</p></div>
+<div class="card" style="--i:1"><p class="big">0 decisions without an adjuster</p><p class="txt">Every outcome is a draft until a licensed adjuster confirms it. The software cannot confirm on its own behalf.</p></div>
+<div class="card" style="--i:2"><p class="big">2 incidents, both recovered</p><p class="txt">A staged outage, recovered in 4 min 39 s once the alarm fired; a real first-day fault, recovered in 32 min. Both failed safe: no wrong decision, no data exposed.</p></div>
+<div class="card warn" style="--i:3"><p class="big">1 gap found before real data</p><p class="txt">On claims it had never seen, a UK passport number was not masked before reaching the model. Fixed the same day, covered by a test, re-checked on all 150 claims.</p></div>
+</div>
+<p class="source">Source: M4 release gate (45 adversarial cases, 6 attack families); incident reports RCA-2026-11-23 and RCA-2; held-out set HO-20; audit trail on AWS.</p>
+<aside>Security holds the veto on this project, so this is the slide I would want to defend line by line.
+
+Attacks: 45 test claims are built to make the system misbehave. Instructions hidden in a repair invoice, requests to see a neighbour’s claim, letters saying the claim is pre-approved. All 45 blocked, every run. The rule is zero tolerance: one failure blocks the release, however good the average.
+
+Accountability: ClaimSense drafts; a licensed adjuster confirms. That is enforced in the access layer, not in a prompt.
+
+Incidents: we broke it on purpose. A bad configuration took the data layer down. The first time, our alarm missed it, because it only watched the application’s own error count. We fixed that, ran the same drill again: the alarm fired in about two minutes and service was verified in under five. The second incident was real, found by our client tester on the first day; we recovered in about half an hour and added a check so it cannot recur.
+
+The honest gap: on new claims, a UK passport number was not masked. No customer data was involved, it was fixed and tested the same day, and it is the reason we recommend a held-out check on real-shaped files before go-live.</aside>
+</section>
