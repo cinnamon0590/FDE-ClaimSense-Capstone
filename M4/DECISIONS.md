@@ -6,6 +6,38 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-051 · 2026-11-23 · The runbook's four procedures, each executed before it was written
+- **Why:** W17 / brief Milestone 5: a runbook covering adding a user, rolling back a deployment, escalating a
+  flagged claim manually and updating the policy corpus (the M4 floor adds symptom → signal → decision → command).
+- **Decision:** `M4/RUNBOOK.md` has the four procedures, plus the door error rate alarm and eval-pass-below-SLO
+  procedures that the alarm and continuous eval already point to. Each procedure was run on the real system first,
+  and each links its evidence. Tooling where a procedure had none:
+  - **Users:** the directory became data (`M1/6-synthetic-data/source/users.json`). `deploy.sh` now also
+    **off-boards** (global sign-out, disable, delete) Cognito users who left the directory. The console lists the
+    directory's users instead of a hard-coded list.
+  - **Rollback:** `M4/ops/rollback.py` re-points the door or the frontend to any gated image (immutable commit
+    tags, no rebuild) and checks it.
+  - **Escalation:** a human-only **🚩 Escalate to SIU (manual)** panel in the console, and `M4/ops/escalate.py`
+    for on-call. Both make the same door call: grant + entitlement + idempotency key + audit, no claim data on
+    the ticket.
+  - **Corpus:** no new tool (the generator signs the manifest; `deploy.sh` syncs S3 and ships the manifest
+    together). The two tests that hard-coded "12 clauses" now derive the size, so a corpus change doesn't break
+    them.
+- **What the tests found (fixed):**
+  - queued escalations were **never delivered**: nothing called the outbox flush, despite its docstring. Now the
+    health check (in the background, never blocking), escalation reads and new escalations deliver it
+    (`M3/tests/test_escalation_outbox_delivery.py`);
+  - the console would have **crashed on an `unavailable` card** (D-050's new outcome had no reasoning to show).
+- **Results:**
+  - **users:** frank added → claim approved $2,700 → removed → old token refused at once;
+  - **rollback:** door 15 s and frontend 2.5 min each way;
+  - **escalation:** SIU tickets, an idempotent replay, and a queue delivered after a ticketing outage;
+  - **corpus:** 2024.2 (CLS-RNT-013) passed the replay gate 150/150 and a live sample 10/10, and is served with
+    manifest provenance and 0 quarantined on AWS.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-050 · 2026-11-23 · Incident drill on the deployed system: the alarm watches the edge, outages say "unavailable", deploys smoke-test themselves
 - **Why:** brief Milestone 5 / W17: a deliberate regression → detection → rollback → a one-page RCA with time to
   verified recovery and the eval case it spawned. Builder tier: the drill is packaged for the client's team.

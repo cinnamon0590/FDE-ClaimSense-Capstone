@@ -25,7 +25,7 @@ the eval suite on every push from M0, and from M2 it gates the build.
 | [`M1/`](M1/README.md) | W14 | Milestone 2 | SoW, pricing, architecture, risk register, system contracts, data shapes, cloud account | Done |
 | [`M2/`](M2/README.md) | W15 | Milestone 3 | Four agents on the OpenAI Agents SDK, cited retrieval, containers (one command), CI eval gate that blocks the image push | Done |
 | [`M3/`](M3/README.md) | W16 | Milestone 4 | The governed MCP door: deny-by-default grants + entitlement before any agent, auth on every route, two-user test, append-only audit; 4th backend + webhooks; RFC 8693 OBO | Done |
-| [`M4/`](M4/README.md) | W17 | Milestone 5 | 150-case eval suite (150/150 live ×3, adversarial 45/45), second grader, dashboard and alarm, **deployed console: https://d2jfndltae6j40.cloudfront.net**, incident drill + RCA; next: runbook, handover | In progress |
+| [`M4/`](M4/README.md) | W17 | Milestone 5 | 150-case eval suite (150/150 live ×3, adversarial 45/45), second grader, dashboard and alarm, **deployed console: https://d2jfndltae6j40.cloudfront.net**, incident drill + RCA, runbook (4 procedures, each tested); next: handover | In progress |
 
 **The agents, in one place:** [`M2/AGENTS.md`](M2/AGENTS.md) describes every ClaimSense agent in
 [Salesforce Agent Script](https://developer.salesforce.com/docs/ai/agentforce/guide/agent-script.html) terms: what
