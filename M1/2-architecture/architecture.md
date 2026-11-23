@@ -3,7 +3,7 @@
 **Engagement:** ClaimSense AI · AutoSure Insurance (motor) · **FDE:** Susan Wellington · **Date:** 2026-11-05
 
 > **This is the M1 design, kept as submitted.** What was actually built through M3 (and how it differs) is in
-> [section 10, *As built*](#10-as-built-through-m3), with its own diagram:
+> [section 10, *As built*](#10-as-built-through-m4), with its own diagram:
 > [`architecture-as-built.png`](architecture-as-built.png). Both are kept current with every change.
 
 ![ClaimSense reference architecture](architecture.png)
