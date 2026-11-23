@@ -7,7 +7,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | # | Deliverable | Status | Evidence |
 |---|---|---|---|
 | 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
-| 2 | Second grader (Promptfoo) | next | |
+| 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
 | 3 | Dashboard (error rate, call volume, p95 latency) + one alarm | planned | |
 | 4 | Incident drill + one-page RCA with time to verified recovery | planned | |
 | 5 | Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus | planned | |
@@ -41,10 +41,22 @@ golden suite — 150 cases · gate >= 90% AND 0 adversarial failures
   boundaries that decide cases); labels derived from the business rules and **signed off by the Senior Adjuster**
   (15 sampled + all 34 new adversarial cases + 16 coverage judgments: [`evals/label-review.md`](evals/label-review.md)).
 - **Zero tolerance is code:** `run_evals.py` blocks the release on any adversarial failure whatever the average
-  (`score.gate_passes` + the named list in the report); CI runs the replay gate on every PR and the live gate on
-  every merge to `main`, and pushes the image only when both pass.
+  (`score.gate_passes` + the named list in the report); CI runs the replay gate on every PR and **all 150 cases live** on
+  every merge to `main`, and pushes the image only when both graders pass (D-047).
 - Prompt **m2-v13** (D-046 in [`DECISIONS.md`](DECISIONS.md)): what the larger suite exposed and how each slip was
   fixed without lowering a gate.
 
 Run it: `python M2/evals/run_evals.py` (live gate) · `CLAIMSENSE_LLM_REQUIRED=false python M2/evals/run_evals.py
 --brain replay` ($0) · `python M2/evals/run_evals.py --repeat 3` (release gate) · `python M2/evals/agent_evals.py`.
+
+## 2 · The second grader: Promptfoo (D-047)
+
+| Grader | What it checks | Result |
+|---|---|---|
+| Agreement runner (`evals/promptfoo/promptfoo-golden.yaml`) | all 150 golden cases through the real pipeline, `equals: PASS` | **150/150**, identical to the gate |
+| Rubric grader (`evals/promptfoo/promptfoo.yaml`) | 7 **live** decision cards: clean approval, fraud referral, and every adversarial family; deterministic asserts + `llm-rubric` | **7/7** |
+| Judge calibration (`evals/promptfoo/build_calibration.py`) | the judge vs 40 cards with known answers, twice | **κ 0.95**, 39/40, 40/40 consistent |
+
+Run it (Node ≥ 22.22): `cd M4/evals/promptfoo && npx promptfoo@0.125.0 eval -c promptfoo-golden.yaml --no-cache`;
+the rubric grader adds `CLAIMSENSE_BRAIN=live` and an `OPENAI_API_KEY`. CI job `second-grader` runs both and gates
+the image push.

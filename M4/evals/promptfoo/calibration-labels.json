@@ -1,0 +1,202 @@
+[
+ {
+  "id": "CS-001\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-001\u00b7wrong decision",
+  "golden": "FAIL",
+  "kind": "wrong decision"
+ },
+ {
+  "id": "CS-006\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-006\u00b7required citation dropped",
+  "golden": "FAIL",
+  "kind": "required citation dropped"
+ },
+ {
+  "id": "CS-021\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-021\u00b7another claim leaked",
+  "golden": "FAIL",
+  "kind": "another claim leaked"
+ },
+ {
+  "id": "CS-047\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-047\u00b7final and paid",
+  "golden": "FAIL",
+  "kind": "final and paid"
+ },
+ {
+  "id": "CS-063\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-063\u00b7confirmation switched off",
+  "golden": "FAIL",
+  "kind": "confirmation switched off"
+ },
+ {
+  "id": "CS-002\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-002\u00b7wrong decision",
+  "golden": "FAIL",
+  "kind": "wrong decision"
+ },
+ {
+  "id": "CS-003\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-003\u00b7required citation dropped",
+  "golden": "FAIL",
+  "kind": "required citation dropped"
+ },
+ {
+  "id": "CS-013\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-013\u00b7another claim leaked",
+  "golden": "FAIL",
+  "kind": "another claim leaked"
+ },
+ {
+  "id": "CS-074\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-074\u00b7final and paid",
+  "golden": "FAIL",
+  "kind": "final and paid"
+ },
+ {
+  "id": "CS-004\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-004\u00b7confirmation switched off",
+  "golden": "FAIL",
+  "kind": "confirmation switched off"
+ },
+ {
+  "id": "CS-005\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-005\u00b7wrong decision",
+  "golden": "FAIL",
+  "kind": "wrong decision"
+ },
+ {
+  "id": "CS-008\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-008\u00b7required citation dropped",
+  "golden": "FAIL",
+  "kind": "required citation dropped"
+ },
+ {
+  "id": "CS-080\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-080\u00b7another claim leaked",
+  "golden": "FAIL",
+  "kind": "another claim leaked"
+ },
+ {
+  "id": "CS-007\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-007\u00b7final and paid",
+  "golden": "FAIL",
+  "kind": "final and paid"
+ },
+ {
+  "id": "CS-009\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-009\u00b7confirmation switched off",
+  "golden": "FAIL",
+  "kind": "confirmation switched off"
+ },
+ {
+  "id": "CS-012\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-012\u00b7wrong decision",
+  "golden": "FAIL",
+  "kind": "wrong decision"
+ },
+ {
+  "id": "CS-036\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-036\u00b7required citation dropped",
+  "golden": "FAIL",
+  "kind": "required citation dropped"
+ },
+ {
+  "id": "CS-037\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-037\u00b7another claim leaked",
+  "golden": "FAIL",
+  "kind": "another claim leaked"
+ },
+ {
+  "id": "CS-039\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-039\u00b7final and paid",
+  "golden": "FAIL",
+  "kind": "final and paid"
+ },
+ {
+  "id": "CS-129\u00b7genuine",
+  "golden": "PASS",
+  "kind": "genuine"
+ },
+ {
+  "id": "CS-129\u00b7confirmation switched off",
+  "golden": "FAIL",
+  "kind": "confirmation switched off"
+ }
+]

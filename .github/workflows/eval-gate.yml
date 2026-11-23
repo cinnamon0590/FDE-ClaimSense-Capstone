@@ -243,19 +243,51 @@ jobs:
         run: |
           gunzip -c orchestrator-image.tar.gz | docker load
           test "$(docker inspect -f '{{.Id}}' claimsense/orchestrator:ci)" = "${{ needs.build-image.outputs.image_id }}"
-      - name: EVAL GATE in THE image (live, pinned gpt-4o-mini-2024-07-18 / gpt-4o-2024-08-06, LLM required, 20-case smoke, ~$0.35)
-        # The full 40-case live run and the 3-run release gate are done by hand before a release (make release).
+      - name: EVAL GATE in THE image (live, pinned models, LLM required, ALL 150 cases incl. every adversarial family, ~$3.70)
+        # M4 (D-046): the full suite runs live on every merge to main, so the submitted commit carries its own run. The
+        # 3-run release gate is still run by hand before a release (python M2/evals/run_evals.py --repeat 3).
         run: |
           docker run --rm -e OPENAI_API_KEY -e EVAL_THRESHOLD -e MOCK_BRAIN=0 -e CLAIMSENSE_LLM_REQUIRED=true \
             -v "$PWD/M2/evals/run_evals.py:/app/M2/evals/run_evals.py:ro" \
-            --entrypoint python claimsense/orchestrator:ci /app/M2/evals/run_evals.py --suite smoke --out /tmp/results.txt \
-            | tee results-ci-live.txt
+            --entrypoint python claimsense/orchestrator:ci /app/M2/evals/run_evals.py --suite full --concurrency 6 \
+            --out /tmp/results.txt | tee results-ci-live.txt
           exit "${PIPESTATUS[0]}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: eval-results-live
           path: results-ci-live.txt
+
+  second-grader:
+    # M4 (D-047): grader #2 is Promptfoo. The agreement runner replays all 150 golden cases through the real pipeline
+    # ($0) and must agree with the gate 150/150 on every push; on main the rubric grader also judges 7 LIVE decision
+    # cards (clean, referral, every adversarial family) with the calibrated judge. Both graders green or nothing ships.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: M2/requirements.txt }
+      - run: python -m venv .venv && .venv/bin/pip install -q -r M2/requirements.txt
+      - uses: actions/setup-node@v4
+        with: { node-version: "22.22" }
+      - name: Agreement runner (Promptfoo, 150 golden cases, replay brain, $0)
+        working-directory: M4/evals/promptfoo
+        env: { PROMPTFOO_DISABLE_TELEMETRY: "1", PROMPTFOO_DISABLE_UPDATE: "1", CLAIMSENSE_BRAIN: replay }
+        run: npx -y promptfoo@0.125.0 eval -c promptfoo-golden.yaml --no-cache -j 4 --no-progress-bar -o agreement.json
+      - name: Rubric grader (Promptfoo, 7 live cards, calibrated judge, ~$0.25; main only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: M4/evals/promptfoo
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PROMPTFOO_DISABLE_TELEMETRY: "1"
+          PROMPTFOO_DISABLE_UPDATE: "1"
+          CLAIMSENSE_BRAIN: live
+          MOCK_BRAIN: "0"
+          CLAIMSENSE_LLM_REQUIRED: "true"
+        run: npx -y promptfoo@0.125.0 eval -c promptfoo.yaml --no-cache -j 3 --no-progress-bar -o rubric.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: second-grader, path: "M4/evals/promptfoo/*.json" }
 
   supply-chain:
     # OWASP LLM03: scan THE build that will be pushed; publish its SBOM. A HIGH/CRITICAL CVE with a fix blocks the push.
@@ -286,7 +318,7 @@ jobs:
   push-image:
     # Pushes THE build that passed every gate (same image id), only when all are green AND the repo variable
     # ECR_PUSH_ENABLED is "true". Any failure upstream -> skipped -> no image. AWS via GitHub OIDC (no stored keys).
-    needs: [build-image, eval-suite, design-checks, pipeline-tests, stack-smoke, m3-door, supply-chain, live-eval]
+    needs: [build-image, eval-suite, design-checks, pipeline-tests, stack-smoke, m3-door, supply-chain, live-eval, second-grader]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/demo/')) && vars.ECR_PUSH_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
