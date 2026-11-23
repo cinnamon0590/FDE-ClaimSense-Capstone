@@ -24,8 +24,9 @@ for _extra in (os.environ.get("M2_CASES_FILE", "/app/M2/evals/cases-m2.json"),
 DEMO_SIGNIN = os.environ.get("CLAIMSENSE_DEMO_SIGNIN") == "1"   # deployed console (M4, D-049): passcode + picker
 CLAUSES = {c["clause_id"]: c for c in json.loads(open(os.environ.get(
     "CLAUSES_FILE", "/app/M1/6-synthetic-data/fixtures/clauses.json")).read())["records"]}
-USERS = {"alice": "Alice · adjuster", "bob": "Bob · senior adjuster", "carol": "Carol · fraud investigator",
-         "eve": "Eve · total-loss appraiser", "dave": "Dave · customer service"}
+USERS = {u["user_id"]: f'{u["display_name"].replace(" (synthetic)", "")} · {u["groups"][0].replace("-", " ")}'
+         for u in json.loads(open(os.environ.get("USERS_FILE", "/app/M1/6-synthetic-data/fixtures/users.json")).read())["records"]}
+# the directory decides who can sign in (runbook "Add or remove a user"); the role shown is the directory's group
 BADGE = {"agents": ("🧠 Model verdict", "green"), "guardrail_hold": ("🛡 Guardrail hold → human", "orange"),
          "consistency_hold": ("⚖ Model unsure (two drafts disagreed) → human", "orange"),
          "fallback": ("⚙ Deterministic fallback (not AI)", "gray"), "boundary_refusal": ("⛔ Refused at the boundary", "red"),

@@ -166,18 +166,9 @@ def main():
     for cl in clause_src["clauses"]:
         clauses.append(dict(cl, version=clause_src["version"], manifest_sha256=h(cl["clause_id"], cl["text"])))
 
-    users = [  # synthetic directory; groups drive entitlement at the data boundary (M3)
-        {"user_id": "alice", "display_name": "Alice (synthetic)", "groups": ["adjuster"],
-         "entitled_claim_scope": "assigned_group:adjuster AND assigned_adjuster:self"},
-        {"user_id": "bob", "display_name": "Bob (synthetic)", "groups": ["senior-adjuster"],
-         "entitled_claim_scope": "all_first_pass + flag_review"},
-        {"user_id": "carol", "display_name": "Carol (synthetic)", "groups": ["fraud-investigator"],
-         "entitled_claim_scope": "routed:fraud-investigator"},
-        {"user_id": "eve", "display_name": "Eve (synthetic)", "groups": ["total-loss-appraiser"],
-         "entitled_claim_scope": "routed:total-loss-appraiser"},
-        {"user_id": "dave", "display_name": "Dave (synthetic)", "groups": ["customer-service"],
-         "entitled_claim_scope": "none (status lookups only; no claim files, no fraud flags)"},
-    ]
+    # synthetic directory; groups drive entitlement at the data boundary (M3). Source of record: source/users.json
+    # (runbook "Add or remove a user", M4)
+    users = json.loads((HERE / "source" / "users.json").read_text())["users"]
 
     # Per-adjuster assignment (M3, D-042): which adjuster owns each claim in the first-pass queue. An adjuster reads
     # only the claims assigned to them; a senior adjuster reads all. Kept OUT of the claim record, so the claim file an
