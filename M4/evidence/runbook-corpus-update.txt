@@ -1,0 +1,17 @@
+# runbook-corpus-update — 'Update the policy corpus', executed 2026-11-23 12:25 EST
+# change: corpus 2024.1-synthetic -> 2024.2-synthetic, new clause CLS-RNT-013 (rental reimbursement), via
+#         M1/6-synthetic-data/source/clauses.json -> generate_fixtures.py (signed manifest) -> gate -> deploy.sh
+
+BEFORE DEPLOY (local, replay gate + live sample):
+  validate_data.py: VALID (schemas, referential integrity, clause provenance)
+  run_evals.py --brain replay --suite full: 150/150, adversarial failures: none, DEPLOY GATE: PASS
+  continuous_eval.py --sample 10 --seed 13 (live models): 10/10, within SLO
+  pytest: 217 passed (the two tests that hard-coded 12 clauses now derive the size from the corpus)
+
+AFTER DEPLOY (the deployed door, alice's Cognito token):
+  GET /policy-kb/search?q='rental car while my car is being repaired'
+      -> CLS-RNT-013 (manifest, 0.3474), CLS-USE-009 (manifest, 0.0982), CLS-TL-004 (manifest, 0.0564) · quarantined: 0 · backend lexical
+  GET /policy-kb/search?q='collision deductible'
+      -> CLS-DED-002 (manifest, 0.5834), CLS-COL-001 (manifest, 0.445), CLS-CMP-003 (manifest, 0.309) · quarantined: 0 · backend lexical
+  M3 S3 document-store check (deployed): RESULT: PASS
+  last KB search audit row: "reason":"3 kept, 0 quarantined (G2)"

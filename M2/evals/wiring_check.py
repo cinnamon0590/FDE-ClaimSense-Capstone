@@ -60,8 +60,10 @@ def main(build_seconds=None):
     out.append("Agent ↔ RAG store (OpenSearch)")
     check("orchestrator uses the OpenSearch RAG store", rag.get("backend", "").startswith("opensearch"),
           f"{rag.get('backend')} at {rag.get('url')}")
-    check("policy corpus indexed (12 clauses + 1 planted unprovenanced chunk)", rag.get("indexed_chunks") == 13,
-          f"{rag.get('indexed_chunks')} documents")
+    signed = len(json.loads((Path(__file__).resolve().parents[2] / "M1/6-synthetic-data/fixtures/clauses.json")
+                            .read_text())["records"])        # derived, so a corpus update (runbook §4) can't break it
+    check(f"policy corpus indexed ({signed} signed-off clauses + 1 planted unprovenanced chunk)",
+          rag.get("indexed_chunks") == signed + 1, f"{rag.get('indexed_chunks')} documents")
     r = run("CLM-2024-1800")
     searches = [e for e in r["events"] if e["kind"] == "tool" and e["name"] == "search_clauses"]
     retrieved = {cid for e in searches for cid in e.get("retrieved", [])}

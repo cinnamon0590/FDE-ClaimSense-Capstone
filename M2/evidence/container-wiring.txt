@@ -1,15 +1,14 @@
-ClaimSense container wiring proof · 2026-11-16 09:14:28
-fresh clone -> `docker compose up --build` healthy in 205 s (target < 300 s: PASS)
+ClaimSense container wiring proof · 2026-11-23 12:34:42
 
 Agent ↔ RAG store (OpenSearch)
   PASS  orchestrator uses the OpenSearch RAG store  (opensearch-bm25 at http://opensearch:9200)
-  PASS  policy corpus indexed (12 clauses + 1 planted unprovenanced chunk)  (13 documents)
+  PASS  policy corpus indexed (13 signed-off clauses + 1 planted unprovenanced chunk)  (14 documents)
   PASS  search_clauses answered by OpenSearch  (2 searches -> ['CLS-CMP-003', 'CLS-COL-001', 'CLS-DED-002', 'CLS-INJ-005', 'CLS-LIA-012'])
   PASS  the card cites only what OpenSearch returned  (approve citing ['CLS-COL-001', 'CLS-DED-002'])
   PASS  G2 quarantines the planted chunk returned by OpenSearch  (quarantined ['CLS-PER-006 (no provenance)'])
 
 Boundary ↔ mock claims API
-  PASS  boundary loaded the claims from the mock systems  (38 claims)
+  PASS  boundary loaded the claims from the mock systems  (150 claims, 150 in the fixtures)
   PASS  a claim read flows mock systems -> boundary (token-checked)
   PASS  mock systems unreachable from the host (internal network only)
 

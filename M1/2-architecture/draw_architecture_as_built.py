@@ -57,7 +57,7 @@ def badge(x, y, num):
 
 
 # ── title ─────────────────────────────────────────────────────────────────────────────────────
-out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 5, prompt m2-v13)</text>')
+out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 6, prompt m2-v13)</text>')
 out.append('<text x="20" y="52" font-size="12" fill="#555">Every arrow is a labelled data flow (B1–B20, legend below). '
            'Blue = deterministic code · Orange = model judgment · Green = human · Grey = systems/data · Purple = operations. '
            'Solid border = deployed on AWS · dashed border = runs locally in containers. Synthetic data only.</text>')

@@ -1,0 +1,30 @@
+# runbook-add-remove-user — 'Add (and remove) a user', executed on AWS 2026-11-23 16:51–17:01 UTC
+# The test user: frank (synthetic), group senior-adjuster ("a new senior adjuster joins", then leaves).
+# Source of record: M1/6-synthetic-data/source/users.json (the directory). Commits 220090f (add) and 3667059 (remove).
+
+ADD
+$ edit source/users.json (+ frank, senior-adjuster) · generate_fixtures.py · validate_data.py -> VALID · pytest -> 216 passed
+$ M3/cloud/deploy.sh
+  Cognito: the directory's synthetic users (users.json) in their groups; users no longer in it are removed
+  6 users in their directory groups
+  Post-deploy smoke: PASS (claim, policy, documents, KB as alice)
+$ python M4/cloud/frontend.py apply            # console + orchestrator images 220090f: frank in "Sign in as", demo secret updated
+$ python M4/drill/claim_probe.py frank CLM-2024-1800      # real Cognito sign-in as frank, agents through the door
+  {"user": "frank", "claim": "CLM-2024-1800", "outcome": "approve", "net_payable": 2700, "decided_by": "agents"}
+  elapsed, edit to working: 4 min (door 3 min + frontend 1 min)
+
+REMOVE (a token issued to frank BEFORE removal was kept, to prove it stops working)
+$ edit source/users.json (- frank) · generate_fixtures.py · validate_data.py -> VALID
+$ M3/cloud/deploy.sh
+  removed frank: no longer in the directory         (global sign-out, disable, delete in Cognito)
+  5 users in their directory groups
+  Post-deploy smoke: PASS
+$ python M4/cloud/frontend.py apply
+CHECKS
+  frank's old token (issued before removal, not expired) -> 401 "A valid ClaimSense token is required."
+      door audit row: anonymous authenticate deny | token user is not in the directory
+  aws cognito-idp admin-get-user frank                  -> UserNotFoundException
+  bob (unaffected)                                       -> 200
+
+RESULT: PASS — add and remove both work end to end; removal takes effect at the door at once (directory check),
+not only when the Cognito token expires.

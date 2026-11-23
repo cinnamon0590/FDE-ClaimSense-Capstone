@@ -10,7 +10,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
 | 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
 | 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
-| 5 | Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus | planned | |
+| 5 | **Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus** (+ alarm, eval-below-SLO) | ✅ each executed on the real system | [`RUNBOOK.md`](RUNBOOK.md), [`evidence/runbook-*.txt`](evidence/) |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
 | 7 | Handover pack | planned | |
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
@@ -117,3 +117,17 @@ canary, fault, impact probe, detection, rollback, verification, and writes the t
   failure.
 - **Dashboard:** in the error-rate panel the incidents show only on the edge line
   ([`evidence/incident-drill-2-dashboard.png`](evidence/incident-drill-2-dashboard.png)).
+
+## 6 · Runbook (D-051)
+
+[`RUNBOOK.md`](RUNBOOK.md): symptom → signal → decision → command → "worked when", each procedure executed first.
+
+| Procedure | Tested on | Result |
+|---|---|---|
+| Add or remove a user | AWS | frank added, approved a claim, removed; his old token refused at once ([evidence](evidence/runbook-add-remove-user.txt)) |
+| Roll back a deployment | AWS | door 15 s, frontend 2.5 min, each way, checks green ([evidence](evidence/runbook-rollback.txt)) |
+| Escalate a flagged claim manually | local stack (+ AWS fallback) | SIU tickets, idempotent, queued during a ticketing outage and delivered after it ([evidence](evidence/runbook-escalate.txt)) |
+| Update the policy corpus | local gate + AWS | 2024.2 adds CLS-RNT-013: gate 150/150, live 10/10, served with provenance ([evidence](evidence/runbook-corpus-update.txt)) |
+
+Testing the procedures found two bugs, both now fixed: queued escalations were never delivered, and the console
+would crash on an `unavailable` card.

@@ -1,0 +1,44 @@
+# runbook-escalate — 'Escalate a flagged claim manually', executed on the local stack (M3 compose; SIU ticketing = the 4th system of record) 2026-11-23 17:15 UTC
+# CS-098 / CLM-2025-1098 and CS-099 / CLM-2025-1099: the co-pilot flags both for a senior adjuster (flag_review);
+# bob reviews them and escalates to SIU by hand. The console's '🚩 Escalate to SIU (manual)' panel makes the same door call.
+
+$ python M4/ops/escalate.py --as dave --claim CLM-2025-1098 --reason customer service tries to escalate
+Idempotency-Key: manual-CLM-2025-1098-24ba620c
+HTTP 403 {"error": {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "458f1c9f-dccf-48d9-9f1a-929af5b0dcb6"}}
+
+$ python M4/ops/escalate.py --as carol --claim CLM-2025-1098 --reason not routed to fraud
+Idempotency-Key: manual-CLM-2025-1098-111bcd60
+HTTP 403 {"error": {"code": "not_found_or_forbidden", "message": "No claim is available for this request.", "request_id": "5e6b376f-c33c-42c0-98d3-428f462a8678"}}
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1098 --reason repair timeline inconsistent with photos --priority high --key manual-CLM-2025-1098-runbook
+Idempotency-Key: manual-CLM-2025-1098-runbook
+HTTP 200 {"ticket_id": "SIU-9005", "claim_id": "CLM-2025-1098", "status": "open", "idempotent_replay": false}
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1098 --reason repair timeline inconsistent with photos --priority high --key manual-CLM-2025-1098-runbook
+Idempotency-Key: manual-CLM-2025-1098-runbook
+HTTP 200 {"ticket_id": "SIU-9005", "claim_id": "CLM-2025-1098", "status": "open", "idempotent_replay": true}
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1098 --status
+HTTP 200 {"claim_id": "CLM-2025-1098", "ticket_id": "SIU-9005", "status": "open", "seq": 1, "updated_at": 1795454103.7138717, "history": []}
+
+## SIU ticketing DOWN: the escalation is queued, never lost, and delivered when ticketing is back
+$ docker compose stop ticketing
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1099 --reason second flagged claim while SIU ticketing is down --key manual-CLM-2025-1099-runbook
+Idempotency-Key: manual-CLM-2025-1099-runbook
+HTTP 503 {"error": {"code": "upstream_unavailable", "message": "Ticketing is unavailable; the escalation is queued and will be delivered.", "request_id": "0c2999ea-aec0-42ee-8051-95b28b6b1f96", "retry_after_s": 30}}
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1099 --status
+HTTP 200 {"claim_id": "CLM-2025-1099", "ticket_id": null, "status": "pending_delivery", "seq": 0, "updated_at": 1795454104.9457939, "history": null}
+
+$ docker compose start ticketing    # nothing else: the door's next health check delivers the queue
+
+$ python M4/ops/escalate.py --as bob --claim CLM-2025-1099 --status
+HTTP 200 {"claim_id": "CLM-2025-1099", "ticket_id": "SIU-9006", "status": "open", "seq": 1, "updated_at": 1795454108.8732681, "history": []}
+
+## On AWS: the SIU ticketing mock is a local-only 4th system, so the deployed door says so (structured, audited) and the
+## runbook's manual fallback applies: page SIU on call with the claim id + reason, record the ticket number on the claim
+
+$ python M4/ops/escalate.py --door aws --as bob --claim CLM-2025-1098 --reason ...
+Idempotency-Key: manual-CLM-2025-1098-aws
+HTTP 503 {"error": {"code": "upstream_unavailable", "message": "Escalation ticketing is not configured.", "request_id": "11c2e3bd-bbbb-4405-a28c-5c583fb35d72"}}

@@ -47,7 +47,8 @@ def test_the_corpus_is_indexed_once_and_searched_through_opensearch():
     chunks, manifest = load_corpus()
     fake = FakeOpenSearch()
     idx = OpenSearchIndex(chunks, "http://opensearch:9200", transport=httpx.MockTransport(fake))
-    assert idx.backend == "opensearch-bm25" and idx.count() == len(chunks) == 13
+    poisoned = [c for c in chunks if c["provenance"] != "manifest"]          # the planted CS-020 chunk
+    assert idx.backend == "opensearch-bm25" and idx.count() == len(chunks) and len(poisoned) == 1
     hits = idx.search("windscreen glass replacement")
     assert hits and hits[0]["clause_id"] and "score" in hits[0]
     OpenSearchIndex(chunks, "http://opensearch:9200", transport=httpx.MockTransport(fake))   # a restart

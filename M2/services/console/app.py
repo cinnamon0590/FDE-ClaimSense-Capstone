@@ -24,8 +24,9 @@ for _extra in (os.environ.get("M2_CASES_FILE", "/app/M2/evals/cases-m2.json"),
 DEMO_SIGNIN = os.environ.get("CLAIMSENSE_DEMO_SIGNIN") == "1"   # deployed console (M4, D-049): passcode + picker
 CLAUSES = {c["clause_id"]: c for c in json.loads(open(os.environ.get(
     "CLAUSES_FILE", "/app/M1/6-synthetic-data/fixtures/clauses.json")).read())["records"]}
-USERS = {"alice": "Alice · adjuster", "bob": "Bob · senior adjuster", "carol": "Carol · fraud investigator",
-         "eve": "Eve · total-loss appraiser", "dave": "Dave · customer service"}
+USERS = {u["user_id"]: f'{u["display_name"].replace(" (synthetic)", "")} · {u["groups"][0].replace("-", " ")}'
+         for u in json.loads(open(os.environ.get("USERS_FILE", "/app/M1/6-synthetic-data/fixtures/users.json")).read())["records"]}
+# the directory decides who can sign in (runbook "Add or remove a user"); the role shown is the directory's group
 BADGE = {"agents": ("🧠 Model verdict", "green"), "guardrail_hold": ("🛡 Guardrail hold → human", "orange"),
          "consistency_hold": ("⚖ Model unsure (two drafts disagreed) → human", "orange"),
          "fallback": ("⚙ Deterministic fallback (not AI)", "gray"), "boundary_refusal": ("⛔ Refused at the boundary", "red"),
@@ -86,6 +87,30 @@ with st.sidebar:
         st.warning("Sign in first: enter the demo passcode in the sidebar." if DEMO_SIGNIN else "Not signed in.")
 
 claim_id = case["claim"]["claim_id"]
+
+
+def escalate_panel(claim_id, run_id, card):
+    """Manual escalation to SIU (runbook "Escalate a flagged claim manually", M4): a person decides, the door checks
+    the grant and the entitlement, the ticket carries a link and the reason, never claim data. Idempotent per run."""
+    flagged = card.get("outcome") in ("flag_review", "route") or card.get("guardrails_fired")
+    with st.expander("🚩 Escalate to SIU (manual)", expanded=bool(flagged)):
+        reason = st.text_area("Why (goes on the ticket; no claim data)", key=f"esc_reason_{run_id}")
+        prio = st.selectbox("Priority", ["normal", "high"], key=f"esc_prio_{run_id}")
+        if st.button("Escalate to SIU", key=f"esc_go_{run_id}", disabled=not reason.strip()):
+            r = httpx.post(f"{BOUNDARY}/claims/{claim_id}/escalations", json={"reason": reason, "priority": prio},
+                           headers={**AUTH, "Idempotency-Key": f"manual-{run_id}"}, timeout=20)
+            body = r.json()
+            if r.status_code == 200:
+                st.success(f"Ticket **{body['ticket_id']}** · {body['status']}"
+                           + (" (already escalated for this run)" if body.get("idempotent_replay") else ""))
+            else:
+                err = body.get("error", {})
+                st.error(f"{err.get('message', r.text)} · request `{err.get('request_id', '-')}`. If ticketing is down "
+                         "or not configured, follow the runbook's manual fallback (page SIU on call).")
+        s = httpx.get(f"{BOUNDARY}/claims/{claim_id}/escalation", headers=AUTH, timeout=10)
+        if s.status_code == 200:
+            e = s.json()
+            st.caption(f"Escalation: {e.get('ticket_id') or 'queued'} · {e.get('status')}")
 
 
 def show_decision(result):
@@ -181,6 +206,8 @@ with tab_run:
             st.caption(f"run `{res.get('run_id')}` · {how} · refresh-safe: this page's URL picks it up again")
             if card.get("outcome") == "refused":
                 st.error("No claim data returned. The caller isn't entitled to this claim (the reason is in the audit log only).")
+            elif card.get("outcome") == "unavailable":           # the door is down (D-050): nothing was decided
+                st.warning(card.get("message", "The claim systems are unavailable. Nothing was decided; try again."))
             else:
                 route = f" → {card['route_to']}" if card.get("route_to") else ""
                 st.markdown(f"## {card['outcome'].upper()}{route}")
@@ -208,6 +235,7 @@ with tab_run:
                         show_decision(decide({"action": "confirm"}))
                     if col2.button("Override"):
                         show_decision(decide({"action": "override", "final_outcome": final, "override_reason": reason}))
+                escalate_panel(claim_id, res.get("run_id", ""), card)
             with st.expander("Agent outputs (typed)"):
                 for ev in res["events"]:
                     if ev["kind"] == "agent_end":

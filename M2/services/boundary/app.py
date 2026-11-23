@@ -192,6 +192,8 @@ async def dev_token(request: Request):
 
 @app.get("/healthz")
 def healthz():
+    if hasattr(B, "flush_outbox_in_background"):
+        B.flush_outbox_in_background()          # deliver escalations queued while ticketing was down (M4 runbook)
     return {"ok": True, "claims": len(B.claims), "audit_rows": len(B.audit), "mcp": "/mcp",
             "ticketing": bool(B.ticketing), "documents": len(B.documents), "document_store": doc_store.source()}
 

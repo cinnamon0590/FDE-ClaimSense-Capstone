@@ -75,6 +75,8 @@ money without a licensed adjuster.
 4. Revoke the old key; run `make smoke`.
 
 ### Roll back a release
+**Current procedure: [`M4/RUNBOOK.md` §2](../M4/RUNBOOK.md#2--roll-back-a-deployment) (`M4/ops/rollback.py`, tested on AWS).** The notes below still hold.
+
 1. Images are tagged with the commit SHA and tags are immutable: pick the last known-good SHA from
    `aws ecr describe-images --repository-name claimsense/orchestrator`.
 2. Point the deployment at that tag. No rebuild needed. The door: `M3/cloud/deploy.sh` rolls itself back when its

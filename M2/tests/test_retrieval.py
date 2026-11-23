@@ -10,7 +10,8 @@ QUERIES = json.loads((FIXTURES / "clauses.json").read_text())
 def test_manifest_hashes_match_the_clause_text():
     chunks, manifest = load_corpus()
     real = [c for c in chunks if c["provenance"] == "manifest"]
-    assert len(real) == 12
+    signed_off = json.loads((FIXTURES / "clauses.json").read_text())["records"]
+    assert len(real) == len(signed_off) >= 12          # every signed-off clause, however the corpus grows (runbook)
     assert all(G.chunk_hash(c["clause_id"], c["text"]) in manifest for c in real)
 
 

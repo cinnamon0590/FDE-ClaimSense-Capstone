@@ -1,5 +1,5 @@
 # 22-s3-document-store-deployed — D-044 on AWS: the door's KB corpus, policies and documents come from S3
-# run: 2026-11-23 11:24:18 EST
+# run: 2026-11-23 12:25:53 EST
 # door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com · orchestrator: http://localhost:8003
 # command: python evals/s3_doc_store_check.py --deployed
 # exit: 0   status: PASS
@@ -8,14 +8,14 @@ door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com
 bucket: s3://claimsense-autosure-docs-<acct>-us-east-1/ (M1/7-cloud/provision.sh)
 
 1  The objects in S3 (uploaded by M3/cloud/sync_docs.sh, the viewer's `aws s3 sync ./data/policies/ ...`)
-   s3://claimsense-autosure-docs-<acct>-us-east-1/policies/clauses.json          6863 bytes  SSE=AES256  records=12
+   s3://claimsense-autosure-docs-<acct>-us-east-1/policies/clauses.json          7422 bytes  SSE=AES256  records=13
    s3://claimsense-autosure-docs-<acct>-us-east-1/policies/policies.json        88808 bytes  SSE=AES256  records=150
    s3://claimsense-autosure-docs-<acct>-us-east-1/documents/documents.json     253542 bytes  SSE=AES256  records=493
   PASS  all three objects are in the bucket, encrypted at rest
   PASS  the bucket blocks all public access  ({"BlockPublicAcls": true, "IgnorePublicAcls": true, "BlockPublicPolicy": true, "RestrictPublicBuckets": true})
 
 2  The door reads them
-   GET /healthz -> {"ok": true, "claims": 150, "audit_rows": 450, "mcp": "/mcp", "ticketing": false, "documents": 493, "document_store": "s3"}
+   GET /healthz -> {"ok": true, "claims": 150, "audit_rows": 521, "mcp": "/mcp", "ticketing": false, "documents": 493, "document_store": "s3"}
   PASS  the deployed door's document store is S3
   PASS  it holds every document in the bucket  (493 documents)
    GET /documents/DOC-2024-1800-POLICE-REPORT (alice) -> HTTP 200: {"doc_id": "DOC-2024-1800-POLICE-REPORT", "claim_id": "CLM-2024-1800", "doc_type": "police_report", "sha256": "bc916e8d2c563da3ff3d3ca448581278cf7204792e446c4d023de359781d6e81"}

@@ -45,7 +45,7 @@ if [ "$CLIENT_ID" = "None" ]; then
 fi
 echo "pool + client ready (ids written to $CONF_DIR/cognito.json only)"
 
-say "Cognito: the five synthetic adjusters, groups = the directory's (users.json)"
+say "Cognito: the directory's synthetic users (users.json) in their groups; users no longer in it are removed"
 mkdir -p "$CONF_DIR" && chmod 700 "$CONF_DIR"
 python3 - "$ROOT" "$POOL_ID" "$CLIENT_ID" "$REGION" "$CONF_DIR/cognito.json" <<'PY'
 import json, os, secrets, string, subprocess, sys
@@ -69,6 +69,17 @@ for u in users:
         aws("admin-add-user-to-group", "--user-pool-id", pool, "--username", name, "--group-name", g)
     for g in have - set(u["groups"]):
         aws("admin-remove-user-from-group", "--user-pool-id", pool, "--username", name, "--group-name", g)
+# off-boarding: the directory is the source of record, so a Cognito user that left it is signed out everywhere
+# (refresh tokens revoked), disabled and deleted. ID tokens already issued expire within the hour, and the door
+# refuses them at once anyway: "token user is not in the directory" (identity.py).
+names = {u["user_id"] for u in users}
+pager = json.loads(aws("list-users", "--user-pool-id", pool).stdout)["Users"]
+for gone in sorted(x["Username"] for x in pager if x["Username"] not in names):
+    aws("admin-user-global-sign-out", "--user-pool-id", pool, "--username", gone, check=False)
+    aws("admin-disable-user", "--user-pool-id", pool, "--username", gone)
+    aws("admin-delete-user", "--user-pool-id", pool, "--username", gone)
+    print(f"removed {gone}: no longer in the directory")
+pw = {k: v for k, v in pw.items() if k in names}
 fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
 with os.fdopen(fd, "w") as f:
     json.dump({"region": region, "pool_id": pool, "client_id": client, "passwords": pw}, f)
