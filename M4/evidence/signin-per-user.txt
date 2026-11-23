@@ -1,0 +1,27 @@
+# signin-per-user — the deployed console's sign-in, after D-056 (each person signs in as themself; no picker, no shared passcode)
+# 2026-11-23 · console https://d2jfndltae6j40.cloudfront.net · images f583a5a
+
+WHY: the owner noticed that the D-049 demo mode let anyone holding the shared passcode pick ANY synthetic user from a
+dropdown. The door still enforced each identity's rights, but the system could not say WHO was acting: impersonation.
+
+1) Real Cognito, from the orchestrator's /signin (local code, AWS Cognito), before deploying:
+  alice, her own password            -> 200 token for alice ['adjuster']
+  carol, with ALICE's password       -> 401 "Sign-in refused: check your username and password."
+  carol, her own password            -> 200 token for carol ['fraud-investigator']
+  audit rows: signin alice allow · signin carol deny · signin carol allow · passwords in the audit trail: none
+
+2) The owner's test in the browser on the deployed console (2026-11-23, UTC), from the audit trail:
+  19:51:01  signin              alice      alice          allow         Cognito password sign-in
+  19:52:00  run_recommendation  alice      CLM-2024-1800  authenticated request accepted; data access decided at the door
+  19:52:53  signin              anonymous  carol          deny          unknown user or wrong password (NotAuthorizedException)
+  19:53:18  signin              carol      carol          allow         Cognito password sign-in
+  19:53:25  run_recommendation  carol      CLM-2024-1800  authenticated request accepted; data access decided at the door
+  The sidebar shows a Username + Password form and, once signed in, "Signed in as <user>" and Sign out. There is
+  no user dropdown; the wrong-password attempt for carol was refused; carol (her own password) got no claim data.
+
+3) Unit tests (M2/tests/test_signin.py, 11): off unless configured · your own password → your token and your
+   directory group · alice's password for carol refused · one message for every refusal + an audit row · an unknown
+   user never reaches Cognito · no password in the audit trail · 5 refusals a minute per username → 429.
+
+RESULT: PASS — identity comes only from the person's own credential; the shared passcode secret is retired
+(claimsense/demo-signin scheduled for deletion, 7-day recovery window).

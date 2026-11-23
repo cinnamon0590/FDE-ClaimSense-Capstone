@@ -45,7 +45,7 @@ Nothing is staged: every screen is the real system answering. Final runtime **9:
 2. **Before filming:** check that CLM-2024-1800 has no pending draft, so the confirm step shows cleanly (or use a
    fresh run).
 3. **Browser:** a 1280×720 window (fits a laptop screen; upscaled to 1080p at assembly), nothing else open.
-4. **Sign-in:** the passcode is typed by the person recording, never by a script, and is never shown on screen.
+4. **Sign-in:** each user's own password is typed by the person recording, never by a script; the password field shows dots and the typing is cut.
 5. **Captions:** generated from the narration column.
 
 ## Backup plan (for a live session, and if a take goes wrong)
@@ -53,7 +53,7 @@ Nothing is staged: every screen is the real system answering. Final runtime **9:
 |---|---|---|
 | the console won't load or a run errors | switch to the recorded video (same system, same claims) and **say so**; never debug live | the recording is the same deployed system |
 | the door is down ("Claim systems unavailable") | run `python M4/ops/door_smoke.py`; if it fails, show `incident-drill-2.txt` and the dashboard: recovering from this is the point of slide 4 | the outage label itself shows fail-closed behaviour |
-| sign-in fails | check the passcode (submission form); else show the recording | — |
+| sign-in fails | check the username and password (a lockout clears after a minute); else show the recording | — |
 | the model provider is slow | narrate over the streaming agents; p95 is 13 s, so wait up to 45 s before switching to the recording | — |
 | an answer differs from the script | show it, say what you expected, check it against its eval case afterwards; never edit the narration to match | honesty is the deck's whole case |
 | asked for a number not on screen | "I’ll send that in writing." Never estimate on the spot | — |

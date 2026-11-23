@@ -76,10 +76,10 @@ the image push.
   `python M4/ops/continuous_eval.py` (first run 10/10, published).
 - Rebuild: `ALARM_EMAIL=… python M4/ops/observability.py apply` · snapshot: `python M4/ops/dashboard_snapshot.py`.
 
-## 4 · The deployed frontend (D-049)
+## 4 · The deployed frontend (D-049, D-056)
 
-**https://d2jfndltae6j40.cloudfront.net** · sign in with the demo passcode (given in the submission form, never in
-this repo), pick one of the five synthetic users, choose a claim, **Run co-pilot**.
+**https://d2jfndltae6j40.cloudfront.net** · sign in with **your own** username and password (graders get two synthetic
+users' logins in the submission form, never in this repo), choose a claim, **Run co-pilot**. Sign out to switch users.
 
 ```
 browser ──HTTPS──▶ CloudFront ──▶ ALB (CloudFront-only ingress) ──▶ ECS Fargate task
@@ -90,14 +90,17 @@ browser ──HTTPS──▶ CloudFront ──▶ ALB (CloudFront-only ingress) 
                                                      the door: API Gateway → Lambda → S3 · DynamoDB audit
 ```
 
-- **Sign-in:** real Cognito tokens, unlocked by one passcode (SHA-256 in Secrets Manager; brute-force brake;
-  audited). Role always comes from the token checked against the directory.
-- **Secrets:** the OpenAI key and the demo secret are read at runtime by the task role; nothing secret is in an
-  image, the repo or a log.
+- **Sign-in (D-056):** each person signs in with their own Cognito password. There is **no user picker** and no
+  shared passcode: becoming carol needs carol's password. Refusals all get the same message and an audit row;
+  5 refused tries a minute per username (20 overall) → 429. Role always comes from the token, checked against the
+  directory. (Replaced D-049's "demo passcode + picker" after the owner spotted that it let anyone holding the
+  passcode act as any user: [`evidence/signin-per-user.txt`](evidence/signin-per-user.txt).)
+- **Secrets:** only the OpenAI key, read at runtime by the task role; nothing secret is in an image, the repo or a
+  log. Users' passwords: `M4/ops/set_password.py` (never printed).
 - **Proof:** Susan's two-user test through the browser: alice → approve $2,700; carol → refused at the door, no
   claim data ([`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt), audit rows included).
 - Deploy: `python M4/cloud/frontend.py apply` (commit first; images are tagged with the commit) · `status` ·
-  `rotate-passcode` then `apply` · `destroy` after grading (≈ $35–40/month while up).
+  `destroy` after grading (≈ $35–40/month while up) · new password for a user: `python M4/ops/set_password.py <user>`.
 
 ## 5 · Incident drill and RCA (D-050)
 
