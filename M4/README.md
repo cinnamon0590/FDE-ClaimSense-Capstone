@@ -11,7 +11,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
 | 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s · **plus RCA-2 for a real incident** (31 min to verified recovery) · [risk register looked back on](risk-retrospective.md) | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
 | 5 | **Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus** (+ alarm, eval-below-SLO) | ✅ each executed on the real system | [`RUNBOOK.md`](RUNBOOK.md), [`evidence/runbook-*.txt`](evidence/) |
-| 6 | **Client presentation with a live demonstration (+ the ≤10-minute recording)** | ✅ 6-slide steering deck with speaker notes + backup plan; **8 min 58 s** recording of the deployed system | [`presentation/`](presentation/demo-script.md) |
+| 6 | **Client presentation with a live demonstration (+ the ≤10-minute recording)** | ✅ 6-slide steering deck with speaker notes + backup plan; **9 min 52 s** recording of the deployed system | [`presentation/`](presentation/demo-script.md) |
 | 7 | **Handover pack** | ✅ start-here page, artefact index, eval contract, escalation map, 10 monthly signals, RCA template + archive | [`handover/`](handover/README.md) |
 | H | **Held-out set: 20 claims never tuned against** (pre-registered, run once, live) | ✅ **19/20**; the miss found a real privacy gap, now fixed | [`evidence/holdout-live.txt`](evidence/holdout-live.txt), [`holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt) |
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
@@ -169,7 +169,7 @@ where every secret lives (never what it is), what it costs to run, and the known
   first; the first architecture is on slide 5. Every slide has speaker notes, and the last has the backup plan.
   Source: [`presentation/deck/`](presentation/deck/deck.json); presented from the Slides artifact (exports to PPTX
   and PDF).
-- **Demonstration recording, 8 min 58 s:** the deployed system answering live, plus real output (audit rows, CI,
+- **Demonstration recording, 9 min 52 s:** the deployed system answering live, plus real output (audit rows, CI,
   dashboard, drill, held-out run), narrated and captioned.
   - Storyline with timestamps: [`presentation/demo-script.md`](presentation/demo-script.md).
   - Rebuild: `python M4/presentation/make_demo.py tts | record | stills <deck> | assemble`.

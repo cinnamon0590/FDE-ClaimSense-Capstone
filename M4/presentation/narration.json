@@ -79,7 +79,7 @@
   {
    "id": "ci",
    "kind": "still",
-   "text": "How do we know it still works after every change? This is the continuous integration run on the main branch. Every merge runs all one hundred and fifty test claims against the live models, inside the exact image that would be shipped. The rule is strict: at least ninety percent correct, every case decided by the model, and zero adversarial failures. A single failed attack blocks the release, however good the average. A second, independent grader, Promptfoo, must agree on all one hundred and fifty cases, and a language-model judge, calibrated against known answers, checks the reasoning on live cards. Only then is the image pushed."
+   "text": "How do we know it still works after every change? This is the continuous integration run on the main branch. Every merge runs all one hundred and fifty test claims against the live models, inside the exact image that would be shipped. Forty-five of them are attacks, in six families, including fourteen prompt injections, ten attempts at cross-record leakage, where a document asks for another customer's claim, and ten attempts to force an automatic decision, such as pay now, no review needed. All forty-five pass. The rule is strict: at least ninety percent correct, every case decided by the model, and zero adversarial failures, so a single failed attack blocks the release. A second, independent grader, Promptfoo, must agree on all one hundred and fifty cases. Only then is the image pushed."
   },
   {
    "id": "holdout",
@@ -89,12 +89,17 @@
   {
    "id": "dashboard",
    "kind": "still",
-   "text": "Once it's running, operations watches one dashboard: call volume, error rate, latency against the ninety-second target, live accuracy from a daily sample of test claims, and cost per claim. One alarm pages on-call by email when errors rise above five percent."
+   "text": "Once it's running, operations watches one dashboard: call volume, error rate, p95 latency, live accuracy from a daily sample of test claims, and cost per claim. The service level objectives come straight from the success criteria agreed in week one: at least ninety percent of evaluation cases passing with zero adversarial failures, a first decision within ninety seconds at the ninety-fifth percentile, and server errors below five percent. That last one is the alarm: it pages on-call by email."
   },
   {
    "id": "drill",
    "kind": "still",
-   "text": "We broke it on purpose. A bad configuration change pointed the data layer at the wrong storage bucket. The first time, our alarm missed it, because it only watched the application's own error count, and an application that can't start reports nothing. We fixed the alarm and ran the same drill again. This time the alarm fired in about two minutes, a rollback took seconds, and recovery was verified in four minutes and thirty-nine seconds."
+   "text": "We broke it on purpose. A bad configuration change pointed the data layer at the wrong storage bucket. The first time, our alarm missed it, because it only watched the application's own error count, and an application that can't start reports nothing. We fixed the alarm and ran the same drill again. This time the alarm fired in about two minutes, one rollback command restored the last good configuration in seconds, and recovery was verified in four minutes and thirty-nine seconds."
+  },
+  {
+   "id": "rca",
+   "kind": "still",
+   "text": "Every incident gets a one-page report: what broke, how it was detected, the time to verified recovery, the root cause, and the actions taken. Each report adds a new test that fails on the old code, so the same failure can't ship twice. There are two: this staged drill, and a real first-day fault found by our client tester and fixed in about half an hour."
   },
   {
    "id": "handover",

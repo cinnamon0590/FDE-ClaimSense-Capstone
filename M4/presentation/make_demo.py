@@ -35,7 +35,7 @@ def dur(path):
 
 
 # ── 1 · narration ──────────────────────────────────────────────────────────────────────────────
-def tts():
+def tts(only=None):
     from openai import OpenAI
     if "OPENAI_API_KEY" not in os.environ:                      # read from M2/.env, never printed
         for line in (ROOT / "M2" / ".env").read_text().splitlines():
@@ -43,8 +43,11 @@ def tts():
                 os.environ["OPENAI_API_KEY"] = line.split("=", 1)[1].strip()
     (OUT / "audio").mkdir(parents=True, exist_ok=True)
     client = OpenAI()
-    meta = {}
+    old = OUT / "audio" / "durations.json"
+    meta = json.loads(old.read_text()) if only and old.exists() else {}
     for s in SCENES:
+        if only and s["id"] not in only:            # re-voice only these; recorded scenes keep their timing
+            continue
         f = OUT / "audio" / f"{s['id']}.mp3"
         with client.audio.speech.with_streaming_response.create(
                 model="gpt-4o-mini-tts", voice="alloy", input=s["text"], response_format="mp3",
@@ -248,14 +251,14 @@ def stills(deck_dir):
     for ln in log.splitlines():
         job, _, rest = ln.partition("\t")
         msg = re.sub(r"^.*?\d{4}-\d\d-\d\dT[\d:.]+Z ", "", ln.split("\t")[-1])
-        if job == "live-eval" and re.search(r"golden suite|^  (clear|edge|adversarial) |pass rate|adversarial failures|engine check|DEPLOY GATE", msg):
+        if job == "live-eval" and re.search(r"golden suite|^  (clear|edge|adversarial) |^ +(prompt_injection|cross_record_leakage|forced_auto_decision|entitlement_refusal|pii_exposure|citation_forgery) +\d|pass rate|adversarial failures|engine check|DEPLOY GATE", msg):
             keep.append("live gate     " + msg.strip()[:100])
-        if job == "second-grader" and re.search(r"✓ \d+ passed|\d+ failed", msg):
+        if job == "second-grader" and re.search(r"✓ \d+ passed", msg):
             keep.append("second grader " + msg.strip())
     jobs = sh("gh", "run", "view", rid[0], "--repo", "cinnamon0590/FDE-ClaimSense-Capstone", "--json", "jobs", "--jq",
               '.jobs[]|"\\(.conclusion) \\(.name)"', cwd=ROOT).splitlines()
     terminal_png("ci", f"GitHub Actions · eval-gate on main @ {rid[1]} · run {rid[0]}",
-                 [f"{'PASS' if j.startswith('success') else j.split()[0].upper():8} {j.split(' ', 1)[1]}" for j in jobs] + [""] + keep[:14])
+                 [f"{'PASS' if j.startswith('success') else j.split()[0].upper():8} {j.split(' ', 1)[1]}" for j in jobs] + [""] + keep[:17])
     subprocess.run([sys.executable, str(ROOT / "M4/ops/dashboard_snapshot.py"), "--hours", "3", "--name", "demo-dashboard.png"],
                    check=True, capture_output=True)
     from PIL import Image
@@ -285,9 +288,11 @@ def assemble():
             src = ["-ss", f"{st:.2f}", "-t", f"{length:.2f}", "-i", str(OUT / "video" / (f[0] if f else "console.webm"))]
         else:
             length = d[s["id"]] + PAD
-            src = ["-loop", "1", "-t", f"{length:.2f}", "-i", str(OUT / "stills" / f"{s['id']}.png")]
+            tall = OUT / "stills" / f"{s['id']}-full.png"     # a tall page (the RCA): scroll it top to bottom
+            src = ["-loop", "1", "-t", f"{length:.2f}", "-i", str(tall if tall.exists() else OUT / "stills" / f"{s['id']}.png")]
+        tall_ok = s["kind"] != "console" and (OUT / "stills" / f"{s['id']}-full.png").exists()
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *src, "-i", str(a), "-filter_complex",
-                        f"[0:v]scale=1920:1080:flags=lanczos,fps=30,format=yuv420p[v];[1:a]apad,atrim=0:{length:.2f}[a]",
+                        ("[0:v]scale=1920:-2,crop=1920:1080:0:'min(ih-1080,max(0,(ih-1080)*(t-1.5)/" + f"{max(length - 4, 1):.2f}" + "))'," if tall_ok else "[0:v]scale=1920:1080:flags=lanczos,") + f"fps=30,format=yuv420p[v];[1:a]apad,atrim=0:{length:.2f}[a]",
                         "-map", "[v]", "-map", "[a]", "-t", f"{length:.2f}", "-c:v", "libx264", "-preset", "medium",
                         "-crf", "20", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", str(out)], check=True)
         parts.append(out)
@@ -304,7 +309,24 @@ def assemble():
 
 if __name__ == "__main__":
     cmd = (sys.argv[1:] or [""])[0]
-    if cmd == "stills":
+    if cmd == "rca":                                   # the one-page RCA, as GitHub renders it (public repo)
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as pw:
+            b = pw.chromium.launch()
+            pg = b.new_page(viewport={"width": 1280, "height": 720}, device_scale_factor=1.5)
+            pg.goto("https://github.com/cinnamon0590/FDE-ClaimSense-Capstone/blob/main/M4/drill/RCA-2026-11-23.md")
+            art = pg.locator("article").first
+            art.wait_for(timeout=60_000)
+            art.scroll_into_view_if_needed()
+            pg.evaluate("window.scrollBy(0, -20)")
+            pg.screenshot(path=str(OUT / "stills" / "rca.png"))
+            b.close()
+        from PIL import Image
+        Image.open(OUT / "stills" / "rca.png").convert("RGB").resize((1920, 1080)).save(OUT / "stills" / "rca.png")
+        print("rca still written")
+    elif cmd == "tts" and len(sys.argv) > 2:
+        tts(only=sys.argv[2].split(","))
+    elif cmd == "stills":
         stills(sys.argv[2] if len(sys.argv) > 2 else "")    # the deck folder (project/deck.css, project/slides/)
     else:
         if cmd == "record" and len(sys.argv) > 2:

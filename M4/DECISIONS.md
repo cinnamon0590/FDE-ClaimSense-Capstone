@@ -21,10 +21,13 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
   - **The recording** (`M4/presentation/make_demo.py`):
     - real screen capture of the **deployed** console: 9 scenes covering approve, typed agent outputs, Ask
       ClaimSense, confirm, total loss, fraud, injection held, and an unentitled user refused;
+    - checked against every requirement source before review; three gaps were then added: the adversarial
+      families by name (prompt injection, cross-record leakage, forced auto-decision), the SLOs with their M0
+      origin, and the one-page RCA itself;
     - stills of the deck and **real output**: the DynamoDB audit rows of the calls just recorded, CI's log on
       `main`, the live dashboard, the rollback listing with the drill timeline, the held-out run, the handover pack;
     - OpenAI TTS narration (`narration.json`), soft English captions plus an `.srt`.
-    - **8 min 58 s** (the owner asked for close to 10 minutes).
+    - **9 min 52 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
   - **No credential handled by the tooling:** the owner typed the demo passcode in the browser window, and the
     footage before sign-in is cut.
 - **What the takes found:**
