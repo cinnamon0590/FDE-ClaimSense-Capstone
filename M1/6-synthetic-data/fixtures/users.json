@@ -41,6 +41,14 @@
         "customer-service"
       ],
       "entitled_claim_scope": "none (status lookups only; no claim files, no fraud flags)"
+    },
+    {
+      "user_id": "frank",
+      "display_name": "Frank (synthetic)",
+      "groups": [
+        "senior-adjuster"
+      ],
+      "entitled_claim_scope": "all_first_pass + flag_review"
     }
   ]
 }
