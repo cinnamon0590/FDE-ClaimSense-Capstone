@@ -30,6 +30,8 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
   - real Cognito: alice's own password → alice; alice's password for carol → refused; carol's own → carol;
   - the owner's browser test on AWS, with its audit rows;
   - `M2/tests/test_signin.py` (11). The M3 route check now covers `/signin`.
+- The demo video was re-recorded with the new sign-in: alice and carol each type their own password, and the
+  carol scene shows a sign-out, then her sign-in (9 min 54 s).
 - **Owner:** Susan Wellington.
 
 ---
@@ -55,7 +57,7 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
     - stills of the deck and **real output**: the DynamoDB audit rows of the calls just recorded, CI's log on
       `main`, the live dashboard, the rollback listing with the drill timeline, the held-out run, the handover pack;
     - OpenAI TTS narration (`narration.json`), soft English captions plus an `.srt`.
-    - **9 min 52 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
+    - **9 min 54 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
   - **No credential handled by the tooling:** the owner typed the demo passcode in the browser window, and the
     footage before sign-in is cut.
 - **What the takes found:**

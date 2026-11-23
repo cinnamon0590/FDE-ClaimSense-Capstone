@@ -92,7 +92,7 @@ def record(only=None):
                 time.sleep(1)
             raise TimeoutError(f"{who} did not sign in within {timeout} s")
 
-        pg.get_by_label("Username", exact=True).wait_for(timeout=60_000)
+        pg.get_by_label("Username", exact=True).wait_for(timeout=180_000)
         first = "carol" if only == ["refused"] else "alice"  # a carol-only re-take starts with carol
         switch = "refused" in (only or ["refused"]) and first == "alice"   # sign out, then carol signs in
         wait_signed_in(first)
