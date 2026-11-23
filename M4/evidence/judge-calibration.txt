@@ -1,0 +1,12 @@
+ClaimSense judge calibration: llm-rubric (openai gpt-4o-2024-08-06) vs golden labels
+cards: 40 (20 genuine = PASS, 20 corrupted = FAIL) · repeats per card: 2
+
+agreement on golden-PASS cards: 20/20
+agreement on golden-FAIL cards: 19/20   (a missed FAIL = the judge passed a bad card)
+overall agreement: 39/40 = 97.5%
+Cohen's kappa: 0.95   (bar >= 0.80 before a judge may sit in a gate)
+pass^2 (same verdict in every repeat): 40/40
+
+disagreements: CS-007·final and paid (final and paid): golden FAIL, judge PASS
+
+VERDICT: TRUSTED for the rubric grader

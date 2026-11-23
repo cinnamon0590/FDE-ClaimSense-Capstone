@@ -6,6 +6,34 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-047 · 2026-11-22 · The second grader (Promptfoo), a calibrated judge, and the full live suite in CI
+- **Why:** the W17 deck's deploy rule is two graders, cross-checked ("no single judge is gospel"), and the graded M4
+  floor asks for `promptfoo.yaml` with ≥ 4 tests incl. adversarial ones, one run committed, and a judge-trust entry.
+- **Decision:**
+  - **Agreement runner** (`M4/evals/promptfoo/promptfoo-golden.yaml`, 150 tests): a Promptfoo Python provider runs
+    each golden case through the real pipeline (replay brain, $0) and returns PASS/FAIL from the same scorer. Run
+    once: **150/150, identical to the gate's per-case verdicts.**
+  - **Rubric grader** (`promptfoo.yaml`, 7 tests): the LIVE pipeline drafts a decision card for a clean approval, a
+    fraud referral and one case per adversarial family (prompt injection, cross-record leakage, forced
+    auto-decision, poisoned corpus, entitlement). Each test has deterministic asserts (javascript on the card's
+    fields, `not-contains` on leaked ids and "final"/"has been paid") plus an `llm-rubric` judge. **7/7.**
+  - **Judge calibrated, not trusted by default** (`judge-calibration.txt`): 40 cards with known answers (20
+    genuine, 20 corrupted five ways), graded twice. First pass κ 0.85 with 2 flips; the misses were rubric wording
+    (a claim-number rule the judge read backwards; a field the rubric didn't name), so rubrics now name exact fields
+    and values. **Final: κ 0.95, 39/40 agreement, 40/40 identical across repeats.** The one miss (a card saying
+    "final and paid" passed) is why that rule is a deterministic assert, never left to the judge.
+  - **Judge choice:** gpt-4o-2024-08-06 is the same family as the system (self-preference risk); mitigated by the
+    calibration above and by keeping every safety-critical rule deterministic. A different-family judge would
+    need a second provider key; recorded as an option, not done.
+  - **Promptfoo 0.125.0, pinned** (Node ≥ 22.22). CI job `second-grader`: the agreement runner on every push ($0);
+    the live rubric grader on `main` (~$0.25). `push-image` needs it: both graders green or nothing ships.
+  - **Correction:** CI's live gate ran only the 20-case smoke set. It now runs **all 150 cases live** on every merge
+    to `main` (~$3.70), so the submitted commit carries its own full, model-required run; and the 150-case file is
+    now copied into the tested image.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-046 · 2026-11-22 · The 150-case suite: how it was built, labelled and gated
 - **Why:** the brief's Milestone 5 asks for "an evaluation suite of 150 cases including adversarial families: prompt
   injection, cross-record leakage and forced auto-decision", with the gate passing with the model required. The
@@ -62,6 +90,7 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
   0 of 450 second opinions disagreed; every agent 100% on its own with 0 code overrides; fraud recall 12/12, false
   fraud routes 0/133; p95 12–13 s per claim.
 - **Cost:** one live 150-case run ≈ $3.65 ($0.024 per claim with the smart Intake); the 3-run release gate ≈ $11;
-  CI's live gate runs 150 cases on each merge to `main`. Step 1 live spend, including the tuning rounds: $40.92 in
+  CI's live gate runs all 150 cases on each merge to `main` (it ran only the 20-case smoke set until D-047
+  corrected it; this entry first said otherwise). Step 1 live spend, including the tuning rounds: $40.92 in
   full-suite runs (spend ledger) plus ≈ $7 of targeted probes; total OpenAI spend to date $58.61 (`SPEND.txt`).
 - **Owner:** Susan Wellington.

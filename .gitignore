@@ -13,3 +13,5 @@ M2/evals/results-live-stability.txt
 gateway_state.json
 M3/.slack.env
 *.swp
+M4/evals/promptfoo/agreement.json
+M4/evals/promptfoo/rubric.json
