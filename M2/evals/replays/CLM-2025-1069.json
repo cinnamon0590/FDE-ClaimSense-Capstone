@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,22 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
-     }
-    },
-    {
-     "tool_calls": [
-      {
-       "name": "get_claim_file",
-       "arguments": "{}"
-      }
-     ],
-     "usage": {
-      "input_tokens": 1516,
-      "output_tokens": 30,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -44,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Seat Leon",
+      "vehicle": "2019 Seat Leon, colour not specified",
       "incident": "Front-end collision at a junction on 2025-05-20.",
-      "damage": "Damage consistent with the reported collision as per the repair estimate.",
+      "damage": "Front-end damage consistent with a collision.",
       "repair_estimate_usd": 2650,
-      "policy_details": "POL-AU-70069, liability, collision, comprehensive, $500 deductible, 2024-04-10 to 2025-04-10.",
-      "summary": "The claim involves a collision incident reported on May 20, 2025. The vehicle is a 2019 Seat Leon with an estimated repair cost of $2,650."
+      "policy_details": "Policy ID: POL-AU-70069, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a front-end collision at a junction on 2025-05-20, with damage to the 2019 Seat Leon. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1572,
-      "output_tokens": 185,
-      "cached_tokens": 1408
+      "input_tokens": 1651,
+      "output_tokens": 192,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -70,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1184,
+      "input_tokens": 1228,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -79,20 +66,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1418,
+      "input_tokens": 1462,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1069",
       "coverage_finding": "not_covered",
-      "basis": "The loss date is outside the policy period, and the policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
@@ -100,9 +87,9 @@
       "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1684,
-      "output_tokens": 83,
-      "cached_tokens": 1280
+      "input_tokens": 1651,
+      "output_tokens": 85,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -119,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
      },
      "usage": {
-      "input_tokens": 1179,
-      "output_tokens": 80,
+      "input_tokens": 1188,
+      "output_tokens": 78,
       "cached_tokens": 0
      }
     }
@@ -137,17 +124,17 @@
       "claim_id": "CLM-2025-1069",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy explicitly covers only losses that occur within the specified term, which ended on April 10, 2025. Since the incident happened on May 20, 2025, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "The policy explicitly states that there is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1261,
-      "output_tokens": 110,
+      "input_tokens": 1297,
+      "output_tokens": 111,
       "cached_tokens": 0
      }
     }
@@ -161,22 +148,22 @@
       "claim_id": "CLM-2025-1069",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy explicitly covers only losses that occur within the specified term, which ended on April 10, 2025. Since the incident happened on May 20, 2025, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "The policy explicitly states that there is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1261,
-      "output_tokens": 110,
-      "cached_tokens": 1024
+      "input_tokens": 1297,
+      "output_tokens": 111,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

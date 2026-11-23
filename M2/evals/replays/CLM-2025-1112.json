@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2021 Renault Captur",
+      "vehicle": "2021 Renault Captur, colour not specified",
       "incident": "Low-speed bump with a car pulling out of a parking space on 2025-05-09.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,650.",
+      "damage": "Damage consistent with a low-speed collision, as shown in photos and described in the repair estimate.",
       "repair_estimate_usd": 1650,
-      "policy_details": "POL-AU-70112, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision with a low-speed bump. All required documents are on file."
+      "policy_details": "POL-AU-70112, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a low-speed collision with another vehicle on 2025-05-09. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1531,
-      "output_tokens": 176,
+      "input_tokens": 1666,
+      "output_tokens": 200,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1198,
+      "input_tokens": 1259,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -70,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1433,
+      "input_tokens": 1494,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -79,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2025-1112",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the damage from the collision incident. The deductible has been correctly applied to the payment calculation.",
+      "basis": "The policy includes collision coverage, which applies to the damage from the collision. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -87,7 +87,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1687,
+      "input_tokens": 1748,
       "output_tokens": 79,
       "cached_tokens": 1408
      }
@@ -111,7 +111,7 @@
       "rationale": "No fraud suspected due to low fraud risk score and no material inconsistencies. Not a total loss and no injuries reported."
      },
      "usage": {
-      "input_tokens": 1203,
+      "input_tokens": 1227,
       "output_tokens": 93,
       "cached_tokens": 0
      }
@@ -126,21 +126,21 @@
       "claim_id": "CLM-2025-1112",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage of the policy, which is in force for the date of the incident. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and the policy includes collision coverage. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the damage from the collision incident."
+        "quote": "The policy includes collision coverage, which applies to the damage from the collision."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment calculation."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1283,
-      "output_tokens": 134,
+      "input_tokens": 1336,
+      "output_tokens": 137,
       "cached_tokens": 0
      }
     }
@@ -154,26 +154,26 @@
       "claim_id": "CLM-2025-1112",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved because the collision coverage applies to the incident, which occurred within the policy period. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no unresolved issues.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and the policy includes collision coverage. The repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to damage from collision incidents."
+        "quote": "The policy includes collision coverage, which applies to the damage from the collision."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $500 deductible applies to collision claims."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1283,
-      "output_tokens": 126,
+      "input_tokens": 1336,
+      "output_tokens": 137,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

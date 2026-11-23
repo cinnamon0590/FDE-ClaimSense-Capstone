@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,19 +31,19 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [
-       "Repair invoice for a 2017 Vauxhall Astra, registration KX17 PQR: a different vehicle from the insured Peugeot."
+       "Repair invoice for a different vehicle (2017 Vauxhall Astra)"
       ],
-      "vehicle": "2020 Peugeot 3008",
+      "vehicle": "2020 Peugeot 3008, colour not specified",
       "incident": "Insured reports a hit-and-run while parked at a train station on 2024-09-21.",
-      "damage": "Rear bumper and tailgate damaged as described in the narrative and photos.",
+      "damage": "Rear bumper and tailgate damaged.",
       "repair_estimate_usd": 3300,
-      "policy_details": "POL-AU-61114, liability, collision, comprehensive, 500 deductible, 2024-01-30 to 2025-01-30.",
-      "summary": "The claim involves a collision loss reported as a hit-and-run. The insured vehicle is a 2020 Peugeot 3008 with damage to the rear bumper and tailgate."
+      "policy_details": "Policy ID: POL-AU-61114, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a hit-and-run collision while the insured vehicle was parked, resulting in damage to the rear bumper and tailgate. An inconsistency was found with a repair invoice for a different vehicle."
      },
      "usage": {
-      "input_tokens": 1558,
-      "output_tokens": 221,
-      "cached_tokens": 0
+      "input_tokens": 1693,
+      "output_tokens": 209,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -55,12 +55,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1325,
-      "output_tokens": 13,
+      "input_tokens": 1349,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -72,13 +72,13 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"material inconsistencies or suspected fraud in claim file\"}"
+       "arguments": "{\"query\":\"material inconsistencies or fraud in claim file\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1583,
-      "output_tokens": 63,
-      "cached_tokens": 0
+      "input_tokens": 1584,
+      "output_tokens": 62,
+      "cached_tokens": 1280
      }
     },
     {
@@ -109,18 +109,18 @@
       "claim_id": "CLM-2024-4114",
       "fraud_signals": [
        "2 prior claims by this claimant in the 24 months before this loss",
-       "Repair invoice for a 2017 Vauxhall Astra, registration KX17 PQR: a different vehicle from the insured Peugeot."
+       "Repair invoice for a different vehicle (2017 Vauxhall Astra)"
       ],
       "fraud_suspected": true,
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the repair invoice for a different vehicle."
+      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the repair invoice for a different vehicle. This necessitates referral to a fraud investigator."
      },
      "usage": {
-      "input_tokens": 1363,
-      "output_tokens": 122,
+      "input_tokens": 1350,
+      "output_tokens": 119,
       "cached_tokens": 0
      }
     }
@@ -134,7 +134,7 @@
       "claim_id": "CLM-2024-4114",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, there are material inconsistencies in the claim file, such as a repair invoice for a different vehicle. These inconsistencies require referral to the fraud investigator before any payment can be processed.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the hit-and-run incident. However, due to material inconsistencies, specifically the repair invoice for a different vehicle, the claim must be referred to a fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -147,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1474,
-      "output_tokens": 148,
+      "input_tokens": 1486,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-4114",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage reported. However, there are material inconsistencies, such as a repair invoice for a different vehicle, which require referral to the fraud investigator. This referral is mandated by the inconsistency clause, not affecting the coverage decision.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the hit-and-run incident. However, due to material inconsistencies, specifically the repair invoice for a different vehicle, the claim must be referred to a fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -175,13 +175,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1474,
-      "output_tokens": 148,
+      "input_tokens": 1486,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

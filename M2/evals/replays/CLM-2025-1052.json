@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2021 Peugeot 208",
+      "vehicle": "2021 Peugeot 208, colour not specified",
       "incident": "A branch fell in a storm and shattered the rear window on 2025-03-27.",
-      "damage": "The rear window was shattered due to a falling branch.",
+      "damage": "The rear window was shattered by a falling branch.",
       "repair_estimate_usd": 410,
-      "policy_details": "POL-AU-70052, liability, collision, comprehensive, $100 deductible, 2024-04-15 to 2025-04-15.",
-      "summary": "The claim involves a glass loss due to a storm-related incident. All required documents are on file."
+      "policy_details": "POL-AU-70052, coverages: liability, collision, comprehensive, deductible: 100, use class: private",
+      "summary": "The claim involves glass damage to a 2021 Peugeot 208 caused by a falling branch during a storm. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1516,
-      "output_tokens": 172,
+      "input_tokens": 1647,
+      "output_tokens": 191,
       "cached_tokens": 0
      }
     }
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+       "arguments": "{\"query\":\"Is glass damage covered under comprehensive coverage?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1191,
-      "output_tokens": 11,
+      "input_tokens": 1247,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -66,20 +66,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on glass damage claim\"}"
+       "arguments": "{\"query\":\"How does the deductible apply to glass damage claims?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1435,
-      "output_tokens": 24,
-      "cached_tokens": 1024
+      "input_tokens": 1493,
+      "output_tokens": 26,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1052",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy, and the net payable amount has already accounted for this deductible.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies separately to each covered loss, and the net payable amount has already accounted for the deductible.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -87,7 +87,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1690,
+      "input_tokens": 1750,
       "output_tokens": 89,
       "cached_tokens": 1408
      }
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under comprehensive coverage with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported."
+      "rationale": "The claim is covered under comprehensive coverage with no indications of fraud, injury, or total loss. All required documents are on file, and the repair-to-ACV ratio is well below 1.0."
      },
      "usage": {
-      "input_tokens": 1191,
-      "output_tokens": 92,
+      "input_tokens": 1210,
+      "output_tokens": 96,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2025-1052",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage caused by a storm, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and there are no indicators of fraud or inconsistencies.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $100 deductible applies to comprehensive claims."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1286,
-      "output_tokens": 132,
+      "input_tokens": 1338,
+      "output_tokens": 133,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2025-1052",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage caused by a storm, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and there are no indicators of fraud or inconsistencies.",
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -160,18 +160,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $100 deductible applies to comprehensive claims."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1286,
-      "output_tokens": 132,
-      "cached_tokens": 0
+      "input_tokens": 1338,
+      "output_tokens": 133,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,19 +31,19 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [
-       "Photos dated 2025-03-02, before the incident date of 2025-03-25."
+       "DOC-2025-1106-PHOTOS (photos) photo metadata dated 2025-03-02, before the incident 2025-03-25"
       ],
-      "vehicle": "2019 Nissan Juke",
-      "incident": "A collision occurred on 2025-03-25 in a car park.",
-      "damage": "Damage to the rear bumper as described in the documents.",
+      "vehicle": "2019 Nissan Juke, colour not specified",
+      "incident": "Collision on 2025-03-25 in a car park.",
+      "damage": "Damage to the rear bumper.",
       "repair_estimate_usd": 2900,
-      "policy_details": "POL-AU-70106, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
-      "summary": "The claim involves a collision with damage to the rear bumper. All required documents are on file, but there is an inconsistency with the photo dates."
+      "policy_details": "POL-AU-70106, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with damage to the rear bumper of a 2019 Nissan Juke. Photos provided are dated before the incident, indicating a potential inconsistency."
      },
      "usage": {
-      "input_tokens": 1532,
-      "output_tokens": 203,
-      "cached_tokens": 0
+      "input_tokens": 1702,
+      "output_tokens": 209,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -55,12 +55,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1307,
-      "output_tokens": 13,
+      "input_tokens": 1349,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -68,24 +68,24 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"material inconsistencies or suspected fraud in claim file\"}"
+       "arguments": "{\"query\":\"material inconsistencies or fraud referral process\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1565,
-      "output_tokens": 63,
-      "cached_tokens": 1152
+      "input_tokens": 1584,
+      "output_tokens": 61,
+      "cached_tokens": 1280
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1106",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not exclude coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -94,9 +94,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2076,
+      "input_tokens": 2093,
       "output_tokens": 127,
-      "cached_tokens": 1408
+      "cached_tokens": 1536
      }
     }
    ]
@@ -108,18 +108,18 @@
      "final": {
       "claim_id": "CLM-2025-1106",
       "fraud_signals": [
-       "Photos dated 2025-03-02, before the incident date of 2025-03-25."
+       "DOC-2025-1106-PHOTOS (photos) photo metadata dated 2025-03-02, before the incident 2025-03-25"
       ],
       "fraud_suspected": true,
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the photo dates being prior to the incident date."
+      "rationale": "Fraud is suspected due to material inconsistencies in the file, specifically photos dated before the incident."
      },
      "usage": {
-      "input_tokens": 1330,
-      "output_tokens": 105,
+      "input_tokens": 1335,
+      "output_tokens": 112,
       "cached_tokens": 0
      }
     }
@@ -133,7 +133,7 @@
       "claim_id": "CLM-2025-1106",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, due to material inconsistencies in the claim file, specifically the photo dates being prior to the incident date, the claim must be referred to the fraud investigator as required by the inconsistency clause. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision incident. However, due to material inconsistencies, specifically the photo metadata dated before the incident, the claim must be referred to the fraud investigator as required by the inconsistency clause. This referral is necessary before any payment can be processed.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -141,13 +141,13 @@
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Inconsistencies require referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1438,
-      "output_tokens": 167,
+      "input_tokens": 1478,
+      "output_tokens": 154,
       "cached_tokens": 0
      }
     }
@@ -161,7 +161,7 @@
       "claim_id": "CLM-2025-1106",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, due to material inconsistencies, specifically the photo dates being prior to the incident date, the claim must be referred to the fraud investigator as required by the inconsistency clause. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. However, there are material inconsistencies in the claim file, specifically photos dated before the incident, which require referral to the fraud investigator. This referral is mandated by the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -174,13 +174,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1438,
-      "output_tokens": 163,
-      "cached_tokens": 0
+      "input_tokens": 1478,
+      "output_tokens": 146,
+      "cached_tokens": 1280
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

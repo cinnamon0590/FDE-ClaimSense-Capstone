@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2017 Nissan Qashqai",
+      "vehicle": "2017 Nissan Qashqai, colour not specified",
       "incident": "Rear quarter and boot damaged when a delivery van reversed into the parked insured vehicle on 2024-10-12.",
-      "damage": "The damage described includes the rear quarter and boot of the vehicle.",
+      "damage": "Rear quarter and boot damage consistent with a collision.",
       "repair_estimate_usd": 16700,
-      "policy_details": "POL-AU-33872, liability, collision, comprehensive, $500 deductible, 2024-06-20 to 2025-06-20.",
-      "summary": "The claim involves a collision where a delivery van reversed into the insured vehicle. The repair estimate is $16,700."
+      "policy_details": "Policy ID: POL-AU-33872, Coverages: liability, collision, comprehensive, Deductible: $500, Use class: private",
+      "summary": "The claim involves a collision where a delivery van reversed into the parked insured vehicle, causing damage to the rear quarter and boot. The repair estimate is $16,700, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 1629,
-      "output_tokens": 190,
-      "cached_tokens": 0
+      "input_tokens": 1764,
+      "output_tokens": 207,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1226,
+      "input_tokens": 1280,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -71,12 +71,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+       "arguments": "{\"query\":\"total loss definition compared to actual cash value\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1461,
-      "output_tokens": 63,
+      "input_tokens": 1515,
+      "output_tokens": 62,
       "cached_tokens": 1152
      }
     },
@@ -93,7 +93,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1982,
+      "input_tokens": 2035,
       "output_tokens": 129,
       "cached_tokens": 1408
      }
@@ -112,11 +112,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.994 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+      "rationale": "The claim is covered under the collision coverage clause with all required documents on file. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no fraud signals or injury exposure."
      },
      "usage": {
-      "input_tokens": 1252,
-      "output_tokens": 104,
+      "input_tokens": 1269,
+      "output_tokens": 101,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The net payable amount is within the authority limit, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The repair-to-ACV ratio is 0.994, confirming it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -147,7 +147,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1358,
+      "input_tokens": 1401,
       "output_tokens": 172,
       "cached_tokens": 0
      }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-3461",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has been correctly applied, and the net payable amount is within the authority limit. The repair-to-ACV ratio confirms the vehicle is not a total loss.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -179,13 +179,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1358,
-      "output_tokens": 175,
+      "input_tokens": 1401,
+      "output_tokens": 167,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

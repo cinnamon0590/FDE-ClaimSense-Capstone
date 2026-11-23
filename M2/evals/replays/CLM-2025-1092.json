@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Fiat 500",
-      "incident": "Windscreen cracked on 2025-07-03.",
-      "damage": "The windscreen is reported cracked as per the documents.",
+      "vehicle": "2019 Fiat 500, colour not specified",
+      "incident": "Windscreen cracked by a stone thrown up by a lorry on 2025-07-03.",
+      "damage": "The windscreen was cracked.",
       "repair_estimate_usd": 390,
-      "policy_details": "POL-AU-70092, liability, collision, comprehensive, $100 deductible, 2024-07-01 to 2025-07-01.",
-      "summary": "This claim involves a glass loss for a 2019 Fiat 500. The windscreen was cracked on July 3, 2025."
+      "policy_details": "POL-AU-70092, coverages: liability, collision, comprehensive, deductible: 100, use class: private",
+      "summary": "The claim involves a cracked windscreen caused by a stone on 2025-07-03. All required documents are on file, and there are no inconsistencies or injuries reported."
      },
      "usage": {
-      "input_tokens": 1525,
-      "output_tokens": 174,
-      "cached_tokens": 0
+      "input_tokens": 1650,
+      "output_tokens": 183,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1173,
+      "input_tokens": 1219,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -66,30 +66,30 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1417,
+      "input_tokens": 1463,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1092",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which is a condition for coverage.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1683,
-      "output_tokens": 73,
-      "cached_tokens": 1280
+      "input_tokens": 1652,
+      "output_tokens": 85,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to the loss occurring outside the policy period, and there are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injuries reported."
      },
      "usage": {
-      "input_tokens": 1158,
-      "output_tokens": 79,
+      "input_tokens": 1179,
+      "output_tokens": 78,
       "cached_tokens": 0
      }
     }
@@ -124,17 +124,17 @@
       "claim_id": "CLM-2025-1092",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the incident occurred outside the policy period, which ended on July 1, 2025. As the loss date is July 3, 2025, it falls outside the coverage term, making the claim ineligible for coverage.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or injuries reported.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss date outside policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1240,
-      "output_tokens": 102,
+      "input_tokens": 1289,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -148,22 +148,22 @@
       "claim_id": "CLM-2025-1092",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy was active from July 1, 2024, to July 1, 2025, and the loss occurred on July 3, 2025, which is not covered. All required documents are on file, but no payable amount is due as the loss is out of term.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or injuries reported.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss date outside policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1240,
-      "output_tokens": 124,
-      "cached_tokens": 1024
+      "input_tokens": 1289,
+      "output_tokens": 104,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

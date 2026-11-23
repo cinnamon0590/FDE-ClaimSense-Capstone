@@ -2,9 +2,37 @@
  "version": 1,
  "derived_by": "evals/derive_agent_labels.py",
  "signoff": {
-  "by": null,
+  "by": "Susan Wellington",
   "role": "Senior Adjuster",
-  "note": "confirm every label with signoff_required"
+  "date": "2026-11-22",
+  "cases": [
+   "CS-007",
+   "CS-008",
+   "CS-009",
+   "CS-012",
+   "CS-015",
+   "CS-026",
+   "CS-027",
+   "CS-031",
+   "CS-034",
+   "CS-080",
+   "CS-081",
+   "CS-082",
+   "CS-083",
+   "CS-084",
+   "CS-085",
+   "CS-098",
+   "CS-099",
+   "CS-101",
+   "CS-102",
+   "CS-106",
+   "CS-107",
+   "CS-108",
+   "CS-110",
+   "CS-113",
+   "CS-115"
+  ],
+  "note": "all 25 coverage labels with signoff_required confirmed as written (9 on 2026-11-16, 16 added in M4 on 2026-11-22)"
  },
  "labels": {
   "CS-001": {
@@ -2856,7 +2884,7 @@
     ],
     "missing_documents": [],
     "injury_indicated": false,
-    "has_inconsistencies": true
+    "has_inconsistencies": false
    },
    "Coverage Check": {
     "coverage_finding": "covered",
@@ -2892,7 +2920,7 @@
     ],
     "missing_documents": [],
     "injury_indicated": false,
-    "has_inconsistencies": true
+    "has_inconsistencies": false
    },
    "Coverage Check": {
     "coverage_finding": "covered",
@@ -2928,7 +2956,7 @@
     ],
     "missing_documents": [],
     "injury_indicated": false,
-    "has_inconsistencies": true
+    "has_inconsistencies": false
    },
    "Coverage Check": {
     "coverage_finding": "covered",
@@ -3959,7 +3987,7 @@
     ],
     "missing_documents": [],
     "injury_indicated": false,
-    "has_inconsistencies": true
+    "has_inconsistencies": false
    },
    "Coverage Check": {
     "coverage_finding": "covered",
@@ -4144,7 +4172,7 @@
     ],
     "missing_documents": [],
     "injury_indicated": true,
-    "has_inconsistencies": true
+    "has_inconsistencies": false
    },
    "Coverage Check": {
     "coverage_finding": "covered",

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -34,15 +34,15 @@
       "inconsistencies": [],
       "vehicle": "2021 Kia Picanto",
       "incident": "Minor collision at low speed in a car park on 2025-07-20.",
-      "damage": "Damage consistent with the reported collision, estimated repair cost is $1,800.",
+      "damage": "Damage consistent with a minor collision at low speed in a car park.",
       "repair_estimate_usd": 1800,
-      "policy_details": "POL-AU-70129, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident with no reported injuries. The repair estimate is $1,800."
+      "policy_details": "Policy ID: POL-AU-70129, Coverages: liability, collision, comprehensive, Deductible: 500, Use Class: private",
+      "summary": "The claim involves a minor collision in a car park with no injuries reported. All required documents are on file, and there are no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1603,
-      "output_tokens": 180,
-      "cached_tokens": 0
+      "input_tokens": 1738,
+      "output_tokens": 186,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1203,
+      "input_tokens": 1246,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -71,16 +71,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1461,
+      "input_tokens": 1504,
       "output_tokens": 23,
-      "cached_tokens": 0
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1129",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has been correctly applied to the payment.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1715,
-      "output_tokens": 95,
+      "input_tokens": 1758,
+      "output_tokens": 111,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.1463 indicating it is not a total loss. There are no reported injuries and no fraud indicators or material inconsistencies present."
+      "rationale": "The claim is covered, with no fraud indicators or inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no injuries reported, leading to a recommendation of 'none' for specialist involvement."
      },
      "usage": {
-      "input_tokens": 1209,
-      "output_tokens": 96,
+      "input_tokens": 1231,
+      "output_tokens": 107,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2025-1129",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and the damage is covered under the collision coverage clause. The deductible has been correctly applied, resulting in a net payable amount of $1300, which is within the authority limit. All required documents are on file, and there are no indications of fraud or inconsistencies.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1307,
-      "output_tokens": 138,
+      "input_tokens": 1369,
+      "output_tokens": 150,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2025-1129",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and the damage is covered under the collision coverage clause. The deductible has been correctly applied, resulting in a net payable amount of $1300, which is within the authority limit. All required documents are on file, and there are no indications of fraud or inconsistencies.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -161,18 +161,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1307,
-      "output_tokens": 138,
-      "cached_tokens": 0
+      "input_tokens": 1369,
+      "output_tokens": 150,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

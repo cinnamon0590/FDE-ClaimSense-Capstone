@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2020 Seat Ibiza",
+      "vehicle": "2020 Seat Ibiza, colour not specified",
       "incident": "Collision at a roundabout on 2025-02-28.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,800.",
+      "damage": "Damage consistent with a collision, as shown in photos and repair estimate.",
       "repair_estimate_usd": 1800,
-      "policy_details": "POL-AU-70090, liability, collision, comprehensive, $500 deductible, 2025-03-01 to 2026-03-01.",
-      "summary": "The claim involves a collision that occurred before the policy start date. All required documents are on file."
+      "policy_details": "Policy POL-AU-70090, coverages: liability, collision, comprehensive, deductible: 500, use class: private.",
+      "summary": "The claim involves a collision at a roundabout with the other driver leaving the scene. The repair estimate is $1,800, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 1527,
-      "output_tokens": 170,
-      "cached_tokens": 0
+      "input_tokens": 1672,
+      "output_tokens": 182,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage coverage for own car\"}"
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1169,
-      "output_tokens": 11,
+      "input_tokens": 1218,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -66,30 +66,30 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1401,
+      "input_tokens": 1452,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1090",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which is a condition for coverage.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that coverage applies only to losses within the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1667,
-      "output_tokens": 73,
-      "cached_tokens": 1280
+      "input_tokens": 1641,
+      "output_tokens": 81,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,10 +106,10 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud signals or injury exposure."
      },
      "usage": {
-      "input_tokens": 1154,
+      "input_tokens": 1174,
       "output_tokens": 78,
       "cached_tokens": 0
      }
@@ -124,17 +124,17 @@
       "claim_id": "CLM-2025-1090",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the collision occurred outside the policy period. The policy covers incidents from 2025-03-01 to 2026-03-01, but the loss date was 2025-02-28. Therefore, the incident is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses within the specified period, and this incident happened before the coverage began. All required documents are on file, but the timing of the loss precludes coverage.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss date outside policy period."
+        "quote": "Coverage applies only to losses within the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1234,
-      "output_tokens": 110,
+      "input_tokens": 1283,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -148,22 +148,22 @@
       "claim_id": "CLM-2025-1090",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the collision occurred on 2025-02-28, which is outside the policy period starting on 2025-03-01. As the loss date is a condition for coverage, this claim does not meet the necessary criteria for approval.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that happen within the policy period, which starts on 2025-03-01. All required documents are on file, but the timing of the incident precludes coverage.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Loss date outside policy period."
+        "quote": "Coverage applies only to losses within the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1234,
-      "output_tokens": 104,
-      "cached_tokens": 0
+      "input_tokens": 1283,
+      "output_tokens": 108,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

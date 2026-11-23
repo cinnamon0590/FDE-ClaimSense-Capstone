@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -27,22 +27,22 @@
        "photos"
       ],
       "missing_documents": [
-       "glass_invoice"
+       "repair_estimate"
       ],
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2021 Ford Puma",
+      "vehicle": "2021 Ford Puma, colour not specified",
       "incident": "Hail during a storm dented the bonnet on 2025-07-17.",
-      "damage": "The bonnet of the vehicle was dented due to hail damage.",
+      "damage": "The bonnet was dented by hail.",
       "repair_estimate_usd": 2200,
-      "policy_details": "POL-AU-70085, liability, collision, comprehensive, 500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves hail damage to a 2021 Ford Puma. A repair estimate of $2200 is on file."
+      "policy_details": "POL-AU-70085, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to the bonnet of a 2021 Ford Puma. A repair estimate document is missing from the file."
      },
      "usage": {
-      "input_tokens": 1469,
-      "output_tokens": 176,
-      "cached_tokens": 0
+      "input_tokens": 1608,
+      "output_tokens": 171,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"hail damage to the insured's own car under comprehensive coverage\"}"
+       "arguments": "{\"query\":\"hail damage coverage under comprehensive insurance\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1198,
-      "output_tokens": 16,
+      "input_tokens": 1229,
+      "output_tokens": 11,
       "cached_tokens": 0
      }
     },
@@ -67,11 +67,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for comprehensive coverage\"}"
+       "arguments": "{\"query\":\"deductible application on comprehensive claims\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1447,
+      "input_tokens": 1473,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -80,7 +80,7 @@
      "final": {
       "claim_id": "CLM-2025-1085",
       "coverage_finding": "covered",
-      "basis": "The hail damage to the insured's own car is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies as specified in the policy, and the net payable amount has already accounted for this deductible.",
+      "basis": "The hail damage to the insured's car is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies as specified, and the net payable amount has already accounted for this deductible.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1701,
-      "output_tokens": 98,
+      "input_tokens": 1727,
+      "output_tokens": 94,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the comprehensive policy for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
+      "rationale": "The claim is covered under comprehensive coverage for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
      },
      "usage": {
-      "input_tokens": 1207,
-      "output_tokens": 108,
+      "input_tokens": 1197,
+      "output_tokens": 107,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2025-1085",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy for hail damage, and the loss occurred within the policy period. However, the required repair estimate document is missing, which needs to be reviewed by a senior adjuster. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. However, the repair estimate document is missing, which is required for processing. The net payable amount is within the authority limit, but the missing document necessitates a review by a senior adjuster.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "The deductible applies as specified."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1317,
-      "output_tokens": 132,
+      "input_tokens": 1335,
+      "output_tokens": 136,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2025-1085",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy for hail damage, and the loss occurred within the policy period. However, the required repair estimate document is missing, which needs to be reviewed by a senior adjuster. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. However, the repair estimate document is missing, which is required for processing. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -161,18 +161,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "The deductible applies as specified."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1317,
-      "output_tokens": 132,
+      "input_tokens": 1335,
+      "output_tokens": 122,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

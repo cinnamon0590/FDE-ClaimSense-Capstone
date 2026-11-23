@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -34,15 +34,15 @@
       "inconsistencies": [],
       "vehicle": "2023 Tesla Model Y",
       "incident": "Insured's vehicle was hit by a driver who ran a red light on 2024-09-30.",
-      "damage": "Damage consistent with the reported collision, estimated at $28,400.",
+      "damage": "Damage consistent with a collision where the insured's vehicle was hit by another driver.",
       "repair_estimate_usd": 28400,
-      "policy_details": "POL-AU-61204, liability, collision, comprehensive, $1000 deductible, 2024-03-01 to 2025-03-01.",
-      "summary": "The claim involves a collision where the insured's vehicle was struck by another driver. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-61204, Coverages: liability, collision, comprehensive, Deductible: 1000, Use Class: private",
+      "summary": "The insured's vehicle was involved in a collision caused by a third party running a red light. The repair estimate is $28,400, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 1622,
-      "output_tokens": 188,
-      "cached_tokens": 0
+      "input_tokens": 1757,
+      "output_tokens": 201,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1232,
-      "output_tokens": 13,
+      "input_tokens": 1282,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -67,16 +67,16 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"settlement authority limit sign-off\"}"
+       "arguments": "{\"query\":\"settlement authority limit and sign-off requirements\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1490,
-      "output_tokens": 60,
+      "input_tokens": 1517,
+      "output_tokens": 62,
       "cached_tokens": 1152
      }
     },
@@ -84,7 +84,7 @@
      "final": {
       "claim_id": "CLM-2024-2019",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's vehicle is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the net payable amount. Since the net payable amount exceeds $25,000, a senior adjuster must sign off on the settlement.",
+      "basis": "The collision damage to the insured's vehicle is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The settlement amount exceeds the authority limit and requires senior adjuster sign-off.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -93,8 +93,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1988,
-      "output_tokens": 123,
+      "input_tokens": 2017,
+      "output_tokens": 116,
       "cached_tokens": 1408
      }
     }
@@ -115,7 +115,7 @@
       "rationale": "The claim is covered, not a total loss, and there are no fraud indicators or injury exposures. The net payable amount exceeds the authority limit, requiring senior adjuster sign-off."
      },
      "usage": {
-      "input_tokens": 1254,
+      "input_tokens": 1260,
       "output_tokens": 90,
       "cached_tokens": 0
      }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-2019",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount is $27,400, which exceeds the $25,000 authority limit, requiring a senior adjuster's review. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount of $27,400 exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file, and there are no indications of fraud or total loss.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -138,17 +138,17 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has already been applied to the net payable amount."
        },
        {
         "source_id": "CLS-AUTH-010",
-        "quote": "A senior adjuster must sign off on settlements exceeding $25,000."
+        "quote": "Settlement amount exceeds the authority limit and requires senior adjuster sign-off."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1346,
-      "output_tokens": 184,
+      "input_tokens": 1381,
+      "output_tokens": 176,
       "cached_tokens": 0
      }
     }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2024-2019",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount is $27,400, which exceeds the $25,000 authority limit, requiring a senior adjuster's review. All required documents are on file, and the repair-to-ACV ratio confirms it is not a total loss.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. The net payable amount of $27,400 exceeds the $25,000 authority limit, requiring senior adjuster sign-off. All required documents are on file, and there are no indications of fraud or total loss.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -170,22 +170,22 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has already been applied to the net payable amount."
        },
        {
         "source_id": "CLS-AUTH-010",
-        "quote": "A senior adjuster must sign off on settlements exceeding $25,000."
+        "quote": "Settlement amount exceeds the authority limit and requires senior adjuster sign-off."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1346,
-      "output_tokens": 184,
+      "input_tokens": 1381,
+      "output_tokens": 176,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

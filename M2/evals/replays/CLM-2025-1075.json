@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2017 Peugeot 3008",
+      "vehicle": "2017 Peugeot 3008, colour not specified",
       "incident": "Caught in a multi-car pile-up in fog on 2025-08-19.",
-      "damage": "Chassis bent as a result of the collision.",
+      "damage": "Chassis bent as described in the documents and narrative.",
       "repair_estimate_usd": 13900,
-      "policy_details": "POL-AU-70075, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident with no reported injuries. The repair estimate is $13,900."
+      "policy_details": "Policy POL-AU-70075, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision on 2025-08-19 with a repair estimate of $13,900. No injuries or commercial use were reported, and all required documents are on file."
      },
      "usage": {
-      "input_tokens": 1533,
-      "output_tokens": 172,
+      "input_tokens": 1668,
+      "output_tokens": 190,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1208,
+      "input_tokens": 1263,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -70,12 +70,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+       "arguments": "{\"query\":\"total loss determination based on repair-to-ACV ratio\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1443,
-      "output_tokens": 63,
+      "input_tokens": 1498,
+      "output_tokens": 65,
       "cached_tokens": 1152
      }
     },
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2025-1075",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value, which is the case here.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The vehicle is considered a total loss because the repair cost exceeds the actual cash value, as defined in the total loss clause.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -92,9 +92,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1964,
+      "input_tokens": 2008,
       "output_tokens": 125,
-      "cached_tokens": 1280
+      "cached_tokens": 1408
      }
     }
    ]
@@ -111,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
       "high_value": false,
-      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.2411, with no fraud suspected and no injuries reported."
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.2411, which is greater than 1.0. There are no fraud signals or injury exposure, so the recommended route is to assign a total-loss appraiser."
      },
      "usage": {
-      "input_tokens": 1230,
-      "output_tokens": 88,
+      "input_tokens": 1248,
+      "output_tokens": 110,
       "cached_tokens": 0
      }
     }
@@ -129,7 +129,7 @@
       "claim_id": "CLM-2025-1075",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period covers the incident date, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The recommended route is to assign a total-loss appraiser, as required by the assessment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -137,13 +137,13 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost exceeds the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1320,
-      "output_tokens": 156,
+      "input_tokens": 1389,
+      "output_tokens": 143,
       "cached_tokens": 0
      }
     }
@@ -157,7 +157,7 @@
       "claim_id": "CLM-2025-1075",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy period covers the date of loss, and all required documents are on file. The claim should be routed to a total-loss appraiser as recommended.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The recommended route is to assign a total-loss appraiser, as required by the assessment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -165,18 +165,18 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair cost exceeds the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1320,
-      "output_tokens": 158,
+      "input_tokens": 1389,
+      "output_tokens": 143,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

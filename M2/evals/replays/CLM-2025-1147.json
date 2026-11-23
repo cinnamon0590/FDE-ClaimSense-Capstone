@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,16 +32,16 @@
       "commercial_use_indicated": false,
       "inconsistencies": [],
       "vehicle": "2019 Kia Rio",
-      "incident": "A door was dented by another car's door in a car park on 2025-05-17.",
-      "damage": "The damage described is a dent on the door consistent with the reported collision.",
+      "incident": "Door dented by another car's door in a car park on 2025-05-17.",
+      "damage": "The documents describe a dented door consistent with a collision in a car park.",
       "repair_estimate_usd": 1250,
-      "policy_details": "POL-AU-70147, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident with no reported injuries. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-70147, Coverages: liability, collision, comprehensive, Deductible: 500, Use Class: private",
+      "summary": "The claim involves a collision where the insured vehicle's door was dented by another car in a car park. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1516,
-      "output_tokens": 178,
-      "cached_tokens": 0
+      "input_tokens": 1651,
+      "output_tokens": 200,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1198,
-      "output_tokens": 14,
+      "input_tokens": 1257,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -70,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1433,
+      "input_tokens": 1515,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -79,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2025-1147",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has been correctly applied to the payment.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause specifies that the deductible applies separately to each covered loss, and the payment is the amount of the covered loss minus the deductible.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -87,8 +87,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1687,
-      "output_tokens": 95,
+      "input_tokens": 1769,
+      "output_tokens": 113,
       "cached_tokens": 1408
      }
     }
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.1238, indicating it is not a total loss. There are no fraud signals or indications of injury, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 1204,
-      "output_tokens": 90,
+      "input_tokens": 1244,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2025-1147",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss, and the payment is the amount of the covered loss minus the deductible."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1296,
-      "output_tokens": 143,
+      "input_tokens": 1381,
+      "output_tokens": 159,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2025-1147",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -160,18 +160,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss, and the payment is the amount of the covered loss minus the deductible."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1296,
-      "output_tokens": 143,
+      "input_tokens": 1381,
+      "output_tokens": 155,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

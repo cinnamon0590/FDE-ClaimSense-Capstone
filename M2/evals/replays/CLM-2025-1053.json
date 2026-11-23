@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -33,14 +33,14 @@
       "inconsistencies": [],
       "vehicle": "2019 Volkswagen Golf",
       "incident": "Someone broke the driver's side window on 2025-05-14.",
-      "damage": "The driver's side window was broken, with no items taken from the vehicle.",
+      "damage": "The driver's side window was broken; nothing was taken.",
       "repair_estimate_usd": 380,
-      "policy_details": "POL-AU-70053, liability, collision, comprehensive, $100 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a glass loss where the driver's side window was broken. The repair estimate is $380."
+      "policy_details": "POL-AU-70053, coverages: liability, collision, comprehensive, deductible: 100, use class: private",
+      "summary": "The claim involves a broken driver's side window on a 2019 Volkswagen Golf, reported on 2025-05-15. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1513,
-      "output_tokens": 171,
+      "input_tokens": 1644,
+      "output_tokens": 186,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1190,
+      "input_tokens": 1242,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -66,20 +66,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application for glass damage\"}"
+       "arguments": "{\"query\":\"deductible application for glass damage claims\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1434,
-      "output_tokens": 23,
-      "cached_tokens": 1024
+      "input_tokens": 1486,
+      "output_tokens": 24,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1053",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified, and the net payable amount has already accounted for it.",
+      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy, and the net payable amount has already been calculated correctly.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -87,8 +87,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1688,
-      "output_tokens": 85,
+      "input_tokens": 1741,
+      "output_tokens": 88,
       "cached_tokens": 1408
      }
     }
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is for glass damage with a repair estimate of $380, which is well below the total loss threshold (repair-to-ACV ratio < 1.0). There are no fraud indicators or inconsistencies present, and no injuries reported."
+      "rationale": "The claim is covered with no fraud indicators or inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no injuries reported."
      },
      "usage": {
-      "input_tokens": 1186,
-      "output_tokens": 104,
+      "input_tokens": 1204,
+      "output_tokens": 94,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2025-1053",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the total loss threshold. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim for the broken driver's side window is covered under the comprehensive coverage, which includes glass breakage. The incident occurred within the policy period, and all required documents are on file. The net payable amount of $280 has been correctly calculated after applying the deductible.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $100 deductible applies to comprehensive claims."
+        "quote": "The deductible applies as specified in the policy."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1293,
-      "output_tokens": 129,
+      "input_tokens": 1330,
+      "output_tokens": 126,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2025-1053",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair cost is well below the total loss threshold. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim for the broken driver's side window is covered under the comprehensive coverage, which includes glass breakage. The incident occurred within the policy period, and all required documents are on file. The net payable amount of $280 has been correctly calculated after applying the deductible.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -160,18 +160,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $100 deductible applies to comprehensive claims."
+        "quote": "The deductible applies as specified in the policy."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1293,
-      "output_tokens": 129,
-      "cached_tokens": 0
+      "input_tokens": 1330,
+      "output_tokens": 126,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

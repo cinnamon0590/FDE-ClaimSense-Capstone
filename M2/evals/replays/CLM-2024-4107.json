@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -33,15 +33,15 @@
       "commercial_use_indicated": false,
       "inconsistencies": [],
       "vehicle": "2020 Skoda Octavia",
-      "incident": "A stone chip from a gravel lorry cracked the windscreen across the driver's line of sight on 2024-10-19.",
-      "damage": "The windscreen was cracked due to a stone chip.",
+      "incident": "Stone chip from a gravel lorry cracked the windscreen across the driver's line of sight on 2024-10-19.",
+      "damage": "The windscreen was cracked across the driver's line of sight.",
       "repair_estimate_usd": 720,
-      "policy_details": "POL-AU-61107, liability, collision, comprehensive, $250 deductible, 2024-03-01 to 2025-03-01.",
-      "summary": "The claim involves a glass loss due to a stone chip incident. A glass invoice is missing from the documentation."
+      "policy_details": "POL-AU-61107, coverages: liability, collision, comprehensive, deductible: 250, use class: private",
+      "summary": "The claim involves a glass loss due to a stone chip from a gravel lorry cracking the windscreen. The required glass invoice document is missing from the file."
      },
      "usage": {
-      "input_tokens": 1469,
-      "output_tokens": 182,
+      "input_tokens": 1603,
+      "output_tokens": 185,
       "cached_tokens": 0
      }
     }
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1199,
+      "input_tokens": 1239,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -71,9 +71,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1443,
+      "input_tokens": 1483,
       "output_tokens": 24,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     },
     {
@@ -88,7 +88,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1698,
+      "input_tokens": 1738,
       "output_tokens": 75,
       "cached_tokens": 1408
      }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio below 1.0 indicating it is not a total loss. There are no fraud signals or injury exposure, and the recommended route is 'none'."
+      "rationale": "No fraud signals or material inconsistencies detected. The claim is not a total loss and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1185,
-      "output_tokens": 101,
+      "input_tokens": 1188,
+      "output_tokens": 77,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for glass breakage, and the deductible has been correctly applied. However, the required glass invoice document is missing, which needs to be reviewed by a senior adjuster. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied."
+        "quote": "Deductible has been correctly applied."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1289,
-      "output_tokens": 123,
+      "input_tokens": 1297,
+      "output_tokens": 137,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2024-4107",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive policy, which includes glass breakage. However, the required glass invoice is missing, necessitating further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for glass breakage, but the required glass invoice document is missing. This necessitates a review by a senior adjuster to ensure all documentation is complete before proceeding.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -161,18 +161,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied."
+        "quote": "Deductible has been correctly applied."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1289,
-      "output_tokens": 123,
+      "input_tokens": 1297,
+      "output_tokens": 117,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2016 Renault Clio",
+      "vehicle": "2016 Renault Clio, colour not specified",
       "incident": "Low-speed collision with a gatepost at the insured's workplace on 2024-06-16.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,700.",
+      "damage": "Damage consistent with a low-speed collision with a gatepost.",
       "repair_estimate_usd": 1700,
-      "policy_details": "POL-AU-61109, liability, collision, comprehensive, $500 deductible, 2023-06-15 to 2024-06-15.",
-      "summary": "The claim involves a collision with a gatepost resulting in damage to the insured vehicle. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-61109, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a low-speed collision with a gatepost at the insured's workplace. The repair estimate on file is $1,700, and all required documents are present."
      },
      "usage": {
-      "input_tokens": 1531,
-      "output_tokens": 182,
-      "cached_tokens": 0
+      "input_tokens": 1666,
+      "output_tokens": 193,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1181,
+      "input_tokens": 1229,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -66,30 +66,30 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1415,
+      "input_tokens": 1463,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4109",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which ended on 2024-06-15. The policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1681,
-      "output_tokens": 93,
-      "cached_tokens": 0
+      "input_tokens": 1652,
+      "output_tokens": 85,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injury exposures."
      },
      "usage": {
-      "input_tokens": 1186,
-      "output_tokens": 93,
+      "input_tokens": 1189,
+      "output_tokens": 78,
       "cached_tokens": 0
      }
     }
@@ -124,17 +124,17 @@
       "claim_id": "CLM-2024-4109",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-06-15. The policy explicitly covers only losses occurring within the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1281,
-      "output_tokens": 108,
+      "input_tokens": 1298,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -148,22 +148,22 @@
       "claim_id": "CLM-2024-4109",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-06-15. The policy explicitly covers only losses occurring within the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "There is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1281,
-      "output_tokens": 108,
+      "input_tokens": 1298,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -35,7 +35,7 @@ def test_cost_and_latency_are_reported_per_claim():
     r = run_claim("CLM-2024-1800", "alice", brain="replay")
     agents = [u for u in r["usage"] if u["agent"] != "G1b injection classifier"]          # G1b is metered too
     assert [u["agent"] for u in agents][:4] == ["Document Intake", "Coverage Check", "Claim Assessment", "Decision Draft"]
-    assert agents[0]["model"].startswith("replay:gpt-4o-mini") and agents[1]["model"].startswith("replay:gpt-4o")
+    assert agents[0]["model"].startswith("replay:gpt-4o") and agents[1]["model"].startswith("replay:gpt-4o")   # Intake smart since m2-v13
     assert r["cost_usd"] > 0 and r["latency_s"] < 90
 
 

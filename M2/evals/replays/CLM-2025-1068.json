@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2012 Honda Jazz",
+      "vehicle": "2012 Honda Jazz, colour not specified",
       "incident": "Car keyed along the side in a car park on 2025-07-30.",
-      "damage": "Damage described as keyed along the side of the vehicle.",
+      "damage": "Damage consistent with vandalism, specifically keying along the side of the vehicle.",
       "repair_estimate_usd": 980,
-      "policy_details": "POL-AU-70068, liability, 500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves vandalism to a vehicle reported on July 30, 2025. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-70068, Coverages: liability, Deductible: $500, Use class: private",
+      "summary": "The claim involves vandalism where the insured vehicle was keyed along the side. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1510,
-      "output_tokens": 175,
-      "cached_tokens": 0
+      "input_tokens": 1645,
+      "output_tokens": 193,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered by a liability-only policy?\"}"
+       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered by liability coverage?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1166,
-      "output_tokens": 22,
+      "input_tokens": 1221,
+      "output_tokens": 20,
       "cached_tokens": 0
      }
     },
@@ -70,25 +70,25 @@
       }
      ],
      "usage": {
-      "input_tokens": 1409,
+      "input_tokens": 1462,
       "output_tokens": 31,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1068",
       "coverage_finding": "not_covered",
-      "basis": "The policy is liability-only, which does not cover damage to the insured's own vehicle, including vandalism.",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism.",
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1664,
-      "output_tokens": 70,
-      "cached_tokens": 1280
+      "input_tokens": 1717,
+      "output_tokens": 71,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -105,11 +105,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered under the policy as it is liability-only, which does not cover damage to the insured's own vehicle. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
+      "rationale": "The claim is for vandalism with no coverage for damage to the insured's own vehicle. All required documents are on file, and there are no inconsistencies or indications of injury. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. The fraud risk score is low, and there are no fraud indicators."
      },
      "usage": {
-      "input_tokens": 1153,
-      "output_tokens": 105,
+      "input_tokens": 1172,
+      "output_tokens": 126,
       "cached_tokens": 0
      }
     }
@@ -123,17 +123,17 @@
       "claim_id": "CLM-2025-1068",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including vandalism. The loss occurred within the policy period, but the type of coverage does not extend to this peril.",
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism. The loss occurred within the policy period, but the type of damage is not covered under the current policy terms.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1261,
-      "output_tokens": 106,
+      "input_tokens": 1330,
+      "output_tokens": 117,
       "cached_tokens": 0
      }
     }
@@ -147,16 +147,16 @@
       "claim_id": "CLM-2025-1068",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including vandalism. The loss occurred within the policy period, but the type of coverage does not extend to this peril.",
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism. The incident occurred within the policy period, but the type of coverage does not apply to this loss.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1261,
+      "input_tokens": 1330,
       "output_tokens": 106,
       "cached_tokens": 0
      }
@@ -164,5 +164,5 @@
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

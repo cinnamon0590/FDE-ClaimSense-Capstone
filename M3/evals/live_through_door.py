@@ -1,4 +1,4 @@
-"""The LIVE gate through the governed door: all 40 cases on the pinned live models (gpt-4o-mini-2024-07-18 +
+"""The LIVE gate through the governed door: all 150 cases on the pinned live models (gpt-4o-mini-2024-07-18 +
 gpt-4o-2024-08-06), with EVERY agent data access an MCP tool call on the door, made with a delegated OBO token, and
 the Policy KB served by the door's BM25 search. Same gate as M2 (D-035): overall >= 90%, adversarial 100%, every case
 decided by the model (never the rule-engine fallback). The cost is summed from the runs and appended to the spend

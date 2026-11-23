@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -34,15 +34,15 @@
       "inconsistencies": [],
       "vehicle": "2020 Vauxhall Corsa",
       "incident": "Collision with a car pulling out of a junction on 2025-08-08.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,700.",
+      "damage": "Damage consistent with a collision with a car pulling out of a junction.",
       "repair_estimate_usd": 1700,
-      "policy_details": "POL-AU-70136, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident reported on 2025-08-09. All required documents are on file."
+      "policy_details": "POL-AU-70136, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with another vehicle on 2025-08-08. All required documents are on file, and there are no reported injuries or inconsistencies."
      },
      "usage": {
-      "input_tokens": 1607,
-      "output_tokens": 183,
-      "cached_tokens": 0
+      "input_tokens": 1742,
+      "output_tokens": 187,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1206,
+      "input_tokens": 1247,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -71,7 +71,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1441,
+      "input_tokens": 1482,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -80,7 +80,7 @@
      "final": {
       "claim_id": "CLM-2025-1136",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the damage from the collision incident. The deductible has been correctly applied to the net payable amount.",
+      "basis": "The policy includes collision coverage, which applies to the damage from the collision with another vehicle. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1695,
-      "output_tokens": 80,
+      "input_tokens": 1736,
+      "output_tokens": 82,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+      "rationale": "The claim is covered under the policy, with no fraud indicators or inconsistencies present. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1197,
-      "output_tokens": 90,
+      "input_tokens": 1203,
+      "output_tokens": 93,
       "cached_tokens": 0
      }
     }
@@ -125,11 +125,11 @@
       "claim_id": "CLM-2025-1136",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, and the incident occurred within the policy period. The deductible has been correctly applied, resulting in a net payable amount of $1,200, which is within the authority limit. All required documents are on file, and there are no indicators of fraud or inconsistencies.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, and the loss occurred within the policy period. The deductible has been correctly applied, resulting in a net payable amount of $1200, which is within the authority limit. All required documents are on file, and there are no indications of fraud or inconsistencies.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the damage from the collision incident."
+        "quote": "Collision coverage applies to damage from a collision with another vehicle."
        },
        {
         "source_id": "CLS-DED-002",
@@ -138,8 +138,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1289,
-      "output_tokens": 142,
+      "input_tokens": 1327,
+      "output_tokens": 144,
       "cached_tokens": 0
      }
     }
@@ -153,11 +153,11 @@
       "claim_id": "CLM-2025-1136",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage of the policy, which is in effect for the date of the incident. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the damage from the collision incident."
+        "quote": "Collision coverage applies to the damage from the collision with another vehicle."
        },
        {
         "source_id": "CLS-DED-002",
@@ -166,7 +166,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1289,
+      "input_tokens": 1327,
       "output_tokens": 135,
       "cached_tokens": 0
      }
@@ -174,5 +174,5 @@
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

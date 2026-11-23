@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Kia Sportage",
+      "vehicle": "2019 Kia Sportage, colour not specified",
       "incident": "Unwitnessed scrape along the passenger side on 2025-06-24.",
-      "damage": "Damage described as a scrape along the passenger side consistent with the reported collision.",
+      "damage": "Scrape along the passenger side as described in the documents.",
       "repair_estimate_usd": 2700,
-      "policy_details": "POL-AU-70110, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision with a scrape on the passenger side of a 2019 Kia Sportage. The repair estimate is $2,700."
+      "policy_details": "Policy ID: POL-AU-70110, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with a scrape along the passenger side of the vehicle. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1525,
-      "output_tokens": 186,
-      "cached_tokens": 0
+      "input_tokens": 1660,
+      "output_tokens": 187,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1289,
+      "input_tokens": 1327,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -70,20 +70,20 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"material inconsistencies or possible fraud in claim file\"}"
+       "arguments": "{\"query\":\"material inconsistencies or fraud in claim file\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1524,
-      "output_tokens": 63,
-      "cached_tokens": 1152
+      "input_tokens": 1562,
+      "output_tokens": 62,
+      "cached_tokens": 1280
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1110",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although fraud is suspected, the inconsistency clause requires referral to the fraud investigator before payment, but it does not exclude coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although fraud is suspected, the inconsistency clause requires referral to the fraud investigator but does not exclude coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -92,8 +92,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2035,
-      "output_tokens": 127,
+      "input_tokens": 2072,
+      "output_tokens": 123,
       "cached_tokens": 1408
      }
     }
@@ -113,11 +113,11 @@
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to a fraud risk score of 0.7, requiring referral to a fraud investigator."
+      "rationale": "Fraud is suspected due to a fraud risk score of 0.7, which necessitates referral to a fraud investigator."
      },
      "usage": {
-      "input_tokens": 1312,
-      "output_tokens": 89,
+      "input_tokens": 1309,
+      "output_tokens": 91,
       "cached_tokens": 0
      }
     }
@@ -131,7 +131,7 @@
       "claim_id": "CLM-2025-1110",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before any payment is made, as required by the inconsistency clause.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator as required by the inconsistency clause. All required documents are on file, and the loss occurred within the policy period.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -143,13 +143,13 @@
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Inconsistencies require referral to the fraud investigator before payment."
+        "quote": "Inconsistencies require referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1403,
-      "output_tokens": 173,
+      "input_tokens": 1431,
+      "output_tokens": 174,
       "cached_tokens": 0
      }
     }
@@ -163,30 +163,26 @@
       "claim_id": "CLM-2025-1110",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before any payment is made, as required by the inconsistency clause.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage described. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before any payment is made. This referral is required by the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
        },
        {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
-       },
-       {
         "source_id": "CLS-FRD-007",
-        "quote": "Inconsistencies require referral to the fraud investigator before payment."
+        "quote": "Inconsistency clause requires referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1403,
-      "output_tokens": 173,
+      "input_tokens": 1431,
+      "output_tokens": 141,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

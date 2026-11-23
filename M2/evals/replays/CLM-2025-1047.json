@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2020 Subaru Forester",
+      "vehicle": "2020 Subaru Forester, colour not specified",
       "incident": "A deer ran out on a rural road at dusk on 2025-05-23.",
-      "damage": "Bonnet and grille damaged; vehicle is drivable.",
+      "damage": "Bonnet and grille damaged, vehicle drivable.",
       "repair_estimate_usd": 5150,
-      "policy_details": "POL-AU-70047, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision with a deer resulting in damage to the vehicle. The repair estimate is $5,150."
+      "policy_details": "POL-AU-70047, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a deer causing damage to the bonnet and grille of the vehicle. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1545,
-      "output_tokens": 177,
-      "cached_tokens": 0
+      "input_tokens": 1680,
+      "output_tokens": 184,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1199,
-      "output_tokens": 13,
+      "input_tokens": 1243,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -66,11 +66,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1457,
+      "input_tokens": 1478,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -79,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2025-1047",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause specifies that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible has been correctly applied to the payment.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -87,8 +87,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1711,
-      "output_tokens": 111,
+      "input_tokens": 1732,
+      "output_tokens": 95,
       "cached_tokens": 1408
      }
     }
@@ -106,10 +106,10 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.2269 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.2269, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 1221,
+      "input_tokens": 1212,
       "output_tokens": 105,
       "cached_tokens": 0
      }
@@ -132,13 +132,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1328,
-      "output_tokens": 145,
+      "input_tokens": 1348,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
@@ -160,18 +160,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1328,
-      "output_tokens": 145,
-      "cached_tokens": 0
+      "input_tokens": 1348,
+      "output_tokens": 146,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

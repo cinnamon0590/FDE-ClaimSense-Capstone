@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2016 Vauxhall Insignia",
+      "vehicle": "2016 Vauxhall Insignia, colour not specified",
       "incident": "Heavy front-end damage in a junction collision on 2025-03-22.",
-      "damage": "The damage described is heavy front-end damage consistent with the reported collision.",
+      "damage": "Heavy front-end damage as described in the documents and narrative.",
       "repair_estimate_usd": 7960,
-      "policy_details": "POL-AU-70093, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
-      "summary": "The claim involves a collision resulting in heavy front-end damage to a 2016 Vauxhall Insignia. All required documents are on file."
+      "policy_details": "POL-AU-70093, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with heavy front-end damage to a 2016 Vauxhall Insignia. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1528,
-      "output_tokens": 187,
+      "input_tokens": 1663,
+      "output_tokens": 190,
       "cached_tokens": 0
      }
     }
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1222,
-      "output_tokens": 13,
+      "input_tokens": 1262,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -70,12 +70,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+       "arguments": "{\"query\":\"total loss definition compared to actual cash value\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1480,
-      "output_tokens": 63,
+      "input_tokens": 1497,
+      "output_tokens": 62,
       "cached_tokens": 1152
      }
     },
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2025-1093",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -92,8 +92,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2001,
-      "output_tokens": 119,
+      "input_tokens": 2017,
+      "output_tokens": 129,
       "cached_tokens": 1408
      }
     }
@@ -111,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with no fraud indicators or inconsistencies present. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss, and there are no reported injuries."
+      "rationale": "The claim is covered, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1238,
-      "output_tokens": 97,
+      "input_tokens": 1251,
+      "output_tokens": 96,
       "cached_tokens": 0
      }
     }
@@ -129,7 +129,7 @@
       "claim_id": "CLM-2025-1093",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -137,17 +137,17 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is not a total loss as the repair cost does not exceed the actual cash value."
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1337,
-      "output_tokens": 173,
+      "input_tokens": 1378,
+      "output_tokens": 171,
       "cached_tokens": 0
      }
     }
@@ -161,7 +161,7 @@
       "claim_id": "CLM-2025-1093",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -169,22 +169,22 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the payment."
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "The vehicle is not a total loss as the repair cost does not exceed the actual cash value."
+        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1337,
-      "output_tokens": 173,
+      "input_tokens": 1378,
+      "output_tokens": 167,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

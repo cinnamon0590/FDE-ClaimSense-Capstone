@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2015 Ford Mondeo",
+      "vehicle": "2015 Ford Mondeo, colour not specified",
       "incident": "Head-on collision on a country road on 2025-02-27.",
-      "damage": "The vehicle is reported as not drivable due to the collision damage.",
+      "damage": "Damage consistent with a head-on collision; vehicle not drivable.",
       "repair_estimate_usd": 9400,
-      "policy_details": "POL-AU-70072, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
-      "summary": "The claim involves a collision incident with no reported injuries. The vehicle is a 2015 Ford Mondeo, and the repair estimate is $9,400."
+      "policy_details": "POL-AU-70072, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a head-on collision on a country road with the insured vehicle not drivable. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1530,
-      "output_tokens": 185,
+      "input_tokens": 1665,
+      "output_tokens": 184,
       "cached_tokens": 0
      }
     }
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1221,
-      "output_tokens": 13,
+      "input_tokens": 1257,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -70,12 +70,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss for a vehicle\"}"
+       "arguments": "{\"query\":\"total loss determination based on repair-to-ACV ratio\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1479,
-      "output_tokens": 61,
+      "input_tokens": 1492,
+      "output_tokens": 65,
       "cached_tokens": 0
      }
     },
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2025-1072",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value, which is the case here.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the vehicle is considered a total loss as the repair cost exceeds the actual cash value.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -92,9 +92,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1998,
-      "output_tokens": 125,
-      "cached_tokens": 0
+      "input_tokens": 2002,
+      "output_tokens": 115,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -111,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
       "high_value": false,
-      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.3824, with no fraud signals or injury exposure."
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.3824, which is greater than 1.0. There are no fraud signals or injury exposure, so the recommended route is to assign a total-loss appraiser."
      },
      "usage": {
-      "input_tokens": 1243,
-      "output_tokens": 87,
+      "input_tokens": 1232,
+      "output_tokens": 110,
       "cached_tokens": 0
      }
     }
@@ -129,7 +129,7 @@
       "claim_id": "CLM-2025-1072",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.3824, exceeding the threshold of 1.0. The policy provides collision coverage, and the incident occurred within the policy period. The recommended route is to a total-loss appraiser due to the total loss status.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is a total loss as the repair-to-ACV ratio exceeds 1.0. The recommended route is to assign a total-loss appraiser, as required by the assessment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -137,13 +137,13 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+        "quote": "A vehicle is considered a total loss when the repair-to-ACV ratio is 1.0 or greater."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1332,
-      "output_tokens": 161,
+      "input_tokens": 1373,
+      "output_tokens": 147,
       "cached_tokens": 0
      }
     }
@@ -157,7 +157,7 @@
       "claim_id": "CLM-2025-1072",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.3824, exceeding the threshold of 1.0. The policy provides collision coverage, and the incident occurred within the policy period. The recommended route is to a total-loss appraiser, as required by the assessment.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is a total loss as the repair-to-ACV ratio exceeds 1.0. The recommended route is to assign a total-loss appraiser, as required by the assessment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -165,18 +165,18 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is considered a total loss when the repair cost equals or exceeds its actual cash value."
+        "quote": "A total loss is declared when the repair-to-ACV ratio exceeds 1.0."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1332,
-      "output_tokens": 161,
+      "input_tokens": 1373,
+      "output_tokens": 143,
       "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

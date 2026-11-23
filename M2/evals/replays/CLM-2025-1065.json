@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2014 Ford Focus",
-      "incident": "I rear-ended a car at a junction on 2025-03-12.",
-      "damage": "The front end of the vehicle needs repair due to the collision.",
+      "vehicle": "2014 Ford Focus, colour not specified",
+      "incident": "Rear-ended a car at a junction on 2025-03-12.",
+      "damage": "Front end damage to the insured vehicle.",
       "repair_estimate_usd": 1900,
-      "policy_details": "POL-AU-70065, liability, $500, 2024-04-15 to 2025-04-15.",
-      "summary": "The claim involves a collision where the insured rear-ended another vehicle. The repair estimate is $1,900."
+      "policy_details": "POL-AU-70065, coverages: liability, deductible: 500, use class: private",
+      "summary": "The claim involves a collision where the insured rear-ended another vehicle, resulting in front-end damage. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1527,
-      "output_tokens": 169,
+      "input_tokens": 1662,
+      "output_tokens": 174,
       "cached_tokens": 0
      }
     }
@@ -57,38 +57,25 @@
       }
      ],
      "usage": {
-      "input_tokens": 1159,
+      "input_tokens": 1201,
       "output_tokens": 12,
       "cached_tokens": 0
-     }
-    },
-    {
-     "tool_calls": [
-      {
-       "name": "search_clauses",
-       "arguments": "{\"query\":\"liability-only policy coverage for own vehicle damage\"}"
-      }
-     ],
-     "usage": {
-      "input_tokens": 1392,
-      "output_tokens": 25,
-      "cached_tokens": 1024
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1065",
       "coverage_finding": "not_covered",
-      "basis": "The policy is liability-only, which does not cover damage to the insured's own vehicle.",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle.",
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
-      "exclusion_or_condition": "Liability-only policy exclusion for own vehicle damage."
+      "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1641,
-      "output_tokens": 75,
-      "cached_tokens": 1280
+      "input_tokens": 1434,
+      "output_tokens": 67,
+      "cached_tokens": 1152
      }
     }
    ]
@@ -105,11 +92,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to liability-only policy exclusion for own vehicle damage. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
+      "rationale": "The claim is not covered under the policy as it only provides liability coverage, which does not cover damage to the insured's own vehicle. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1153,
-      "output_tokens": 95,
+      "input_tokens": 1149,
+      "output_tokens": 106,
       "cached_tokens": 0
      }
     }
@@ -123,17 +110,17 @@
       "claim_id": "CLM-2025-1065",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured's vehicle.",
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy exclusion for own vehicle damage."
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1250,
-      "output_tokens": 100,
+      "input_tokens": 1286,
+      "output_tokens": 109,
       "cached_tokens": 0
      }
     }
@@ -147,22 +134,22 @@
       "claim_id": "CLM-2025-1065",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured's vehicle.",
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy exclusion for own vehicle damage."
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1250,
-      "output_tokens": 100,
+      "input_tokens": 1286,
+      "output_tokens": 109,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

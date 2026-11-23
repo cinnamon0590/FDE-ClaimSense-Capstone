@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -26,20 +26,22 @@
        "fnol_form",
        "photos"
       ],
-      "missing_documents": [],
+      "missing_documents": [
+       "repair_estimate"
+      ],
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
       "vehicle": "2020 Citroen C3",
       "incident": "Clipped a gate post while turning on 2025-05-12.",
-      "damage": "The side panel is dented as described in the narrative.",
+      "damage": "The side panel is dented.",
       "repair_estimate_usd": 1400,
-      "policy_details": "POL-AU-70084, liability, collision, comprehensive, 500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident where the insured vehicle clipped a gate post. The damage reported is a dented side panel, with a repair estimate of $1400."
+      "policy_details": "POL-AU-70084, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a gate post, resulting in a dented side panel. A repair estimate document is missing from the file."
      },
      "usage": {
-      "input_tokens": 1464,
-      "output_tokens": 182,
+      "input_tokens": 1603,
+      "output_tokens": 168,
       "cached_tokens": 0
      }
     }
@@ -52,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1205,
-      "output_tokens": 13,
+      "input_tokens": 1224,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -69,7 +71,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1463,
+      "input_tokens": 1459,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -78,7 +80,7 @@
      "final": {
       "claim_id": "CLM-2025-1084",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which states that direct and accidental loss caused by collision is covered, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "basis": "The policy includes collision coverage, which applies to the damage sustained by the insured's vehicle. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -86,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1717,
-      "output_tokens": 113,
+      "input_tokens": 1713,
+      "output_tokens": 82,
       "cached_tokens": 1408
      }
     }
@@ -105,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause, with a repair-to-ACV ratio of 0.1207 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.1207 indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
      },
      "usage": {
-      "input_tokens": 1229,
-      "output_tokens": 105,
+      "input_tokens": 1180,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -123,21 +125,21 @@
       "claim_id": "CLM-2025-1084",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the required repair estimate document is missing, which necessitates further review. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, the repair estimate document is missing, which requires further review. The net payable amount is within the authority limit, and the loss occurred within the policy period.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Direct and accidental loss caused by collision is covered, less the applicable deductible."
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1336,
-      "output_tokens": 129,
+      "input_tokens": 1315,
+      "output_tokens": 136,
       "cached_tokens": 0
      }
     }
@@ -151,26 +153,26 @@
       "claim_id": "CLM-2025-1084",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the required repair estimate document is missing, which necessitates further review. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the required repair estimate document is missing, which necessitates a review by a senior adjuster. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Direct and accidental loss caused by collision is covered, less the applicable deductible."
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1336,
-      "output_tokens": 129,
+      "input_tokens": 1315,
+      "output_tokens": 135,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

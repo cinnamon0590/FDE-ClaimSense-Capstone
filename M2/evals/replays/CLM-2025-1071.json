@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2018 Kia Ceed",
-      "incident": "Hail damage occurred on 2025-07-09.",
+      "vehicle": "2018 Kia Ceed, colour not specified",
+      "incident": "Hail dents on the roof and bonnet on 2025-07-09.",
       "damage": "Hail dents on the roof and bonnet.",
       "repair_estimate_usd": 2400,
-      "policy_details": "POL-AU-70071, liability, collision, comprehensive, $500 deductible, 2024-05-01 to 2025-05-01.",
-      "summary": "The claim involves hail damage to a 2018 Kia Ceed. A repair estimate of $2,400 is on file."
+      "policy_details": "POL-AU-70071, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to a 2018 Kia Ceed, reported on 2025-07-10. All required documents are on file, and no inconsistencies or injuries are indicated."
      },
      "usage": {
-      "input_tokens": 1523,
-      "output_tokens": 171,
-      "cached_tokens": 0
+      "input_tokens": 1658,
+      "output_tokens": 186,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -53,11 +53,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"hail damage coverage under comprehensive insurance\"}"
+       "arguments": "{\"query\":\"hail damage coverage under comprehensive policy\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1168,
+      "input_tokens": 1220,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -66,13 +66,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"policy period coverage\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1412,
-      "output_tokens": 19,
-      "cached_tokens": 1024
+      "input_tokens": 1464,
+      "output_tokens": 21,
+      "cached_tokens": 1152
      }
     },
     {
@@ -87,9 +87,9 @@
       "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1599,
+      "input_tokens": 1653,
       "output_tokens": 85,
-      "cached_tokens": 1280
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,10 +106,10 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injuries reported."
      },
      "usage": {
-      "input_tokens": 1165,
+      "input_tokens": 1180,
       "output_tokens": 78,
       "cached_tokens": 0
      }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2025-1071",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or injuries indicated.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -133,7 +133,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1245,
+      "input_tokens": 1289,
       "output_tokens": 104,
       "cached_tokens": 0
      }
@@ -148,7 +148,7 @@
       "claim_id": "CLM-2025-1071",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or injuries indicated.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -157,13 +157,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1245,
+      "input_tokens": 1289,
       "output_tokens": 104,
-      "cached_tokens": 0
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

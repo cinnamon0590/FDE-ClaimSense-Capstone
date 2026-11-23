@@ -89,7 +89,7 @@ jobs:
       - name: Unit + integration tests (typed outputs, tripwires, retrieval, fallback labelling, gate)
         working-directory: M2
         run: python3 -m pytest -q tests
-      - name: HARNESS REGRESSION (replay brain = recorded model outputs, 40 cases, $0; NOT the LLM gate, which is live-eval)
+      - name: HARNESS REGRESSION (replay brain = recorded model outputs, 150 cases, $0; NOT the LLM gate, which is live-eval)
         working-directory: M2
         env:
           CLAIMSENSE_LLM_REQUIRED: "false"
@@ -195,7 +195,7 @@ jobs:
           docker tag claimsense/orchestrator:ci claimsense/orchestrator:local
           docker compose build mock-systems boundary ticketing console
           MOCK_BRAIN=1 docker compose up -d --wait --no-build
-      - name: M2 suites through the MCP door (one claim per outcome; all 40 cases)
+      - name: M2 suites through the MCP door (one claim per outcome; all 150 cases)
         run: |
           pip install httpx==0.28.1
           python3 M2/evals/stack_smoke.py

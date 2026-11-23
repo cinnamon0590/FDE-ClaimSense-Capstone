@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,17 +32,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2018 Peugeot 3008",
+      "vehicle": "2018 Peugeot 3008, colour not specified",
       "incident": "Rear-ended at a junction on 2024-04-09.",
-      "damage": "Damage consistent with the reported collision, estimated at $3,900.",
+      "damage": "Damage consistent with being rear-ended at a junction.",
       "repair_estimate_usd": 3900,
-      "policy_details": "POL-AU-09921, liability, collision, comprehensive, $500 deductible, 2023-03-30 to 2024-03-30.",
-      "summary": "The claim involves a collision where the insured vehicle was rear-ended. All required documents are on file, including a repair estimate."
+      "policy_details": "POL-AU-09921, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision where the insured vehicle was rear-ended at a junction. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1647,
-      "output_tokens": 181,
-      "cached_tokens": 0
+      "input_tokens": 1782,
+      "output_tokens": 186,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1181,
+      "input_tokens": 1223,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -67,30 +67,30 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1415,
+      "input_tokens": 1457,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-3655",
       "coverage_finding": "not_covered",
-      "basis": "The loss date is outside the policy period, as confirmed by the verified facts and supported by clause CLS-PER-006, which states that the policy applies only to losses occurring during the policy period.",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1681,
-      "output_tokens": 98,
-      "cached_tokens": 1280
+      "input_tokens": 1646,
+      "output_tokens": 85,
+      "cached_tokens": 1152
      }
     }
    ]
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to the loss date being outside the policy period, and there are no fraud indicators or injury exposures."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud signals or indications of injury."
      },
      "usage": {
-      "input_tokens": 1191,
-      "output_tokens": 80,
+      "input_tokens": 1183,
+      "output_tokens": 79,
       "cached_tokens": 0
      }
     }
@@ -125,17 +125,17 @@
       "claim_id": "CLM-2024-3655",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring within the specified period, which ended on 2024-03-30. Since the incident occurred on 2024-04-09, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or indications of fraud.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "The policy applies only to losses occurring during the policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1273,
-      "output_tokens": 110,
+      "input_tokens": 1293,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
@@ -149,22 +149,22 @@
       "claim_id": "CLM-2024-3655",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss date is outside the policy period. The policy only covers losses occurring between 2023-03-30 and 2024-03-30, and the incident occurred on 2024-04-09. Therefore, the claim is not covered under the current policy terms.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no inconsistencies or indications of fraud.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "The policy applies only to losses occurring during the policy period."
+        "quote": "The policy explicitly states that there is no duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1273,
-      "output_tokens": 119,
-      "cached_tokens": 0
+      "input_tokens": 1293,
+      "output_tokens": 112,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,18 +31,18 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [
-       "Repair invoice dated 2025-06-01 describes a 2017 Vauxhall Astra, which does not match the insured vehicle (2020 Ford Focus)."
+       "Repair invoice for a 2017 Vauxhall Astra, not matching the insured 2020 Ford Focus."
       ],
       "vehicle": "2020 Ford Focus",
-      "incident": "A collision occurred at a junction on 2025-05-31.",
-      "damage": "The front-end damage is described in the documents and narrative.",
+      "incident": "Front-end damage in a junction collision on 2025-05-31.",
+      "damage": "Front-end damage as described in the narrative and shown in photos.",
       "repair_estimate_usd": 3300,
-      "policy_details": "POL-AU-70107, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision with front-end damage reported on 2025-05-31. The repair estimate is $3,300."
+      "policy_details": "POL-AU-70107, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with front-end damage to a 2020 Ford Focus. An inconsistency exists with the repair invoice, which references a different vehicle."
      },
      "usage": {
-      "input_tokens": 1525,
-      "output_tokens": 210,
+      "input_tokens": 1660,
+      "output_tokens": 197,
       "cached_tokens": 0
      }
     }
@@ -59,7 +59,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1311,
+      "input_tokens": 1336,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -68,7 +68,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -76,16 +76,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1546,
+      "input_tokens": 1571,
       "output_tokens": 63,
-      "cached_tokens": 1152
+      "cached_tokens": 1280
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1107",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, these require referral to the special investigations unit but do not affect coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -94,7 +94,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2057,
+      "input_tokens": 2082,
       "output_tokens": 127,
       "cached_tokens": 1408
      }
@@ -108,18 +108,18 @@
      "final": {
       "claim_id": "CLM-2025-1107",
       "fraud_signals": [
-       "Repair invoice dated 2025-06-01 describes a 2017 Vauxhall Astra, which does not match the insured vehicle (2020 Ford Focus)."
+       "Repair invoice for a 2017 Vauxhall Astra, not matching the insured 2020 Ford Focus."
       ],
       "fraud_suspected": true,
       "total_loss": false,
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to material inconsistencies in the claim file."
+      "rationale": "Fraud is suspected due to material inconsistencies in the claim file, specifically the repair invoice referencing a different vehicle."
      },
      "usage": {
-      "input_tokens": 1334,
-      "output_tokens": 105,
+      "input_tokens": 1322,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }
@@ -133,21 +133,21 @@
       "claim_id": "CLM-2025-1107",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. However, there are material inconsistencies in the claim file, such as a repair invoice for a different vehicle. These inconsistencies require referral to the fraud investigator before any payment can be made.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage occurred within the policy period and is not a total loss. However, there are material inconsistencies in the claim file, specifically the repair invoice referencing a different vehicle. This requires referral to the fraud investigator as per the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the fraud investigator before any payment."
+        "quote": "Material inconsistencies require referral to the special investigations unit."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1441,
-      "output_tokens": 151,
+      "input_tokens": 1456,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
@@ -161,11 +161,11 @@
       "claim_id": "CLM-2025-1107",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision, less the deductible. However, there are material inconsistencies in the claim file, such as a repair invoice for a different vehicle. These inconsistencies require referral to the fraud investigator before any payment can be made.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage occurred within the policy period and is not a total loss. However, there are material inconsistencies in the claim file, specifically the repair invoice referencing a different vehicle. This requires referral to the fraud investigator as per the inconsistency clause.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision, less the deductible."
        },
        {
         "source_id": "CLS-FRD-007",
@@ -174,13 +174,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1441,
-      "output_tokens": 149,
+      "input_tokens": 1456,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

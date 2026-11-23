@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2018 BMW 3 Series",
+      "vehicle": "2018 BMW 3 Series, colour not specified",
       "incident": "Hit an unidentified object on an empty road at night on 2025-03-30.",
-      "damage": "Damage consistent with the reported collision, estimated repair cost is $6,100.",
+      "damage": "Damage consistent with hitting an unidentified object, as shown in photos and repair estimate.",
       "repair_estimate_usd": 6100,
-      "policy_details": "POL-AU-70080, liability, collision, comprehensive, $500 deductible, 2024-04-15 to 2025-04-15.",
-      "summary": "This claim involves a collision with an unidentified object. The vehicle is a 2018 BMW 3 Series with an estimated repair cost of $6,100."
+      "policy_details": "Policy ID: POL-AU-70080, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with an unidentified object on an empty road at night. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1533,
-      "output_tokens": 191,
+      "input_tokens": 1668,
+      "output_tokens": 193,
       "cached_tokens": 0
      }
     }
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1292,
-      "output_tokens": 13,
+      "input_tokens": 1331,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -66,24 +66,24 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"procedure for material inconsistencies or suspected fraud in claim file\"}"
+       "arguments": "{\"query\":\"material inconsistencies or suspected fraud in claim file\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1526,
-      "output_tokens": 65,
-      "cached_tokens": 1152
+      "input_tokens": 1566,
+      "output_tokens": 63,
+      "cached_tokens": 1280
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1080",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. Although there are material inconsistencies in the claim file, this requires referral to the special investigations unit but does not affect coverage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision with another object. The deductible has already been applied to the net payable amount. Although fraud is suspected, the inconsistency clause requires referral to the fraud investigator but does not exclude coverage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -92,8 +92,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2039,
-      "output_tokens": 127,
+      "input_tokens": 2077,
+      "output_tokens": 122,
       "cached_tokens": 1408
      }
     }
@@ -113,11 +113,11 @@
       "injury_exposure": false,
       "recommended_route": "fraud-investigator",
       "high_value": false,
-      "rationale": "Fraud is suspected due to a high fraud risk score (0.82), requiring referral to a fraud investigator."
+      "rationale": "Fraud is suspected due to a fraud risk score of 0.82, which exceeds the threshold of 0.7. There are no inconsistencies noted in the intake, but the fraud risk score alone necessitates referral to a fraud investigator."
      },
      "usage": {
-      "input_tokens": 1315,
-      "output_tokens": 89,
+      "input_tokens": 1312,
+      "output_tokens": 116,
       "cached_tokens": 0
      }
     }
@@ -131,25 +131,21 @@
       "claim_id": "CLM-2025-1080",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator as required by the inconsistency clause. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision with an object. The policy was active at the time of the incident, and the repair-to-ACV ratio confirms it is not a total loss. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before proceeding with any payment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
-       },
-       {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision with another object."
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the special investigations unit."
+        "quote": "Inconsistency clause requires referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1406,
-      "output_tokens": 173,
+      "input_tokens": 1459,
+      "output_tokens": 161,
       "cached_tokens": 0
      }
     }
@@ -163,30 +159,26 @@
       "claim_id": "CLM-2025-1080",
       "outcome": "route",
       "route_to": "fraud-investigator",
-      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, due to a high fraud risk score, the claim must be referred to a fraud investigator as required by the inconsistency clause. All required documents are on file, and the loss occurred within the policy period.",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision with an object. The policy was active at the time of the incident, and the repair-to-ACV ratio confirms it is not a total loss. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before proceeding with any payment.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
-       },
-       {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision with another object."
        },
        {
         "source_id": "CLS-FRD-007",
-        "quote": "Material inconsistencies require referral to the special investigations unit."
+        "quote": "The inconsistency clause requires referral to the fraud investigator before any payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1406,
-      "output_tokens": 171,
-      "cached_tokens": 1280
+      "input_tokens": 1459,
+      "output_tokens": 161,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

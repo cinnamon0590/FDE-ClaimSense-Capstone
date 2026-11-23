@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,17 +32,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Ford Fiesta",
-      "incident": "Both wing mirrors were kicked off on my street on 2025-06-03.",
-      "damage": "The damage described is both wing mirrors being kicked off.",
+      "vehicle": "2019 Ford Fiesta, colour not specified",
+      "incident": "Both wing mirrors were kicked off on the street on 2025-06-03.",
+      "damage": "Both wing mirrors were kicked off.",
       "repair_estimate_usd": 760,
-      "policy_details": "POL-AU-70061, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves vandalism to a vehicle where both wing mirrors were damaged. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-70061, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves vandalism where both wing mirrors of the insured vehicle were damaged. A repair estimate of $760 is on file, and all required documents have been received."
      },
      "usage": {
-      "input_tokens": 1607,
-      "output_tokens": 178,
-      "cached_tokens": 0
+      "input_tokens": 1742,
+      "output_tokens": 188,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"vandalism damage to the insured's own car under comprehensive coverage\"}"
+       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered under comprehensive coverage?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1199,
-      "output_tokens": 18,
+      "input_tokens": 1246,
+      "output_tokens": 20,
       "cached_tokens": 0
      }
     },
@@ -67,20 +67,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on comprehensive coverage claims\"}"
+       "arguments": "{\"query\":\"How does the deductible apply to comprehensive coverage claims?\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1450,
-      "output_tokens": 24,
-      "cached_tokens": 0
+      "input_tokens": 1499,
+      "output_tokens": 26,
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1061",
       "coverage_finding": "covered",
-      "basis": "The vandalism damage to the insured's own car is covered under the comprehensive coverage, which includes vandalism as a covered peril. The deductible applies as specified, and the net payable amount has already accounted for this deduction.",
+      "basis": "The policy's comprehensive coverage includes vandalism damage, and the deductible has been correctly applied to the payment.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -88,9 +88,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1705,
-      "output_tokens": 96,
-      "cached_tokens": 0
+      "input_tokens": 1756,
+      "output_tokens": 73,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is for vandalism with no fraud indicators or material inconsistencies. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no injuries reported, and all required documents are on file."
+      "rationale": "The claim is for vandalism with a repair estimate of $760, which is well below the total loss threshold (repair-to-ACV ratio < 1.0). There are no fraud indicators or inconsistencies, and no injuries reported. Therefore, no specialist is needed."
      },
      "usage": {
-      "input_tokens": 1205,
-      "output_tokens": 105,
+      "input_tokens": 1192,
+      "output_tokens": 110,
       "cached_tokens": 0
      }
     }
@@ -125,21 +125,21 @@
       "claim_id": "CLM-2025-1061",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for vandalism, as the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes vandalism as a covered peril."
+        "quote": "Comprehensive coverage includes vandalism damage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1313,
-      "output_tokens": 134,
+      "input_tokens": 1334,
+      "output_tokens": 128,
       "cached_tokens": 0
      }
     }
@@ -153,26 +153,26 @@
       "claim_id": "CLM-2025-1061",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for vandalism, as the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and the net payable amount is within the authority limit. All required documents are on file, and there are no fraud indicators.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes vandalism as a covered peril."
+        "quote": "Comprehensive coverage includes vandalism damage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $500 deductible applies to comprehensive claims."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1313,
-      "output_tokens": 137,
+      "input_tokens": 1334,
+      "output_tokens": 135,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

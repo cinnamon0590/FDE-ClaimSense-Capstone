@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2015 Skoda Yeti",
-      "incident": "Severe hail damage occurred on 2025-06-30.",
-      "damage": "The damage described is severe hail damage to every panel.",
+      "vehicle": "2015 Skoda Yeti, colour not specified",
+      "incident": "Severe hail damage on 2025-06-30, location not specified.",
+      "damage": "Severe hail damage to every panel.",
       "repair_estimate_usd": 6370,
-      "policy_details": "POL-AU-70094, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves hail damage to a vehicle. All required documents are on file."
+      "policy_details": "POL-AU-70094, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to a 2015 Skoda Yeti on June 30, 2025. All required documents are on file, and no inconsistencies were found."
      },
      "usage": {
-      "input_tokens": 1521,
-      "output_tokens": 165,
+      "input_tokens": 1656,
+      "output_tokens": 183,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1200,
+      "input_tokens": 1255,
       "output_tokens": 16,
       "cached_tokens": 0
      }
@@ -66,16 +66,16 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application to comprehensive coverage claims\"}"
+       "arguments": "{\"query\":\"deductible application to payment\"}"
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+       "arguments": "{\"query\":\"total loss determination compared with actual cash value\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1449,
-      "output_tokens": 64,
+      "input_tokens": 1504,
+      "output_tokens": 61,
       "cached_tokens": 1152
      }
     },
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2025-1094",
       "coverage_finding": "covered",
-      "basis": "The hail damage to the insured's car is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies to each covered loss, and the net payable amount has already accounted for the deductible. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
+      "basis": "The hail damage to the insured's car is covered under the comprehensive coverage, which includes hail damage. The deductible has been correctly applied to the payment. The vehicle is not a total loss as the repair cost does not exceed the actual cash value.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002",
@@ -92,8 +92,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1971,
-      "output_tokens": 121,
+      "input_tokens": 2035,
+      "output_tokens": 107,
       "cached_tokens": 1408
      }
     }
@@ -111,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the comprehensive policy for hail damage. There are no fraud signals or material inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss. There are no reported injuries."
+      "rationale": "The claim is covered under comprehensive coverage for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries, and no fraud indicators or material inconsistencies were found."
      },
      "usage": {
-      "input_tokens": 1218,
-      "output_tokens": 98,
+      "input_tokens": 1222,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -129,25 +129,25 @@
       "claim_id": "CLM-2025-1094",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the hail damage is covered under the comprehensive coverage, which includes hail damage as a covered peril. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim for hail damage is covered under the comprehensive coverage, which includes hail damage. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+        "quote": "Comprehensive coverage includes hail damage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "The deductible has been correctly applied."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
+        "quote": "Repair-to-ACV ratio below 1.0 indicates not a total loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1318,
-      "output_tokens": 172,
+      "input_tokens": 1357,
+      "output_tokens": 158,
       "cached_tokens": 0
      }
     }
@@ -161,30 +161,30 @@
       "claim_id": "CLM-2025-1094",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the hail damage is covered under the comprehensive coverage, which includes hail damage as a covered peril. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is for hail damage, which is covered under the comprehensive coverage of the policy. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
-        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+        "quote": "Comprehensive coverage includes hail damage."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies to each covered loss."
+        "quote": "The deductible has been correctly applied."
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is not a total loss if the repair cost does not exceed the actual cash value."
+        "quote": "Repair-to-ACV ratio below 1.0 indicates not a total loss."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1318,
-      "output_tokens": 172,
+      "input_tokens": 1357,
+      "output_tokens": 159,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

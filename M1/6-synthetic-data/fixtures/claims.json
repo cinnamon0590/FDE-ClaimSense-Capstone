@@ -2521,7 +2521,7 @@
       "incident_date": "2025-03-01",
       "incident_time": null,
       "reported_date": "2025-03-02",
-      "narrative": "Rear-ended at a junction on the day my new policy started.",
+      "narrative": "Rear-ended at a junction on the school run.",
       "vehicle": {
         "year": 2021,
         "make": "Skoda",
@@ -2551,7 +2551,7 @@
       "incident_date": "2025-05-15",
       "incident_time": null,
       "reported_date": "2025-05-16",
-      "narrative": "Windscreen cracked by a stone on the first morning of cover.",
+      "narrative": "Windscreen cracked by a stone on the dual carriageway.",
       "vehicle": {
         "year": 2020,
         "make": "Toyota",
@@ -2581,7 +2581,7 @@
       "incident_date": "2025-04-30",
       "incident_time": null,
       "reported_date": "2025-05-01",
-      "narrative": "Scraped a wall in a narrow lane on the last day of my policy.",
+      "narrative": "Scraped a wall in a narrow lane while reversing.",
       "vehicle": {
         "year": 2019,
         "make": "Honda",
@@ -2611,7 +2611,7 @@
       "incident_date": "2025-06-12",
       "incident_time": null,
       "reported_date": "2025-06-13",
-      "narrative": "Car keyed overnight on the final day of the policy; reported to police.",
+      "narrative": "Car keyed overnight outside my flat; reported to police.",
       "vehicle": {
         "year": 2021,
         "make": "Mazda",
@@ -2641,7 +2641,7 @@
       "incident_date": "2025-02-28",
       "incident_time": null,
       "reported_date": "2025-03-01",
-      "narrative": "Collision at a roundabout the day before my policy began.",
+      "narrative": "Collision at a roundabout on my way to work; the other driver drove off.",
       "vehicle": {
         "year": 2020,
         "make": "Seat",
@@ -2671,7 +2671,7 @@
       "incident_date": "2025-05-02",
       "incident_time": null,
       "reported_date": "2025-05-03",
-      "narrative": "Hail dented the roof the day after the policy end date.",
+      "narrative": "Hail dented the roof while the car was parked on the street.",
       "vehicle": {
         "year": 2018,
         "make": "Kia",
@@ -2701,7 +2701,7 @@
       "incident_date": "2025-07-03",
       "incident_time": null,
       "reported_date": "2025-07-04",
-      "narrative": "Windscreen cracked two days after the end date; the portal still shows Active.",
+      "narrative": "Windscreen cracked by a stone thrown up by a lorry.",
       "vehicle": {
         "year": 2019,
         "make": "Fiat",
@@ -2971,7 +2971,7 @@
       "incident_date": "2025-03-05",
       "incident_time": null,
       "reported_date": "2025-03-06",
-      "narrative": "Collision on a wet road four days after my renewal date.",
+      "narrative": "Collision on a wet road at a mini-roundabout.",
       "vehicle": {
         "year": 2020,
         "make": "Ford",
@@ -3001,7 +3001,7 @@
       "incident_date": "2025-06-22",
       "incident_time": null,
       "reported_date": "2025-06-23",
-      "narrative": "Windscreen cracked a week after my renewal was due.",
+      "narrative": "Windscreen cracked by a falling icicle in a car park.",
       "vehicle": {
         "year": 2021,
         "make": "Kia",

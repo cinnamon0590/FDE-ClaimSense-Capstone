@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": true,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2022 Kia Niro",
-      "incident": "A pedestrian stepped out between cars and was knocked over on 2025-06-21.",
-      "damage": "Damage consistent with the reported collision, estimated repair cost is $900.",
+      "vehicle": "2022 Kia Niro, colour not specified",
+      "incident": "A pedestrian stepped out between cars and was knocked over; ambulance called on 2025-06-21.",
+      "damage": "Damage consistent with the reported collision.",
       "repair_estimate_usd": 900,
-      "policy_details": "POL-AU-70078, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision where a pedestrian was injured. The vehicle is a 2022 Kia Niro with an estimated repair cost of $900."
+      "policy_details": "Policy ID: POL-AU-70078, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with a pedestrian on 2025-06-21, resulting in reported injuries. All required documents are on file, and there are no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1590,
-      "output_tokens": 188,
-      "cached_tokens": 0
+      "input_tokens": 1725,
+      "output_tokens": 193,
+      "cached_tokens": 1664
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1219,
+      "input_tokens": 1261,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -75,7 +75,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1454,
+      "input_tokens": 1496,
       "output_tokens": 59,
       "cached_tokens": 1152
      }
@@ -84,7 +84,7 @@
      "final": {
       "claim_id": "CLM-2025-1078",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has already been applied to the net payable amount. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -93,9 +93,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1951,
-      "output_tokens": 126,
-      "cached_tokens": 0
+      "input_tokens": 1993,
+      "output_tokens": 134,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -112,11 +112,11 @@
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
       "high_value": false,
-      "rationale": "The claim involves an injury exposure due to a pedestrian being knocked over, and all required documents are on file. The repair-to-ACV ratio indicates it is not a total loss, and there are no fraud signals or inconsistencies present."
+      "rationale": "The claim involves reported injuries, which necessitates the involvement of an injury specialist. There are no fraud signals or inconsistencies noted, and it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1246,
-      "output_tokens": 105,
+      "input_tokens": 1259,
+      "output_tokens": 91,
       "cached_tokens": 0
      }
     }
@@ -130,11 +130,15 @@
       "claim_id": "CLM-2025-1078",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The net payable amount is within the policy's deductible and authority limits. However, due to the involvement of a pedestrian injury, the claim must be routed to an injury specialist for further handling.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the net payable amount is within the authority limit. However, due to the involvement of reported injuries, the claim must be routed to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -143,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1354,
-      "output_tokens": 145,
+      "input_tokens": 1382,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -158,11 +162,15 @@
       "claim_id": "CLM-2025-1078",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The policy period is confirmed to be valid, and the repair-to-ACV ratio indicates it is not a total loss. However, due to the involvement of a pedestrian injury, the claim must be routed to an injury specialist as required by the policy.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the net payable amount is within the authority limit. However, due to the involvement of reported injuries, the claim must be routed to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -171,13 +179,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1354,
-      "output_tokens": 158,
+      "input_tokens": 1382,
+      "output_tokens": 156,
       "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

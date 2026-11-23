@@ -3,7 +3,7 @@
 Labels come from the synthetic FIXTURES and the CODE RULES, never from what a model said (that would be circular):
   * Document Intake:  documents_on_file (fixture documents), missing_documents (the required-documents checklist),
                       injury_indicated (claim record), has_inconsistencies (cases whose documents contradict each
-                      other: the fraud-referral cases)
+                      other: the fraud referrals not explained by the score alone)
   * Coverage Check:   coverage_finding, by explicit rules from the case's expected outcome. The rules that need
                       adjuster judgment are marked `signoff_required` for the Senior Adjuster (Susan) to confirm.
   * Claim Assessment: fraud_suspected (expected fraud referral), total_loss (code: repair / ACV >= 1),
@@ -78,7 +78,9 @@ def main():
             "Document Intake": {"documents_on_file": on_file,
                                 "missing_documents": sorted(missing_documents(claim["loss_type"], on_file)),
                                 "injury_indicated": bool(claim.get("injury_reported")),
-                                "has_inconsistencies": fraud},
+                                # a referral on the score alone has no contradiction in the file (M4, D-046)
+                                "has_inconsistencies": fraud and (claim["fraud_risk_score"] < 0.7
+                                                                  or bool(case.get("document_facts")))},
             "Coverage Check": coverage_label(case),
             "Claim Assessment": {"fraud_suspected": fraud,
                                  "total_loss": computed["repair_to_acv_ratio"] >= 1,

@@ -1,22 +1,22 @@
-ClaimSense per-agent evals · brain=replay · 2026-11-19 23:11:37
+ClaimSense per-agent evals · brain=replay · 2026-11-22 19:20:23
 Each agent's OWN output, before code corrects it, against golden labels from the fixtures and code rules
 (evals/agent-labels.json; Senior Adjuster sign-off: Susan Wellington).
 
-Document Intake   38/38 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS · code overrode it on 0 case(s)
-    documents_on_file        36/36
-    missing_documents        36/36
-    injury_indicated         36/36
-    has_inconsistencies      36/36
-    held_for_a_human          2/2
-Coverage Check    36/36 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS
-    coverage_finding         36/36
-Claim Assessment  36/36 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS · code overrode it on 0 case(s)
-    fraud_suspected          36/36
-    total_loss               36/36
-    injury_exposure          36/36
-    recommended_route        36/36
-Decision Draft    36/36 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS
-    outcome_and_route        36/36
-    cites_required_clauses   36/36
+Document Intake   145/145 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS · code overrode it on 0 case(s)
+    documents_on_file        132/132
+    missing_documents        132/132
+    injury_indicated         132/132
+    has_inconsistencies      132/132
+    held_for_a_human         13/13
+Coverage Check    132/132 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS
+    coverage_finding         132/132
+Claim Assessment  132/132 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS · code overrode it on 0 case(s)
+    fraud_suspected          132/132
+    total_loss               132/132
+    injury_exposure          132/132
+    recommended_route        132/132
+Decision Draft    132/132 cases fully right = 100.0%  (bar ≥ 90%; floor 100.0%)  PASS
+    outcome_and_route        132/132
+    cites_required_clauses   132/132
 
 AGENT EVALS: PASS · ratchet: HELD

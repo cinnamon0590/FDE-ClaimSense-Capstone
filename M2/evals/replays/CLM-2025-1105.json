@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -34,15 +34,15 @@
       "inconsistencies": [],
       "vehicle": "2020 Honda Jazz",
       "incident": "Collision at traffic lights in town on 2025-08-22.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,750.",
+      "damage": "Damage consistent with a collision at traffic lights.",
       "repair_estimate_usd": 1750,
-      "policy_details": "POL-AU-70105, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident reported on 2025-08-23. The insured vehicle is a 2020 Honda Jazz."
+      "policy_details": "POL-AU-70105, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision at traffic lights on 2025-08-22, with the insured vehicle being used for a food delivery at the time. All required documents are on file, and no injuries were reported."
      },
      "usage": {
-      "input_tokens": 1595,
-      "output_tokens": 182,
-      "cached_tokens": 0
+      "input_tokens": 1730,
+      "output_tokens": 187,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage coverage for the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1205,
-      "output_tokens": 14,
+      "input_tokens": 1247,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -75,7 +75,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1440,
+      "input_tokens": 1481,
       "output_tokens": 61,
       "cached_tokens": 1152
      }
@@ -84,7 +84,7 @@
      "final": {
       "claim_id": "CLM-2025-1105",
       "coverage_finding": "not_covered",
-      "basis": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, and commercial use was indicated in the claim.",
+      "basis": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class. The vehicle was being used for a food delivery at the time of the incident, and the policy is classified for private use.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -93,9 +93,9 @@
       "exclusion_or_condition": "Commercial use exclusion"
      },
      "usage": {
-      "input_tokens": 1926,
-      "output_tokens": 87,
-      "cached_tokens": 1280
+      "input_tokens": 1967,
+      "output_tokens": 118,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -112,11 +112,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to commercial use exclusion, with a repair-to-ACV ratio indicating it is not a total loss. There are no fraud signals or injury exposure."
+      "rationale": "The claim is not covered due to commercial use exclusion, with no fraud indicators or inconsistencies present. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1205,
-      "output_tokens": 90,
+      "input_tokens": 1241,
+      "output_tokens": 96,
       "cached_tokens": 0
      }
     }
@@ -130,17 +130,17 @@
       "claim_id": "CLM-2025-1105",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for any loss while the vehicle is used for commercial purposes, and commercial use was indicated in the claim. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable is within the authority limit.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as delivery services. At the time of the incident, the vehicle was being used for a food delivery, and the policy is classified for private use only.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
-        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes."
+        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1297,
-      "output_tokens": 131,
+      "input_tokens": 1368,
+      "output_tokens": 128,
       "cached_tokens": 0
      }
     }
@@ -154,22 +154,22 @@
       "claim_id": "CLM-2025-1105",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for any loss while the vehicle is used for commercial purposes. The incident involved commercial use, which is not covered under the policy terms. The loss occurred within the policy period, but the exclusion applies.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as delivery services. At the time of the incident, the vehicle was being used for a food delivery, and the policy is classified for private use only.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
-        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes."
+        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1297,
-      "output_tokens": 109,
-      "cached_tokens": 1152
+      "input_tokens": 1368,
+      "output_tokens": 128,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

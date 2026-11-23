@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -32,17 +32,17 @@
       "injury_indicated": true,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2013 Ford Focus",
+      "vehicle": "2013 Ford Focus, colour not specified",
       "incident": "Spun on black ice into a tree on 2025-07-19.",
-      "damage": "The car is wrecked as described in the repair estimate and photos.",
+      "damage": "The car is wrecked from spinning into a tree.",
       "repair_estimate_usd": 6100,
-      "policy_details": "POL-AU-70114, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident where the insured vehicle spun into a tree. Injury was reported, and the vehicle is deemed a total loss."
+      "policy_details": "Policy ID: POL-AU-70114, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision where the insured vehicle spun on black ice and hit a tree, resulting in significant damage. The repair estimate is $6,100, and injuries were reported."
      },
      "usage": {
-      "input_tokens": 1604,
-      "output_tokens": 184,
-      "cached_tokens": 0
+      "input_tokens": 1739,
+      "output_tokens": 192,
+      "cached_tokens": 1664
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1232,
-      "output_tokens": 14,
+      "input_tokens": 1277,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -79,7 +79,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1467,
+      "input_tokens": 1535,
       "output_tokens": 82,
       "cached_tokens": 1152
      }
@@ -88,18 +88,18 @@
      "final": {
       "claim_id": "CLM-2025-1114",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied, and the vehicle is deemed a total loss as the repair cost exceeds the actual cash value. Bodily injury claims must be handled by an injury specialist, but this does not affect the property damage settlement.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the net payable amount. The vehicle is considered a total loss as the repair cost exceeds the actual cash value, and this is settled at actual cash value, less the deductible. The bodily injury claim must be handled by an injury specialist, but this does not affect the property damage settlement.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
-       "CLS-INJ-005",
-       "CLS-TL-004"
+       "CLS-TL-004",
+       "CLS-INJ-005"
       ],
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 2233,
-      "output_tokens": 143,
+      "input_tokens": 2301,
+      "output_tokens": 160,
       "cached_tokens": 1408
      }
     }
@@ -117,11 +117,11 @@
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
       "high_value": false,
-      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.5641, and there is reported injury exposure. However, there are no fraud signals or material inconsistencies present."
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.5641, and there are reported injuries. However, there are no fraud signals or material inconsistencies present."
      },
      "usage": {
-      "input_tokens": 1262,
-      "output_tokens": 99,
+      "input_tokens": 1287,
+      "output_tokens": 98,
       "cached_tokens": 0
      }
     }
@@ -135,7 +135,7 @@
       "claim_id": "CLM-2025-1114",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim involves a collision incident resulting in a total loss, which is covered under the collision coverage clause. The repair-to-ACV ratio confirms the total loss status. Additionally, there is injury exposure, necessitating routing to an injury specialist as per policy requirements.",
+      "reasoning": "The claim involves a collision resulting in a total loss, and there are reported injuries. The collision damage is covered under the policy, and the net payable amount is within the authority limit. The presence of injuries requires routing to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -143,7 +143,7 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A total loss is determined when the repair cost exceeds the actual cash value."
+        "quote": "The vehicle is considered a total loss as the repair cost exceeds the actual cash value."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -152,7 +152,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1363,
+      "input_tokens": 1416,
       "output_tokens": 168,
       "cached_tokens": 0
      }
@@ -167,7 +167,7 @@
       "claim_id": "CLM-2025-1114",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim involves a collision incident resulting in a total loss, which is covered under the collision coverage clause. The repair-to-ACV ratio confirms the total loss status. Additionally, there is injury exposure, necessitating routing to an injury specialist as per the policy requirements.",
+      "reasoning": "The claim involves a collision resulting in a total loss, and there are reported injuries. The collision damage is covered under the policy, and the net payable amount is within the authority limit. The presence of injuries requires routing to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -175,7 +175,7 @@
        },
        {
         "source_id": "CLS-TL-004",
-        "quote": "A vehicle is deemed a total loss when the repair cost exceeds the actual cash value."
+        "quote": "The vehicle is considered a total loss as the repair cost exceeds the actual cash value."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -184,13 +184,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1363,
-      "output_tokens": 171,
+      "input_tokens": 1416,
+      "output_tokens": 168,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

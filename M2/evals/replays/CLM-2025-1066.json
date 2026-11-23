@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2013 Vauxhall Astra",
-      "incident": "A crack across the windscreen from a stone chip occurred on 2025-04-08.",
-      "damage": "The damage described is a crack across the windscreen from a stone chip.",
+      "vehicle": "2013 Vauxhall Astra, colour not specified",
+      "incident": "Crack across the windscreen from a stone chip on 2025-04-08.",
+      "damage": "Crack across the windscreen.",
       "repair_estimate_usd": 450,
-      "policy_details": "POL-AU-70066, liability, 500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a glass loss due to a stone chip. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-70066, Coverages: liability, Deductible: 500, Use class: private",
+      "summary": "The claim involves a glass loss due to a stone chip causing a crack in the windscreen. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
      },
      "usage": {
-      "input_tokens": 1509,
-      "output_tokens": 172,
+      "input_tokens": 1640,
+      "output_tokens": 186,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1162,
+      "input_tokens": 1213,
       "output_tokens": 12,
       "cached_tokens": 0
      }
@@ -70,9 +70,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1395,
+      "input_tokens": 1446,
       "output_tokens": 25,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
@@ -83,12 +83,12 @@
       "cited_clause_ids": [
        "CLS-LIA-012"
       ],
-      "exclusion_or_condition": null
+      "exclusion_or_condition": "Liability-only policy does not cover own vehicle damage."
      },
      "usage": {
-      "input_tokens": 1644,
-      "output_tokens": 70,
-      "cached_tokens": 1280
+      "input_tokens": 1695,
+      "output_tokens": 80,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -105,11 +105,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered under the liability-only policy, and there are no fraud signals or inconsistencies. The repair-to-ACV ratio indicates it is not a total loss."
+      "rationale": "The claim is not covered under the liability-only policy, which does not cover damage to the insured's own vehicle. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1150,
-      "output_tokens": 90,
+      "input_tokens": 1175,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }
@@ -123,17 +123,17 @@
       "claim_id": "CLM-2025-1066",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including glass damage. The loss occurred within the policy period, but the coverage does not extend to this type of peril.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including glass damage. The loss occurred within the policy period, but the coverage does not extend to this type of loss.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover own vehicle damage."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1243,
-      "output_tokens": 106,
+      "input_tokens": 1309,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }
@@ -147,22 +147,22 @@
       "claim_id": "CLM-2025-1066",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including glass damage. The loss occurred within the policy period, but the coverage does not extend to this type of damage.",
+      "reasoning": "The claim is denied because the policy is liability-only, which does not cover damage to the insured's own vehicle, including glass damage. The loss occurred within the policy period, but the coverage does not extend to this type of loss.",
       "citations": [
        {
         "source_id": "CLS-LIA-012",
-        "quote": "Liability-only policy does not cover damage to the insured's own vehicle."
+        "quote": "Liability-only policy does not cover own vehicle damage."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1243,
-      "output_tokens": 106,
+      "input_tokens": 1309,
+      "output_tokens": 102,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

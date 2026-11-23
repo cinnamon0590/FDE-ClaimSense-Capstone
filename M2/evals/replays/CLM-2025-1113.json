@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2020 Volkswagen T-Roc",
-      "incident": "A long crack across the windscreen occurred on 2025-06-02.",
-      "damage": "The damage described is a long crack across the windscreen.",
+      "vehicle": "2020 Volkswagen T-Roc, colour not specified",
+      "incident": "Long crack across the windscreen after a cold snap on 2025-06-02.",
+      "damage": "The documents describe a long crack across the windscreen.",
       "repair_estimate_usd": 560,
-      "policy_details": "POL-AU-70113, liability, collision, comprehensive, 100 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a glass loss due to a crack in the windscreen. A glass invoice is missing from the documentation."
+      "policy_details": "Policy ID: POL-AU-70113, Coverages: liability, collision, comprehensive, Deductible: 100, Use class: private",
+      "summary": "The claim involves a glass loss with a long crack across the windscreen reported after a cold snap. The required glass_invoice document is missing from the file."
      },
      "usage": {
-      "input_tokens": 1456,
-      "output_tokens": 175,
-      "cached_tokens": 0
+      "input_tokens": 1590,
+      "output_tokens": 185,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -54,11 +54,11 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1192,
+      "input_tokens": 1239,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -71,16 +71,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1436,
+      "input_tokens": 1483,
       "output_tokens": 23,
-      "cached_tokens": 0
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1113",
       "coverage_finding": "covered",
-      "basis": "The glass damage is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy, and the net payable amount has already accounted for this deductible.",
+      "basis": "The comprehensive coverage includes glass breakage, and the deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1690,
-      "output_tokens": 89,
+      "input_tokens": 1737,
+      "output_tokens": 73,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with a repair-to-ACV ratio below 1.0 indicating it is not a total loss. There are no fraud indicators or injury exposure, and the only missing document is a glass invoice."
+      "rationale": "The claim is covered with a low repair-to-ACV ratio indicating it is not a total loss. There are no fraud signals or injury exposure, and the only missing document is the glass invoice."
      },
      "usage": {
-      "input_tokens": 1192,
-      "output_tokens": 99,
+      "input_tokens": 1186,
+      "output_tokens": 94,
       "cached_tokens": 0
      }
     }
@@ -125,7 +125,7 @@
       "claim_id": "CLM-2025-1113",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive coverage for glass damage, and the deductible has been correctly applied. However, the required glass invoice is missing, which necessitates further review. The policy was active at the time of the incident, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under comprehensive coverage, which includes glass breakage. However, the required glass invoice document is missing, necessitating further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -133,13 +133,13 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "Deductible has been correctly applied."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1294,
-      "output_tokens": 134,
+      "input_tokens": 1312,
+      "output_tokens": 124,
       "cached_tokens": 0
      }
     }
@@ -153,7 +153,7 @@
       "claim_id": "CLM-2025-1113",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is covered under the comprehensive coverage for glass damage, and the deductible has been correctly applied. However, the required glass invoice is missing, which necessitates further review. The policy was active at the time of the incident, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for glass breakage, and the deductible has been correctly applied. However, the required glass invoice document is missing, which necessitates further review. The loss occurred within the policy period, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -161,18 +161,18 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies as specified in the policy."
+        "quote": "Deductible has been correctly applied."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1294,
-      "output_tokens": 134,
-      "cached_tokens": 0
+      "input_tokens": 1312,
+      "output_tokens": 132,
+      "cached_tokens": 1152
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

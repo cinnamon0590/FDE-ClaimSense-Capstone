@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": true,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Mini Cooper",
+      "vehicle": "2019 Mini Cooper, colour not specified",
       "incident": "Hit a wall avoiding a dog on 2025-08-08.",
-      "damage": "Damage consistent with the reported collision, with the airbag firing and a fractured wrist reported.",
+      "damage": "Damage to the vehicle consistent with hitting a wall; airbag deployed.",
       "repair_estimate_usd": 3700,
-      "policy_details": "POL-AU-70079, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident where the insured hit a wall while avoiding a dog. The insured reported injuries and has provided a repair estimate."
+      "policy_details": "POL-AU-70079, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a wall while avoiding a dog, resulting in vehicle damage and a wrist fracture. All required documents are on file, and there are no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1597,
-      "output_tokens": 186,
-      "cached_tokens": 0
+      "input_tokens": 1732,
+      "output_tokens": 188,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -58,7 +58,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1220,
+      "input_tokens": 1259,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -67,7 +67,7 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"deductible application on collision claims\"}"
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
       },
       {
        "name": "search_clauses",
@@ -75,7 +75,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1478,
+      "input_tokens": 1517,
       "output_tokens": 59,
       "cached_tokens": 1152
      }
@@ -93,7 +93,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1975,
+      "input_tokens": 2014,
       "output_tokens": 124,
       "cached_tokens": 1408
      }
@@ -112,11 +112,11 @@
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
       "high_value": false,
-      "rationale": "The claim involves an injury exposure due to a reported fractured wrist, and all required documents are on file. The repair-to-ACV ratio indicates it is not a total loss, and there are no fraud signals or material inconsistencies."
+      "rationale": "The claim involves an injury exposure due to a wrist fracture, but there are no fraud signals or total loss indicators."
      },
      "usage": {
-      "input_tokens": 1245,
-      "output_tokens": 104,
+      "input_tokens": 1247,
+      "output_tokens": 80,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2025-1079",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the policy's collision coverage, and the deductible has been correctly applied. The claim involves an injury exposure due to a reported fractured wrist, which requires routing to an injury specialist as per the policy requirements. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. The claim involves an injury exposure due to a wrist fracture, which requires routing to an injury specialist as per the policy requirements.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -147,8 +147,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1351,
-      "output_tokens": 174,
+      "input_tokens": 1358,
+      "output_tokens": 156,
       "cached_tokens": 0
      }
     }
@@ -162,7 +162,7 @@
       "claim_id": "CLM-2025-1079",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The collision damage is covered under the policy's collision coverage, and the deductible has been correctly applied. However, due to the reported injury, the claim must be routed to an injury specialist for further handling. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision with the wall. The deductible has been correctly applied, resulting in a net payable amount of $3200. Due to the injury exposure from the wrist fracture, the claim should be routed to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -179,13 +179,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1351,
-      "output_tokens": 169,
+      "input_tokens": 1358,
+      "output_tokens": 173,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

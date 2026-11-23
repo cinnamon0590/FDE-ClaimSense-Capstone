@@ -14,3 +14,15 @@
 {"ts": "2026-11-19T23:09:22", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.723}
 {"ts": "2026-11-19T23:11:21", "suite": "full", "cases": 40, "brain": "live", "provider": "openai", "cost_usd": 0.7187}
 {"ts": "2026-11-22T17:06:53", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6993}
+{"ts": "2026-11-22T17:22:30", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6894}
+{"ts": "2026-11-22T17:27:59", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.685}
+{"ts": "2026-11-22T17:34:12", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6664}
+{"ts": "2026-11-22T17:45:56", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6674}
+{"ts": "2026-11-22T17:51:08", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.6453}
+{"ts": "2026-11-22T18:08:42", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 2.7442}
+{"ts": "2026-11-22T18:29:46", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.7333}
+{"ts": "2026-11-22T18:33:56", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.7224}
+{"ts": "2026-11-22T18:38:01", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.7114}
+{"ts": "2026-11-22T19:11:35", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.6517}
+{"ts": "2026-11-22T19:15:40", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.6666}
+{"ts": "2026-11-22T19:19:50", "suite": "full", "cases": 150, "brain": "live", "provider": "openai", "cost_usd": 3.6367}

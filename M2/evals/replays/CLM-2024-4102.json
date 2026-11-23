@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Mazda CX-5",
+      "vehicle": "2019 Mazda CX-5, colour not specified",
       "incident": "Insured reversed into a concrete pillar in a multi-storey car park on 2024-08-03.",
-      "damage": "Damage consistent with the reported collision, estimated at $5,400.",
+      "damage": "Damage to the rear of the vehicle consistent with reversing into a concrete pillar.",
       "repair_estimate_usd": 5400,
-      "policy_details": "POL-AU-61102, liability, collision, comprehensive, $1000 deductible, 2024-01-20 to 2025-01-20.",
-      "summary": "The claim involves a collision where the insured reversed into a concrete pillar. The repair estimate is $5,400."
+      "policy_details": "Policy POL-AU-61102, coverages: liability, collision, comprehensive, deductible: 1000, use class: private",
+      "summary": "The insured vehicle, a 2019 Mazda CX-5, was involved in a collision with a concrete pillar in a car park. The repair estimate on file is $5,400, and no injuries were reported."
      },
      "usage": {
-      "input_tokens": 1548,
-      "output_tokens": 185,
-      "cached_tokens": 0
+      "input_tokens": 1683,
+      "output_tokens": 205,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -53,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1209,
-      "output_tokens": 13,
+      "input_tokens": 1266,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -70,9 +70,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1467,
+      "input_tokens": 1501,
       "output_tokens": 23,
-      "cached_tokens": 0
+      "cached_tokens": 1152
      }
     },
     {
@@ -87,9 +87,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1721,
+      "input_tokens": 1755,
       "output_tokens": 111,
-      "cached_tokens": 0
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.3068 indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.3068, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
      },
      "usage": {
-      "input_tokens": 1230,
-      "output_tokens": 100,
+      "input_tokens": 1250,
+      "output_tokens": 105,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. The deductible has been correctly applied, resulting in a net payable amount of $4,400, which is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -137,8 +137,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1332,
-      "output_tokens": 156,
+      "input_tokens": 1386,
+      "output_tokens": 145,
       "cached_tokens": 0
      }
     }
@@ -152,7 +152,7 @@
       "claim_id": "CLM-2024-4102",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is for collision damage, which is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -165,13 +165,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1332,
-      "output_tokens": 142,
+      "input_tokens": 1386,
+      "output_tokens": 145,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

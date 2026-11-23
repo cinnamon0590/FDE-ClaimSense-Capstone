@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2020 Kia Sportage",
-      "incident": "Car was stolen from my driveway on 2025-05-08.",
-      "damage": "The vehicle was recovered with a damaged ignition after the theft.",
+      "vehicle": "2020 Kia Sportage, colour not specified",
+      "incident": "Car was stolen from the driveway on 2025-05-08.",
+      "damage": "Damaged ignition reported after theft and recovery.",
       "repair_estimate_usd": 2850,
-      "policy_details": "POL-AU-70063, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "This claim involves a theft of a vehicle reported on 2025-05-09. The vehicle was stolen and later recovered with damage."
+      "policy_details": "Policy POL-AU-70063, coverages: liability, collision, comprehensive, deductible: 500, use class: private.",
+      "summary": "The claim involves a theft of a 2020 Kia Sportage on 2025-05-08, with a damaged ignition upon recovery. All required documents are on file, and no inconsistencies were found."
      },
      "usage": {
-      "input_tokens": 1530,
-      "output_tokens": 181,
-      "cached_tokens": 0
+      "input_tokens": 1662,
+      "output_tokens": 191,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1215,
+      "input_tokens": 1262,
       "output_tokens": 17,
       "cached_tokens": 0
      }
@@ -74,7 +74,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1465,
+      "input_tokens": 1512,
       "output_tokens": 61,
       "cached_tokens": 1152
      }
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2025-1063",
       "coverage_finding": "covered",
-      "basis": "The theft damage to the insured's own car is covered under the comprehensive coverage, which includes theft. The deductible applies as specified, and the police report requirement for theft claims has been met.",
+      "basis": "The theft damage to the insured's own car is covered under the comprehensive coverage, which includes theft. The deductible applies to each covered loss, and the net payable amount has already accounted for this deductible. The required police report for the theft claim is on file, satisfying the reporting requirement.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-DED-002",
@@ -92,8 +92,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1974,
-      "output_tokens": 97,
+      "input_tokens": 2021,
+      "output_tokens": 116,
       "cached_tokens": 1408
      }
     }
@@ -111,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under comprehensive coverage for theft, with all required documents on file. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no fraud signals or injury exposure."
+      "rationale": "The claim is covered under comprehensive coverage for theft, with all required documents on file. There are no inconsistencies or fraud signals present, and the repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1212,
-      "output_tokens": 102,
+      "input_tokens": 1241,
+      "output_tokens": 97,
       "cached_tokens": 0
      }
     }
@@ -129,7 +129,7 @@
       "claim_id": "CLM-2025-1063",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the comprehensive coverage, which includes theft. The incident occurred within the policy period, and all required documents are on file. The repair-to-ACV ratio confirms it is not a total loss, and the net payable is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage, which includes theft. The incident occurred within the policy period, and all required documents are on file. The repair-to-ACV ratio confirms it is not a total loss, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -137,17 +137,17 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $500 deductible applies."
+        "quote": "The deductible applies to each covered loss."
        },
        {
         "source_id": "CLS-THF-008",
-        "quote": "Police report requirement for theft claims has been met."
+        "quote": "The required police report for the theft claim is on file."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1316,
-      "output_tokens": 145,
+      "input_tokens": 1369,
+      "output_tokens": 150,
       "cached_tokens": 0
      }
     }
@@ -161,7 +161,7 @@
       "claim_id": "CLM-2025-1063",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the comprehensive coverage, which includes theft. The incident occurred within the policy period, and all required documents are on file. The repair-to-ACV ratio confirms it is not a total loss, and the net payable is within the authority limit.",
+      "reasoning": "The claim is covered under the comprehensive coverage for theft, as the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -169,22 +169,22 @@
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "A $500 deductible applies."
+        "quote": "The deductible applies to each covered loss."
        },
        {
         "source_id": "CLS-THF-008",
-        "quote": "Police report requirement for theft claims has been met."
+        "quote": "The required police report for the theft claim is on file."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1316,
-      "output_tokens": 145,
+      "input_tokens": 1369,
+      "output_tokens": 148,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

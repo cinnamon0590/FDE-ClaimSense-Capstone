@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": true,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2021 Hyundai i30",
+      "vehicle": "2021 Hyundai i30, colour not specified",
       "incident": "Insured was rear-ended at a pedestrian crossing on 2024-09-28.",
-      "damage": "Damage consistent with the reported collision, estimated at $2,900.",
+      "damage": "Damage consistent with being rear-ended, as per repair estimate.",
       "repair_estimate_usd": 2900,
-      "policy_details": "POL-AU-61105, liability, collision, comprehensive, $500 deductible, 2024-06-01 to 2025-06-01.",
-      "summary": "The insured was involved in a collision where they were rear-ended and sustained a neck injury. All required documents are on file."
+      "policy_details": "POL-AU-61105, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The insured vehicle was rear-ended at a pedestrian crossing, resulting in damage and a reported neck injury. All required documents are on file, and there are no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1601,
-      "output_tokens": 187,
-      "cached_tokens": 0
+      "input_tokens": 1736,
+      "output_tokens": 192,
+      "cached_tokens": 1664
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1221,
-      "output_tokens": 14,
+      "input_tokens": 1263,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -75,7 +75,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1456,
+      "input_tokens": 1521,
       "output_tokens": 59,
       "cached_tokens": 1152
      }
@@ -93,7 +93,7 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1953,
+      "input_tokens": 2018,
       "output_tokens": 126,
       "cached_tokens": 1408
      }
@@ -112,11 +112,11 @@
       "injury_exposure": true,
       "recommended_route": "injury-specialist",
       "high_value": false,
-      "rationale": "The claim is covered, with no fraud indicators or inconsistencies present. There is an injury exposure due to the reported neck injury, necessitating an injury specialist."
+      "rationale": "The claim is covered under collision coverage with a reported injury. There are no fraud signals or inconsistencies, and it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1248,
-      "output_tokens": 89,
+      "input_tokens": 1253,
+      "output_tokens": 86,
       "cached_tokens": 0
      }
     }
@@ -130,15 +130,11 @@
       "claim_id": "CLM-2024-4105",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The net payable amount is within the policy's deductible and authority limits. However, due to the reported neck injury, the claim requires assessment by an injury specialist.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear-end collision. The net payable amount is within the authority limit, and all required documents are on file. Due to the reported injury, the claim should be routed to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
-       },
-       {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -147,8 +143,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1339,
-      "output_tokens": 163,
+      "input_tokens": 1370,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
@@ -162,15 +158,11 @@
       "claim_id": "CLM-2024-4105",
       "outcome": "route",
       "route_to": "injury-specialist",
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision. The net payable amount is within the policy's deductible and authority limits. However, due to the reported neck injury, the claim requires assessment by an injury specialist.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear-end collision. The net payable amount is within the authority limit, and all required documents are on file. Due to the reported injury, the claim should be routed to an injury specialist for further handling.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
         "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
-       },
-       {
-        "source_id": "CLS-DED-002",
-        "quote": "The deductible has already been applied to the net payable amount."
        },
        {
         "source_id": "CLS-INJ-005",
@@ -179,13 +171,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1339,
-      "output_tokens": 163,
+      "input_tokens": 1370,
+      "output_tokens": 146,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

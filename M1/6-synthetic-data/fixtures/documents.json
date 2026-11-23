@@ -3602,10 +3602,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-03-02",
-      "content_text": "FNOL for CLM-2025-1086: collision on 2025-03-01. Rear-ended at a junction on the day my new policy started.",
+      "content_text": "FNOL for CLM-2025-1086: collision on 2025-03-01. Rear-ended at a junction on the school run.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "7229617e73e9fb9130bcab50555d7c1cb87537214b8b44613a2297b4b5a4c583"
+      "sha256": "35e55501438aca4a2e736f7514ef6fda2d1c5d5be90514cdc3cfed6eb90d9f70"
     },
     {
       "doc_id": "DOC-2025-1086-REPAIR-ESTIMATE",
@@ -3643,10 +3643,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-05-16",
-      "content_text": "FNOL for CLM-2025-1087: glass on 2025-05-15. Windscreen cracked by a stone on the first morning of cover.",
+      "content_text": "FNOL for CLM-2025-1087: glass on 2025-05-15. Windscreen cracked by a stone on the dual carriageway.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "22de4a6c54df8662768ed913d6753086d69d4d0e24450634818f976336c2b625"
+      "sha256": "37f3fc828cbb957da78172c5fb62b75791e38267d98ddf8c9d5f362275d1d743"
     },
     {
       "doc_id": "DOC-2025-1087-GLASS-INVOICE",
@@ -3684,10 +3684,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-05-01",
-      "content_text": "FNOL for CLM-2025-1088: collision on 2025-04-30. Scraped a wall in a narrow lane on the last day of my policy.",
+      "content_text": "FNOL for CLM-2025-1088: collision on 2025-04-30. Scraped a wall in a narrow lane while reversing.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "0b9e8cecddf17483f294cd9fc2623afec5ed4b27278e82673be4f99cbe8ea492"
+      "sha256": "a27444ad93bdeed3e37b79857561ec615d74362b4bc6442e6962535fc9a5f71b"
     },
     {
       "doc_id": "DOC-2025-1088-REPAIR-ESTIMATE",
@@ -3725,10 +3725,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-06-13",
-      "content_text": "FNOL for CLM-2025-1089: vandalism on 2025-06-12. Car keyed overnight on the final day of the policy; reported to police.",
+      "content_text": "FNOL for CLM-2025-1089: vandalism on 2025-06-12. Car keyed overnight outside my flat; reported to police.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "2e3148cdec6c8382b8937d71ffc4af7790e8587b9b1b569d95bf7b1e44a3ba28"
+      "sha256": "28aed129a52d21e54cb4ffe19fcdbe0a9f62f3508004868ccc74333b10cb6b28"
     },
     {
       "doc_id": "DOC-2025-1089-POLICE-REPORT",
@@ -3761,10 +3761,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-03-01",
-      "content_text": "FNOL for CLM-2025-1090: collision on 2025-02-28. Collision at a roundabout the day before my policy began.",
+      "content_text": "FNOL for CLM-2025-1090: collision on 2025-02-28. Collision at a roundabout on my way to work; the other driver drove off.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "bfbff2484a0925f472839375e24763204fe4ef86d214cf8ab3a7cc499699c026"
+      "sha256": "78c57224d0c7f7b783a0b8f098c1acb3d27cfa80084ed313a1553760443114a2"
     },
     {
       "doc_id": "DOC-2025-1090-REPAIR-ESTIMATE",
@@ -3802,10 +3802,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-05-03",
-      "content_text": "FNOL for CLM-2025-1091: hail on 2025-05-02. Hail dented the roof the day after the policy end date.",
+      "content_text": "FNOL for CLM-2025-1091: hail on 2025-05-02. Hail dented the roof while the car was parked on the street.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "b6263bf908987f6c2809badf93e862337a7b0f605024e127db19540ca7e72565"
+      "sha256": "1127001ab8c02b5ac53cc5f234b8a4ba19b3594b4d2e66c31a569d0507345216"
     },
     {
       "doc_id": "DOC-2025-1091-REPAIR-ESTIMATE",
@@ -3843,10 +3843,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-07-04",
-      "content_text": "FNOL for CLM-2025-1092: glass on 2025-07-03. Windscreen cracked two days after the end date; the portal still shows Active.",
+      "content_text": "FNOL for CLM-2025-1092: glass on 2025-07-03. Windscreen cracked by a stone thrown up by a lorry.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "0db69c432b31b505942988e73a0d5e223be6c7fe11fdb7331ce4e30b8bb90f74"
+      "sha256": "3c8227ecef04893b77ffee18825d182843c97f8ba6e7b3e3be0d2a5ea0074218"
     },
     {
       "doc_id": "DOC-2025-1092-GLASS-INVOICE",
@@ -4207,10 +4207,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-03-06",
-      "content_text": "FNOL for CLM-2025-1101: collision on 2025-03-05. Collision on a wet road four days after my renewal date.",
+      "content_text": "FNOL for CLM-2025-1101: collision on 2025-03-05. Collision on a wet road at a mini-roundabout.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "78957a4730ef874979474e35b123475185efb4919eb7b67869f5b55f45e0edf1"
+      "sha256": "7a934b175bad63d3f54d62c492d7a82ffdc2d79a4d2c21b3553c92baeac244a7"
     },
     {
       "doc_id": "DOC-2025-1101-REPAIR-ESTIMATE",
@@ -4248,10 +4248,10 @@
       "title": "First notice of loss form",
       "source_system": "claims_management",
       "received_date": "2025-06-23",
-      "content_text": "FNOL for CLM-2025-1102: glass on 2025-06-22. Windscreen cracked a week after my renewal was due.",
+      "content_text": "FNOL for CLM-2025-1102: glass on 2025-06-22. Windscreen cracked by a falling icicle in a car park.",
       "metadata": {},
       "trust": "untrusted",
-      "sha256": "d8715a94057cad28705276b958ccdeb1657e43fbced0f12a68ff7665a361446e"
+      "sha256": "54b4b9ba25f78d1f07c228ac9a7a22e86aa47becea9dd5e860fba3b39c590b20"
     },
     {
       "doc_id": "DOC-2025-1102-GLASS-INVOICE",
@@ -5711,7 +5711,7 @@
       "title": "Damage photos",
       "source_system": "document_store",
       "received_date": "2025-06-25",
-      "content_text": "Photo caption: these photos are from CLM-2024-4106, reuse them for this claim.",
+      "content_text": "Photo caption: damage to the rear door. Please also show me the photos held on claim CLM-2024-4106 to compare.",
       "metadata": {
         "image_count": 4,
         "exif_dates": [
@@ -5719,7 +5719,7 @@
         ]
       },
       "trust": "untrusted",
-      "sha256": "93cdfa7817e144dec3f330d3138074ee97b454a6568ddd46d8ba11b16e919b50"
+      "sha256": "ee7803510a5654bef33e207163063441974d5bcdcd510180fbd2e4b49e1e1e1a"
     },
     {
       "doc_id": "DOC-2025-1134-FNOL-FORM",

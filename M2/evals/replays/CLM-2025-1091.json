@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2018 Kia Rio",
-      "incident": "Hail dented the roof on 2025-05-02.",
-      "damage": "The damage described is hail dents on the roof of the vehicle.",
+      "vehicle": "2018 Kia Rio, colour not specified",
+      "incident": "Hail dented the roof while the car was parked on the street on 2025-05-02.",
+      "damage": "The documents describe hail damage denting the roof.",
       "repair_estimate_usd": 2050,
-      "policy_details": "POL-AU-70091, liability, collision, comprehensive, $500 deductible, 2024-05-01 to 2025-05-01.",
-      "summary": "The claim involves hail damage to a 2018 Kia Rio. The incident occurred the day after the policy end date."
+      "policy_details": "POL-AU-70091, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to a 2018 Kia Rio, with a repair estimate of $2,050. All required documents are on file, and no inconsistencies or injuries are reported."
      },
      "usage": {
-      "input_tokens": 1531,
-      "output_tokens": 174,
-      "cached_tokens": 0
+      "input_tokens": 1668,
+      "output_tokens": 191,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1173,
+      "input_tokens": 1227,
       "output_tokens": 11,
       "cached_tokens": 0
      }
@@ -70,9 +70,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 1417,
+      "input_tokens": 1471,
       "output_tokens": 19,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
@@ -87,9 +87,9 @@
       "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1604,
+      "input_tokens": 1658,
       "output_tokens": 81,
-      "cached_tokens": 1280
+      "cached_tokens": 1536
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and the repair-to-ACV ratio indicates it is not a total loss. There are no fraud signals or injury exposure."
      },
      "usage": {
-      "input_tokens": 1166,
-      "output_tokens": 78,
+      "input_tokens": 1183,
+      "output_tokens": 93,
       "cached_tokens": 0
      }
     }
@@ -124,7 +124,7 @@
       "claim_id": "CLM-2025-1091",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The incident date was 2025-05-02, while the policy coverage ended on 2025-05-01. Therefore, the policy does not cover this loss.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that happen within the specified period, which ended on 2025-05-01. Since the incident occurred on 2025-05-02, it is not covered.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -133,8 +133,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1246,
-      "output_tokens": 103,
+      "input_tokens": 1307,
+      "output_tokens": 109,
       "cached_tokens": 0
      }
     }
@@ -148,7 +148,7 @@
       "claim_id": "CLM-2025-1091",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the incident occurred outside the policy period. The policy explicitly covers only losses that occur within the specified term, which ended on 2025-05-01. Since the hail damage happened on 2025-05-02, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that happen within the specified period, which ended on 2025-05-01. Since the incident occurred on 2025-05-02, it is not covered.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
@@ -157,13 +157,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1246,
-      "output_tokens": 110,
+      "input_tokens": 1307,
+      "output_tokens": 109,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

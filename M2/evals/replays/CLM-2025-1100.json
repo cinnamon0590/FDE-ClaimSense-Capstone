@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,21 +13,8 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
-     }
-    },
-    {
-     "tool_calls": [
-      {
-       "name": "get_claim_file",
-       "arguments": "{}"
-      }
-     ],
-     "usage": {
-      "input_tokens": 1529,
-      "output_tokens": 30,
       "cached_tokens": 0
      }
     },
@@ -44,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2023 Volvo XC60",
+      "vehicle": "2023 Volvo XC60, colour not specified",
       "incident": "Rear impact at speed on 2025-08-15.",
-      "damage": "Boot floor and rear panels replaced due to the collision damage.",
+      "damage": "Boot floor and rear panels replaced.",
       "repair_estimate_usd": 25499,
-      "policy_details": "POL-AU-70100, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident with a rear impact on a 2023 Volvo XC60. The repair estimate is $25,499."
+      "policy_details": "POL-AU-70100, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with rear impact on 2025-08-15, resulting in damage to the boot floor and rear panels. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1585,
-      "output_tokens": 176,
-      "cached_tokens": 1408
+      "input_tokens": 1664,
+      "output_tokens": 184,
+      "cached_tokens": 0
      }
     }
    ]
@@ -66,12 +53,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1198,
-      "output_tokens": 13,
+      "input_tokens": 1243,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -83,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1456,
+      "input_tokens": 1478,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -100,9 +87,9 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1710,
+      "input_tokens": 1732,
       "output_tokens": 111,
-      "cached_tokens": 0
+      "cached_tokens": 1408
      }
     }
    ]
@@ -119,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.5312 indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
+      "rationale": "The claim is covered under the collision coverage clause with no indications of fraud or injury exposure. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit."
      },
      "usage": {
-      "input_tokens": 1220,
-      "output_tokens": 101,
+      "input_tokens": 1228,
+      "output_tokens": 112,
       "cached_tokens": 0
      }
     }
@@ -137,7 +124,7 @@
       "claim_id": "CLM-2025-1100",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The deductible has been correctly applied, resulting in a net payable amount of $24,999, which is within the authority limit. The policy was active at the time of the incident, and all required documents are on file.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear impact. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and the loss occurred within the policy period.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -150,8 +137,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1323,
-      "output_tokens": 151,
+      "input_tokens": 1371,
+      "output_tokens": 136,
       "cached_tokens": 0
      }
     }
@@ -165,7 +152,7 @@
       "claim_id": "CLM-2025-1100",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is approved as the collision damage is covered under the policy's collision coverage clause. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear impact. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and the loss occurred within the policy period.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -178,13 +165,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1323,
-      "output_tokens": 142,
+      "input_tokens": 1371,
+      "output_tokens": 136,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

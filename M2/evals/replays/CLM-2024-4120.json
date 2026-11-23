@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2013 Land Rover Defender",
+      "vehicle": "2013 Land Rover Defender, colour not specified",
       "incident": "Collision with a parked trailer while turning into a farm track on 2024-05-29.",
-      "damage": "Damage consistent with the reported collision, estimated at $4,100.",
+      "damage": "Damage consistent with a collision with a parked trailer.",
       "repair_estimate_usd": 4100,
-      "policy_details": "POL-AU-61120, liability, collision, comprehensive, $500 deductible, 2023-05-10 to 2024-05-10.",
-      "summary": "The claim involves a collision incident reported on May 30, 2024. The vehicle is a 2013 Land Rover Defender with an estimated repair cost of $4,100."
+      "policy_details": "POL-AU-61120, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a parked trailer on a farm track. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1524,
-      "output_tokens": 195,
-      "cached_tokens": 0
+      "input_tokens": 1658,
+      "output_tokens": 181,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1195,
+      "input_tokens": 1218,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -66,13 +66,13 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date outside policy period\"}"
+       "arguments": "{\"query\":\"policy period coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1429,
-      "output_tokens": 21,
-      "cached_tokens": 0
+      "input_tokens": 1452,
+      "output_tokens": 19,
+      "cached_tokens": 1152
      }
     },
     {
@@ -84,12 +84,12 @@
        "CLS-COL-001",
        "CLS-PER-006"
       ],
-      "exclusion_or_condition": "Loss date outside policy period"
+      "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1618,
-      "output_tokens": 86,
-      "cached_tokens": 1408
+      "input_tokens": 1639,
+      "output_tokens": 85,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -106,10 +106,10 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or injury exposures."
      },
      "usage": {
-      "input_tokens": 1192,
+      "input_tokens": 1177,
       "output_tokens": 78,
       "cached_tokens": 0
      }
@@ -133,7 +133,7 @@
       ]
      },
      "usage": {
-      "input_tokens": 1272,
+      "input_tokens": 1286,
       "output_tokens": 104,
       "cached_tokens": 0
      }
@@ -152,18 +152,18 @@
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "There is no duty to pay for any loss outside the policy period."
+        "quote": "No duty to pay for any loss outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1272,
-      "output_tokens": 106,
+      "input_tokens": 1286,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

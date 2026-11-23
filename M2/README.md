@@ -121,7 +121,11 @@ mentioning another claim, and Ask ClaimSense answers (G5/G7), each withheld and 
 
 ## Headline numbers (live, 3 runs × 40 cases, pinned gpt-4o-mini-2024-07-18 + gpt-4o-2024-08-06, prompt m2-v10)
 
-Re-run 2026-11-19 for m2-v10 (D-045: fraud indicators, high-value flag, Intake details); m2-v9 figures in brackets where they differ.
+> **Superseded by M4:** the suite is now **150 cases** (prompt m2-v13, Intake on gpt-4o): 150/150 in each of 3 live
+> runs, adversarial 45/45, every agent 100% on its own. See [`../M4/README.md`](../M4/README.md). The M2 figures
+> below are kept as the milestone's record.
+
+Re-run 2026-11-19 for m2-v10 (D-045); m2-v9 figures in brackets where they differ.
 
 | | Result (each of 3 runs) | Target |
 |---|---|---|

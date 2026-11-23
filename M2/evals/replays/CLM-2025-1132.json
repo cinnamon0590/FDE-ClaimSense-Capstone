@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,17 +32,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2021 Kia Picanto",
+      "vehicle": "2021 Kia Picanto, colour not specified",
       "incident": "Minor collision at low speed in a car park on 2025-05-23.",
-      "damage": "Damage consistent with the reported collision, estimated repair cost is $1,800.",
+      "damage": "Damage consistent with a minor collision at low speed in a car park.",
       "repair_estimate_usd": 1800,
-      "policy_details": "POL-AU-70132, liability, collision, comprehensive, $500 deductible, 2025-01-15 to 2026-01-15.",
-      "summary": "The claim involves a collision incident with no reported injuries. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-70132, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a minor collision in a car park with no injuries reported. All required documents are on file, and there are no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1606,
-      "output_tokens": 179,
-      "cached_tokens": 0
+      "input_tokens": 1741,
+      "output_tokens": 191,
+      "cached_tokens": 1664
      }
     }
    ]
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1202,
-      "output_tokens": 14,
+      "input_tokens": 1251,
+      "output_tokens": 13,
       "cached_tokens": 0
      }
     },
@@ -71,16 +71,16 @@
       }
      ],
      "usage": {
-      "input_tokens": 1437,
+      "input_tokens": 1485,
       "output_tokens": 23,
-      "cached_tokens": 1152
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2025-1132",
       "coverage_finding": "covered",
-      "basis": "The policy includes collision coverage, which applies to the damage from the collision incident. The deductible has been correctly applied to the net payable amount.",
+      "basis": "The policy includes collision coverage for the insured's own car, and the deductible has been correctly applied to the payment.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1691,
-      "output_tokens": 80,
+      "input_tokens": 1739,
+      "output_tokens": 75,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the policy, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+      "rationale": "The claim is covered, with no fraud indicators or inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1193,
-      "output_tokens": 93,
+      "input_tokens": 1200,
+      "output_tokens": 89,
       "cached_tokens": 0
      }
     }
@@ -125,20 +125,20 @@
       "claim_id": "CLM-2025-1132",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage of the policy, which is in force for the date of the incident. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and the policy includes collision coverage. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indications of fraud or inconsistencies.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the damage from the collision incident."
+        "quote": "The policy includes collision coverage for the insured's own car."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1288,
+      "input_tokens": 1320,
       "output_tokens": 135,
       "cached_tokens": 0
      }
@@ -153,26 +153,26 @@
       "claim_id": "CLM-2025-1132",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage of the policy, which is in force for the date of the incident. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
+      "reasoning": "The claim is for a collision loss that occurred within the policy period, and collision coverage applies. The deductible has been correctly applied, resulting in a net payable amount of $1300, which is within the authority limit. All required documents are on file, and there are no indications of fraud or inconsistencies.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage applies to the damage from the collision incident."
+        "quote": "The policy includes collision coverage for the insured's own car."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible has been correctly applied to the net payable amount."
+        "quote": "The deductible has been correctly applied to the payment."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1288,
-      "output_tokens": 135,
-      "cached_tokens": 1152
+      "input_tokens": 1320,
+      "output_tokens": 140,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }
