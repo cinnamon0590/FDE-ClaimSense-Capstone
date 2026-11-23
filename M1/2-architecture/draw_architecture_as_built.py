@@ -57,7 +57,7 @@ def badge(x, y, num):
 
 
 # ── title ─────────────────────────────────────────────────────────────────────────────────────
-out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 4, prompt m2-v13)</text>')
+out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 5, prompt m2-v13)</text>')
 out.append('<text x="20" y="52" font-size="12" fill="#555">Every arrow is a labelled data flow (B1–B20, legend below). '
            'Blue = deterministic code · Orange = model judgment · Green = human · Grey = systems/data · Purple = operations. '
            'Solid border = deployed on AWS · dashed border = runs locally in containers. Synthetic data only.</text>')
@@ -105,7 +105,7 @@ box(1110, 722, 130, 65, "store", ["DynamoDB", "append-only audit"])
 box(1300, 105, 275, 60, "ops", ["Secrets Manager", "OpenAI key + demo sign-in → task role"])
 box(1300, 300, 275, 60, "ops", ["Amazon ECR", "the gated image (immutable tags)"])
 box(1300, 455, 275, 60, "ops", ["GitHub Actions", "live gate ≥ 90% · push THE tested build"])
-box(1300, 600, 275, 60, "ops", ["CloudWatch", "logs · dashboard · alarm → SNS"])
+box(1300, 600, 275, 60, "ops", ["CloudWatch", "dashboard · alarm (app + edge 5xx) → SNS"])
 box(1300, 722, 275, 65, "ops", ["Budget alarm + tags", "Project=ClaimSense · cost guardrail"])
 
 # ── flows ─────────────────────────────────────────────────────────────────────────────────────

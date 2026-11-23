@@ -1,0 +1,28 @@
+# incident-drill-1 — incident drill on the deployed system (M4 step 5)
+# command: python M4/drill/incident_drill.py run --label drill-1
+# fault: door config: CLAIMSENSE_DOCS_BUCKET -> wrong bucket · door https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com
+
+TIMELINE (UTC)
+16:05:53  preflight: alarm OK; last-good door config saved (image abb02a2)
+16:06:17  canary green: 4/4 door routes 200 (alice, real Cognito token)
+16:06:17  INJECT: release a config change: CLAIMSENSE_DOCS_BUCKET -> '<bucket>-staging' (wrong bucket)
+16:06:23  bad config live on the door (Lambda updated)
+16:06:32  user impact: alice runs CLM-2024-1800 -> outcome 'refused', decided_by 'boundary_refusal', error 'invalid_request'
+16:06:53  DETECTED by the canary: 3 failed door calls in a row (last: /claims/CLM-2024-1800 -> 500)
+16:12:17  the alarm stayed OK for 360 s after the bad release: it did NOT see this incident
+16:12:17  ROLLBACK: restore the last-good door config (runbook: Roll back a release)
+16:12:23  rollback live (Lambda updated)
+16:12:50  canary green again: 5 door calls in a row 200
+16:13:58  M3 deployed route check: RESULT: PASS
+16:14:00  M3 S3 document-store check: RESULT: PASS
+16:14:17  alice runs CLM-2024-1800 again -> outcome 'approve', net payable 2700, decided_by 'agents'
+16:14:17  VERIFIED RECOVERY: yes
+16:14:18  alarm state after recovery: OK
+
+time to detect:            31 s (by the canary; alarm fired: False)
+time to rollback:          367 s
+time to verified recovery: 481 s
+canary: 80 calls, 54 failed (500)
+user impact during the incident: {"user": "alice", "claim": "CLM-2024-1800", "outcome": "refused", "net_payable": null, "decided_by": "boundary_refusal", "route_to": null, "error": "invalid_request"}
+
+RESULT: PASS — recovered and verified

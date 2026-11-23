@@ -9,7 +9,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
 | 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
-| 4 | Incident drill + one-page RCA with time to verified recovery | planned | |
+| 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
 | 5 | Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus | planned | |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
 | 7 | Handover pack | planned | |
@@ -97,3 +97,23 @@ browser ──HTTPS──▶ CloudFront ──▶ ALB (CloudFront-only ingress) 
   claim data ([`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt), audit rows included).
 - Deploy: `python M4/cloud/frontend.py apply` (commit first; images are tagged with the commit) · `status` ·
   `rotate-passcode` then `apply` · `destroy` after grading (≈ $35–40/month while up).
+
+## 5 · Incident drill and RCA (D-050)
+
+A deliberate bad release on the **deployed** door (its document bucket switched to a wrong one), detected, rolled
+back and verified by `python M4/drill/incident_drill.py run --label <name>`. That one command does all of it:
+canary, fault, impact probe, detection, rollback, verification, and writes the timeline.
+
+| | Drill 1 (as built) | Drill 2 (after the fixes) |
+|---|---|---|
+| Alarm | **silent** (the door couldn't start, so it printed no metrics) | **ALARM at +2 min 22 s** (edge 5xx) |
+| Adjuster saw | "refused" | "unavailable: nothing decided, try again" |
+| Time to verified recovery | 481 s | **279 s** |
+
+- **RCA (one page):** [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md).
+- **New eval case IC-001:** [`../M2/tests/test_incident_door_down.py`](../M2/tests/test_incident_door_down.py),
+  which fails on the pre-drill code.
+- **Prevention:** every door deploy now runs [`ops/door_smoke.py`](ops/door_smoke.py) and rolls itself back on
+  failure.
+- **Dashboard:** in the error-rate panel the incidents show only on the edge line
+  ([`evidence/incident-drill-2-dashboard.png`](evidence/incident-drill-2-dashboard.png)).

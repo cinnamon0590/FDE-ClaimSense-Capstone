@@ -77,7 +77,9 @@ money without a licensed adjuster.
 ### Roll back a release
 1. Images are tagged with the commit SHA and tags are immutable: pick the last known-good SHA from
    `aws ecr describe-images --repository-name claimsense/orchestrator`.
-2. Point the deployment at that tag (Lambda: `cloud/lambda/deploy.sh <sha>`). No rebuild needed.
+2. Point the deployment at that tag. No rebuild needed. The door: `M3/cloud/deploy.sh` rolls itself back when its
+   post-deploy smoke fails (D-050); by hand, `python M4/drill/incident_drill.py rollback` restores the last-good
+   image + configuration. The frontend: `git checkout <sha> && python M4/cloud/frontend.py apply`.
 3. Open an issue with the failing case IDs; add them to the eval set before the fix (the gate then
    protects against a repeat).
 

@@ -28,7 +28,8 @@ USERS = {"alice": "Alice · adjuster", "bob": "Bob · senior adjuster", "carol":
          "eve": "Eve · total-loss appraiser", "dave": "Dave · customer service"}
 BADGE = {"agents": ("🧠 Model verdict", "green"), "guardrail_hold": ("🛡 Guardrail hold → human", "orange"),
          "consistency_hold": ("⚖ Model unsure (two drafts disagreed) → human", "orange"),
-         "fallback": ("⚙ Deterministic fallback (not AI)", "gray"), "boundary_refusal": ("⛔ Refused at the boundary", "red")}
+         "fallback": ("⚙ Deterministic fallback (not AI)", "gray"), "boundary_refusal": ("⛔ Refused at the boundary", "red"),
+         "unavailable": ("⏸ Claim systems unavailable: nothing decided, try again", "orange")}
 
 st.set_page_config(page_title="ClaimSense · AutoSure", page_icon="🚗", layout="wide")
 st.title("ClaimSense AI · first-pass co-pilot")

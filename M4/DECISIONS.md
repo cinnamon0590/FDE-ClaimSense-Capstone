@@ -6,6 +6,35 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-050 · 2026-11-23 · Incident drill on the deployed system: the alarm watches the edge, outages say "unavailable", deploys smoke-test themselves
+- **Why:** brief Milestone 5 / W17: a deliberate regression → detection → rollback → a one-page RCA with time to
+  verified recovery and the eval case it spawned. Builder tier: the drill is packaged for the client's team.
+- **Decision:**
+  - **The drill** (`M4/drill/incident_drill.py`): a bad config release on the deployed door (document bucket →
+    `<bucket>-staging`), a canary (alice, real Cognito token, 4 door routes every 5 s), one real claim during the
+    incident, detection by the alarm or the canary, roll back to the saved last-good config, verification by the M3
+    deployed checks and a real claim. Timeline written by the script, not by hand.
+  - **Drill 1 found two gaps**:
+    - the alarm never fired, because a door that can't start prints no metrics of its own;
+    - the adjuster was told "refused" during the outage.
+  - **Fixes:**
+    - the alarm is the worse of the app's (EMF) and the **edge's** (API Gateway `5xx` / `Count`) error rate, and
+      the dashboard shows both;
+    - a door 5xx is `upstream_unavailable`; after 2 quick retries the pipeline returns
+      `decided_by: "unavailable"` (retryable, no agent run, $0), never `boundary_refusal`;
+    - `deploy.sh` runs a post-deploy smoke as a real adjuster (`M4/ops/door_smoke.py`) and restores the previous
+      image and configuration if it fails.
+  - **Drill 2, same fault, fixes in place:** alarm `ALARM` at +2 min 22 s, adjuster saw `unavailable`, verified
+    recovery in **279 s** (drill 1: 481 s).
+  - **IC-001** (`M2/tests/test_incident_door_down.py`): the gateway's exact 500 over MCP and REST → `unavailable`,
+    nothing decided, nothing spent. It fails on the pre-drill code and runs in CI on every push.
+- **Proof:** `M4/drill/RCA-2026-11-23.md`, `M4/evidence/incident-drill-1.txt`, `incident-drill-2.txt`,
+  `incident-drill-2-dashboard.png`, `M4/drill/runs/*.json`.
+- **Cost:** ≈ $0.10 of model calls for both drills; edge metrics are free (API Gateway publishes them).
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-049 · 2026-11-23 · The deployed frontend: ECS Fargate + ALB + CloudFront, demo sign-in, /mcp verified by the door
 - **Why:** Submission 2 asks for a deployed frontend URL that stays reachable until grading ends, and acceptance
   criterion 5 is a person running a claim through it. Until now only the door was on AWS.

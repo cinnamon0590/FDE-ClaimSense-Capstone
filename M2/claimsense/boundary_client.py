@@ -240,7 +240,14 @@ class HttpBoundary:
         return h
 
     def _get(self, path, user_id, agent, **params):
-        return self.http.get(path, headers=self._headers(user_id, agent), params=params or None).json()
+        r = self.http.get(path, headers=self._headers(user_id, agent), params=params or None)
+        try:
+            body = r.json()
+        except ValueError:
+            body = {}
+        if r.status_code >= 500 and not isinstance(body.get("error"), dict):   # the door is down (incident-drill-1)
+            return {"error": {"code": "upstream_unavailable", "message": f"HTTP {r.status_code} from the door"}}
+        return body
 
     def claim(self, user_id, claim_id, agent=None):
         return self._get(f"/claims/{claim_id}", user_id, agent)
@@ -296,7 +303,8 @@ class McpBoundary(HttpBoundary):
             body = {"error": {"message": body.get("message") or f"HTTP {r.status_code} from the door"}}
         if "error" in body:                                  # transport refusal (401) or a JSON-RPC error
             data = body["error"].get("data") or {}
-            code = "unauthenticated" if r.status_code == 401 else "invalid_request"
+            code = ("unauthenticated" if r.status_code == 401 else "upstream_unavailable" if r.status_code >= 500
+                    else "invalid_request")              # 5xx = the door is down, not a refusal (incident-drill-1)
             return {"error": {"code": code, "message": body["error"]["message"],
                               "request_id": data.get("request_id", "-")}}
         return body["result"]

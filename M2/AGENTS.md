@@ -40,6 +40,7 @@ deterministic work and every transition is a fixed `@utils.transition to`, never
 
 ```
 start_agent (code)   -> the door: entitlement for this adjuster        refused? stop: no agent runs, $0, audited
+                                                                         door down? 2 retries, then "unavailable": no agent runs, $0 (D-050)
   -> Document Intake -> compute(), missing_documents(), verified_facts()   (code overrides the model's checklist)
   -> Coverage Check
   -> Claim Assessment -> code re-applies the fraud rule and route_priority() to the model's flags

@@ -8,6 +8,8 @@ each step's typed output is the next step's input. What decided the verdict is a
                "guardrail_hold"    a tripwire stopped the run and routed it to a senior adjuster
                                    (fail closed); still the co-pilot's own decision path ("model")
                "boundary_refusal"  the caller isn't entitled: no agent ran, no claim data returned
+               "unavailable"       the door (or a system behind it) is down: nothing decided, no agent ran,
+                                   retry later (outcome "unavailable", never shown as a refusal; M4 drill)
                "fallback"          the model failed or the budget cap hit: rule engine,
                                    verdict_source="deterministic_fallback", never counted as AI
 """
@@ -129,6 +131,17 @@ class Pipeline:
             result["trace_id"] = tr.trace_id
             # 0 · entitlement, in code, before any agent (A2/A3). Same error for missing and forbidden.
             claim = self.boundary.claim(user_id, claim_id, AGENT_IDS["intake"])
+            for wait in (1, 3):                             # a blip retries; an outage says so (incident-drill-1)
+                if claim.get("error", {}).get("code") != "upstream_unavailable":
+                    break
+                await asyncio.sleep(wait)
+                claim = self.boundary.claim(user_id, claim_id, AGENT_IDS["intake"])
+            if claim.get("error", {}).get("code") == "upstream_unavailable":
+                ctx.emit("unavailable", "boundary", code="upstream_unavailable")
+                return self._finish(result, ctx, usage, t0, decided_by="unavailable", response={
+                    "outcome": "unavailable", "returns_claim_data": False, "retryable": True,
+                    "message": "The claim systems are unavailable right now. Nothing was decided; try again shortly.",
+                    "error": claim["error"]})
             if "error" in claim:
                 ctx.emit("refusal", "boundary", code=claim["error"]["code"])
                 return self._finish(result, ctx, usage, t0, decided_by="boundary_refusal", response={
