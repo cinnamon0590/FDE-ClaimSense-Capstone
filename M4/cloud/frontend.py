@@ -83,7 +83,8 @@ def demo_secret():
     if demo_path.exists():
         passcode = json.loads(demo_path.read_text())["passcode"]
     else:
-        passcode = secrets.token_urlsafe(9)
+        alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"       # no look-alikes (I l 1 O 0) and no punctuation
+        passcode = "-".join("".join(secrets.choice(alphabet) for _ in range(4)) for _ in range(3))
         fd = os.open(demo_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
         with os.fdopen(fd, "w") as f:
             json.dump({"passcode": passcode, "note": "demo sign-in passcode for the deployed ClaimSense console"}, f)
@@ -337,4 +338,8 @@ def destroy():
 
 
 if __name__ == "__main__":
+    if (sys.argv[1:] or [""])[0] == "rotate-passcode":       # new passcode, then redeploy with `apply`
+        (CONF / "demo.json").unlink(missing_ok=True)
+        demo_secret()
+        sys.exit(0)
     {"apply": apply, "status": status, "destroy": destroy}[(sys.argv[1:] or ["apply"])[0]]()

@@ -63,3 +63,8 @@ def test_brute_force_brake(demo):
         c.post("/demo/signin", json={"user_id": "alice", "passcode": "nope"})
     r = c.post("/demo/signin", json={"user_id": "alice", "passcode": "right-code"})
     assert r.status_code == 429 and calls == []
+
+
+def test_pasted_quotes_and_spaces_are_forgiven(demo):
+    c, app, calls = demo
+    assert c.post("/demo/signin", json={"user_id": "alice", "passcode": ' "right-code" \n'}).status_code == 200

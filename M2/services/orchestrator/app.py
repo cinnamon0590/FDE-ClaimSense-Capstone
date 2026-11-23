@@ -234,7 +234,8 @@ async def demo_signin(request: Request):
         body = await request.json()
     except ValueError:
         body = {}
-    user, code = str(body.get("user_id", "")), str(body.get("passcode", ""))
+    user = str(body.get("user_id", ""))
+    code = str(body.get("passcode", "")).strip().strip('"\'').strip()      # forgive pasted quotes and spaces
     sec = _demo_secret()
     ok = hmac.compare_digest(hashlib.sha256(code.encode()).hexdigest(), sec["passcode_sha256"]) and user in sec["users"]
     if not ok:
