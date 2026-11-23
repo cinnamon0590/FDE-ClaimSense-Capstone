@@ -2,7 +2,7 @@
   "kind": "clauses",
   "synthetic": true,
   "corpus": "autosure-motor-policy-wording",
-  "version": "2024.1-synthetic",
+  "version": "2024.2-synthetic",
   "records": [
     {
       "clause_id": "CLS-COL-001",
@@ -12,7 +12,7 @@
       "applies_to": [
         "collision"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "126ddff748e1a8b88947be93b18d9204a948df10c17e140af50e5ff18e1c454c"
     },
     {
@@ -27,7 +27,7 @@
         "theft",
         "vandalism"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "077e919ebb924d8d20644ca25d2825db9116b5353e0f8a6821d46ed885473322"
     },
     {
@@ -41,7 +41,7 @@
         "theft",
         "vandalism"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "c72543b977b970382cd8a7746328df9920f517725b56f3d8e48747bff668a1b0"
     },
     {
@@ -54,7 +54,7 @@
         "hail",
         "theft"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "a24ac244893112969cb17052f23f95a27fbfdd3a1f491d642eb1e1f63280c440"
     },
     {
@@ -65,7 +65,7 @@
       "applies_to": [
         "collision"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "882e782ac287aa025a68f3caf66c0e4959b8694ff32caaa3dbdadaa056105616"
     },
     {
@@ -76,7 +76,7 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "3d16a48a162ce6c18309337c2c41aca255bad6ac6c7abb2fdf49a8c6e7ed6143"
     },
     {
@@ -87,7 +87,7 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "2480c63a3d694b58ae11e71a405d6b52d7f68ca53711f3104f867eaa4f58bd9c"
     },
     {
@@ -98,7 +98,7 @@
       "applies_to": [
         "theft"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "b11ebf2917b82d76c601f521d8eb6c511f21de5427674cebc70ac68dd07db4d4"
     },
     {
@@ -109,7 +109,7 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "5e3fc5edfb67018f51f120d054894e663ca962bd377a0dd83b31cd1ba26c3f7c"
     },
     {
@@ -120,7 +120,7 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "cbafc88944dfa8e59907a5a62a34a4bcb2dd6214f570ad95fdc6b2bfca708343"
     },
     {
@@ -131,7 +131,7 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "354ebcdec87d54c0660b4fbc1ffc53559736d6db09e8d0feb0eb3f83e6520bdc"
     },
     {
@@ -142,8 +142,22 @@
       "applies_to": [
         "*"
       ],
-      "version": "2024.1-synthetic",
+      "version": "2024.2-synthetic",
       "manifest_sha256": "8ca1613dedd7a5e188565b732b9766b5e1c9235525d602647044a8ba5799eef1"
+    },
+    {
+      "clause_id": "CLS-RNT-013",
+      "title": "Rental reimbursement",
+      "section": "Part E — Additional benefits",
+      "text": "If the declarations show rental reimbursement, we pay for a substitute car while yours is out of service after a covered loss, up to $40 per day and no more than 30 days.",
+      "applies_to": [
+        "collision",
+        "theft",
+        "vandalism",
+        "hail"
+      ],
+      "version": "2024.2-synthetic",
+      "manifest_sha256": "c9516065d265ce8050dd9c1bd4bf0c1de3f8f7c2479d5d2d0bc92b51f3aa0307"
     }
   ],
   "untrusted_index_injections": [
