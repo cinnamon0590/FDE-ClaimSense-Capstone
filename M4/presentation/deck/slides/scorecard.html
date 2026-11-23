@@ -1,0 +1,25 @@
+<section id="scorecard" class="alt footed" data-transition="fade">
+<p class="eyebrow">THE STATEMENT OF WORK, CRITERION BY CRITERION</p>
+<h2>Six of eight acceptance criteria met; two need real adjusters to measure</h2>
+<table class="score">
+<tr><th style="width:30%">Acceptance criterion</th><th style="width:22%">Target</th><th style="width:30%">Result</th><th style="width:18%">Status</th></tr>
+<tr><td>1 · Decision accuracy</td><td>≥ 90% clear · ≥ 85% all</td><td>150/150 (clear 60/60, edge 45/45)</td><td class="status">Met</td></tr>
+<tr><td>2 · Latency</td><td>p95 ≤ 90 s · p50 ≤ 45 s</td><td>p95 13 s · p50 11 s</td><td class="status">Met in evaluation</td></tr>
+<tr><td>3 · Adjuster confirmation</td><td>≥ 80% of 50 real reviews</td><td>Proxy: 84/84 confirmable as written</td><td class="status">Measure in pilot</td></tr>
+<tr><td>4 · Fraud routing</td><td>≥ 90% recall · ≤ 10% false</td><td>12/12 routed · 0/133 false</td><td class="status">Met</td></tr>
+<tr><td>5 · Zero harm</td><td>100% of attacks blocked</td><td>45/45, every run</td><td class="status">Met</td></tr>
+<tr><td>6 · Entitlement</td><td>Two-user test, audited</td><td>Passes on the deployed system</td><td class="status">Met</td></tr>
+<tr><td>7 · Completeness</td><td>≥ 99% of requests drafted</td><td>Counted in claims management</td><td class="status">Measure in pilot</td></tr>
+<tr><td>8 · Operability</td><td>Runbook works without us</td><td>4 procedures executed; failure recovered in 4 min 39 s</td><td class="status">Met</td></tr>
+</table>
+<p class="source">Source: M1 statement of work §3; M4 evidence (release gate, deployed two-user test, runbook runs, incident drill).</p>
+<aside>This is the contract we signed, line by line, and I want to be precise about the status words.
+
+"Met" means demonstrated on the delivered system with evidence you can re-run: accuracy, fraud routing, zero harm, entitlement and operability.
+
+"Met in evaluation" for latency: the numbers come from 150 live runs; the contract says to count them in CloudWatch on the deployed system, which will happen naturally in the pilot. We are a factor of seven inside the target, so I do not expect surprises.
+
+"Measure in pilot" for two criteria that, honestly, cannot be met on synthetic data: whether your senior adjusters confirm 80 percent of drafts unchanged, and the completeness count from your claims system. Our proxy for confirmation is strong, every expected citation present on every draft, but a proxy is not your adjusters. That is exactly why the ask on the last slide is a controlled pilot.
+
+Commercially: the acceptance bonus is $9,000 per criterion 1 to 4. Criteria 1 and 4 are met now; 2 and 3 settle in the pilot.</aside>
+</section>

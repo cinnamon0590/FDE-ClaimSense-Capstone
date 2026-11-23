@@ -1,0 +1,27 @@
+<section id="how" class="alt footed" data-transition="fade">
+<p class="eyebrow">HOW IT WORKS, AND WHO RUNS IT</p>
+<h2>Code owns access and money; the model reads the file and cites what it read</h2>
+<div class="flow">
+<div class="node human" style="--i:0"><p class="nt">Adjuster</p><p class="nd">Opens a claim; confirms or overrides the draft, with a reason</p></div>
+<div class="arrow"><x-shape kind="arrow-right"></x-shape></div>
+<div class="node model" style="--i:1"><p class="nt">Four agents</p><p class="nd">Read the file, check cover against retrieved clauses, assess risk, draft</p></div>
+<div class="arrow"><x-shape kind="arrow-right"></x-shape></div>
+<div class="node" style="--i:2"><p class="nt">Governed door</p><p class="nd">Who may see which claim; dates and payable amounts; an audit row for every call</p></div>
+<div class="arrow"><x-shape kind="arrow-right"></x-shape></div>
+<div class="node" style="--i:3"><p class="nt">Your 3 systems</p><p class="nd">Claims management, policy admin, document store</p></div>
+</div>
+<div class="legend"><p><b style="color:#0E6E66">Person</b> decides</p><p><b style="color:#B5701A">Model</b> judges, with citations</p><p><b>Code</b> controls access, dates and money</p></div>
+<div class="runs">
+<div class="run" style="--i:4"><p class="rt">Runbook, executed</p><p class="rd">Add a user, roll back, escalate to SIU, update the policy wording: each done for real before it was written down</p></div>
+<div class="run" style="--i:5"><p class="rt">Dashboard and alarm</p><p class="rd">Errors, volume, speed, accuracy and cost per claim; an email page when errors pass 5%</p></div>
+<div class="run" style="--i:6"><p class="rt">Tests as the contract</p><p class="rd">170 claims re-run on every change; a release that fails one attack never ships</p></div>
+</div>
+<p class="source">Hosted in AutoSure’s AWS account (ECS, Lambda, DynamoDB, CloudWatch); models via the OpenAI API with personal data masked. Handover pack: M4/handover.</p>
+<aside>Only now, on slide five, the architecture, kept to one line.
+
+Left to right: the adjuster opens a claim. Four AI agents read the file, check cover against the actual policy clauses they retrieved, assess fraud, injury and total-loss risk, and draft a decision. Every data request goes through what we call the governed door: plain code that decides who may see which claim, calculates dates and amounts, and writes an audit row for every call, including refusals. The model never decides access or money.
+
+Below: what your team inherits. A runbook whose procedures we actually executed on the live system, a dashboard with an alarm that emails on-call, and the test suite that acts as the contract: 170 claims re-run on every change, and a release that fails a single attack does not ship.
+
+If asked "why OpenAI and not Bedrock": decided in week 2 on a weighted matrix, with a stated switch condition if your policy forbids an external model provider; the same pipeline already runs on Claude via Bedrock.</aside>
+</section>

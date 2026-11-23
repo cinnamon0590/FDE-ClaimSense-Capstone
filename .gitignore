@@ -15,3 +15,6 @@ M3/.slack.env
 *.swp
 M4/evals/promptfoo/agreement.json
 M4/evals/promptfoo/rubric.json
+
+# demo video build output (large media; the MP4 is delivered outside git)
+M4/presentation/out/

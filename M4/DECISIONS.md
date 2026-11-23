@@ -6,6 +6,44 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-055 · 2026-11-23 · The client presentation: a 6-slide steering deck and a 9-minute recording of the deployed system
+- **Why:** brief Milestone 5 #5 ("client presentation with a live demonstration") and Submission 2's "demonstration
+  recording of no more than ten minutes". The W17 floor: steering deck ≤ 6 slides, business value first, no
+  architecture in the first three slides.
+- **Decision:**
+  - **The deck** (Slides artifact, private to the owner until shared; source in `M4/presentation/deck/`) has six
+    slides: cover, the outcome in four numbers, the SoW scorecard (6 of 8 met, 2 to be measured in the pilot, said
+    plainly), the safety record, how it works (the first architecture, on slide 5), and the ask (a 30-day
+    controlled pilot after Security signs off).
+    - Every figure is from the evidence.
+    - Every slide has **speaker notes**, and the last carries the **backup plan** (the client asked for both, even
+      though no live session is expected).
+  - **The recording** (`M4/presentation/make_demo.py`):
+    - real screen capture of the **deployed** console: 9 scenes covering approve, typed agent outputs, Ask
+      ClaimSense, confirm, total loss, fraud, injection held, and an unentitled user refused;
+    - checked against every requirement source before review; three gaps were then added: the adversarial
+      families by name (prompt injection, cross-record leakage, forced auto-decision), the SLOs with their M0
+      origin, and the one-page RCA itself;
+    - stills of the deck and **real output**: the DynamoDB audit rows of the calls just recorded, CI's log on
+      `main`, the live dashboard, the rollback listing with the drill timeline, the held-out run, the handover pack;
+    - OpenAI TTS narration (`narration.json`), soft English captions plus an `.srt`.
+    - **9 min 52 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
+  - **No credential handled by the tooling:** the owner typed the demo passcode in the browser window, and the
+    footage before sign-in is cut.
+- **What the takes found:**
+  - a 1920-px window doesn't fit a laptop screen and breaks the layout, so recording is at 1280×720, upscaled at
+    assembly;
+  - a chat panel that is already open must not be clicked shut;
+  - Streamlit's combobox can drop a selection, so every selection is verified and retried;
+  - scenes fail soft, and a single scene can be re-taken and spliced (`record fraud`).
+- **Delivered:**
+  - `M4/presentation/out/ClaimSense-demo.mp4` (27 MB, 1080p) is kept out of git and uploaded by the owner for the
+    submission;
+  - the script and storyline (`demo-script.md`, with the final cut's timestamps) are in git.
+- **Cost:** ≈ $0.40 (narration and the recorded live runs). **Owner:** Susan Wellington.
+
+---
+
 ## D-054 · 2026-11-23 · The handover pack
 - **Why:** brief Milestone 5 #6 ("handover pack consolidating all engagement artefacts") and the M4 floor:
   eval-suite-as-contract, an escalation map, "what to watch monthly" (≥ 4 signals), an RCA template and incident
