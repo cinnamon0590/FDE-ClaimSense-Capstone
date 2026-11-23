@@ -39,8 +39,8 @@ MODEL_PROVIDER = os.environ.get("MODEL_PROVIDER", "openai").lower()
 MOCK_BRAIN = os.environ.get("MOCK_BRAIN", "1") == "1" or (MODEL_PROVIDER == "openai" and not OPENAI_API_KEY)
 # dated snapshots, never the moving aliases: "gpt-4o" can be repointed by OpenAI without notice, and a
 # score change must come from our prompts, not a silent model upgrade (D-025). Embeddings have no snapshot.
-MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini-2024-07-18")    # Intake, Assessment (volume steps)
-MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o-2024-08-06")       # Coverage, Decision Draft (the money steps)
+MODEL_FAST = os.environ.get("MODEL_FAST", "gpt-4o-mini-2024-07-18")    # Assessment, Ask (volume steps); Intake moved to smart in m2-v13 (D-046)
+MODEL_SMART = os.environ.get("MODEL_SMART", "gpt-4o-2024-08-06")       # Intake, Coverage, Decision Draft
 BEDROCK_FAST = os.environ.get("BEDROCK_FAST", "bedrock/converse/us.anthropic.claude-haiku-4-5-20251001-v1:0")
 # Sonnet 4.5 went LEGACY on 2026-10-08 (end of life 2027-04-08; AWS Health notice 2026-11-08), so the smart tier uses
 # Sonnet 4.6, the newest Sonnet this account may invoke (5 / 5.5 are not enabled for it). D-029.

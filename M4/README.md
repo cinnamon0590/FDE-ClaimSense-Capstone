@@ -12,7 +12,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s · **plus RCA-2 for a real incident** (31 min to verified recovery) · [risk register looked back on](risk-retrospective.md) | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
 | 5 | **Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus** (+ alarm, eval-below-SLO) | ✅ each executed on the real system | [`RUNBOOK.md`](RUNBOOK.md), [`evidence/runbook-*.txt`](evidence/) |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
-| 7 | Handover pack | planned | |
+| 7 | **Handover pack** | ✅ start-here page, artefact index, eval contract, escalation map, 10 monthly signals, RCA template + archive | [`handover/`](handover/README.md) |
 | H | **Held-out set: 20 claims never tuned against** (pre-registered, run once, live) | ✅ **19/20**; the miss found a real privacy gap, now fixed | [`evidence/holdout-live.txt`](evidence/holdout-live.txt), [`holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt) |
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
 | F | Final submission: observation document, final tag, CI on the submitted commit | planned | |
@@ -152,3 +152,13 @@ single live run** ([`evals/holdout-label-review.md`](evals/holdout-label-review.
 number and mobile reached the model unmasked. It is now fixed and pinned by tests that fail on the old code, and a
 post-fix live re-run passes ([`evidence/holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt)). The
 pre-registered result stays 19/20.
+
+## 8 · Handover pack (D-054)
+
+[`handover/README.md`](handover/README.md) is the page a first-time operator opens. It covers a one-hour first day,
+where every secret lives (never what it is), what it costs to run, and the known limits. From there:
+- the [artefact index](handover/artefact-index.md) (M0–M4);
+- the [eval contract](handover/eval-contract.md): both graders, commands, cadence, who may change labels;
+- the [escalation map](handover/escalation-map.md): claims and SEV-1..4;
+- [what to watch monthly](handover/watch-monthly.md): 10 signals with triggers and actions;
+- the [RCA template and incident archive](handover/rca-template.md).

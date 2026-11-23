@@ -6,6 +6,24 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-054 · 2026-11-23 · The handover pack
+- **Why:** brief Milestone 5 #6 ("handover pack consolidating all engagement artefacts") and the M4 floor:
+  eval-suite-as-contract, an escalation map, "what to watch monthly" (≥ 4 signals), an RCA template and incident
+  archive. The test is the CIO's: "my team runs this after your people roll off".
+- **Decision:** `M4/handover/` holds six documents:
+  - **README:** start here, with a one-hour first day, access and secrets (where, never what), running costs and
+    known limits;
+  - **artefact index:** M0–M4;
+  - **eval contract:** what passing means, both graders' commands and costs, the cadence (PR, merge, daily,
+    monthly, per change, quarterly held-out refresh), and who may change labels;
+  - **escalation map:** where each card goes, and SEV-1..4 with owners from the M0 RACI and targets;
+  - **10 monthly signals:** each with where to read it, the healthy value, the trigger and the action;
+  - **RCA template and incident archive:** two RCAs plus the held-out defect.
+  - Every command and path in the pack was checked against the repo.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-053 · 2026-11-23 · Review follow-ups: a second RCA, the risk register looked back on, the M2 evidence gaps
 - **Why:** the full M0–M4 review found these gaps:
   - the M4 Builder tier's "second RCA";
