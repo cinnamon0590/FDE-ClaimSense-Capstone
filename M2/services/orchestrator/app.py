@@ -88,7 +88,7 @@ def authenticate(authorization, claimed_user, action="invoke", resource="-"):
 
 
 PUBLIC = {"/healthz", "/ping", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc",
-          "/demo/signin"}   # authenticated by the demo passcode itself (404 unless enabled)
+          "/signin"}        # authenticated by the user's own Cognito password (404 unless enabled)
 
 
 @app.middleware("http")
@@ -203,53 +203,57 @@ def write_back(result):
     return PIPE.boundary.recommend(result["user_id"], result["claim_id"], card, key)
 
 
-# ── demo sign-in for the deployed console (M4, D-049) ────────────────────────────────────────────────────────────
-# Graders sign in as one of the five SYNTHETIC users with a shared passcode (given in the submission form, never in
-# the repo). This endpoint checks the passcode, then signs in to COGNITO as that user (ADMIN_USER_PASSWORD_AUTH) and
-# returns the real ID token, so every later call is authenticated, authorised and audited exactly as in production.
-# Disabled (404) unless CLAIMSENSE_DEMO_SECRET_ID is set; the orchestrator is not exposed publicly (only the console).
-DEMO_SECRET_ID = os.environ.get("CLAIMSENSE_DEMO_SECRET_ID", "")
-_demo_cache, _demo_fails = {}, []
+# ── per-user sign-in for the deployed console (M4, D-056; replaced the D-049 demo passcode + user picker) ─────────────
+# Each person signs in with THEIR OWN username and password, checked by Amazon Cognito. Nothing in the console picks
+# an identity: the ID token Cognito returns is the only identity, and its groups must match the directory on every
+# call (identity.py). Off (404) unless CLAIMSENSE_SIGNIN_POOL_ID and CLAIMSENSE_SIGNIN_CLIENT_ID are set; the
+# orchestrator is never exposed publicly (only the console, inside the same task, reaches it).
+SIGNIN_POOL = os.environ.get("CLAIMSENSE_SIGNIN_POOL_ID", "")
+SIGNIN_CLIENT = os.environ.get("CLAIMSENSE_SIGNIN_CLIENT_ID", "")
+_signin_fails = []                                   # (time, username) of refused attempts, for the brute-force brake
 
 
-def _demo_secret():
-    if "v" not in _demo_cache:
-        import boto3
-        _demo_cache["v"] = json.loads(boto3.client("secretsmanager").get_secret_value(
-            SecretId=DEMO_SECRET_ID)["SecretString"])
-    return _demo_cache["v"]
-
-
-@app.post("/demo/signin")
-async def demo_signin(request: Request):
-    import hmac
-    if not DEMO_SECRET_ID:
+@app.post("/signin")
+async def signin(request: Request):
+    if not (SIGNIN_POOL and SIGNIN_CLIENT):
         return JSONResponse({"detail": "Not Found"}, status_code=404)
     audit_trail.VIA.set("orchestrator")
     now = time.time()
-    _demo_fails[:] = [t for t in _demo_fails if now - t < 60]
-    if len(_demo_fails) >= 10:                                    # brute-force brake: 10 wrong passcodes a minute
-        return _bad("rate_limited", "Too many attempts; wait a minute.", 429)
+    _signin_fails[:] = [f for f in _signin_fails if now - f[0] < 60]
     try:
         body = await request.json()
     except ValueError:
         body = {}
-    user = str(body.get("user_id", ""))
-    code = str(body.get("passcode", "")).strip().strip('"\'').strip()      # forgive pasted quotes and spaces
-    sec = _demo_secret()
-    ok = hmac.compare_digest(hashlib.sha256(code.encode()).hexdigest(), sec["passcode_sha256"]) and user in sec["users"]
-    if not ok:
-        _demo_fails.append(now)
-        rid = audit_trail.record("anonymous", [], "demo_signin", user or "-", "deny", "wrong passcode or unknown user")
-        return _bad("unauthenticated", "Sign-in refused.", 401, rid)
+    user = str(body.get("username", "")).strip().lower()[:64]
+    password = str(body.get("password", ""))
+    # brute-force brake: 5 refused attempts a minute for one username, 20 overall (password spraying)
+    if sum(1 for _, u in _signin_fails if u == user) >= 5 or len(_signin_fails) >= 20:
+        audit_trail.record("anonymous", [], "signin", user or "-", "deny", "rate limited (too many refused sign-ins)")
+        return _bad("rate_limited", "Too many attempts; wait a minute.", 429)
+
+    def refuse(reason):                              # one message for every refusal: no hint which part was wrong
+        _signin_fails.append((now, user))
+        rid = audit_trail.record("anonymous", [], "signin", user or "-", "deny", reason)
+        return _bad("unauthenticated", "Sign-in refused: check your username and password.", 401, rid)
+
+    if not user or not password:
+        return refuse("missing username or password")
+    if user not in DIRECTORY:                        # not a person in the directory: no Cognito call at all
+        return refuse("unknown user or wrong password")
     import boto3
-    res = boto3.client("cognito-idp").admin_initiate_auth(
-        UserPoolId=sec["pool_id"], ClientId=sec["client_id"], AuthFlow="ADMIN_USER_PASSWORD_AUTH",
-        AuthParameters={"USERNAME": user, "PASSWORD": sec["users"][user]})
-    groups = (DIRECTORY.get(user) or {}).get("groups", [])
-    audit_trail.record(user, groups, "demo_signin", user, "allow", "Cognito sign-in via the demo passcode")
-    return {"token": res["AuthenticationResult"]["IdToken"], "user_id": user, "groups": groups,
-            "issuer": "Amazon Cognito (demo sign-in)"}
+    cognito = boto3.client("cognito-idp")
+    try:
+        res = cognito.admin_initiate_auth(UserPoolId=SIGNIN_POOL, ClientId=SIGNIN_CLIENT,
+                                          AuthFlow="ADMIN_USER_PASSWORD_AUTH",
+                                          AuthParameters={"USERNAME": user, "PASSWORD": password})
+    except Exception as e:                           # NotAuthorized, UserNotFound, disabled, reset required, ...
+        return refuse(f"unknown user or wrong password ({type(e).__name__})")
+    token = (res.get("AuthenticationResult") or {}).get("IdToken")
+    if not token:                                    # a challenge (e.g. new password required) is not a sign-in
+        return refuse(f"sign-in challenge not supported ({res.get('ChallengeName', '?')})")
+    groups = DIRECTORY[user].get("groups", [])
+    audit_trail.record(user, groups, "signin", user, "allow", "Cognito password sign-in")
+    return {"token": token, "user_id": user, "groups": groups, "issuer": "Amazon Cognito"}
 
 
 @app.get("/healthz")

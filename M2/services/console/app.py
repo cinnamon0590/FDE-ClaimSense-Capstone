@@ -21,7 +21,7 @@ for _extra in (os.environ.get("M2_CASES_FILE", "/app/M2/evals/cases-m2.json"),
                os.environ.get("M4_CASES_FILE", "/app/M4/evals/cases-m4.json")):
     if os.path.exists(_extra):
         CASES += json.loads(open(_extra).read())["cases"]
-DEMO_SIGNIN = os.environ.get("CLAIMSENSE_DEMO_SIGNIN") == "1"   # deployed console (M4, D-049): passcode + picker
+SIGNIN = os.environ.get("CLAIMSENSE_SIGNIN") == "1"   # deployed console (D-056): each person signs in as themself
 CLAUSES = {c["clause_id"]: c for c in json.loads(open(os.environ.get(
     "CLAUSES_FILE", "/app/M1/6-synthetic-data/fixtures/clauses.json")).read())["records"]}
 USERS = {u["user_id"]: f'{u["display_name"].replace(" (synthetic)", "")} · {u["groups"][0].replace("-", " ")}'
@@ -39,13 +39,40 @@ st.caption("AutoSure Insurance motor claims · SYNTHETIC DATA · a licensed adju
 qp = st.query_params
 with st.sidebar:
     users = list(USERS)
-    if DEMO_SIGNIN:
-        # key= keeps it in session state for the whole browser session (switching user or claim never drops it)
-        passcode = st.text_input("Demo passcode", type="password", key="demo_passcode",
-                                 help="From the submission form. Unlocks sign-in as the five SYNTHETIC users.")
-    user = st.selectbox("Sign in as" + (" (synthetic user, real Cognito sign-in)" if DEMO_SIGNIN
-                                        else " (dev login; M3: Cognito)"), users, format_func=USERS.get,
-                        index=users.index(qp["user"]) if qp.get("user") in USERS else 0)
+    AUTH, user = {}, None
+    if SIGNIN:
+        # D-056: who you are comes ONLY from your own username and password, checked by Cognito. There is no user
+        # picker: to act as someone else you would need their password. Signing out is the only way to switch.
+        if not st.session_state.get("token"):
+            with st.form("signin", clear_on_submit=True):          # the password never stays in the page
+                st.markdown("**Sign in** with your own AutoSure account")
+                f_user = st.text_input("Username")
+                f_pw = st.text_input("Password", type="password")
+                go = st.form_submit_button("Sign in", type="primary", use_container_width=True)
+            if go:
+                try:
+                    r = httpx.post(f"{ORCH}/signin", json={"username": f_user, "password": f_pw}, timeout=15)
+                    body = r.json()
+                except (httpx.HTTPError, ValueError):
+                    r, body = None, {}
+                if r is not None and r.status_code == 200:
+                    st.session_state.update(token=body["token"], token_for=body["user_id"],
+                                            token_groups=body["groups"])
+                    st.rerun()
+                st.error((body.get("error") or {}).get("message") or "Sign-in failed: the identity service is not reachable.")
+        else:
+            user = st.session_state["token_for"]
+            AUTH = {"Authorization": f"Bearer {st.session_state['token']}"}
+            st.info(f"🔐 Signed in as **{user}** · role **{', '.join(st.session_state['token_groups'])}** "
+                    "(from your Cognito token, checked against the directory)")
+            if st.button("Sign out", use_container_width=True):
+                for k in ("token", "token_for", "token_groups", "result"):
+                    st.session_state.pop(k, None)
+                st.query_params.clear()
+                st.rerun()
+    else:                                                         # local stack only: the dev issuer's user picker
+        user = st.selectbox("Sign in as (dev login; local stack only)", users, format_func=USERS.get,
+                            index=users.index(qp["user"]) if qp.get("user") in USERS else 0)
     seen, options = set(), []
     for c in CASES:
         if c["claim"]["claim_id"] not in seen:
@@ -53,28 +80,20 @@ with st.sidebar:
     ids = [c["claim"]["claim_id"] for c in options]
     case = st.selectbox("Claim", options, format_func=lambda c: f"{c['claim']['claim_id']} · {c['title']}",
                         index=ids.index(qp["claim"]) if qp.get("claim") in ids else 0)
-    # identity (D-030): a signed ID token for the chosen synthetic user. The GROUP is not chosen here: it is in the
-    # token, issued from the directory, and re-checked by the boundary on every call (no self-promotion)
-    try:
-        if st.session_state.get("token_for") != user:
-            if DEMO_SIGNIN:          # the orchestrator signs in to Cognito as the synthetic user (passcode-gated)
-                if not passcode:
-                    raise KeyError("passcode")
-                r = httpx.post(f"{ORCH}/demo/signin", json={"user_id": user, "passcode": passcode}, timeout=10)
-                if r.status_code != 200:
-                    raise KeyError("signin")
-                t = r.json()
-            else:
+    if not SIGNIN:
+        # identity (D-030): a signed ID token for the chosen synthetic user from the LOCAL dev issuer. The GROUP is not
+        # chosen here: it is in the token, issued from the directory, and re-checked by the boundary on every call
+        try:
+            if st.session_state.get("token_for") != user:
                 t = httpx.post(f"{BOUNDARY}/dev/token", json={"user_id": user}, timeout=5).json()
-            st.session_state.update(token_for=user, token=t["token"], token_groups=t["groups"])
-        AUTH = {"Authorization": f"Bearer {st.session_state['token']}"}
-        st.info(f"🔐 **{user}** · role **{', '.join(st.session_state['token_groups'])}** (from the signed token, "
-                "checked against the directory)")
-    except (httpx.HTTPError, KeyError) as e:
-        AUTH = {}
-        st.session_state.pop("token_for", None)
-        st.error("enter the demo passcode to sign in" if DEMO_SIGNIN and str(e) == "'passcode'" else
-                 "sign-in refused: check the passcode" if DEMO_SIGNIN else "could not obtain a token from the identity issuer")
+                st.session_state.update(token_for=user, token=t["token"], token_groups=t["groups"])
+            AUTH = {"Authorization": f"Bearer {st.session_state['token']}"}
+            st.info(f"🔐 **{user}** · role **{', '.join(st.session_state['token_groups'])}** (from the signed token, "
+                    "checked against the directory)")
+        except (httpx.HTTPError, KeyError):
+            AUTH = {}
+            st.session_state.pop("token_for", None)
+            st.error("could not obtain a token from the identity issuer")
     try:
         h = httpx.get(f"{ORCH}/healthz", timeout=3).json()
         st.success(f"brain: **{h['brain']}** · retrieval: {h['retrieval']}")
@@ -84,7 +103,7 @@ with st.sidebar:
     run = st.button("Run co-pilot", type="primary", use_container_width=True, disabled=not AUTH,
                     help=None if AUTH else "Sign in first (sidebar)")
     if not AUTH:
-        st.warning("Sign in first: enter the demo passcode in the sidebar." if DEMO_SIGNIN else "Not signed in.")
+        st.warning("Sign in first, with your own username and password (sidebar)." if SIGNIN else "Not signed in.")
 
 claim_id = case["claim"]["claim_id"]
 
@@ -160,6 +179,9 @@ with tab_run:
                     except ValueError:
                         msg = r.text
                     status.update(label=f"Refused ({r.status_code})", state="error")
+                    if r.status_code == 401 and SIGNIN:         # expired or revoked token: sign in again
+                        for k in ("token", "token_for", "token_groups"):
+                            st.session_state.pop(k, None)
                     st.error(f"{msg} Sign in again in the sidebar." if r.status_code == 401 else msg)
                     st.stop()
                 for line in r.iter_lines():
@@ -281,14 +303,17 @@ with tab_run:
                                 st.error(ev.get("code") or ev.get("error"))
 
 with tab_queue:
-    st.subheader(f"Adjuster queue · {USERS[user]}")
+    st.subheader(f"Adjuster queue · {USERS.get(user, 'not signed in')}")
     st.caption("Undecided drafts on claims you are entitled to, newest first (from the boundary; every view is audited).")
-    try:
-        queue = httpx.get(f"{BOUNDARY}/recommendations", params={"status": "pending"},
-                          headers=AUTH, timeout=10).json().get("pending", [])
-    except httpx.HTTPError:
-        queue = None
-        st.error("boundary not reachable")
+    queue = None
+    if not AUTH:
+        st.info("Sign in to see your queue.")
+    else:
+        try:
+            queue = httpx.get(f"{BOUNDARY}/recommendations", params={"status": "pending"},
+                              headers=AUTH, timeout=10).json().get("pending", [])
+        except httpx.HTTPError:
+            st.error("boundary not reachable")
     if queue == []:
         st.info("Nothing waiting. Run the co-pilot on a claim and its draft lands here.")
     for item in queue or []:

@@ -8,20 +8,18 @@
 Shape (the M1 reference architecture's "Orchestrator + console on ECS Fargate"):
   CloudFront (HTTPS on *.cloudfront.net, WebSockets) -> internet-facing ALB (accepts CloudFront only: the AWS-managed
   origin-facing prefix list) -> ONE Fargate task with two containers:
-     console       Streamlit :8501, the only thing the ALB reaches; demo sign-in mode (passcode + synthetic users)
+     console       Streamlit :8501, the only thing the ALB reaches; each person signs in with their own password (D-056)
      orchestrator  :8003 on localhost inside the task; agents reach data only through the governed door (MCP + OBO)
   The orchestrator reads the OpenAI key from Secrets Manager at runtime, verifies Cognito ID tokens, writes audit rows
   to the DynamoDB trail and metrics to CloudWatch. ~$35-40/month while running (ALB ~$16, task 1 vCPU/2 GB ~$20).
 
-Secrets: the demo passcode is generated here, stored only as a SHA-256 hash in Secrets Manager
-(`claimsense/demo-signin`, with the five synthetic users' Cognito passwords) and in ~/.claimsense/demo.json (0600)
-for the owner to put in the submission form. Nothing secret is printed, committed or baked into an image.
+Secrets: none of its own. The orchestrator reads the OpenAI key from Secrets Manager at runtime; sign-in is each
+user's own Cognito password (D-056), checked by Cognito, never stored by the console or this script. Users and their
+passwords are managed by `M3/cloud/deploy.sh` (the directory) and `M4/ops/set_password.py`.
 """
 import base64
-import hashlib
 import json
 import os
-import secrets
 import subprocess
 import sys
 import time
@@ -33,7 +31,8 @@ REGION = os.environ.get("AWS_REGION", "us-east-1")
 ROOT = Path(__file__).resolve().parents[2]
 CONF = Path.home() / ".claimsense"
 N = "claimsense-frontend"
-CLUSTER, LOGS, DEMO_SECRET, OPENAI_SECRET = "claimsense", "/claimsense/frontend", "claimsense/demo-signin", "claimsense/openai-api-key"
+CLUSTER, LOGS, OPENAI_SECRET = "claimsense", "/claimsense/frontend", "claimsense/openai-api-key"
+OLD_DEMO_SECRET = "claimsense/demo-signin"      # D-049, retired by D-056 (removed on apply)
 TAGS = [{"Key": "Project", "Value": "ClaimSense"}]
 CACHING_DISABLED, ALL_VIEWER = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad", "216adef6-5c7f-47e4-b989-5492eafa07d3"
 
@@ -77,26 +76,16 @@ def images(account, tag):
     return out
 
 
-def demo_secret():
-    cog = json.loads((CONF / "cognito.json").read_text())
-    demo_path = CONF / "demo.json"
-    if demo_path.exists():
-        passcode = json.loads(demo_path.read_text())["passcode"]
-    else:
-        alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"       # no look-alikes (I l 1 O 0) and no punctuation
-        passcode = "-".join("".join(secrets.choice(alphabet) for _ in range(4)) for _ in range(3))
-        fd = os.open(demo_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        with os.fdopen(fd, "w") as f:
-            json.dump({"passcode": passcode, "note": "demo sign-in passcode for the deployed ClaimSense console"}, f)
-    value = json.dumps({"passcode_sha256": hashlib.sha256(passcode.encode()).hexdigest(), "pool_id": cog["pool_id"],
-                        "client_id": cog["client_id"], "users": cog["passwords"]})
+def retire_demo_secret():
+    """D-056 removed the shared demo passcode. Its secret is scheduled for deletion (7-day recovery window)."""
     sm = aws("secretsmanager")
     try:
-        arn = sm.create_secret(Name=DEMO_SECRET, SecretString=value, Tags=TAGS)["ARN"]
-    except sm.exceptions.ResourceExistsException:
-        arn = sm.put_secret_value(SecretId=DEMO_SECRET, SecretString=value)["ARN"]
-    print(f"secret {DEMO_SECRET}: passcode hash + synthetic users' passwords (passcode in ~/.claimsense/demo.json)")
-    return arn, cog
+        sm.delete_secret(SecretId=OLD_DEMO_SECRET, RecoveryWindowInDays=7)
+        print(f"retired {OLD_DEMO_SECRET} (scheduled for deletion, 7-day recovery window)")
+    except sm.exceptions.ResourceNotFoundException:
+        pass
+    except sm.exceptions.InvalidRequestException:
+        pass                                            # already scheduled for deletion
 
 
 def role(name, trust_service, policy=None, managed=None):
@@ -182,7 +171,8 @@ def task_and_service(imgs, account, door, cog, subnets, task_sg, tg, exec_arn, t
              "environment": env({"COGNITO_JWKS_URL": f"{issuer}/.well-known/jwks.json", "CLAIMSENSE_JWT_ISSUER": issuer,
                                  "CLAIMSENSE_JWT_AUDIENCE": cog["client_id"], "BOUNDARY_URL": door,
                                  "CLAIMSENSE_MCP_URL": f"{door}/mcp", "OPENAI_SECRET_ID": OPENAI_SECRET, "MOCK_BRAIN": "0",
-                                 "CLAIMSENSE_DEMO_SECRET_ID": DEMO_SECRET, "CLAIMSENSE_METRICS": "cloudwatch",
+                                 "CLAIMSENSE_SIGNIN_POOL_ID": cog["pool_id"], "CLAIMSENSE_SIGNIN_CLIENT_ID": cog["client_id"],
+                                 "CLAIMSENSE_METRICS": "cloudwatch",
                                  "CLAIMSENSE_AUDIT_TABLE": "claimsense-audit", "AWS_REGION": REGION,
                                  "AWS_DEFAULT_REGION": REGION}),
              "healthCheck": {"command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8003/healthz')\""],
@@ -190,7 +180,7 @@ def task_and_service(imgs, account, door, cog, subnets, task_sg, tg, exec_arn, t
             {"name": "console", "image": imgs["console"], "essential": True, "logConfiguration": log("console"),
              "portMappings": [{"containerPort": 8501}],
              "environment": env({"ORCHESTRATOR_URL": "http://localhost:8003", "BOUNDARY_URL": door,
-                                 "CLAIMSENSE_DEMO_SIGNIN": "1"}),
+                                 "CLAIMSENSE_SIGNIN": "1"}),
              "dependsOn": [{"containerName": "orchestrator", "condition": "HEALTHY"}]}],
         tags=[{"key": "Project", "value": "ClaimSense"}])["taskDefinition"]["taskDefinitionArn"]
     svc = ecs.describe_services(cluster=CLUSTER, services=[N])["services"]
@@ -236,15 +226,16 @@ def apply():
     door = json.loads((CONF / "deploy.json").read_text())["door_url"]
     say(f"images (linux/amd64) for commit {tag}")
     imgs = images(account, tag)
-    say("Secrets Manager: demo sign-in")
-    demo_arn, cog = demo_secret()
+    say("Sign-in: each user's own Cognito password (D-056); retire the old shared demo passcode")
+    retire_demo_secret()
+    cog = json.loads((CONF / "cognito.json").read_text())
     say("IAM: task execution role + task role (least privilege)")
     sm = aws("secretsmanager")
     openai_arn = sm.describe_secret(SecretId=OPENAI_SECRET)["ARN"]
     exec_arn = role(f"{N}-exec", "ecs-tasks.amazonaws.com",
                     managed="arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy")
     task_arn = role(f"{N}-task", "ecs-tasks.amazonaws.com", policy={"Version": "2012-10-17", "Statement": [
-        {"Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": [openai_arn, demo_arn]},
+        {"Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": [openai_arn]},
         {"Effect": "Allow", "Action": "cognito-idp:AdminInitiateAuth",
          "Resource": f"arn:aws:cognito-idp:{REGION}:{account}:userpool/{cog['pool_id']}"},
         {"Effect": "Allow", "Action": ["dynamodb:PutItem", "dynamodb:Scan"],
@@ -270,7 +261,7 @@ def apply():
     url = f"https://{domain}"
     (CONF / "frontend.json").write_text(json.dumps({"url": url, "distribution_id": dist_id, "image_tag": tag,
                                                     "task_definition": td.rsplit("/", 1)[1]}, indent=1))
-    print(f"\nconsole URL: {url}\nsign in with the passcode in ~/.claimsense/demo.json (never commit or print it)")
+    print(f"\nconsole URL: {url}\nsign in with a user's own password (M4/ops/set_password.py; never commit or print one)")
 
 
 def status():
@@ -330,7 +321,7 @@ def destroy():
         except iam.exceptions.NoSuchEntityException:
             pass
     try:
-        aws("secretsmanager").delete_secret(SecretId=DEMO_SECRET, ForceDeleteWithoutRecovery=True)
+        aws("secretsmanager").delete_secret(SecretId=OLD_DEMO_SECRET, RecoveryWindowInDays=7)
     except Exception:
         pass
     (CONF / "frontend.json").unlink(missing_ok=True)
@@ -338,8 +329,4 @@ def destroy():
 
 
 if __name__ == "__main__":
-    if (sys.argv[1:] or [""])[0] == "rotate-passcode":       # new passcode, then redeploy with `apply`
-        (CONF / "demo.json").unlink(missing_ok=True)
-        demo_secret()
-        sys.exit(0)
     {"apply": apply, "status": status, "destroy": destroy}[(sys.argv[1:] or ["apply"])[0]]()
