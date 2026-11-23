@@ -104,7 +104,7 @@ def main(argv=None):
     ap.add_argument("--brain", choices=["replay", "live"], default="live",
                     help="live = the gate (default); replay = $0 harness regression run (needs CLAIMSENSE_LLM_REQUIRED=false)")
     ap.add_argument("--record", action="store_true")
-    ap.add_argument("--suite", choices=["smoke", "full", "golden"], default="full",
+    ap.add_argument("--suite", choices=["smoke", "full", "golden", "holdout"], default="full",
                     help="smoke = the 20 M0 cases (W15 gate); full/golden = all 150 incl. every adversarial family")
     ap.add_argument("--cases", type=int, default=None, help="score only the first N cases (leaderboard --cases)")
     ap.add_argument("--concurrency", type=int, default=4)
@@ -114,6 +114,9 @@ def main(argv=None):
     a = ap.parse_args(argv)
 
     cases = all_cases()
+    if a.suite == "holdout":                              # D-052: the 20 never-tuned-against cases, scored alone
+        from claimsense.cases import holdout_cases
+        cases = holdout_cases()
     if a.suite == "smoke":
         cases = cases[:20]
     if a.cases:

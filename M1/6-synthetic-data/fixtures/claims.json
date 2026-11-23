@@ -4486,6 +4486,608 @@
       ]
     },
     {
+      "claim_id": "CLM-2026-3001",
+      "policy_id": "POL-AU-90001",
+      "claimant_id": "CUS-005352",
+      "claimant_name": "Hayden Garrow",
+      "loss_type": "collision",
+      "incident_date": "2025-09-08",
+      "incident_time": null,
+      "reported_date": "2025-09-09",
+      "narrative": "A learner driver reversed out of the next pump and hit my front bumper; their instructor gave me their details.",
+      "vehicle": {
+        "year": 2022,
+        "make": "Seat",
+        "model": "Ibiza",
+        "colour": null,
+        "vin": "UFLJJCZHKJEDUT8PX"
+      },
+      "acv": 14600,
+      "repair_estimate": 2240,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3001-FNOL-FORM",
+        "DOC-2026-3001-REPAIR-ESTIMATE",
+        "DOC-2026-3001-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3002",
+      "policy_id": "POL-AU-90002",
+      "claimant_id": "CUS-60C095",
+      "claimant_name": "Finley Merriweather",
+      "loss_type": "glass",
+      "incident_date": "2025-09-15",
+      "incident_time": null,
+      "reported_date": "2025-09-16",
+      "narrative": "Loose gravel from freshly resurfaced road pitted the windscreen and left a crack in the driver's sightline.",
+      "vehicle": {
+        "year": 2021,
+        "make": "Dacia",
+        "model": "Duster",
+        "colour": null,
+        "vin": "7M1AJ4SCNRWDNAFHS"
+      },
+      "acv": 12900,
+      "repair_estimate": 520,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3002-FNOL-FORM",
+        "DOC-2026-3002-GLASS-INVOICE",
+        "DOC-2026-3002-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3003",
+      "policy_id": "POL-AU-90003",
+      "claimant_id": "CUS-53F15C",
+      "claimant_name": "Riley Oakley",
+      "loss_type": "hail",
+      "incident_date": "2025-10-02",
+      "incident_time": null,
+      "reported_date": "2025-10-03",
+      "narrative": "A short hailstorm on the way home left dozens of dents across the bonnet and the roof.",
+      "vehicle": {
+        "year": 2020,
+        "make": "Mazda",
+        "model": "CX-5",
+        "colour": null,
+        "vin": "ABWUFJGLM67D024K7"
+      },
+      "acv": 21400,
+      "repair_estimate": 3380,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3003-FNOL-FORM",
+        "DOC-2026-3003-REPAIR-ESTIMATE",
+        "DOC-2026-3003-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3004",
+      "policy_id": "POL-AU-90004",
+      "claimant_id": "CUS-6EDF8E",
+      "claimant_name": "Finley Hollins",
+      "loss_type": "collision",
+      "incident_date": "2025-09-21",
+      "incident_time": null,
+      "reported_date": "2025-09-22",
+      "narrative": "Misjudged the gap and hit a garden wall pulling into my mother's driveway.",
+      "vehicle": {
+        "year": 2014,
+        "make": "Fiat",
+        "model": "Panda",
+        "colour": null,
+        "vin": "N7NPNWYFP30UJF3JW"
+      },
+      "acv": 4100,
+      "repair_estimate": 1350,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3004-FNOL-FORM",
+        "DOC-2026-3004-REPAIR-INVOICE",
+        "DOC-2026-3004-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3005",
+      "policy_id": "POL-AU-90005",
+      "claimant_id": "CUS-26509A",
+      "claimant_name": "Riley Abernathy",
+      "loss_type": "collision",
+      "incident_date": "2025-10-14",
+      "incident_time": null,
+      "reported_date": "2025-10-15",
+      "narrative": "Clipped a lamp post on a wet bend; the front wing and headlamp are damaged.",
+      "vehicle": {
+        "year": 2017,
+        "make": "Honda",
+        "model": "Jazz",
+        "colour": null,
+        "vin": "H97YPNWDS4HN184MA"
+      },
+      "acv": 7600,
+      "repair_estimate": 1980,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3005-FNOL-FORM",
+        "DOC-2026-3005-REPAIR-INVOICE",
+        "DOC-2026-3005-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3006",
+      "policy_id": "POL-AU-90006",
+      "claimant_id": "CUS-292B9D",
+      "claimant_name": "Riley Kilbride",
+      "loss_type": "collision",
+      "incident_date": "2025-09-29",
+      "incident_time": null,
+      "reported_date": "2025-09-30",
+      "narrative": "A cyclist came off the pavement into my path; the cyclist was injured and an ambulance attended.",
+      "vehicle": {
+        "year": 2021,
+        "make": "Toyota",
+        "model": "Corolla",
+        "colour": null,
+        "vin": "ZSBKZJNR6ZKB9K3GV"
+      },
+      "acv": 19300,
+      "repair_estimate": 2650,
+      "injury_reported": true,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3006-FNOL-FORM",
+        "DOC-2026-3006-REPAIR-ESTIMATE",
+        "DOC-2026-3006-PHOTOS",
+        "DOC-2026-3006-MEDICAL-NOTE"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3007",
+      "policy_id": "POL-AU-90007",
+      "claimant_id": "CUS-921379",
+      "claimant_name": "Morgan Hollins",
+      "loss_type": "collision",
+      "incident_date": "2025-10-20",
+      "incident_time": null,
+      "reported_date": "2025-10-21",
+      "narrative": "Lost grip on loose gravel on a country bend and the car rolled onto its roof; I walked away unhurt.",
+      "vehicle": {
+        "year": 2012,
+        "make": "Ford",
+        "model": "Fiesta",
+        "colour": null,
+        "vin": "Y9J4Z72JWRLMHEDV2"
+      },
+      "acv": 5200,
+      "repair_estimate": 6800,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3007-FNOL-FORM",
+        "DOC-2026-3007-REPAIR-ESTIMATE",
+        "DOC-2026-3007-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3008",
+      "policy_id": "POL-AU-90008",
+      "claimant_id": "CUS-27E85C",
+      "claimant_name": "Dakota Jessop",
+      "loss_type": "collision",
+      "incident_date": "2025-11-03",
+      "incident_time": null,
+      "reported_date": "2025-11-04",
+      "narrative": "Reported a front-end collision eleven days after it happened, no witnesses and no other vehicle identified.",
+      "vehicle": {
+        "year": 2018,
+        "make": "BMW",
+        "model": "320d",
+        "colour": null,
+        "vin": "DHZJZ56YNRSMEVZCW"
+      },
+      "acv": 18800,
+      "repair_estimate": 7400,
+      "injury_reported": false,
+      "fraud_risk_score": 0.81,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3008-FNOL-FORM",
+        "DOC-2026-3008-REPAIR-ESTIMATE",
+        "DOC-2026-3008-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3009",
+      "policy_id": "POL-AU-90009",
+      "claimant_id": "CUS-3287EE",
+      "claimant_name": "Finley Garrow",
+      "loss_type": "collision",
+      "incident_date": "2025-09-12",
+      "incident_time": null,
+      "reported_date": "2025-09-13",
+      "narrative": "Lost traction on a motorway slip road and hit the crash barrier; extensive front and side damage.",
+      "vehicle": {
+        "year": 2023,
+        "make": "Range",
+        "model": "Rover Velar",
+        "colour": null,
+        "vin": "H12YSKYLXU2DX1MRZ"
+      },
+      "acv": 61000,
+      "repair_estimate": 29800,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3009-FNOL-FORM",
+        "DOC-2026-3009-REPAIR-ESTIMATE",
+        "DOC-2026-3009-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3010",
+      "policy_id": "POL-AU-90010",
+      "claimant_id": "CUS-47011E",
+      "claimant_name": "Dakota Northcott",
+      "loss_type": "collision",
+      "incident_date": "2025-09-20",
+      "incident_time": null,
+      "reported_date": "2025-09-21",
+      "narrative": "A van turning right cut across me at a junction and hit the front wing.",
+      "vehicle": {
+        "year": 2019,
+        "make": "Skoda",
+        "model": "Fabia",
+        "colour": null,
+        "vin": "72MPLVAGK8TWRUMZT"
+      },
+      "acv": 9800,
+      "repair_estimate": 2150,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3010-FNOL-FORM",
+        "DOC-2026-3010-REPAIR-ESTIMATE",
+        "DOC-2026-3010-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3011",
+      "policy_id": "POL-AU-90011",
+      "claimant_id": "CUS-5191B2",
+      "claimant_name": "Skyler Brightwater",
+      "loss_type": "theft",
+      "incident_date": "2025-10-08",
+      "incident_time": null,
+      "reported_date": "2025-10-09",
+      "narrative": "Left the car at the railway station car park in the morning; it was gone when I returned in the evening.",
+      "vehicle": {
+        "year": 2020,
+        "make": "Volkswagen",
+        "model": "Polo",
+        "colour": null,
+        "vin": "JMDBUMH01EJSJP2HS"
+      },
+      "acv": 13500,
+      "repair_estimate": 13500,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3011-FNOL-FORM",
+        "DOC-2026-3011-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3012",
+      "policy_id": "POL-AU-90012",
+      "claimant_id": "CUS-ACC3D7",
+      "claimant_name": "Emerson Fairbanks",
+      "loss_type": "collision",
+      "incident_date": "2025-10-03",
+      "incident_time": null,
+      "reported_date": "2025-10-04",
+      "narrative": "Scraped the passenger door on a gatepost leaving a farm track.",
+      "vehicle": {
+        "year": 2021,
+        "make": "Suzuki",
+        "model": "Swift",
+        "colour": null,
+        "vin": "7FW31D8KEJRD2EA65"
+      },
+      "acv": 12100,
+      "repair_estimate": 1460,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3012-FNOL-FORM",
+        "DOC-2026-3012-REPAIR-INVOICE",
+        "DOC-2026-3012-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3013",
+      "policy_id": "POL-AU-90013",
+      "claimant_id": "CUS-B7EEB7",
+      "claimant_name": "Marlowe Calloway",
+      "loss_type": "collision",
+      "incident_date": "2025-10-27",
+      "incident_time": null,
+      "reported_date": "2025-10-28",
+      "narrative": "Slid on wet leaves into a ditch; the chassis rail is bent and both airbags deployed.",
+      "vehicle": {
+        "year": 2013,
+        "make": "Nissan",
+        "model": "Note",
+        "colour": null,
+        "vin": "AHFADBYDNZ5ESRG5C"
+      },
+      "acv": 4300,
+      "repair_estimate": 4300,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3013-FNOL-FORM",
+        "DOC-2026-3013-REPAIR-ESTIMATE",
+        "DOC-2026-3013-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3014",
+      "policy_id": "POL-AU-90014",
+      "claimant_id": "CUS-B79A10",
+      "claimant_name": "Skyler Garrow",
+      "loss_type": "collision",
+      "incident_date": "2025-09-17",
+      "incident_time": null,
+      "reported_date": "2025-09-18",
+      "narrative": "Hit by a reversing van in a retail park; the van driver drove off.",
+      "vehicle": {
+        "year": 2020,
+        "make": "Citroën",
+        "model": "C3",
+        "colour": null,
+        "vin": "ZVTBTZKNW7GZCDRX4"
+      },
+      "acv": 11800,
+      "repair_estimate": 2600,
+      "injury_reported": false,
+      "fraud_risk_score": 0.11,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3014-FNOL-FORM",
+        "DOC-2026-3014-REPAIR-INVOICE",
+        "DOC-2026-3014-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3015",
+      "policy_id": "POL-AU-90015",
+      "claimant_id": "CUS-F40694",
+      "claimant_name": "Hayden Merriweather",
+      "loss_type": "collision",
+      "incident_date": "2025-10-11",
+      "incident_time": null,
+      "reported_date": "2025-10-12",
+      "narrative": "A delivery driver opened his door into the side of my car as I drove past.",
+      "vehicle": {
+        "year": 2022,
+        "make": "Hyundai",
+        "model": "Kona",
+        "colour": null,
+        "vin": "A1MSULD4YYPH6UU2N"
+      },
+      "acv": 22300,
+      "repair_estimate": 1900,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3015-FNOL-FORM",
+        "DOC-2026-3015-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3016",
+      "policy_id": "POL-AU-90016",
+      "claimant_id": "CUS-EDBDAD",
+      "claimant_name": "Emerson Ellery",
+      "loss_type": "collision",
+      "incident_date": "2025-09-25",
+      "incident_time": null,
+      "reported_date": "2025-09-26",
+      "narrative": "Rear-ended at traffic lights by a car whose driver was looking at a phone.",
+      "vehicle": {
+        "year": 2021,
+        "make": "Kia",
+        "model": "Ceed",
+        "colour": null,
+        "vin": "GB02B75J78FANHPL0"
+      },
+      "acv": 15800,
+      "repair_estimate": 2480,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3016-FNOL-FORM",
+        "DOC-2026-3016-REPAIR-ESTIMATE",
+        "DOC-2026-3016-PHOTOS",
+        "DOC-2026-3016-THIRD-PARTY-NOTE"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3017",
+      "policy_id": "POL-AU-90017",
+      "claimant_id": "CUS-B23731",
+      "claimant_name": "Dakota Kilbride",
+      "loss_type": "collision",
+      "incident_date": "2025-10-06",
+      "incident_time": null,
+      "reported_date": "2025-10-07",
+      "narrative": "Wing mirror and door struck by a passing bus in a narrow street.",
+      "vehicle": {
+        "year": 2019,
+        "make": "Renault",
+        "model": "Clio",
+        "colour": null,
+        "vin": "GC40GC8H6Y74WEMS9"
+      },
+      "acv": 9400,
+      "repair_estimate": 1720,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3017-FNOL-FORM",
+        "DOC-2026-3017-REPAIR-ESTIMATE",
+        "DOC-2026-3017-PHOTOS",
+        "DOC-2026-3017-DRIVER-STATEMENT"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3018",
+      "policy_id": "POL-AU-90018",
+      "claimant_id": "CUS-9453B5",
+      "claimant_name": "Riley Hollins",
+      "loss_type": "collision",
+      "incident_date": "2025-10-16",
+      "incident_time": null,
+      "reported_date": "2025-10-17",
+      "narrative": "Low-speed shunt in a drive-through queue.",
+      "vehicle": {
+        "year": 2020,
+        "make": "Toyota",
+        "model": "C-HR",
+        "colour": null,
+        "vin": "PFAHZ59BSNST33RJA"
+      },
+      "acv": 17100,
+      "repair_estimate": 1590,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3018-FNOL-FORM",
+        "DOC-2026-3018-REPAIR-ESTIMATE",
+        "DOC-2026-3018-PHOTOS",
+        "DOC-2026-3018-AUTHORISATION-LETTER"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3019",
+      "policy_id": "POL-AU-90019",
+      "claimant_id": "CUS-5BB83F",
+      "claimant_name": "Sage Jessop",
+      "loss_type": "collision",
+      "incident_date": "2025-09-30",
+      "incident_time": null,
+      "reported_date": "2025-10-01",
+      "narrative": "Clipped a parked car's bumper while parallel parking.",
+      "vehicle": {
+        "year": 2018,
+        "make": "Opel",
+        "model": "Astra",
+        "colour": null,
+        "vin": "YUTSFA9T072ZY4EXF"
+      },
+      "acv": 8900,
+      "repair_estimate": 1120,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3019-FNOL-FORM",
+        "DOC-2026-3019-REPAIR-INVOICE",
+        "DOC-2026-3019-PHOTOS"
+      ]
+    },
+    {
+      "claim_id": "CLM-2026-3020",
+      "policy_id": "POL-AU-90020",
+      "claimant_id": "CUS-961A50",
+      "claimant_name": "Dakota Pemberton",
+      "loss_type": "collision",
+      "incident_date": "2025-10-22",
+      "incident_time": null,
+      "reported_date": "2025-10-23",
+      "narrative": "Another car rolled back into me on a steep hill at a junction.",
+      "vehicle": {
+        "year": 2022,
+        "make": "Ford",
+        "model": "Puma",
+        "colour": null,
+        "vin": "A2DPUXGL4TBDWY2Z1"
+      },
+      "acv": 20100,
+      "repair_estimate": 1830,
+      "injury_reported": false,
+      "fraud_risk_score": 0.07,
+      "prior_claims_24m": 0,
+      "status": "first_pass_pending",
+      "assigned_group": "adjuster",
+      "document_ids": [
+        "DOC-2026-3020-FNOL-FORM",
+        "DOC-2026-3020-REPAIR-ESTIMATE",
+        "DOC-2026-3020-PHOTOS"
+      ]
+    },
+    {
       "claim_id": "CLM-2024-5001",
       "policy_id": "POL-AU-50011",
       "claimant_id": "CUS-D3F34B",

@@ -7,6 +7,7 @@ from ._m1 import M0_CASES
 
 M2_CASES = Path(__file__).resolve().parents[1] / "evals" / "cases-m2.json"
 M4_CASES = Path(__file__).resolve().parents[2] / "M4" / "evals" / "cases-m4.json"
+HOLDOUT = Path(__file__).resolve().parents[2] / "M4" / "evals" / "cases-holdout.json"
 
 
 def all_cases():
@@ -15,3 +16,8 @@ def all_cases():
         if extra.exists():
             cases += json.loads(extra.read_text())["cases"]
     return cases
+
+
+def holdout_cases():
+    """The 20 held-out cases (D-052): never tuned against, NOT part of the 150-case gate."""
+    return json.loads(HOLDOUT.read_text())["cases"] if HOLDOUT.exists() else []
