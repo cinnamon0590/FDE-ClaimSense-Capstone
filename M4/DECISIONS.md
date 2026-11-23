@@ -6,6 +6,33 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-053 · 2026-11-23 · Review follow-ups: a second RCA, the risk register looked back on, the M2 evidence gaps
+- **Why:** the full M0–M4 review found these gaps:
+  - the M4 Builder tier's "second RCA";
+  - the rubric's "risk register anticipates failures that later occurred";
+  - two M2 floor artefacts that were never committed (a trace file, a local AgentCore capture).
+- **Decision:**
+  - **RCA-2** (`M4/drill/RCA-2026-11-23-2-mcp-gateway.md`): the **real** Step 4 incident. The gateway's Cognito
+    authorizer rejected the agents' delegated token on `/mcp`, so the first deployed runs ended with no card.
+    - Detected by the client; time to verified recovery 31 min 38 s.
+    - New eval case: `deployed_route_check.py` now **uses** the delegated token on `/mcp` (`[RCA-2]`, PASS).
+    - Prevention: `door_smoke.py` runs the agents' path too, so `deploy.sh` rolls back a release that breaks it.
+  - **Risk retrospective** (`M4/risk-retrospective.md`, linked from the M1 register):
+    - R2, R5, R6 and R8 held;
+    - R3 and R7 **happened** (the drill's outage label, HO-20's international PII) and were caught before any real
+      file;
+    - R1 was friction only;
+    - R4 is open until real confirmation data exists;
+    - four unanticipated failures are listed, and two new risks proposed (R9, R10).
+  - **M2 evidence:**
+    - `M2/evidence/agentcore-local.txt`: `/ping` and `/invocations` with a session id, live models through the
+      deployed door; re-invoking the session resumes at $0 in 1.1 s; no token → 401;
+    - `M2/evidence/trace.txt` (+ `trace-sample.jsonl`): that run reconstructed span by span, with every agent,
+      tool and guardrail.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-052 · 2026-11-23 · A held-out set: 20 claims never tuned against, pre-registered, run once
 - **Why:** the brief's area C asks for correct outcomes "on claims it was not tuned against". The 150 were all used
   while tuning the prompts to 100%, so they can't show that (found by the M0–M4 review).

@@ -1,0 +1,18 @@
+# agentcore-local — the AgentCore Runtime contract, exercised locally (W15 floor: deploy ladder, local rung)
+# 2026-11-23 13:05 EST · the orchestrator image's entry point · live models · data through the DEPLOYED door (MCP + OBO)
+# AgentCore calls GET /ping and POST /invocations with X-Amzn-Bedrock-AgentCore-Runtime-Session-Id; the session id
+# becomes the resumable run_id (D-027), so re-invoking the same session resumes instead of re-running.
+
+$ GET /ping
+200 {"status":"Healthy","time_of_last_update":1795457115}
+
+$ POST /invocations {"claim_id": "CLM-2024-1800"}  (session agentcore-session-1795457115, call 1)
+200 · outcome approve · net payable 2700 · decided_by agents · run_id CLM-2024-1800:agentcore-session-1795457115 · resumed False · cost $0.0299 · 18.8s · trace trace_a5ca47aea6a94f73ae5130aed4e04e19
+   citations: ['CLS-COL-001', 'CLS-DED-002']
+
+$ POST /invocations {"claim_id": "CLM-2024-1800"}  (session agentcore-session-1795457115, call 2)
+200 · outcome approve · net payable 2700 · decided_by agents · run_id CLM-2024-1800:agentcore-session-1795457115 · resumed True · cost $0.0000 · 1.1s · trace trace_912750892f374915923e925398af4f12
+   citations: ['CLS-COL-001', 'CLS-DED-002']
+
+$ POST /invocations without a token
+401 {"error": {"code": "unauthenticated", "message": "A valid ClaimSense token is required.", "request_id": "dc0885d1-90a4-41ac-b826-288e76406709"}}

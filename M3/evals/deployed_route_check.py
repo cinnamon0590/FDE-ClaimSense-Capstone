@@ -99,6 +99,16 @@ def main():
     R.check("token exchange with alice's real Cognito token issues a narrowed delegated token (OBO on a real IdP)",
             good.status_code == 200 and "confirm_recommendation" not in good.json().get("scope", ""),
             f"scope: {good.json().get('scope')} · expires_in {good.json().get('expires_in')}s")
+    # RCA-2 (M4): the delegated token must also WORK where the agents use it. It was issued fine in M3, but API
+    # Gateway's Cognito authorizer rejected it on POST /mcp, so every deployed claim run ended with no card.
+    obo = good.json().get("access_token", "")
+    use = httpx.post(f"{URL}/mcp", headers={"Authorization": f"Bearer {obo}", "MCP-Protocol-Version": "2025-06-18"},
+                     json={"jsonrpc": "2.0", "id": 7, "method": "tools/call",
+                           "params": {"name": "get_claim", "arguments": {"claim_id": "CLM-2024-1800"}}})
+    body = use.json() if use.headers.get("content-type", "").startswith("application/json") else {}
+    R.check("the delegated token works on /mcp, where the agents use it (alice's claim comes back) [RCA-2]",
+            use.status_code == 200 and "result" in body and not body["result"].get("isError")
+            and "CLM-2024-1800" in json.dumps(body["result"]), f"POST /mcp tools/call get_claim -> {use.status_code}")
     R.say("", f"bad-credential requests sent: {sent}")
     edge = 0
     for _ in range(24):                                     # access logs land within seconds to a minute

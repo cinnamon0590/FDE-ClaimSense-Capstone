@@ -1,5 +1,5 @@
 # 14-deployed-route-auth — D-1 + D-2 on AWS: every route and tool refuses a bad token
-# run: 2026-11-23 12:39:38 EST
+# run: 2026-11-23 13:07:30 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/deployed_route_check.py
 # exit: 0   status: PASS
@@ -36,10 +36,11 @@ door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP A
   PASS  /dev/token does not exist on AWS (dev issuer off)
   PASS  token exchange refuses a forged subject token (RFC 6749 invalid_grant)
   PASS  token exchange with alice's real Cognito token issues a narrowed delegated token (OBO on a real IdP)  (scope: create_escalation_ticket get_claim get_document get_escalation get_latest_draft get_policy list_documents post_recommendation search_policy_clauses · expires_in 300s)
+  PASS  the delegated token works on /mcp, where the agents use it (alice's claim comes back) [RCA-2]  (POST /mcp tools/call get_claim -> 200)
 
 bad-credential requests sent: 150
-  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 287)
-   e.g. edge: {"requestId":"HTfnIhn1IAMEJlA=","ip":"<masked>","time":"23/Nov/2026:17:35:28 +0000","route":"POST /mcp","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"-"}
-  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (607 rows read back through GET /audit as bob (senior-adjuster))
+  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 354)
+   e.g. edge: {"requestId":"HTkKkgeyIAMEcVQ=","ip":"<masked>","time":"23/Nov/2026:18:06:33 +0000","route":"POST /mcp","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"-"}
+  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (724 rows read back through GET /audit as bob (senior-adjuster))
 
 RESULT: PASS

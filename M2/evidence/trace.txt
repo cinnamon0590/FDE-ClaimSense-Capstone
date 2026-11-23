@@ -1,0 +1,45 @@
+# trace — one claim reconstructed after the fact from its trace (W15 floor: observability)
+# trace_a5ca47aea6a94f73ae5130aed4e04e19 · workflow 'ClaimSense claim' · claim CLM-2024-1800 · brain live
+# raw spans: trace-sample.jsonl (same file the SDK trace processor writes; OpenAI Traces gets the same when live)
+# from the AgentCore /invocations run in agentcore-local.txt · offset ms · duration ms · span
+
+       0     4067  custom task
+       2     4065    agent Document Intake  (tools ['get_claim_file'], output IntakeResult)
+       2     1741      custom turn
+       2        0      guardrail untrusted_input_scan triggered=False
+       6     1062        response
+    1072      670        tool get_claim_file
+    1745     2318      custom turn
+    1748     2310        response
+    4064        2      guardrail intake_injection_tripwire triggered=False
+    4071     4356  custom task
+    4071     4355    agent Coverage Check  (tools ['search_clauses'], output CoverageResult)
+    4071     1561      custom turn
+    4072        3      guardrail untrusted_input_scan triggered=False
+    4077      768        response
+    4847      783        tool search_clauses
+    5634     1504      custom turn
+    5637     1382        response
+    7022      114        tool search_clauses
+    7140     1284      custom turn
+    7142     1278        response
+    8426        0      guardrail coverage_citation_tripwire triggered=False
+    8432     2469  custom task
+    8433     2468    agent Claim Assessment  (tools [], output AssessmentResult)
+    8433     2467      custom turn
+    8433        3      guardrail untrusted_input_scan triggered=False
+    8439     2459        response
+   10905     2176  custom task
+   10906     2175    agent Decision Draft  (tools [], output DecisionDraft)
+   10906     2172      custom turn
+   10906        6      guardrail untrusted_input_scan triggered=False
+   10918     2155        response
+   13079        1      guardrail decision_safety_tripwire triggered=False
+   13085     2181  custom task
+   13086     2179    agent Decision Draft · second opinion  (tools [], output DecisionDraft)
+   13086     2176      custom turn
+   13086        4      guardrail untrusted_input_scan triggered=False
+   13092     2167        response
+   15264        1      guardrail decision_safety_tripwire triggered=False
+
+38 spans

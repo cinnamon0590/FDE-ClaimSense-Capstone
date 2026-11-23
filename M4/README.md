@@ -9,7 +9,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
 | 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
-| 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
+| 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s · **plus RCA-2 for a real incident** (31 min to verified recovery) · [risk register looked back on](risk-retrospective.md) | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
 | 5 | **Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus** (+ alarm, eval-below-SLO) | ✅ each executed on the real system | [`RUNBOOK.md`](RUNBOOK.md), [`evidence/runbook-*.txt`](evidence/) |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
 | 7 | Handover pack | planned | |
@@ -116,6 +116,11 @@ canary, fault, impact probe, detection, rollback, verification, and writes the t
   which fails on the pre-drill code.
 - **Prevention:** every door deploy now runs [`ops/door_smoke.py`](ops/door_smoke.py) and rolls itself back on
   failure.
+- **RCA-2, a real incident** ([`drill/RCA-2026-11-23-2-mcp-gateway.md`](drill/RCA-2026-11-23-2-mcp-gateway.md)): the
+  first deployed runs ended with no card, because the gateway rejected the agents' delegated token on `/mcp`. Found
+  by the client; 31 min to verified recovery. Its eval case: the deployed route check now uses that token.
+- **The risk register, looked back on:** [`risk-retrospective.md`](risk-retrospective.md). R3 and R7 happened and were
+  caught; four failures it didn't anticipate; two new risks proposed.
 - **Dashboard:** in the error-rate panel the incidents show only on the edge line
   ([`evidence/incident-drill-2-dashboard.png`](evidence/incident-drill-2-dashboard.png)).
 
