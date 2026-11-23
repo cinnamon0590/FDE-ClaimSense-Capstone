@@ -255,6 +255,13 @@ def apply():
     vpc, subnets, alb_sg, task_sg = network()
     say("Application Load Balancer + target group (console :8501, sticky, WebSockets)")
     alb, tg = load_balancer(vpc, subnets, alb_sg)
+    say("ECS service-linked role (created once per account; a fresh account has none)")
+    try:
+        aws("iam").create_service_linked_role(AWSServiceName="ecs.amazonaws.com")
+        time.sleep(15)
+        print("created AWSServiceRoleForECS")
+    except aws("iam").exceptions.InvalidInputException:
+        print("exists")
     say(f"ECS Fargate: cluster {CLUSTER}, service {N} (console + orchestrator in one task)")
     td = task_and_service(imgs, account, door, cog, subnets, task_sg, tg, exec_arn, task_arn)
     say("CloudFront (HTTPS) in front of the ALB")
