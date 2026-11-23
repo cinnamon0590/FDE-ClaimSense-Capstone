@@ -18,7 +18,7 @@ import httpx
 from fastapi import Depends, FastAPI, Header, Request
 from fastapi.responses import JSONResponse
 
-from claimsense import audit_trail, doc_store
+from claimsense import audit_trail, doc_store, metrics
 from claimsense.identity import TOKEN_TTL_S, DevIssuer, IdentityError, Verifier, resolve
 from claimsense_door.door import GrantedBoundary, shared_secret
 from claimsense_door.http import build_router
@@ -114,6 +114,19 @@ class Unauthenticated(Exception):
 # webhook: HMAC-signed; dev token: 404 unless sandbox; /oauth/token: authenticated by the subject_token it exchanges
 BEARER_EXEMPT = PUBLIC | {"/webhooks/ticketing", "/dev/token", "/oauth/token"}
 META = f'{os.environ.get("CLAIMSENSE_PUBLIC_URL", "http://localhost:8002").rstrip("/")}/.well-known/oauth-protected-resource'
+
+
+@app.middleware("http")
+async def _measure(request, call_next):
+    """M4 (D-048): one metric line per request: call volume, server errors, refusals and latency (EMF)."""
+    started = time.time()
+    try:
+        response = await call_next(request)
+    except Exception:
+        metrics.request("door", 500, started)
+        raise
+    metrics.request("door", response.status_code, started)
+    return response
 
 
 @app.middleware("http")

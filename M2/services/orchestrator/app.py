@@ -27,7 +27,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from claimsense import config
-from claimsense import audit_trail
+from claimsense import audit_trail, metrics
 from claimsense.assistant import Assistant
 from claimsense.boundary_client import CALLER_TOKEN, users
 from claimsense.identity import DevIssuer, IdentityError, Verifier, header_identity_allowed, resolve
@@ -88,6 +88,19 @@ def authenticate(authorization, claimed_user, action="invoke", resource="-"):
 
 
 PUBLIC = {"/healthz", "/ping", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"}
+
+
+@app.middleware("http")
+async def _measure(request, call_next):
+    """M4 (D-048): one metric line per request: call volume, server errors, refusals and latency (EMF)."""
+    started = time.time()
+    try:
+        response = await call_next(request)
+    except Exception:
+        metrics.request("orchestrator", 500, started)
+        raise
+    metrics.request("orchestrator", response.status_code, started)
+    return response
 
 
 @app.middleware("http")
