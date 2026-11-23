@@ -20,7 +20,8 @@ from _common import DOOR, ORCH, Report, in_container, tokens
 
 PUBLIC = {"/healthz", "/ping", "/.well-known/jwks.json", "/.well-known/oauth-protected-resource",
           "/.well-known/oauth-protected-resource/mcp", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc",
-          "/dev/token", "/oauth/token"}    # /oauth/token: RFC 6749 400 invalid_grant, checked separately below
+          "/dev/token", "/oauth/token",    # /oauth/token: RFC 6749 400 invalid_grant, checked separately below
+          "/demo/signin"}                  # the sign-in itself (passcode, not a token; D-049), checked separately below
 SAMPLE = {"claim_id": "CLM-2024-1800", "policy_id": "POL-AU-08812", "doc_id": "DOC-2024-1800-FNOL-FORM",
           "rec_id": "REC-000000000000"}
 
@@ -111,6 +112,11 @@ def main():
                                                     "subject_token": subject, "actor": "agent:claimsense-pipeline"})
         R.check(f"POST  /oauth/token with a {label} subject token", r.status_code == 400 and r.json().get("error") in
                 ("invalid_grant", "invalid_request"), f"{r.status_code} {r.json().get('error')}")
+    for label, auth in bads.items():                   # sign-in: never a token without the passcode (off here: 404)
+        r = httpx.post(f"{ORCH}/demo/signin", json={"user_id": "alice", "passcode": (auth or "").partition(" ")[2]},
+                       headers={"Authorization": auth} if auth else {})
+        R.check(f"POST  /demo/signin with a {label} token and no passcode", r.status_code in (401, 404)
+                and "token" not in r.text, f"{r.status_code} (404 = demo sign-in not configured, D-049)")
     meta = httpx.get(f"{DOOR}/.well-known/oauth-protected-resource").json()
     R.check("MCP door publishes RFC 9728 protected-resource metadata", meta.get("resource", "").endswith("/mcp")
             and meta.get("authorization_servers"), json.dumps(meta))
