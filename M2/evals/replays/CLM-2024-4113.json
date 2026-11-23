@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,15 +31,15 @@
       "injury_indicated": false,
       "commercial_use_indicated": true,
       "inconsistencies": [],
-      "vehicle": "2019 Toyota Prius",
-      "incident": "Collision with a cyclist-free kerb on 2024-10-24.",
-      "damage": "Damage consistent with the reported collision, estimated at $2,600.",
+      "vehicle": "2019 Toyota Prius, colour not specified",
+      "incident": "Collision with a cyclist-free kerb after braking hard for a pedestrian on 2024-10-24.",
+      "damage": "Damage consistent with collision with a kerb.",
       "repair_estimate_usd": 2600,
-      "policy_details": "POL-AU-61113, liability, collision, comprehensive, $500 deductible, 2024-05-12 to 2025-05-12.",
-      "summary": "The claim involves a collision incident reported on October 25, 2024. The insured vehicle was involved in a collision while carrying deliveries."
+      "policy_details": "POL-AU-61113, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a kerb while avoiding a pedestrian. The vehicle was reportedly used for a delivery app at the time of the incident."
      },
      "usage": {
-      "input_tokens": 1528,
+      "input_tokens": 1663,
       "output_tokens": 181,
       "cached_tokens": 0
      }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1203,
+      "input_tokens": 1240,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -67,32 +67,23 @@
       {
        "name": "search_clauses",
        "arguments": "{\"query\":\"deductible application to collision claims\"}"
-      }
-     ],
-     "usage": {
-      "input_tokens": 1438,
-      "output_tokens": 23,
-      "cached_tokens": 1152
-     }
-    },
-    {
-     "tool_calls": [
+      },
       {
        "name": "search_clauses",
        "arguments": "{\"query\":\"commercial use exclusion\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1692,
-      "output_tokens": 19,
-      "cached_tokens": 1408
+      "input_tokens": 1475,
+      "output_tokens": 57,
+      "cached_tokens": 0
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-4113",
       "coverage_finding": "not_covered",
-      "basis": "The policy excludes coverage for any loss while the covered auto is being used to carry persons or property for compensation or a fee, including delivery services, unless the declarations show a commercial use class. The vehicle was involved in a collision while carrying deliveries, which falls under this exclusion.",
+      "basis": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class. The vehicle was reportedly used for a delivery app at the time of the incident, and the policy is classified for private use.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -101,9 +92,9 @@
       "exclusion_or_condition": "Commercial use exclusion"
      },
      "usage": {
-      "input_tokens": 1946,
-      "output_tokens": 117,
-      "cached_tokens": 1664
+      "input_tokens": 1977,
+      "output_tokens": 118,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -120,11 +111,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered due to the commercial use exclusion, with a repair-to-ACV ratio below 1.0, no injuries reported, and no fraud indicators present."
+      "rationale": "The claim is not covered due to commercial use exclusion, with no fraud indicators or inconsistencies present. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
      },
      "usage": {
-      "input_tokens": 1233,
-      "output_tokens": 90,
+      "input_tokens": 1234,
+      "output_tokens": 96,
       "cached_tokens": 0
      }
     }
@@ -138,17 +129,17 @@
       "claim_id": "CLM-2024-4113",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as delivery services. The incident involved the vehicle carrying deliveries, which falls under this exclusion. The loss occurred within the policy period, but the exclusion applies regardless.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes. The incident involved the vehicle being used for a delivery app, which is classified as commercial use. The policy is designated for private use only, and therefore, the exclusion applies.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
-        "quote": "The policy excludes coverage for any loss while the covered auto is being used to carry persons or property for compensation or a fee, including delivery services, unless the declarations show a commercial use class."
+        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1325,
-      "output_tokens": 136,
+      "input_tokens": 1361,
+      "output_tokens": 131,
       "cached_tokens": 0
      }
     }
@@ -162,22 +153,22 @@
       "claim_id": "CLM-2024-4113",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes, such as delivery services. The incident involved the vehicle carrying deliveries, which falls under this exclusion. The loss occurred within the policy period, but the exclusion applies.",
+      "reasoning": "The claim is denied because the policy excludes coverage for losses occurring while the vehicle is used for commercial purposes. The incident involved the vehicle being used for a delivery app, which is classified as commercial use. The policy is designated for private use only, and therefore, the exclusion applies.",
       "citations": [
        {
         "source_id": "CLS-USE-009",
-        "quote": "The policy excludes coverage for any loss while the covered auto is being used to carry persons or property for compensation or a fee, including delivery services, unless the declarations show a commercial use class."
+        "quote": "The policy excludes coverage for any loss while the vehicle is used for commercial purposes, such as delivery services, unless the policy declarations show a commercial use class."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1325,
-      "output_tokens": 135,
+      "input_tokens": 1361,
+      "output_tokens": 131,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

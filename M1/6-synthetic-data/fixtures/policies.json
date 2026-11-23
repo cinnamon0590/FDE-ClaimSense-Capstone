@@ -872,6 +872,2525 @@
       }
     },
     {
+      "policy_id": "POL-AU-70041",
+      "holder_id": "CUS-6092FF",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70042",
+      "holder_id": "CUS-040BF3",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70043",
+      "holder_id": "CUS-2BAE92",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 250,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70044",
+      "holder_id": "CUS-0665D9",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 250,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70045",
+      "holder_id": "CUS-5DAEA8",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70046",
+      "holder_id": "CUS-7C6811",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70047",
+      "holder_id": "CUS-66BAA1",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70048",
+      "holder_id": "CUS-729946",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 750,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70049",
+      "holder_id": "CUS-0FEB23",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70050",
+      "holder_id": "CUS-50161D",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 300,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70051",
+      "holder_id": "CUS-25EF46",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70052",
+      "holder_id": "CUS-846B34",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70053",
+      "holder_id": "CUS-BBAC6D",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70054",
+      "holder_id": "CUS-7FA0EA",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70055",
+      "holder_id": "CUS-4F24D8",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70056",
+      "holder_id": "CUS-4E516F",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70057",
+      "holder_id": "CUS-4CA3D0",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70058",
+      "holder_id": "CUS-78703C",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70059",
+      "holder_id": "CUS-7A8FEF",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70060",
+      "holder_id": "CUS-813200",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70061",
+      "holder_id": "CUS-5766A1",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70062",
+      "holder_id": "CUS-304068",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70063",
+      "holder_id": "CUS-602DFA",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70064",
+      "holder_id": "CUS-28BB16",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70065",
+      "holder_id": "CUS-3BCA2C",
+      "coverages": [
+        "liability"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70066",
+      "holder_id": "CUS-0A905F",
+      "coverages": [
+        "liability"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70067",
+      "holder_id": "CUS-0C3723",
+      "coverages": [
+        "liability"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70068",
+      "holder_id": "CUS-AEC012",
+      "coverages": [
+        "liability"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70069",
+      "holder_id": "CUS-BAAC98",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-10",
+      "term_end": "2025-04-10",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70070",
+      "holder_id": "CUS-CD1651",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-20",
+      "term_end": "2025-04-20",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70071",
+      "holder_id": "CUS-801306",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-05-01",
+      "term_end": "2025-05-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70072",
+      "holder_id": "CUS-3407A1",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70073",
+      "holder_id": "CUS-2A1020",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70074",
+      "holder_id": "CUS-D5E544",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70075",
+      "holder_id": "CUS-87DD00",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70076",
+      "holder_id": "CUS-FE063F",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70077",
+      "holder_id": "CUS-D0F447",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70078",
+      "holder_id": "CUS-DD5C87",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70079",
+      "holder_id": "CUS-36EBB5",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70080",
+      "holder_id": "CUS-7E9B2E",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70081",
+      "holder_id": "CUS-A8C150",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70082",
+      "holder_id": "CUS-3747F9",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70083",
+      "holder_id": "CUS-6AEA14",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70084",
+      "holder_id": "CUS-5C2F05",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70085",
+      "holder_id": "CUS-9EB2AC",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70086",
+      "holder_id": "CUS-3D6676",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-03-01",
+      "term_end": "2026-03-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70087",
+      "holder_id": "CUS-B2E232",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-05-15",
+      "term_end": "2026-05-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70088",
+      "holder_id": "CUS-979E69",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-30",
+      "term_end": "2025-04-30",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70089",
+      "holder_id": "CUS-28CCEB",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-06-12",
+      "term_end": "2025-06-12",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70090",
+      "holder_id": "CUS-BE072F",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-03-01",
+      "term_end": "2026-03-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70091",
+      "holder_id": "CUS-1E451A",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-05-01",
+      "term_end": "2025-05-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70092",
+      "holder_id": "CUS-BF1A46",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-07-01",
+      "term_end": "2025-07-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70093",
+      "holder_id": "CUS-8257D5",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70094",
+      "holder_id": "CUS-005636",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70095",
+      "holder_id": "CUS-026D33",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70096",
+      "holder_id": "CUS-B817CF",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70097",
+      "holder_id": "CUS-97770D",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 750,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70098",
+      "holder_id": "CUS-24E0C4",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70099",
+      "holder_id": "CUS-6F881B",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70100",
+      "holder_id": "CUS-CFE605",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70101",
+      "holder_id": "CUS-EF3F35",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-03-01",
+      "term_end": "2025-03-01",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": "2025-02-26",
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70102",
+      "holder_id": "CUS-91915C",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-06-15",
+      "term_end": "2025-06-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": "2025-06-15",
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70103",
+      "holder_id": "CUS-F311D0",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70104",
+      "holder_id": "CUS-5DF105",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70105",
+      "holder_id": "CUS-4C9114",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70106",
+      "holder_id": "CUS-78E6F5",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70107",
+      "holder_id": "CUS-BE0DAE",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70108",
+      "holder_id": "CUS-CCCE81",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70109",
+      "holder_id": "CUS-1E5857",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70110",
+      "holder_id": "CUS-345A9C",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70111",
+      "holder_id": "CUS-27DC39",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70112",
+      "holder_id": "CUS-854AC8",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70113",
+      "holder_id": "CUS-320A99",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70114",
+      "holder_id": "CUS-7F982B",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70115",
+      "holder_id": "CUS-F2B11B",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70116",
+      "holder_id": "CUS-C23CD6",
+      "coverages": [
+        "liability",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70117",
+      "holder_id": "CUS-867B79",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70118",
+      "holder_id": "CUS-D52D87",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70119",
+      "holder_id": "CUS-12BA3A",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70120",
+      "holder_id": "CUS-E84CE2",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70121",
+      "holder_id": "CUS-E81EA2",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70122",
+      "holder_id": "CUS-073606",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70123",
+      "holder_id": "CUS-402FAF",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70124",
+      "holder_id": "CUS-8A7082",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70125",
+      "holder_id": "CUS-E6EB21",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70126",
+      "holder_id": "CUS-F2193C",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70127",
+      "holder_id": "CUS-1C9488",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70128",
+      "holder_id": "CUS-29D791",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70129",
+      "holder_id": "CUS-E4267B",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70130",
+      "holder_id": "CUS-342189",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70131",
+      "holder_id": "CUS-D66840",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70132",
+      "holder_id": "CUS-8DB345",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70133",
+      "holder_id": "CUS-12F96C",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70134",
+      "holder_id": "CUS-AA8712",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 100,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70135",
+      "holder_id": "CUS-E684E9",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70136",
+      "holder_id": "CUS-E40872",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70137",
+      "holder_id": "CUS-51CBAA",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70138",
+      "holder_id": "CUS-32B388",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70139",
+      "holder_id": "CUS-2179B1",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70140",
+      "holder_id": "CUS-BCE62F",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70141",
+      "holder_id": "CUS-4F9A2A",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-01-05",
+      "term_end": "2025-01-05",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70142",
+      "holder_id": "CUS-16D1E3",
+      "coverages": [
+        "liability"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70143",
+      "holder_id": "CUS-8D5ED5",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-04-15",
+      "term_end": "2025-04-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70144",
+      "holder_id": "CUS-4CD7C7",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70145",
+      "holder_id": "CUS-61AA19",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70146",
+      "holder_id": "CUS-AEDBDF",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70147",
+      "holder_id": "CUS-0B9F6F",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70148",
+      "holder_id": "CUS-1439C9",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2025-01-15",
+      "term_end": "2026-01-15",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70149",
+      "holder_id": "CUS-5EBF66",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-03-10",
+      "term_end": "2025-03-10",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
+      "policy_id": "POL-AU-70150",
+      "holder_id": "CUS-1764E4",
+      "coverages": [
+        "liability",
+        "collision",
+        "comprehensive"
+      ],
+      "deductible": 500,
+      "limits": {
+        "physical_damage": "actual_cash_value",
+        "liability_per_occurrence": 300000
+      },
+      "use_class": "private",
+      "term_start": "2024-03-10",
+      "term_end": "2025-03-10",
+      "term_end_rule": "cover ends 23:59 local time on term_end",
+      "status_field": "Active",
+      "renewal": {
+        "submitted": null,
+        "processed": null
+      }
+    },
+    {
       "policy_id": "POL-AU-50011",
       "holder_id": "CUS-D3F34B",
       "coverages": [

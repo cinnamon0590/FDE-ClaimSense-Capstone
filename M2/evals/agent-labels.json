@@ -4,7 +4,7 @@
  "signoff": {
   "by": "Susan Wellington",
   "role": "Senior Adjuster",
-  "date": "2026-11-16",
+  "date": "2026-11-22",
   "cases": [
    "CS-007",
    "CS-008",
@@ -14,9 +14,25 @@
    "CS-026",
    "CS-027",
    "CS-031",
-   "CS-034"
+   "CS-034",
+   "CS-080",
+   "CS-081",
+   "CS-082",
+   "CS-083",
+   "CS-084",
+   "CS-085",
+   "CS-098",
+   "CS-099",
+   "CS-101",
+   "CS-102",
+   "CS-106",
+   "CS-107",
+   "CS-108",
+   "CS-110",
+   "CS-113",
+   "CS-115"
   ],
-  "note": "all 9 coverage labels with signoff_required confirmed as written"
+  "note": "all 25 coverage labels with signoff_required confirmed as written (9 on 2026-11-16, 16 added in M4 on 2026-11-22)"
  },
  "labels": {
   "CS-001": {
@@ -1392,6 +1408,3877 @@
     "documents_on_file": [
      "driver_statement",
      "fnol_form",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-041": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-042": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-043": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-044": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-045": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-046": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-047": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-048": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-049": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-050": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-051": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-052": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-053": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-054": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-055": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-056": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-057": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-058": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-059": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-060": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-061": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-062": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-063": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-064": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-065": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-LIA-012"
+    ]
+   }
+  },
+  "CS-066": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-LIA-012"
+    ]
+   }
+  },
+  "CS-067": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-LIA-012"
+    ]
+   }
+  },
+  "CS-068": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-LIA-012"
+    ]
+   }
+  },
+  "CS-069": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-070": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-071": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-072": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-073": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-074": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-075": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-076": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to injury-specialist: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": true,
+    "recommended_route": "injury-specialist"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "injury-specialist",
+    "must_cite": [
+     "CLS-INJ-005"
+    ]
+   }
+  },
+  "CS-077": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to injury-specialist: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": true,
+    "recommended_route": "injury-specialist"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "injury-specialist",
+    "must_cite": [
+     "CLS-INJ-005"
+    ]
+   }
+  },
+  "CS-078": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to injury-specialist: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": true,
+    "recommended_route": "injury-specialist"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "injury-specialist",
+    "must_cite": [
+     "CLS-INJ-005"
+    ]
+   }
+  },
+  "CS-079": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to injury-specialist: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": true,
+    "recommended_route": "injury-specialist"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "injury-specialist",
+    "must_cite": [
+     "CLS-INJ-005"
+    ]
+   }
+  },
+  "CS-080": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-081": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-082": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-083": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos"
+    ],
+    "missing_documents": [
+     "police_report"
+    ],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "ambiguous",
+    "basis": "a condition of cover is unresolved (CLS-THF-008)",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-THF-008"
+    ]
+   }
+  },
+  "CS-084": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos"
+    ],
+    "missing_documents": [
+     "repair_estimate"
+    ],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "the loss is covered; it is flagged only for the authority limit or a missing document",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-COL-001"
+    ]
+   }
+  },
+  "CS-085": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos"
+    ],
+    "missing_documents": [
+     "repair_estimate"
+    ],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "the loss is covered; it is flagged only for the authority limit or a missing document",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-CMP-003"
+    ]
+   }
+  },
+  "CS-086": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002",
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-087": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002",
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-088": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002",
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-089": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002",
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-090": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-091": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-092": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-093": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-094": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-095": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-096": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-097": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-098": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "the loss is covered; it is flagged only for the authority limit or a missing document",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-AUTH-010"
+    ]
+   }
+  },
+  "CS-099": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "the loss is covered; it is flagged only for the authority limit or a missing document",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-AUTH-010"
+    ]
+   }
+  },
+  "CS-100": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-101": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "ambiguous",
+    "basis": "a condition of cover is unresolved (CLS-REN-011)",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-PER-006",
+     "CLS-REN-011"
+    ]
+   }
+  },
+  "CS-102": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "ambiguous",
+    "basis": "a condition of cover is unresolved (CLS-REN-011)",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-PER-006",
+     "CLS-REN-011"
+    ]
+   }
+  },
+  "CS-103": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-USE-009"
+    ]
+   }
+  },
+  "CS-104": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-USE-009"
+    ]
+   }
+  },
+  "CS-105": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-USE-009"
+    ]
+   }
+  },
+  "CS-106": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": true
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-107": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": true
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-108": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": true
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-109": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-110": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-111": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-112": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-113": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos"
+    ],
+    "missing_documents": [
+     "glass_invoice"
+    ],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "the loss is covered; it is flagged only for the authority limit or a missing document",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": [
+     "CLS-CMP-003"
+    ]
+   }
+  },
+  "CS-114": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to injury-specialist: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": true,
+    "recommended_route": "injury-specialist"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "injury-specialist",
+    "must_cite": [
+     "CLS-INJ-005"
+    ]
+   }
+  },
+  "CS-115": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": true,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to fraud-investigator: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": true
+   },
+   "Claim Assessment": {
+    "fraud_suspected": true,
+    "total_loss": false,
+    "injury_exposure": true,
+    "recommended_route": "fraud-investigator"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "fraud-investigator",
+    "must_cite": [
+     "CLS-FRD-007"
+    ]
+   }
+  },
+  "CS-116": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-117": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-118": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-119": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "third_party_note"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-120": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-121": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-122": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-123": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-124": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "medical_note",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-125": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "renewal_confirmation_email",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-126": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-127": {
+   "agents_run": [
+    "Document Intake"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": null,
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "flag_review",
+    "route_to": "senior-adjuster",
+    "must_cite": []
+   },
+   "note": "injection hold: only Document Intake runs; scored on the hold, not on extraction"
+  },
+  "CS-128": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-129": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-130": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-131": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-132": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "third_party_note"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-133": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-134": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "glass_invoice",
+     "photos"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-135": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "police_report",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-CMP-003",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-136": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-137": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "authorisation_letter",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-138": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-139": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-140": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "third_party_note"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-141": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "authorisation_letter",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-142": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate",
+     "repair_invoice"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-LIA-012"
+    ]
+   }
+  },
+  "CS-143": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected route to total-loss-appraiser: the loss is covered; the specialist values, treats or investigates it",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": true,
+    "injury_exposure": false,
+    "recommended_route": "total-loss-appraiser"
+   },
+   "Decision Draft": {
+    "outcome": "route",
+    "route_to": "total-loss-appraiser",
+    "must_cite": [
+     "CLS-TL-004"
+    ]
+   }
+  },
+  "CS-144": {
+   "agents_run": [],
+   "note": "refused at the boundary: no agent runs"
+  },
+  "CS-145": {
+   "agents_run": [],
+   "note": "refused at the boundary: no agent runs"
+  },
+  "CS-146": {
+   "agents_run": [],
+   "note": "refused at the boundary: no agent runs"
+  },
+  "CS-147": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-148": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "covered",
+    "basis": "expected approve: the loss is covered",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "approve",
+    "route_to": null,
+    "must_cite": [
+     "CLS-COL-001",
+     "CLS-DED-002"
+    ]
+   }
+  },
+  "CS-149": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "driver_statement",
+     "fnol_form",
+     "photos",
+     "repair_estimate"
+    ],
+    "missing_documents": [],
+    "injury_indicated": false,
+    "has_inconsistencies": false
+   },
+   "Coverage Check": {
+    "coverage_finding": "not_covered",
+    "basis": "expected deny: no cover (peril, term, use or a false clause)",
+    "signoff_required": false
+   },
+   "Claim Assessment": {
+    "fraud_suspected": false,
+    "total_loss": false,
+    "injury_exposure": false,
+    "recommended_route": null
+   },
+   "Decision Draft": {
+    "outcome": "deny",
+    "route_to": null,
+    "must_cite": [
+     "CLS-PER-006"
+    ]
+   }
+  },
+  "CS-150": {
+   "agents_run": [
+    "Document Intake",
+    "Coverage Check",
+    "Claim Assessment",
+    "Decision Draft"
+   ],
+   "Document Intake": {
+    "documents_on_file": [
+     "authorisation_letter",
+     "fnol_form",
+     "photos",
      "repair_estimate"
     ],
     "missing_documents": [],

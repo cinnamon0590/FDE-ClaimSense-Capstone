@@ -1,0 +1,182 @@
+{
+ "claim_id": "CLM-2025-1073",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1073",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2014 Volkswagen Polo, colour not specified",
+      "incident": "Drove through a flooded underpass and the engine ingested water on 2025-04-11.",
+      "damage": "Engine damage due to water ingestion from driving through a flooded underpass.",
+      "repair_estimate_usd": 7600,
+      "policy_details": "Policy POL-AU-70073, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision where the insured vehicle drove through a flooded underpass, causing engine damage. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1667,
+      "output_tokens": 192,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1263,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1498,
+      "output_tokens": 63,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1073",
+      "coverage_finding": "covered",
+      "basis": "The collision coverage clause (CLS-COL-001) confirms that direct and accidental loss to the insured's vehicle caused by collision is covered, less the deductible. The deductible clause (CLS-DED-002) specifies that the deductible applies separately to each covered loss, and the total loss clause (CLS-TL-004) defines a total loss as when repair costs equal or exceed the vehicle's actual cash value, which applies here as the repair-to-ACV ratio is 1.551.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2019,
+      "output_tokens": 158,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1073",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "high_value": false,
+      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.551. There are no fraud signals or injury exposure."
+     },
+     "usage": {
+      "input_tokens": 1281,
+      "output_tokens": 87,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1073",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision incident. The repair-to-ACV ratio indicates a total loss, which requires assessment by a total-loss appraiser. The net payable amount is within the authority limit, and all required documents are on file.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage confirms that direct and accidental loss to the insured's vehicle caused by collision is covered, less the deductible."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A total loss is defined as when repair costs equal or exceed the vehicle's actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1399,
+      "output_tokens": 160,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1073",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim is covered under the collision coverage clause, and the incident occurred within the policy period. The repair-to-ACV ratio indicates a total loss, necessitating assessment by a total-loss appraiser as per the recommended route.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage confirms that direct and accidental loss to the insured's vehicle caused by collision is covered."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A total loss is defined as when repair costs equal or exceed the vehicle's actual cash value."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1399,
+      "output_tokens": 143,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

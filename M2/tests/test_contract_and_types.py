@@ -21,7 +21,7 @@ def test_four_agents_with_model_routing():
                                                  "Decision Draft · second opinion"]     # D-025: same agent, run twice
     assert agents["decision_check"].instructions == agents["decision"].instructions
     assert agents["decision_check"].output_type is agents["decision"].output_type
-    assert {k: v[3] for k, v in SPECS.items()} == {"intake": "fast", "coverage": "smart", "assessment": "fast", "decision": "smart"}
+    assert {k: v[3] for k, v in SPECS.items()} == {"intake": "smart", "coverage": "smart", "assessment": "fast", "decision": "smart"}
     assert all(a.output_type is not None for a in agents.values())
 
 

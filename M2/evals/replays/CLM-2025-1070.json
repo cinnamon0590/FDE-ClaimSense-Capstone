@@ -1,0 +1,169 @@
+{
+ "claim_id": "CLM-2025-1070",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Renault Clio, colour not specified",
+      "incident": "Windscreen cracked by a stone on 2025-06-25.",
+      "damage": "The documents describe a cracked windscreen.",
+      "repair_estimate_usd": 520,
+      "policy_details": "POL-AU-70070, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a cracked windscreen caused by a stone on June 25, 2025. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
+     },
+     "usage": {
+      "input_tokens": 1639,
+      "output_tokens": 183,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1219,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"policy period coverage dates\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1463,
+      "output_tokens": 20,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, and there is no renewal processed to extend coverage.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1651,
+      "output_tokens": 75,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and the repair-to-ACV ratio indicates it is not a total loss. There are no fraud signals or indications of injury."
+     },
+     "usage": {
+      "input_tokens": 1169,
+      "output_tokens": 94,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The incident date of June 25, 2025, is beyond the coverage end date of April 20, 2025. Therefore, the policy does not cover this loss.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Loss outside policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1295,
+      "output_tokens": 99,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1070",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The incident date of June 25, 2025, is after the policy ended on April 20, 2025. As a result, there is no coverage for this loss.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Loss outside policy period"
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1295,
+      "output_tokens": 99,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

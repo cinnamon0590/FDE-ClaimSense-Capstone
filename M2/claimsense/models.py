@@ -39,7 +39,7 @@ class IntakeResult(Strict):
     damage: str = Field(description="the damage the documents describe, in one sentence")
     repair_estimate_usd: int | None = Field(description="the repair estimate amount on file; code checks it against "
                                                         "the claim record")
-    policy_details: str = Field(description="policy id, coverages, deductible and term, as given")
+    policy_details: str = Field(description="policy id, coverages, deductible and use class, as given")
     summary: str
 
 

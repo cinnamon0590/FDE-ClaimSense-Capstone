@@ -1,0 +1,168 @@
+{
+ "claim_id": "CLM-2025-1068",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1068",
+      "loss_type": "vandalism",
+      "documents_on_file": [
+       "fnol_form",
+       "police_report",
+       "repair_estimate"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2012 Honda Jazz, colour not specified",
+      "incident": "Car keyed along the side in a car park on 2025-07-30.",
+      "damage": "Damage consistent with vandalism, specifically keying along the side of the vehicle.",
+      "repair_estimate_usd": 980,
+      "policy_details": "Policy ID: POL-AU-70068, Coverages: liability, Deductible: $500, Use class: private",
+      "summary": "The claim involves vandalism where the insured vehicle was keyed along the side. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
+     },
+     "usage": {
+      "input_tokens": 1645,
+      "output_tokens": 193,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"Is vandalism damage to the insured's own car covered by liability coverage?\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1221,
+      "output_tokens": 20,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"Does a liability-only policy pay for damage to the insured's own car?\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1462,
+      "output_tokens": 31,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1068",
+      "coverage_finding": "not_covered",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism.",
+      "cited_clause_ids": [
+       "CLS-LIA-012"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1717,
+      "output_tokens": 71,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1068",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is for vandalism with no coverage for damage to the insured's own vehicle. All required documents are on file, and there are no inconsistencies or indications of injury. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. The fraud risk score is low, and there are no fraud indicators."
+     },
+     "usage": {
+      "input_tokens": 1172,
+      "output_tokens": 126,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1068",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism. The loss occurred within the policy period, but the type of damage is not covered under the current policy terms.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1330,
+      "output_tokens": 117,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1068",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle, including vandalism. The incident occurred within the policy period, but the type of coverage does not apply to this loss.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "Liability coverage does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1330,
+      "output_tokens": 106,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

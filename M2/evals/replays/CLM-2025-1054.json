@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1054",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1054",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2022 Tesla Model 3, colour not specified",
+      "incident": "A sheet of ice flew off a lorry and cracked the panoramic sunroof on 2025-08-05.",
+      "damage": "The panoramic sunroof was cracked by a sheet of ice.",
+      "repair_estimate_usd": 1890,
+      "policy_details": "POL-AU-70054, coverages: liability, collision, comprehensive, deductible: 100, use class: private",
+      "summary": "The claim involves glass damage to a 2022 Tesla Model 3 caused by ice from a lorry. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
+     },
+     "usage": {
+      "input_tokens": 1660,
+      "output_tokens": 199,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1256,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application for glass damage claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1500,
+      "output_tokens": 24,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1054",
+      "coverage_finding": "covered",
+      "basis": "The glass damage to the insured's vehicle is covered under the comprehensive coverage, which includes glass breakage. The deductible applies as specified in the policy, and the net payable amount has already been calculated with the deductible subtracted.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1755,
+      "output_tokens": 97,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1054",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under comprehensive coverage with no indications of fraud, injury, or total loss. All required documents are on file, and the repair-to-ACV ratio is below 1.0."
+     },
+     "usage": {
+      "input_tokens": 1227,
+      "output_tokens": 95,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1054",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1353,
+      "output_tokens": 133,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1054",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for glass damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and there are no indications of fraud or total loss.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1353,
+      "output_tokens": 128,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

@@ -1,0 +1,182 @@
+{
+ "claim_id": "CLM-2025-1095",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1095",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2014 Toyota Auris, colour not specified",
+      "incident": "Side impact at a junction on 2025-04-05.",
+      "damage": "B-pillar bent from side impact.",
+      "repair_estimate_usd": 7200,
+      "policy_details": "Policy ID: POL-AU-70095, Coverages: liability, collision, comprehensive, Deductible: $500, Use class: private",
+      "summary": "The claim involves a collision on 2025-04-05, resulting in damage to the B-pillar of a 2014 Toyota Auris. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1661,
+      "output_tokens": 194,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1265,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"total loss determination based on actual cash value\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1500,
+      "output_tokens": 62,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1095",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible, up to the actual cash value of the auto. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction. The vehicle is considered a total loss because the repair cost equals its actual cash value, and it is settled at actual cash value, less the deductible.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-TL-004"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2020,
+      "output_tokens": 151,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1095",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": true,
+      "injury_exposure": false,
+      "recommended_route": "total-loss-appraiser",
+      "high_value": false,
+      "rationale": "The claim is a total loss with a repair-to-ACV ratio of 1.0, and there are no indications of fraud or injury exposure."
+     },
+     "usage": {
+      "input_tokens": 1276,
+      "output_tokens": 88,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1095",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.0. The coverage is confirmed under the collision coverage clause, and the net payable amount is within the authority limit. The recommended route is to a total-loss appraiser due to the total loss status.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A total loss is settled at actual cash value, less the deductible."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1395,
+      "output_tokens": 152,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1095",
+      "outcome": "route",
+      "route_to": "total-loss-appraiser",
+      "reasoning": "The claim involves a collision resulting in a total loss, as the repair-to-ACV ratio is 1.0. The coverage is confirmed under the collision coverage clause, and the net payable amount is within the authority limit. The recommended route is to a total-loss appraiser due to the total loss status.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-TL-004",
+        "quote": "A total loss is settled at actual cash value, less the deductible."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1395,
+      "output_tokens": 152,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

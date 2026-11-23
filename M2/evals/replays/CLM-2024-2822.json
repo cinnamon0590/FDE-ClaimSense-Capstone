@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2019 Ford Focus",
+      "vehicle": "2019 Ford Focus, colour not specified",
       "incident": "Struck a pothole at speed on 2024-01-31.",
-      "damage": "Tyres, rim and control arm damaged as described in the repair estimate and FNOL form.",
+      "damage": "Tyres, rim, and control arm damaged.",
       "repair_estimate_usd": 3100,
-      "policy_details": "POL-AU-08812, liability, collision, comprehensive, $500 deductible, 2023-01-28 to 2024-01-28.",
-      "summary": "The claim involves a collision loss where the insured vehicle struck a pothole. The repair estimate is $3,100."
+      "policy_details": "POL-AU-08812, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a pothole causing damage to the tyres, rim, and control arm of a 2019 Ford Focus. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1534,
-      "output_tokens": 181,
-      "cached_tokens": 0
+      "input_tokens": 1669,
+      "output_tokens": 189,
+      "cached_tokens": 1024
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1178,
+      "input_tokens": 1223,
       "output_tokens": 13,
       "cached_tokens": 0
      }
@@ -66,20 +66,20 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"loss date inside policy period\"}"
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1412,
+      "input_tokens": 1457,
       "output_tokens": 21,
-      "cached_tokens": 1024
+      "cached_tokens": 1152
      }
     },
     {
      "final": {
       "claim_id": "CLM-2024-2822",
       "coverage_finding": "not_covered",
-      "basis": "The loss occurred outside the policy period, which ended on 2024-01-28. The policy explicitly states that coverage applies only to losses occurring within the policy period.",
+      "basis": "The loss occurred outside the policy period, which ended on 2024-01-28. The policy does not cover losses outside the policy period.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-PER-006"
@@ -87,9 +87,9 @@
       "exclusion_or_condition": "Loss outside policy period"
      },
      "usage": {
-      "input_tokens": 1678,
-      "output_tokens": 92,
-      "cached_tokens": 1280
+      "input_tokens": 1646,
+      "output_tokens": 87,
+      "cached_tokens": 1408
      }
     }
    ]
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals or inconsistencies, and it is not a total loss."
+      "rationale": "The claim is not covered as the loss occurred outside the policy period. There are no fraud signals or inconsistencies, and the repair-to-ACV ratio indicates it is not a total loss."
      },
      "usage": {
-      "input_tokens": 1182,
-      "output_tokens": 85,
+      "input_tokens": 1185,
+      "output_tokens": 93,
       "cached_tokens": 0
      }
     }
@@ -124,17 +124,17 @@
       "claim_id": "CLM-2024-2822",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that occur within the specified period, which ended on 2024-01-28. Since the incident happened on 2024-01-31, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-01-28. The incident date is 2024-01-31, making it ineligible for coverage. All required documents are on file, but the policy does not cover losses outside its term.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "The policy does not cover losses outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1269,
-      "output_tokens": 110,
+      "input_tokens": 1309,
+      "output_tokens": 116,
       "cached_tokens": 0
      }
     }
@@ -148,22 +148,22 @@
       "claim_id": "CLM-2024-2822",
       "outcome": "deny",
       "route_to": null,
-      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly covers only losses that occur within the specified period, which ended on 2024-01-28. Since the incident happened on 2024-01-31, it is not covered.",
+      "reasoning": "The claim is denied because the loss occurred outside the policy period, which ended on 2024-01-28. The incident date is 2024-01-31, making it ineligible for coverage. All required documents are on file, but the policy does not cover losses outside its term.",
       "citations": [
        {
         "source_id": "CLS-PER-006",
-        "quote": "Coverage applies only to losses occurring within the policy period."
+        "quote": "The policy does not cover losses outside the policy period."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1269,
-      "output_tokens": 110,
+      "input_tokens": 1309,
+      "output_tokens": 116,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -1,0 +1,170 @@
+{
+ "claim_id": "CLM-2025-1141",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1141",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "authorisation_letter"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Vauxhall Corsa",
+      "incident": "Collision with a car pulling out of a junction on 2025-07-05.",
+      "damage": "Damage consistent with a collision with a car pulling out of a junction.",
+      "repair_estimate_usd": 1650,
+      "policy_details": "POL-AU-70141, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with another vehicle at a junction. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1738,
+      "output_tokens": 182,
+      "cached_tokens": 1664
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage coverage for insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1219,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"policy period definition and coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1453,
+      "output_tokens": 21,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1141",
+      "coverage_finding": "not_covered",
+      "basis": "The loss occurred outside the policy period, and the policy explicitly states that there is no duty to pay for any loss outside the policy period.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": "Loss outside policy period"
+     },
+     "usage": {
+      "input_tokens": 1642,
+      "output_tokens": 85,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1141",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered as the loss occurred outside the policy period, and there are no fraud indicators or inconsistencies."
+     },
+     "usage": {
+      "input_tokens": 1179,
+      "output_tokens": 78,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1141",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states that there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy explicitly states that there is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1288,
+      "output_tokens": 112,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1141",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the loss occurred outside the policy period. The policy explicitly states that there is no duty to pay for any loss outside the policy period. All required documents are on file, and there are no other issues affecting the decision.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy explicitly states that there is no duty to pay for any loss outside the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1288,
+      "output_tokens": 112,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

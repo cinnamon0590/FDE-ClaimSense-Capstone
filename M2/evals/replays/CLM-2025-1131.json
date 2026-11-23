@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1131",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1131",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 Kia Picanto, colour not specified",
+      "incident": "Minor collision at low speed in a car park on 2025-04-22.",
+      "damage": "Damage consistent with a minor collision at low speed in a car park.",
+      "repair_estimate_usd": 2450,
+      "policy_details": "Policy ID: POL-AU-70131, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a minor collision in a car park with no injuries reported. All required documents are on file, and there are no inconsistencies noted."
+     },
+     "usage": {
+      "input_tokens": 1665,
+      "output_tokens": 187,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1246,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1481,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1131",
+      "coverage_finding": "covered",
+      "basis": "The policy includes collision coverage, which applies to the insured's own car for damage caused by collision, less the applicable deductible. The deductible has already been applied to the net payable amount.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1735,
+      "output_tokens": 89,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1131",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered, with a repair-to-ACV ratio of 0.1992 indicating it is not a total loss. There are no reported injuries and no inconsistencies in the intake. The fraud risk score is low, and there are no fraud indicators present."
+     },
+     "usage": {
+      "input_tokens": 1209,
+      "output_tokens": 109,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1131",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to damage caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "The policy includes collision coverage, which applies to the insured's own car for damage caused by collision."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1349,
+      "output_tokens": 150,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1131",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to damage caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to the insured's own car for damage caused by collision."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has already been applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1349,
+      "output_tokens": 145,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

@@ -1,0 +1,178 @@
+{
+ "claim_id": "CLM-2025-1084",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1084",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "photos"
+      ],
+      "missing_documents": [
+       "repair_estimate"
+      ],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Citroen C3",
+      "incident": "Clipped a gate post while turning on 2025-05-12.",
+      "damage": "The side panel is dented.",
+      "repair_estimate_usd": 1400,
+      "policy_details": "POL-AU-70084, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a gate post, resulting in a dented side panel. A repair estimate document is missing from the file."
+     },
+     "usage": {
+      "input_tokens": 1603,
+      "output_tokens": 168,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1224,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1459,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1084",
+      "coverage_finding": "covered",
+      "basis": "The policy includes collision coverage, which applies to the damage sustained by the insured's vehicle. The deductible has been correctly applied to the net payable amount.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1713,
+      "output_tokens": 82,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1084",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.1207 indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
+     },
+     "usage": {
+      "input_tokens": 1180,
+      "output_tokens": 104,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1084",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the deductible has been correctly applied. However, the repair estimate document is missing, which requires further review. The net payable amount is within the authority limit, and the loss occurred within the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1315,
+      "output_tokens": 136,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1084",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under the collision coverage clause, and the loss occurred within the policy period. However, the required repair estimate document is missing, which necessitates a review by a senior adjuster. The net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the net payable amount."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1315,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

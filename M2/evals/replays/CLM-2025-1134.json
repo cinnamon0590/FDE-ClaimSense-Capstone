@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1134",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1134",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Nissan Micra, colour not specified",
+      "incident": "Windscreen cracked on 2025-05-24.",
+      "damage": "The documents describe a cracked windscreen.",
+      "repair_estimate_usd": 460,
+      "policy_details": "Policy ID: POL-AU-70134, Coverages: liability, collision, comprehensive, Deductible: 100, Use class: private",
+      "summary": "The claim involves a cracked windscreen on a 2020 Nissan Micra, reported on 2025-05-24. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1675,
+      "output_tokens": 186,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1242,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on glass damage claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1486,
+      "output_tokens": 24,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1134",
+      "coverage_finding": "covered",
+      "basis": "The policy covers glass damage under comprehensive coverage, which includes glass breakage. The deductible applies separately to each covered loss, and the net payable amount has already accounted for the deductible.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1741,
+      "output_tokens": 88,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1134",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered for glass damage with no indications of fraud or injury. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. All required documents are on file, and there are no inconsistencies."
+     },
+     "usage": {
+      "input_tokens": 1204,
+      "output_tokens": 105,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1134",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim for the cracked windscreen is covered under the comprehensive coverage of the policy, which includes glass breakage. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The policy covers glass damage under comprehensive coverage, which includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1341,
+      "output_tokens": 145,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1134",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for a cracked windscreen, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The policy covers glass damage under comprehensive coverage, which includes glass breakage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1341,
+      "output_tokens": 142,
+      "cached_tokens": 1152
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

@@ -1,0 +1,184 @@
+{
+ "claim_id": "CLM-2025-1080",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2018 BMW 3 Series, colour not specified",
+      "incident": "Hit an unidentified object on an empty road at night on 2025-03-30.",
+      "damage": "Damage consistent with hitting an unidentified object, as shown in photos and repair estimate.",
+      "repair_estimate_usd": 6100,
+      "policy_details": "Policy ID: POL-AU-70080, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with an unidentified object on an empty road at night. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1668,
+      "output_tokens": 193,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1331,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"material inconsistencies or suspected fraud in claim file\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1566,
+      "output_tokens": 63,
+      "cached_tokens": 1280
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision with another object. The deductible has already been applied to the net payable amount. Although fraud is suspected, the inconsistency clause requires referral to the fraud investigator but does not exclude coverage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-FRD-007"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2077,
+      "output_tokens": 122,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "fraud_signals": [
+       "fraud score >= 0.7"
+      ],
+      "fraud_suspected": true,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "fraud-investigator",
+      "high_value": false,
+      "rationale": "Fraud is suspected due to a fraud risk score of 0.82, which exceeds the threshold of 0.7. There are no inconsistencies noted in the intake, but the fraud risk score alone necessitates referral to a fraud investigator."
+     },
+     "usage": {
+      "input_tokens": 1312,
+      "output_tokens": 116,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision with an object. The policy was active at the time of the incident, and the repair-to-ACV ratio confirms it is not a total loss. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before proceeding with any payment.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision with another object."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "Inconsistency clause requires referral to the fraud investigator before any payment."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1459,
+      "output_tokens": 161,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1080",
+      "outcome": "route",
+      "route_to": "fraud-investigator",
+      "reasoning": "The claim is covered under the collision coverage clause, as the damage resulted from a collision with an object. The policy was active at the time of the incident, and the repair-to-ACV ratio confirms it is not a total loss. However, due to a high fraud risk score, the claim must be referred to a fraud investigator before proceeding with any payment.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage applies to direct and accidental loss caused by collision with another object."
+       },
+       {
+        "source_id": "CLS-FRD-007",
+        "quote": "The inconsistency clause requires referral to the fraud investigator before any payment."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1459,
+      "output_tokens": 161,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

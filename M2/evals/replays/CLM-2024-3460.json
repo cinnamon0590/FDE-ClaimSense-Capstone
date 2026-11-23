@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -32,16 +32,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2017 Nissan Qashqai",
+      "vehicle": "2017 Nissan Qashqai, colour not specified",
       "incident": "Side impact at an intersection on 2024-10-09.",
       "damage": "B-pillar and both doors on the passenger side damaged.",
       "repair_estimate_usd": 16900,
-      "policy_details": "POL-AU-33871, liability, collision, comprehensive, $500 deductible, 2024-06-20 to 2025-06-20.",
-      "summary": "The claim involves a collision incident with no reported injuries. All required documents are on file."
+      "policy_details": "Policy ID: POL-AU-33871, Coverages: liability, collision, comprehensive, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with side impact damage to the passenger side of the vehicle. All required documents are on file, and no injuries or commercial use are indicated."
      },
      "usage": {
-      "input_tokens": 1618,
-      "output_tokens": 173,
+      "input_tokens": 1753,
+      "output_tokens": 190,
       "cached_tokens": 0
      }
     }
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1208,
-      "output_tokens": 13,
+      "input_tokens": 1262,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -71,12 +71,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"definition of total loss compared to actual cash value\"}"
+       "arguments": "{\"query\":\"total loss determination based on repair-to-ACV ratio\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1466,
-      "output_tokens": 63,
+      "input_tokens": 1497,
+      "output_tokens": 65,
       "cached_tokens": 1152
      }
     },
@@ -84,7 +84,7 @@
      "final": {
       "claim_id": "CLM-2024-3460",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible applies separately to each covered loss, and the vehicle is considered a total loss because the repair cost equals or exceeds its actual cash value.",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the net payable amount. The vehicle is considered a total loss as the repair cost equals or exceeds its actual cash value, as per the total loss clause.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002",
@@ -93,8 +93,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1987,
-      "output_tokens": 119,
+      "input_tokens": 2007,
+      "output_tokens": 128,
       "cached_tokens": 1408
      }
     }
@@ -112,11 +112,11 @@
       "injury_exposure": false,
       "recommended_route": "total-loss-appraiser",
       "high_value": false,
-      "rationale": "The claim is a total loss due to a repair-to-ACV ratio of 1.006. There are no fraud signals or injury exposure, leading to the recommendation for a total-loss appraiser."
+      "rationale": "The claim is a total loss due to the repair-to-ACV ratio being 1.006. There are no fraud signals or injury exposure."
      },
      "usage": {
-      "input_tokens": 1224,
-      "output_tokens": 98,
+      "input_tokens": 1250,
+      "output_tokens": 87,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-3460",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The recommended route to a total-loss appraiser is appropriate given the total loss status.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss as the repair-to-ACV ratio exceeds 1.0. The assessment recommends routing to a total-loss appraiser due to the total loss status.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -143,8 +143,8 @@
       ]
      },
      "usage": {
-      "input_tokens": 1324,
-      "output_tokens": 156,
+      "input_tokens": 1368,
+      "output_tokens": 143,
       "cached_tokens": 0
      }
     }
@@ -158,7 +158,7 @@
       "claim_id": "CLM-2024-3460",
       "outcome": "route",
       "route_to": "total-loss-appraiser",
-      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The policy is active, and all required documents are present. The recommended route is to a total-loss appraiser as per the assessment.",
+      "reasoning": "The claim is covered under the collision coverage clause, and the vehicle is deemed a total loss due to the repair-to-ACV ratio exceeding 1.0. The assessment recommends routing to a total-loss appraiser, which is required for further evaluation.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
@@ -171,13 +171,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1324,
-      "output_tokens": 154,
+      "input_tokens": 1368,
+      "output_tokens": 145,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

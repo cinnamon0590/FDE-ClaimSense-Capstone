@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,9 +13,9 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
-      "cached_tokens": 0
+      "cached_tokens": 1024
      }
     },
     {
@@ -31,17 +31,17 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2020 Fiat 500",
+      "vehicle": "2020 Fiat 500, colour not specified",
       "incident": "Minor collision with a lamp post while avoiding a dog in the road on 2024-10-27.",
-      "damage": "Damage consistent with the reported collision, estimated at $1,600.",
+      "damage": "Damage consistent with a minor collision with a lamp post.",
       "repair_estimate_usd": 1600,
-      "policy_details": "POL-AU-61119, liability, collision, comprehensive, $500 deductible, 2024-07-07 to 2025-07-07.",
-      "summary": "This claim involves a collision incident reported on 2024-10-28. The vehicle is a 2020 Fiat 500 with an estimated repair cost of $1,600."
+      "policy_details": "POL-AU-61119, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a minor collision with a lamp post while avoiding a dog. The repair estimate on file is $1,600, and no injuries were reported."
      },
      "usage": {
-      "input_tokens": 1530,
-      "output_tokens": 197,
-      "cached_tokens": 0
+      "input_tokens": 1665,
+      "output_tokens": 186,
+      "cached_tokens": 1536
      }
     }
    ]
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1219,
+      "input_tokens": 1245,
       "output_tokens": 14,
       "cached_tokens": 0
      }
@@ -70,7 +70,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1454,
+      "input_tokens": 1480,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -79,7 +79,7 @@
      "final": {
       "claim_id": "CLM-2024-4119",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "basis": "The policy includes collision coverage, which applies to the damage from the collision with the lamp post. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -87,8 +87,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1708,
-      "output_tokens": 106,
+      "input_tokens": 1734,
+      "output_tokens": 83,
       "cached_tokens": 1408
      }
     }
@@ -106,11 +106,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.1633, indicating it is not a total loss. There are no fraud signals or injury exposure, leading to a recommended route of 'none'."
+      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.1633 indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no inconsistencies noted."
      },
      "usage": {
-      "input_tokens": 1236,
-      "output_tokens": 105,
+      "input_tokens": 1202,
+      "output_tokens": 103,
       "cached_tokens": 0
      }
     }
@@ -124,21 +124,21 @@
       "claim_id": "CLM-2024-4119",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to the damage from the collision with the lamp post. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to damage from collisions."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1343,
-      "output_tokens": 145,
+      "input_tokens": 1336,
+      "output_tokens": 143,
       "cached_tokens": 0
      }
     }
@@ -152,26 +152,26 @@
       "claim_id": "CLM-2024-4119",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, which applies to the damage from the collision with the lamp post. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to damage from collisions."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1343,
-      "output_tokens": 148,
-      "cached_tokens": 1152
+      "input_tokens": 1336,
+      "output_tokens": 143,
+      "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

@@ -1,0 +1,190 @@
+{
+ "claim_id": "CLM-2025-1089",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1089",
+      "loss_type": "vandalism",
+      "documents_on_file": [
+       "fnol_form",
+       "police_report",
+       "repair_estimate"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 Mazda 2, colour not specified",
+      "incident": "Car keyed overnight outside my flat on 2025-06-12.",
+      "damage": "The car was keyed, consistent with vandalism.",
+      "repair_estimate_usd": 1100,
+      "policy_details": "POL-AU-70089, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves vandalism where the insured vehicle was keyed overnight. All required documents are on file, and there are no inconsistencies or indications of injury or commercial use."
+     },
+     "usage": {
+      "input_tokens": 1650,
+      "output_tokens": 183,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"vandalism damage to the insured's own car under comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1251,
+      "output_tokens": 18,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to comprehensive coverage claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"policy period coverage clause\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1502,
+      "output_tokens": 59,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1089",
+      "coverage_finding": "covered",
+      "basis": "The vandalism damage to the insured's own car is covered under the comprehensive coverage, which includes vandalism as a covered peril. The deductible applies as specified, and the loss date is confirmed to be within the policy period.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002",
+       "CLS-PER-006"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1939,
+      "output_tokens": 103,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1089",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is for vandalism with no inconsistencies or indications of fraud. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no injuries reported, and all required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1218,
+      "output_tokens": 105,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1089",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for vandalism damage, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The net payable amount is within the authority limit, and there are no indications of fraud or inconsistencies.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes vandalism as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "A deductible of $500 applies to comprehensive claims."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy period covers incidents occurring from 00:01 on 2024-06-12 through 23:59 on 2025-06-12."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1354,
+      "output_tokens": 178,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1089",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is for vandalism, which is covered under the comprehensive coverage of the policy. The incident occurred within the policy period, and all required documents are on file. The repair-to-ACV ratio confirms it is not a total loss, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes vandalism as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified."
+       },
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The loss date is confirmed to be within the policy period."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1354,
+      "output_tokens": 157,
+      "cached_tokens": 1152
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

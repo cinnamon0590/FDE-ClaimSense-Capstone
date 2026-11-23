@@ -57,7 +57,7 @@ def badge(x, y, num):
 
 
 # ── title ─────────────────────────────────────────────────────────────────────────────────────
-out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M3, prompt m2-v10)</text>')
+out.append('<text x="20" y="32" font-size="20" font-weight="700" fill="#212121">ClaimSense AI × AutoSure Insurance — architecture AS BUILT (through M4 step 1, prompt m2-v13)</text>')
 out.append('<text x="20" y="52" font-size="12" fill="#555">Every arrow is a labelled data flow (B1–B20, legend below). '
            'Blue = deterministic code · Orange = model judgment · Green = human · Grey = systems/data · Purple = operations. '
            'Solid border = deployed on AWS · dashed border = runs locally in containers. Synthetic data only.</text>')
@@ -83,7 +83,7 @@ box(330, 300, 230, 75, "code", ["Deterministic checks", "term · net payable · 
 box(590, 300, 330, 75, "code", ["Guardrails G1–G8 (code)", "injection scan + classifier · provenance quarantine", "citations ⊆ retrieved · PII mask · second opinion"])
 box(950, 300, 290, 75, "code", ["Rule-engine fallback + holds", "labelled deterministic_fallback", "guardrail / disagreement → senior adjuster"])
 
-box(40, 455, 185, 65, "model", ["① Document Intake", "gpt-4o-mini", "file · vehicle · damage · estimate"])
+box(40, 455, 185, 65, "model", ["① Document Intake", "gpt-4o (m2-v13)", "file · vehicle · damage · estimate"])
 box(235, 455, 185, 65, "model", ["② Coverage Check", "gpt-4o + search_clauses", "cites retrieved clauses"])
 box(430, 455, 185, 65, "model", ["③ Claim Assessment", "gpt-4o-mini", "indicators · TL · high value · injury"])
 box(625, 455, 185, 65, "model", ["④ Decision Draft", "gpt-4o · strict output", "typed DecisionCard"])

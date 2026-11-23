@@ -119,7 +119,7 @@ class Pipeline:
         t0 = time.time()
         run_id = run_id or f"{claim_id}:{uuid.uuid4().hex[:8]}"
         ctx = RunCtx(boundary=self.boundary, user_id=user_id, claim_id=claim_id, index=self.index, on_event=on_event,
-                     classifier=self.classifier)
+                     classifier=self.classifier, intake_view=True)
         usage = []
         result = {"claim_id": claim_id, "user_id": user_id, "run_id": run_id, "brain": self.brain,
                   "replay_source": self.store.source(claim_id) if self.brain == "replay" else None}

@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -31,16 +31,16 @@
       "injury_indicated": false,
       "commercial_use_indicated": false,
       "inconsistencies": [],
-      "vehicle": "2018 Kia Sportage",
-      "incident": "The car was stolen from a supermarket car park on 2024-10-21.",
-      "damage": "The vehicle was reported stolen with no physical damage described.",
+      "vehicle": "2018 Kia Sportage, colour not specified",
+      "incident": "The car was reportedly stolen from a supermarket car park on 2024-10-21.",
+      "damage": "The vehicle is reported stolen; no physical damage described.",
       "repair_estimate_usd": 0,
-      "policy_details": "POL-AU-27740, liability, collision, comprehensive, $500 deductible, 2024-04-18 to 2025-04-18.",
-      "summary": "This claim involves a theft of a vehicle. The insured reported the incident on 2024-10-22."
+      "policy_details": "POL-AU-27740, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves the theft of a 2018 Kia Sportage from a supermarket car park. A police report is missing from the documentation."
      },
      "usage": {
-      "input_tokens": 1394,
-      "output_tokens": 173,
+      "input_tokens": 1530,
+      "output_tokens": 176,
       "cached_tokens": 0
      }
     }
@@ -57,7 +57,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1251,
+      "input_tokens": 1291,
       "output_tokens": 12,
       "cached_tokens": 0
      }
@@ -70,12 +70,12 @@
       },
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"reporting requirements for theft claims\"}"
+       "arguments": "{\"query\":\"theft claim reporting requirements\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1496,
-      "output_tokens": 60,
+      "input_tokens": 1536,
+      "output_tokens": 59,
       "cached_tokens": 1152
      }
     },
@@ -83,7 +83,7 @@
      "final": {
       "claim_id": "CLM-2024-3355",
       "coverage_finding": "ambiguous",
-      "basis": "The theft damage is covered under comprehensive coverage, but the claim cannot be settled until a police report reference is provided, as required by the policy.",
+      "basis": "The theft of the vehicle is covered under the comprehensive coverage, but the claim cannot be settled until a police report reference is provided, as required by the policy.",
       "cited_clause_ids": [
        "CLS-CMP-003",
        "CLS-THF-008"
@@ -91,8 +91,8 @@
       "exclusion_or_condition": "Pending condition: police report required for settlement."
      },
      "usage": {
-      "input_tokens": 2004,
-      "output_tokens": 91,
+      "input_tokens": 2043,
+      "output_tokens": 94,
       "cached_tokens": 1408
      }
     }
@@ -112,11 +112,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is ambiguous due to the missing police report, but there are no material inconsistencies or high fraud risk indicators. The repair-to-ACV ratio indicates it is not a total loss, and there are no injuries reported."
+      "rationale": "The claim is for theft with a missing police report, which creates ambiguity in coverage. There are no material inconsistencies or indications of fraud. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. No injuries are reported."
      },
      "usage": {
-      "input_tokens": 1252,
-      "output_tokens": 110,
+      "input_tokens": 1258,
+      "output_tokens": 119,
       "cached_tokens": 0
      }
     }
@@ -130,7 +130,7 @@
       "claim_id": "CLM-2024-3355",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is ambiguous because the required police report for the theft claim is missing, which is a pending condition for settlement. The loss occurred within the policy period, and the net payable is within the authority limit. However, the missing document prevents a clear coverage determination.",
+      "reasoning": "The claim involves a theft covered under comprehensive coverage, but the police report is missing, making coverage ambiguous. The policy requires a police report for settlement, so the claim cannot be finalized until this document is received. The loss occurred within the policy period, and the net payable is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -138,13 +138,13 @@
        },
        {
         "source_id": "CLS-THF-008",
-        "quote": "A theft claim cannot be settled until a police report reference is received."
+        "quote": "A police report is required for theft claim settlement."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1355,
-      "output_tokens": 135,
+      "input_tokens": 1399,
+      "output_tokens": 138,
       "cached_tokens": 0
      }
     }
@@ -158,7 +158,7 @@
       "claim_id": "CLM-2024-3355",
       "outcome": "flag_review",
       "route_to": "senior-adjuster",
-      "reasoning": "The claim is ambiguous because the required police report for the theft claim is missing, which is a pending condition for settlement. The loss occurred within the policy period, and the net payable is within the authority limit. However, the missing document prevents a clear coverage determination.",
+      "reasoning": "The claim involves a theft covered under comprehensive coverage, but the police report is missing, making coverage ambiguous. The policy requires a police report for settlement, so the claim cannot be approved or denied until this is resolved. The loss occurred within the policy period, and the net payable is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-CMP-003",
@@ -171,13 +171,13 @@
       ]
      },
      "usage": {
-      "input_tokens": 1355,
-      "output_tokens": 131,
+      "input_tokens": 1399,
+      "output_tokens": 139,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

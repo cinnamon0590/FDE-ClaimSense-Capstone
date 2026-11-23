@@ -1,0 +1,178 @@
+{
+ "claim_id": "CLM-2025-1085",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1085",
+      "loss_type": "hail",
+      "documents_on_file": [
+       "fnol_form",
+       "photos"
+      ],
+      "missing_documents": [
+       "repair_estimate"
+      ],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 Ford Puma, colour not specified",
+      "incident": "Hail during a storm dented the bonnet on 2025-07-17.",
+      "damage": "The bonnet was dented by hail.",
+      "repair_estimate_usd": 2200,
+      "policy_details": "POL-AU-70085, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to the bonnet of a 2021 Ford Puma. A repair estimate document is missing from the file."
+     },
+     "usage": {
+      "input_tokens": 1608,
+      "output_tokens": 171,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"hail damage coverage under comprehensive insurance\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1229,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on comprehensive claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1473,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1085",
+      "coverage_finding": "covered",
+      "basis": "The hail damage to the insured's car is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies as specified, and the net payable amount has already accounted for this deductible.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1727,
+      "output_tokens": 94,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1085",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under comprehensive coverage for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
+     },
+     "usage": {
+      "input_tokens": 1197,
+      "output_tokens": 107,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1085",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. However, the repair estimate document is missing, which is required for processing. The net payable amount is within the authority limit, but the missing document necessitates a review by a senior adjuster.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1335,
+      "output_tokens": 136,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1085",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. However, the repair estimate document is missing, which is required for processing. The net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1335,
+      "output_tokens": 122,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

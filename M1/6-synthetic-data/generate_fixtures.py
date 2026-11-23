@@ -11,12 +11,14 @@ VINs and IDs are generated, and no record describes a real person or vehicle.
 """
 import hashlib
 import json
+import re
 from datetime import date, timedelta
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
 M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"   # added in M2 (CS-021..CS-040)
+M4_CASES = HERE.parent.parent / "M4" / "evals" / "cases-m4.json"   # added in M4 (CS-041..CS-150)
 CLAUSES = HERE / "source" / "clauses.json"
 OUT = HERE / "fixtures"
 
@@ -76,9 +78,8 @@ def doc_entries(case):
         text = facts.get(dtype) or facts.get(raw) or default_text(dtype, case)
         meta = {}
         if dtype == "photos":
-            meta = {"image_count": int(count),
-                    "exif_dates": [facts["photos"].split("metadata dates are ")[1].rstrip(".")]
-                    if "photos" in facts else [claim["incident_date"]]}
+            m = re.search(r"metadata dates are (\d{4}-\d{2}-\d{2})", facts.get("photos", ""))
+            meta = {"image_count": int(count), "exif_dates": [m.group(1) if m else claim["incident_date"]]}
         out.append({
             "doc_id": doc_id, "claim_id": claim["claim_id"], "doc_type": dtype, "title": title,
             "source_system": source, "received_date": received.isoformat(),
@@ -117,8 +118,9 @@ SENIOR_QUEUE = HERE / "source" / "senior_queue.json"   # 2 non-eval claims in th
 
 def main():
     cases = json.loads(CASES.read_text())["cases"]
-    if M2_CASES.exists():
-        cases += json.loads(M2_CASES.read_text())["cases"]
+    for extra in (M2_CASES, M4_CASES):
+        if extra.exists():
+            cases += json.loads(extra.read_text())["cases"]
     clause_src = json.loads(CLAUSES.read_text())
     bob_queue = json.loads(SENIOR_QUEUE.read_text())["claims"]
     cases += bob_queue                       # built by the same code as every eval claim; in no eval suite
@@ -143,7 +145,7 @@ def main():
             "vehicle": dict(parse_vehicle(c["vehicle"]), vin=vin(c["claim_id"])),
             "acv": c["acv"], "repair_estimate": c["repair_estimate"],
             "injury_reported": c["injury_reported"], "fraud_risk_score": c["fraud_risk_score"],
-            "prior_claims_24m": PRIOR_CLAIMS.get(c["claim_id"], 0),
+            "prior_claims_24m": c.get("prior_claims_24m", PRIOR_CLAIMS.get(c["claim_id"], 0)),
             "status": "first_pass_pending",
             "assigned_group": "adjuster",
             "document_ids": [d["doc_id"] for d in claim_docs],

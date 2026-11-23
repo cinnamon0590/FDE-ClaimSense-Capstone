@@ -3,7 +3,7 @@
  "source": "recorded",
  "agents": {
   "intake": {
-   "model": "gpt-4o-mini-2024-07-18",
+   "model": "gpt-4o-2024-08-06",
    "turns": [
     {
      "tool_calls": [
@@ -13,7 +13,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 952,
+      "input_tokens": 1116,
       "output_tokens": 2,
       "cached_tokens": 0
      }
@@ -34,14 +34,14 @@
       "inconsistencies": [],
       "vehicle": "2021 Toyota Camry",
       "incident": "Insured was stationary at a red light when struck from behind by a third-party vehicle on 2024-10-02.",
-      "damage": "Damage consistent with the reported collision, as described in the repair estimate and photos.",
+      "damage": "Damage consistent with being struck from behind while stationary at a red light.",
       "repair_estimate_usd": 3200,
-      "policy_details": "POL-AU-10418, liability, collision, comprehensive, $500 deductible, 2024-03-15 to 2025-03-15.",
-      "summary": "The claim involves a collision where the insured's vehicle was struck from behind. All required documents are on file."
+      "policy_details": "POL-AU-10418, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The insured's vehicle was stationary at a red light when it was rear-ended by a third-party vehicle. The repair estimate is $3,200, and no injuries were reported."
      },
      "usage": {
-      "input_tokens": 1633,
-      "output_tokens": 191,
+      "input_tokens": 1768,
+      "output_tokens": 196,
       "cached_tokens": 0
      }
     }
@@ -54,12 +54,12 @@
      "tool_calls": [
       {
        "name": "search_clauses",
-       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
       }
      ],
      "usage": {
-      "input_tokens": 1214,
-      "output_tokens": 13,
+      "input_tokens": 1256,
+      "output_tokens": 14,
       "cached_tokens": 0
      }
     },
@@ -71,7 +71,7 @@
       }
      ],
      "usage": {
-      "input_tokens": 1472,
+      "input_tokens": 1491,
       "output_tokens": 23,
       "cached_tokens": 1152
      }
@@ -80,7 +80,7 @@
      "final": {
       "claim_id": "CLM-2024-1800",
       "coverage_finding": "covered",
-      "basis": "The collision damage to the insured's vehicle is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause specifies that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "basis": "The policy includes collision coverage, which applies to the damage sustained by the insured's vehicle. The deductible has been correctly applied to the net payable amount.",
       "cited_clause_ids": [
        "CLS-COL-001",
        "CLS-DED-002"
@@ -88,8 +88,8 @@
       "exclusion_or_condition": null
      },
      "usage": {
-      "input_tokens": 1726,
-      "output_tokens": 110,
+      "input_tokens": 1745,
+      "output_tokens": 82,
       "cached_tokens": 1408
      }
     }
@@ -107,11 +107,11 @@
       "injury_exposure": false,
       "recommended_route": "none",
       "high_value": false,
-      "rationale": "The claim is covered, with no fraud indicators or material inconsistencies. The repair-to-ACV ratio indicates it is not a total loss, and there are no reported injuries."
+      "rationale": "The claim is covered under the policy, with a repair-to-ACV ratio of 0.1306 indicating it is not a total loss. There are no reported injuries, and the fraud risk score is low with no material inconsistencies present."
      },
      "usage": {
-      "input_tokens": 1235,
-      "output_tokens": 90,
+      "input_tokens": 1212,
+      "output_tokens": 104,
       "cached_tokens": 0
      }
     }
@@ -125,21 +125,21 @@
       "claim_id": "CLM-2024-1800",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage, and the loss occurred within the policy period. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indicators of fraud or inconsistencies.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1327,
-      "output_tokens": 139,
+      "input_tokens": 1347,
+      "output_tokens": 135,
       "cached_tokens": 0
      }
     }
@@ -153,26 +153,26 @@
       "claim_id": "CLM-2024-1800",
       "outcome": "approve",
       "route_to": null,
-      "reasoning": "The collision damage is covered under the policy's collision coverage, and the loss occurred within the policy period. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and there are no indicators of fraud or inconsistencies.",
+      "reasoning": "The claim is covered under the collision coverage of the policy, and the incident occurred within the policy period. The repair-to-ACV ratio confirms it is not a total loss, and all required documents are on file. The net payable amount is within the authority limit.",
       "citations": [
        {
         "source_id": "CLS-COL-001",
-        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+        "quote": "Collision coverage applies to the damage sustained by the insured's vehicle."
        },
        {
         "source_id": "CLS-DED-002",
-        "quote": "The deductible applies separately to each covered loss."
+        "quote": "The deductible has been correctly applied to the net payable amount."
        }
       ]
      },
      "usage": {
-      "input_tokens": 1327,
-      "output_tokens": 139,
+      "input_tokens": 1347,
+      "output_tokens": 135,
       "cached_tokens": 0
      }
     }
    ]
   }
  },
- "prompt_version": "m2-v10"
+ "prompt_version": "m2-v13"
 }

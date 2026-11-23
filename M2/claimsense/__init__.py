@@ -5,4 +5,4 @@ Code owns identity, access, dates and money; the model owns judgment; a licensed
 confirms every outcome. Synthetic data only.
 """
 __version__ = "0.2.0"
-PROMPT_VERSION = "m2-v10"
+PROMPT_VERSION = "m2-v13"

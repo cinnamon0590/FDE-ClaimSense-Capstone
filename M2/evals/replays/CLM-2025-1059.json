@@ -1,0 +1,178 @@
+{
+ "claim_id": "CLM-2025-1059",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1059",
+      "loss_type": "vandalism",
+      "documents_on_file": [
+       "fnol_form",
+       "police_report",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 BMW 1 Series, colour not specified",
+      "incident": "All four tyres were slashed while parked outside a restaurant on 2025-03-08.",
+      "damage": "All four tyres were slashed.",
+      "repair_estimate_usd": 1120,
+      "policy_details": "POL-AU-70059, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves vandalism with all four tyres slashed on a 2021 BMW 1 Series. Required documents are on file, and no inconsistencies or injuries are reported."
+     },
+     "usage": {
+      "input_tokens": 1751,
+      "output_tokens": 190,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"vandalism damage to the insured's own car under comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1249,
+      "output_tokens": 18,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application on comprehensive coverage claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1500,
+      "output_tokens": 24,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1059",
+      "coverage_finding": "covered",
+      "basis": "The policy covers vandalism damage under comprehensive coverage, and the deductible applies as specified in the policy.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1755,
+      "output_tokens": 72,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1059",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the policy for vandalism, with all required documents on file and no inconsistencies or injuries reported. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. The fraud risk score is low, and there are no fraud indicators present."
+     },
+     "usage": {
+      "input_tokens": 1194,
+      "output_tokens": 116,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1059",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the comprehensive coverage for vandalism, as specified in the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The policy covers vandalism damage under comprehensive coverage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1341,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1059",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the comprehensive coverage for vandalism, as specified in the policy. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "The policy covers vandalism damage under comprehensive coverage."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1341,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

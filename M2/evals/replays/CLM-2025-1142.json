@@ -1,0 +1,169 @@
+{
+ "claim_id": "CLM-2025-1142",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "repair_invoice"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Vauxhall Corsa, colour not specified",
+      "incident": "Collision with a car pulling out of a junction on 2025-08-06.",
+      "damage": "Damage consistent with a collision, as shown in photos and described in the repair estimate.",
+      "repair_estimate_usd": 1450,
+      "policy_details": "Policy ID: POL-AU-70142, Coverages: liability, Deductible: 500, Use class: private",
+      "summary": "The claim involves a collision with another car at a junction on 2025-08-06. All required documents are on file, and there are no reported injuries or inconsistencies."
+     },
+     "usage": {
+      "input_tokens": 1732,
+      "output_tokens": 198,
+      "cached_tokens": 1664
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car under liability coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1226,
+      "output_tokens": 16,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"liability-only policy coverage for damage to insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1463,
+      "output_tokens": 28,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "coverage_finding": "not_covered",
+      "basis": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle.",
+      "cited_clause_ids": [
+       "CLS-LIA-012"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1715,
+      "output_tokens": 67,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not covered under the policy as it provides liability coverage only, and the repair-to-ACV ratio indicates it is not a total loss. There are no fraud signals or injury exposures."
+     },
+     "usage": {
+      "input_tokens": 1174,
+      "output_tokens": 94,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1299,
+      "output_tokens": 109,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1142",
+      "outcome": "deny",
+      "route_to": null,
+      "reasoning": "The claim is denied because the policy provides liability coverage only, which does not cover damage to the insured's own vehicle. The incident occurred within the policy period, but the coverage does not extend to collision damage for the insured vehicle.",
+      "citations": [
+       {
+        "source_id": "CLS-LIA-012",
+        "quote": "The policy provides liability coverage only, which does not cover damage to the insured's own vehicle."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1299,
+      "output_tokens": 109,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

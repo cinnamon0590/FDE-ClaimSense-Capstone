@@ -1,0 +1,179 @@
+{
+ "claim_id": "CLM-2025-1111",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1111",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2020 Peugeot 2008, colour not specified",
+      "incident": "Hit a pothole and a lamp post driving home from a night shift on 2025-03-14 at 02:40.",
+      "damage": "Damage consistent with hitting a pothole and a lamp post.",
+      "repair_estimate_usd": 2750,
+      "policy_details": "Policy POL-AU-70111, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a pothole and a lamp post on 2025-03-14. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1674,
+      "output_tokens": 200,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1257,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1492,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1111",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1746,
+      "output_tokens": 111,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1111",
+      "fraud_signals": [
+       "Late-night incident (02:40; between 23:00 and 05:00)"
+      ],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause with no indications of fraud or injury exposure. The repair-to-ACV ratio indicates it is not a total loss, and all required documents are on file."
+     },
+     "usage": {
+      "input_tokens": 1262,
+      "output_tokens": 115,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1111",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the incident. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and the loss occurred within the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1388,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1111",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the incident. The deductible has been correctly applied, resulting in a net payable amount of $2250. The loss occurred within the policy period, and all required documents are on file.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1388,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

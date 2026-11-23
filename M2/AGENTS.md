@@ -13,7 +13,7 @@ whole design can be read in one place. Everything below links to the code that e
 | Agent Script | ClaimSense |
 |---|---|
 | `config.developer_name`, `description`, `role` | **ClaimSense**: an AutoSure motor-claims co-pilot that drafts ONE recommendation per claim for a licensed adjuster, who always confirms or overrides it. |
-| `agent_version` | `PROMPT_VERSION` = `m2-v10` ([`claimsense/__init__.py`](claimsense/__init__.py)), stamped on every run and replay file. |
+| `agent_version` | `PROMPT_VERSION` = `m2-v13` ([`claimsense/__init__.py`](claimsense/__init__.py)), stamped on every run and replay file. |
 | `access.default_agent_user` (the agent runs as a user whose permissions decide data access) | **Every call runs as the signed-in adjuster**, never a shared agent account. Each agent has its own identity for the audit (`agent:document-intake`, `agent:coverage-check`, `agent:claim-assessment`, `agent:decision-draft`, `agent:ask-claimsense`), and in M3 it carries a 5-minute delegated token (RFC 8693: Keycloak locally, the door's own exchange on AWS). The governed door ([`../M3/door`](../M3/door)) enforces that adjuster's **grants** (`grants.json`, deny-by-default) and **entitlement** (an adjuster reads only the claims assigned to them; a senior adjuster reads all, D-042), and audits every call. |
 | `system` messages (welcome / error) | The console's messages; the fail-closed answer `FAIL_CLOSED` in [`claimsense/assistant.py`](claimsense/assistant.py). |
 | `runtime.groundedness` / `citation` | Code-owned guardrails G1–G7 ([`claimsense/guardrails.py`](claimsense/guardrails.py), M1 spec): a cited clause must have been retrieved in this run; quotes come from the retrieved text, never a paraphrase. |
@@ -54,10 +54,10 @@ Transitions are one-way. Each agent sees only the structured outputs of the step
 Each agent has a strict typed output (`output_type`), `temperature=0`, and only the tools it needs, with
 `tool_choice="required"` when it has any ([`claimsense/agents_def.py`](claimsense/agents_def.py)).
 
-### Document Intake (`agent:document-intake`, fast model)
+### Document Intake (`agent:document-intake`, smart model since m2-v13, D-046)
 - **description:** report the claim file's facts only; no coverage decision. Output (the viewer's "clean JSON"): documents, the checklist, injury and commercial-use indicators, inconsistencies, then vehicle, incident, damage, repair estimate and policy details.
 - **actions (tools):** `get_claim_file` only, called exactly once. The claim id is bound by code (`with`), never chosen by the model. A repeat call is answered "you already have the file" without a second read (loop guard).
-- **`->` logic (code):** the door checks entitlement first; the claim file is sanitised (PII masked, other claims' ids masked, injection screened) before the model sees it; afterwards code **overwrites** `missing_documents` with the rule table and `repair_estimate_usd` with the claim record whenever they differ (logged as `code_override`). The estimate is withheld from the Decision agent.
+- **`->` logic (code):** the door checks entitlement first; the claim file is sanitised (PII masked, other claims' ids masked, injection screened) before the model sees it, and carries `code_checks` (the document checklist for the loss type and every document or photo dated before the incident) that Intake uses in addition to reading the documents; Intake's view of the policy omits the policy period (Coverage's question); afterwards code **overwrites** `missing_documents` with the rule table and `repair_estimate_usd` with the claim record whenever they differ (logged as `code_override`). The estimate is withheld from the Decision agent.
 - **`|` prompt:** list documents on file, injury and commercial-use indicators, material inconsistencies (quoting dates), a two-sentence summary.
 - **output:** `IntakeResult`. **Guardrails:** `untrusted_input_scan` (input), `intake_injection_tripwire` (output).
 

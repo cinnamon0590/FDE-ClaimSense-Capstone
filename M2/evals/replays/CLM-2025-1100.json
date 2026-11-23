@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1100",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1100",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2023 Volvo XC60, colour not specified",
+      "incident": "Rear impact at speed on 2025-08-15.",
+      "damage": "Boot floor and rear panels replaced.",
+      "repair_estimate_usd": 25499,
+      "policy_details": "POL-AU-70100, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with rear impact on 2025-08-15, resulting in damage to the boot floor and rear panels. All required documents are on file, and no injuries or commercial use are indicated."
+     },
+     "usage": {
+      "input_tokens": 1664,
+      "output_tokens": 184,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1243,
+      "output_tokens": 14,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1478,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1100",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1732,
+      "output_tokens": 111,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1100",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause with no indications of fraud or injury exposure. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit."
+     },
+     "usage": {
+      "input_tokens": 1228,
+      "output_tokens": 112,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1100",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear impact. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and the loss occurred within the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1371,
+      "output_tokens": 136,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1100",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the rear impact. The deductible has been correctly applied, and the net payable amount is within the authority limit. All required documents are on file, and the loss occurred within the policy period.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1371,
+      "output_tokens": 136,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

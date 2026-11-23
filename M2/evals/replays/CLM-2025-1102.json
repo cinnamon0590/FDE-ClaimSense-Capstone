@@ -1,0 +1,182 @@
+{
+ "claim_id": "CLM-2025-1102",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1102",
+      "loss_type": "glass",
+      "documents_on_file": [
+       "fnol_form",
+       "glass_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2021 Kia Ceed, colour not specified",
+      "incident": "Windscreen cracked by a falling icicle in a car park on 2025-06-22.",
+      "damage": "Windscreen cracked.",
+      "repair_estimate_usd": 510,
+      "policy_details": "POL-AU-70102, coverages: liability, collision, comprehensive, deductible: 100, use class: private",
+      "summary": "The claim involves a cracked windscreen caused by a falling icicle on 2025-06-22. All required documents are on file, and there are no inconsistencies or injuries reported."
+     },
+     "usage": {
+      "input_tokens": 1651,
+      "output_tokens": 184,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"glass damage coverage under comprehensive policy\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1280,
+      "output_tokens": 11,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"policy period coverage clause\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"renewal submitted but not processed coverage continuation\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1524,
+      "output_tokens": 59,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1102",
+      "coverage_finding": "ambiguous",
+      "basis": "The loss occurred outside the policy period, and the renewal was submitted but not processed, making coverage continuation unresolved. Glass damage is covered under comprehensive coverage, but the policy period and renewal status are ambiguous.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-PER-006",
+       "CLS-REN-011"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1898,
+      "output_tokens": 99,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1102",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is not a total loss, there are no injuries reported, and there are no fraud indicators or material inconsistencies. Coverage is ambiguous due to the loss occurring outside the policy period."
+     },
+     "usage": {
+      "input_tokens": 1235,
+      "output_tokens": 92,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1102",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The coverage for this claim is ambiguous because the loss occurred outside the policy period, and the renewal status is unresolved. Comprehensive coverage would apply if the policy were active, but the renewal was not processed. Therefore, a senior adjuster needs to review the policy period and renewal status to determine coverage.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "The policy period clause defines the coverage term."
+       },
+       {
+        "source_id": "CLS-REN-011",
+        "quote": "Renewal status affects coverage continuation."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1359,
+      "output_tokens": 135,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1102",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The coverage for this claim is ambiguous because the loss occurred outside the policy period, and the renewal status is unresolved. Comprehensive coverage would apply if the policy were active, but the renewal was not processed. Therefore, a senior adjuster should review the policy period and renewal status to determine coverage.",
+      "citations": [
+       {
+        "source_id": "CLS-PER-006",
+        "quote": "Policy period clause: coverage runs from 00:01 on 2024-06-15 through 23:59 on 2025-06-15."
+       },
+       {
+        "source_id": "CLS-REN-011",
+        "quote": "Renewal clause: coverage continuation is unresolved if renewal is submitted but not processed."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1359,
+      "output_tokens": 167,
+      "cached_tokens": 1152
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

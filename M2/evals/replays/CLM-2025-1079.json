@@ -1,0 +1,191 @@
+{
+ "claim_id": "CLM-2025-1079",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1079",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "medical_note"
+      ],
+      "missing_documents": [],
+      "injury_indicated": true,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Mini Cooper, colour not specified",
+      "incident": "Hit a wall avoiding a dog on 2025-08-08.",
+      "damage": "Damage to the vehicle consistent with hitting a wall; airbag deployed.",
+      "repair_estimate_usd": 3700,
+      "policy_details": "POL-AU-70079, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves a collision with a wall while avoiding a dog, resulting in vehicle damage and a wrist fracture. All required documents are on file, and there are no inconsistencies noted."
+     },
+     "usage": {
+      "input_tokens": 1732,
+      "output_tokens": 188,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1259,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"handling claims involving bodily injury\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1517,
+      "output_tokens": 59,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1079",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the deductible. The deductible has been correctly applied to the payment. The bodily injury claim must be handled by an injury specialist, but this does not affect the coverage of the collision damage.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002",
+       "CLS-INJ-005"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2014,
+      "output_tokens": 124,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1079",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": true,
+      "recommended_route": "injury-specialist",
+      "high_value": false,
+      "rationale": "The claim involves an injury exposure due to a wrist fracture, but there are no fraud signals or total loss indicators."
+     },
+     "usage": {
+      "input_tokens": 1247,
+      "output_tokens": 80,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1079",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The collision damage is covered under the policy's collision coverage clause, and the deductible has been correctly applied. The claim involves an injury exposure due to a wrist fracture, which requires routing to an injury specialist as per the policy requirements.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1358,
+      "output_tokens": 156,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1079",
+      "outcome": "route",
+      "route_to": "injury-specialist",
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage from the collision with the wall. The deductible has been correctly applied, resulting in a net payable amount of $3200. Due to the injury exposure from the wrist fracture, the claim should be routed to an injury specialist for further handling.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible has been correctly applied to the payment."
+       },
+       {
+        "source_id": "CLS-INJ-005",
+        "quote": "Bodily injury claims must be handled by an injury specialist."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1358,
+      "output_tokens": 173,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

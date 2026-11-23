@@ -21,6 +21,7 @@ from jsonschema_lite import validate  # noqa: E402
 
 CASES = HERE.parent.parent / "M0" / "evals" / "cases.json"
 M2_CASES = HERE.parent.parent / "M2" / "evals" / "cases-m2.json"
+M4_CASES = HERE.parent.parent / "M4" / "evals" / "cases-m4.json"
 FILES = {"claims": "claim", "policies": "policy", "documents": "document", "clauses": "clause", "users": "user",
          "claim_assignments": "claim_assignment"}
 
@@ -81,8 +82,9 @@ def main():
 
     # 3. consistency with the M0 eval cases (the single source of truth)
     cases = json.loads(CASES.read_text())["cases"]
-    if M2_CASES.exists():
-        cases += json.loads(M2_CASES.read_text())["cases"]
+    for extra in (M2_CASES, M4_CASES):
+        if extra.exists():
+            cases += json.loads(extra.read_text())["cases"]
     for case in cases:
         cc, cp = case["claim"], case["policy"]
         fc, fp = claims.get(cc["claim_id"]), policies.get(cp["policy_id"])

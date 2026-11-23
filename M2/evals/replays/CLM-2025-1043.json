@@ -1,0 +1,177 @@
+{
+ "claim_id": "CLM-2025-1043",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 1024
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1043",
+      "loss_type": "collision",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_invoice",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2019 Mazda 3, colour not specified",
+      "incident": "Reversed into a concrete bollard leaving a gym car park on 2025-03-19.",
+      "damage": "Rear bumper cracked.",
+      "repair_estimate_usd": 1780,
+      "policy_details": "POL-AU-70043, coverages: liability, collision, comprehensive, deductible: 250, use class: private",
+      "summary": "The claim involves a collision where the insured vehicle reversed into a concrete bollard, resulting in a cracked rear bumper. All required documents are on file, and there are no reported injuries or inconsistencies."
+     },
+     "usage": {
+      "input_tokens": 1664,
+      "output_tokens": 184,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1243,
+      "output_tokens": 13,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to collision claims\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1501,
+      "output_tokens": 23,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1043",
+      "coverage_finding": "covered",
+      "basis": "The collision damage to the insured's own car is covered under the collision coverage clause, which pays for direct and accidental loss caused by collision, less the applicable deductible. The deductible clause confirms that the deductible applies separately to each covered loss, and the net payable amount has already accounted for this deduction.",
+      "cited_clause_ids": [
+       "CLS-COL-001",
+       "CLS-DED-002"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1755,
+      "output_tokens": 111,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1043",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": false,
+      "rationale": "The claim is covered under the collision coverage clause with a repair-to-ACV ratio of 0.1254, indicating it is not a total loss. There are no reported injuries or inconsistencies, and the fraud risk score is low."
+     },
+     "usage": {
+      "input_tokens": 1228,
+      "output_tokens": 103,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1043",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to the damage sustained when the insured vehicle reversed into a concrete bollard. The loss occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1362,
+      "output_tokens": 151,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1043",
+      "outcome": "approve",
+      "route_to": null,
+      "reasoning": "The claim is covered under the collision coverage clause, which applies to direct and accidental loss caused by collision. The incident occurred within the policy period, and the repair-to-ACV ratio confirms it is not a total loss. All required documents are on file, and the net payable amount is within the authority limit.",
+      "citations": [
+       {
+        "source_id": "CLS-COL-001",
+        "quote": "Collision coverage pays for direct and accidental loss caused by collision, less the applicable deductible."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies separately to each covered loss."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1362,
+      "output_tokens": 145,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

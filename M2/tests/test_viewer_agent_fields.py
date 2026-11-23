@@ -34,8 +34,8 @@ def test_risk_indicators_are_code_rules(claim, docs, want):
 
 
 def test_the_fixtures_carry_claims_history():
-    assert {c for c, r in CLAIMS.items() if r["prior_claims_24m"] >= 2} == \
-           {"CLM-2024-1873", "CLM-2024-3577", "CLM-2024-4106", "CLM-2024-4114"}
+    assert {"CLM-2024-1873", "CLM-2024-3577", "CLM-2024-4106", "CLM-2024-4114"} <= \
+           {c for c, r in CLAIMS.items() if r["prior_claims_24m"] >= 2}        # + M4 cases that set it explicitly
 
 
 def test_the_new_output_fields_are_strict():

@@ -1,0 +1,120 @@
+{
+ "claim_id": "CLM-2025-1120",
+ "source": "scripted",
+ "case_id": "CS-120",
+ "note": "Hand-authored turns to exercise the harness. Token counts are estimates.",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 30
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1120",
+      "loss_type": "collision",
+      "vehicle": "2020 Toyota Yaris",
+      "incident": "Collision on 2025-04-17.",
+      "damage": "Damage consistent with the reported collision.",
+      "repair_estimate_usd": 2100,
+      "policy_details": "POL-AU-70120: liability, collision, comprehensive; deductible 500; 2025-01-15 to 2026-01-15",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos",
+       "driver_statement"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "summary": "Collision claim with 4 document(s) on file. No contradictions found in the documents."
+     },
+     "usage": {
+      "input_tokens": 1300,
+      "output_tokens": 156
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\": \"collision damage to the insured's own car\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 30
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1120",
+      "coverage_finding": "ambiguous",
+      "basis": "Cover depends on a condition that is not yet resolved.",
+      "cited_clause_ids": [],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 1300,
+      "output_tokens": 46
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1120",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "high_value": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "rationale": "Routing follows the priority fraud, injury, total loss."
+     },
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 61
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1120",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "Coverage or authority cannot be settled at first pass; a senior adjuster should review. An adjuster confirms or overrides this recommendation.",
+      "citations": []
+     },
+     "usage": {
+      "input_tokens": 900,
+      "output_tokens": 65
+     }
+    }
+   ]
+  }
+ }
+}

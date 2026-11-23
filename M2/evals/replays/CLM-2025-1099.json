@@ -1,0 +1,190 @@
+{
+ "claim_id": "CLM-2025-1099",
+ "source": "recorded",
+ "agents": {
+  "intake": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "get_claim_file",
+       "arguments": "{}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1116,
+      "output_tokens": 2,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1099",
+      "loss_type": "hail",
+      "documents_on_file": [
+       "fnol_form",
+       "repair_estimate",
+       "photos"
+      ],
+      "missing_documents": [],
+      "injury_indicated": false,
+      "commercial_use_indicated": false,
+      "inconsistencies": [],
+      "vehicle": "2024 Mercedes GLC, colour not specified",
+      "incident": "Freak hailstorm destroyed the panels and glass of a new car on 2025-07-28.",
+      "damage": "The documents describe damage to the panels and glass consistent with hail.",
+      "repair_estimate_usd": 31400,
+      "policy_details": "POL-AU-70099, coverages: liability, collision, comprehensive, deductible: 500, use class: private",
+      "summary": "The claim involves hail damage to a 2024 Mercedes GLC, with a repair estimate of $31,400. All required documents are on file, and no inconsistencies or injuries are reported."
+     },
+     "usage": {
+      "input_tokens": 1666,
+      "output_tokens": 195,
+      "cached_tokens": 1024
+     }
+    }
+   ]
+  },
+  "coverage": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"hail damage to the insured's own car under comprehensive coverage\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1273,
+      "output_tokens": 16,
+      "cached_tokens": 0
+     }
+    },
+    {
+     "tool_calls": [
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"deductible application to comprehensive coverage claims\"}"
+      },
+      {
+       "name": "search_clauses",
+       "arguments": "{\"query\":\"settlement authority limit and sign-off requirements\"}"
+      }
+     ],
+     "usage": {
+      "input_tokens": 1522,
+      "output_tokens": 63,
+      "cached_tokens": 1152
+     }
+    },
+    {
+     "final": {
+      "claim_id": "CLM-2025-1099",
+      "coverage_finding": "covered",
+      "basis": "The hail damage to the insured's own car is covered under the comprehensive coverage, which includes hail damage as a covered peril. The deductible applies as specified in the policy, and the net payable amount above $25,000 requires sign-off by a senior adjuster.",
+      "cited_clause_ids": [
+       "CLS-CMP-003",
+       "CLS-DED-002",
+       "CLS-AUTH-010"
+      ],
+      "exclusion_or_condition": null
+     },
+     "usage": {
+      "input_tokens": 2023,
+      "output_tokens": 111,
+      "cached_tokens": 1408
+     }
+    }
+   ]
+  },
+  "assessment": {
+   "model": "gpt-4o-mini-2024-07-18",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1099",
+      "fraud_signals": [],
+      "fraud_suspected": false,
+      "total_loss": false,
+      "injury_exposure": false,
+      "recommended_route": "none",
+      "high_value": true,
+      "rationale": "The claim is covered under comprehensive coverage for hail damage. The repair-to-ACV ratio is below 1.0, indicating it is not a total loss. There are no fraud signals or injury exposures present. The net payable amount exceeds the $25,000 authority limit, requiring senior adjuster sign-off, but does not necessitate a specialist."
+     },
+     "usage": {
+      "input_tokens": 1247,
+      "output_tokens": 125,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1099",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. The net payable amount of $30,900 exceeds the $25,000 authority limit, requiring sign-off by a senior adjuster. All required documents are on file, and there are no inconsistencies or fraud signals.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Net payable amount above $25,000 requires senior adjuster sign-off."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1403,
+      "output_tokens": 171,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  },
+  "decision_check": {
+   "model": "gpt-4o-2024-08-06",
+   "turns": [
+    {
+     "final": {
+      "claim_id": "CLM-2025-1099",
+      "outcome": "flag_review",
+      "route_to": "senior-adjuster",
+      "reasoning": "The claim is covered under comprehensive coverage for hail damage, and the loss occurred within the policy period. The net payable amount of $30,900 exceeds the $25,000 authority limit, requiring sign-off by a senior adjuster. All required documents are on file, and there are no inconsistencies or fraud signals.",
+      "citations": [
+       {
+        "source_id": "CLS-CMP-003",
+        "quote": "Comprehensive coverage includes hail damage as a covered peril."
+       },
+       {
+        "source_id": "CLS-DED-002",
+        "quote": "The deductible applies as specified in the policy."
+       },
+       {
+        "source_id": "CLS-AUTH-010",
+        "quote": "Net payable amount above $25,000 requires senior adjuster sign-off."
+       }
+      ]
+     },
+     "usage": {
+      "input_tokens": 1403,
+      "output_tokens": 171,
+      "cached_tokens": 0
+     }
+    }
+   ]
+  }
+ },
+ "prompt_version": "m2-v13"
+}

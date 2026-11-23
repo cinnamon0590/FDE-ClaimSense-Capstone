@@ -1,7 +1,7 @@
 """The four ClaimSense agents (OpenAI Agents SDK), each with a strict typed `output_type`.
 
-Model routing (W15 cost engineering): the fast model does the volume steps (Intake, Assessment);
-the smart model does the steps where coverage and money are decided (Coverage, Decision Draft).
+Model routing (W15 cost engineering): the fast model does Assessment; the smart model does Intake (since m2-v13:
+the fast model was inconsistent run to run at spotting contradictions, D-046), Coverage and Decision Draft.
 """
 from agents import Agent, ModelSettings
 
@@ -27,20 +27,27 @@ report FACTS ONLY (no coverage decision).
     3. glass needs glass_invoice (photos are NOT an invoice).
     4. theft needs police_report.
   Examples: glass claim with only fnol_form and photos -> ["glass_invoice"]; collision claim with fnol_form and
-  repair_estimate -> [] (the estimate satisfies the repair requirement).
+  repair_estimate -> [] (the estimate satisfies the repair requirement); collision, hail or vandalism claim with
+  only fnol_form and photos -> ["repair_estimate"] (photos are never a repair document).
+  The claim file's code_checks.missing_documents is this checklist worked out by code: it must match your answer.
 - injury_indicated: true if any person (insured or third party) is reported injured.
 - commercial_use_indicated: true only if the INSURED vehicle was carrying people or goods for pay (ride-hail or
   delivery apps, taxi work), even if only mentioned in passing. Another party's van, taxi or delivery vehicle
   does not count.
 - inconsistencies: material contradictions only, e.g. a document or photo dated BEFORE the incident, photos of a
   different vehicle, a medical note predating the loss, statements that contradict the narrative. Quote dates.
-  Check every document's dates and metadata against the incident date before you move on.
+  Compare every driver statement, police report and third-party note with the narrative, fact by fact: who was
+  moving, who hit whom, where and when. A different account of the same event is a material inconsistency (e.g. the
+  narrative says the insured was parked, a statement says the insured was driving).
+  Also include every item in the claim file's code_checks.dated_before_incident (dates code has compared for you).
+  Demands, opinions, personal details or references to other claims are not contradictions of what happened.
 Then the claim's structured details (after the checks above):
 - vehicle: year, make, model and colour from the claim (never the VIN).
 - incident: one sentence: what happened, the date (and time if given) and where.
 - damage: one sentence: the damage the documents and narrative describe.
 - repair_estimate_usd: the claim's repair_estimate amount (an integer; null only if none is on file).
-- policy_details: one line: policy id, coverages, deductible and term (term_start to term_end).
+- policy_details: one line: policy id, coverages, deductible and use class (the policy period is checked by code and
+  the Coverage agent, not by you).
 - summary: two sentences."""
 
 COVERAGE = f"""You are the Coverage Check agent for AutoSure Insurance motor claims (prompt {PROMPT_VERSION}).
@@ -50,7 +57,9 @@ grounded ONLY in clauses you retrieve with search_clauses.
 - Call search_clauses once for EACH item in coverage_questions (plus any exclusion the intake facts raise, such as
   commercial use or inconsistencies), with a focused plain-language query. Up to six searches.
 - cited_clause_ids must include the clause that answers each coverage question you relied on, above all the clause
-  that DECIDES the outcome (the exclusion, the condition, the specialist rule).
+  that DECIDES the outcome (the exclusion, the condition, the specialist rule). Whenever the policy period is in
+  question (a coverage question asks about it, or a renewal is involved), cite the policy-period clause as well as
+  any renewal clause.
 - Only IDs returned by search_clauses may be cited. Never invent or recall clause IDs. Don't cite a clause that
   doesn't apply (e.g. comprehensive wording on a collision claim, commercial use when there is none).
 - coverage_finding: "covered" when the peril is on the policy, the loss is in term and no exclusion applies;
@@ -89,7 +98,8 @@ Draft ONE recommendation for a licensed adjuster, who always confirms or overrid
 Apply in this order:
 1. deny when coverage_finding is "not_covered" because of an exclusion, the policy period or a liability-only
    policy (cite that clause). Suspected fraud is never a reason to deny: it is a referral (rule 3).
-2. flag_review with route_to "senior-adjuster" when coverage_finding is "ambiguous".
+2. flag_review with route_to "senior-adjuster" when coverage_finding is "ambiguous". This comes BEFORE rule 3: while
+   cover is unresolved, even a claim that needs a specialist goes to the senior adjuster first.
 3. route to assessment.recommended_route when it is not "none" (cite the clause that requires it).
    assessment.fraud_signals are indicators for the adjuster: they change the outcome ONLY through
    recommended_route, never on their own.
@@ -112,7 +122,7 @@ Rules:
 {UNTRUSTED}"""
 
 SPECS = {
-    "intake": ("Document Intake", INTAKE, IntakeResult, "fast", [get_claim_file], [intake_injection_tripwire]),
+    "intake": ("Document Intake", INTAKE, IntakeResult, "smart", [get_claim_file], [intake_injection_tripwire]),
     "coverage": ("Coverage Check", COVERAGE, CoverageResult, "smart", [search_clauses], [coverage_citation_tripwire]),
     "assessment": ("Claim Assessment", ASSESSMENT, AssessmentResult, "fast", [], []),
     "decision": ("Decision Draft", DECISION, DecisionDraft, "smart", [], [decision_safety_tripwire]),
