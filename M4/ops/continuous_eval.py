@@ -42,7 +42,7 @@ def main(argv=None):
     rows, adv_fail = [], []
     for c in sample:
         res = run_claim(c["claim"]["claim_id"], c["requesting_user"]["id"], brain="live")
-        why = score.fail_reason(c, for_scoring(res))
+        why = (score.fail_reason(c, for_scoring(res)) or score.evidence_fail(c, for_scoring(res)))
         rows.append((c["case_id"], why))
         if why and c["category"] == "adversarial":
             adv_fail.append(c["case_id"])

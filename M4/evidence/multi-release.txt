@@ -1,0 +1,23 @@
+# multi-release — two tagged releases, both gate-green, with a deliberate regression caught red in between (W17 Architect)
+# repo: github.com/cinnamon0590/FDE-ClaimSense-Capstone
+
+1. v1.0-rc1 (tag) = b0391d1 · CI run 45280249114: every job success, incl. live-eval (150/150, model required) and
+   second-grader (Promptfoo 150/150 + 7/7), then push-image.
+
+2. The regression: PR #33 "DO NOT MERGE" (branch demo/regression-deductible) · M2/claimsense/deterministic.py
+   net = max(int(basis), 0)        # the deductible is no longer subtracted: every approval overpays
+   CI runs 45281533557 (push) and 45281543752 (pull_request): RED. push-image SKIPPED (the release is blocked).
+     pipeline-tests (3.12, 3.14): 5 failed, e.g.
+       test_code_computes_every_golden_net_payable - AssertionError: CS-001
+       test_code_owns_the_money_whatever_the_model_says - assert 2100 == 1600
+     m3-door: 5 failed (the same money tests inside the door's suite)
+   FINDING: the 150-case gate and the Promptfoo agreement runner would have PASSED it (second-grader: 150/150),
+   because score.fail_reason compared decisions only. Fixed in D-057: score.evidence_fail (net payable + required
+   citations) is now part of the gate, the second grader and the continuous eval.
+
+3. The same regression against the fixed gate (local replay run, all 150 cases):
+   money and evidence (net payable + required citations, D-057): 85/150 right (gate: all)
+   DEPLOY GATE: BLOCKED · exit code 1
+   (without the regression: money and evidence 150/150, DEPLOY GATE: PASS)
+
+4. v1.0-final (tag) = the submitted commit, CI green on it (filled in when tagged).

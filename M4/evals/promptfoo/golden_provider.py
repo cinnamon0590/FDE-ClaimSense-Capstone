@@ -30,7 +30,7 @@ def run_case(cid, brain=None):
     from run_evals import for_scoring
     c = _case(cid)
     res = run_claim(c["claim"]["claim_id"], c["requesting_user"]["id"], brain=brain or os.environ.get("CLAIMSENSE_BRAIN", "replay"))
-    why = score.fail_reason(c, for_scoring(res))
+    why = (score.fail_reason(c, for_scoring(res)) or score.evidence_fail(c, for_scoring(res)))
     return res, why
 
 

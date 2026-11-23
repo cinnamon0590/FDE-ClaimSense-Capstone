@@ -136,6 +136,23 @@ def score(predict, cases, verbose=False):
                 model_produced=(produced, len(rows)))
 
 
+def evidence_fail(case, resp):
+    """The money and the evidence, checked on top of the decision (M4 multi-release drill, D-057): a release that
+    dropped the deductible passed `fail_reason`, which compares decisions only. None when both are right.
+    Scored by the gate and the second grader, NOT by SC-1 (decision accuracy keeps its M0 definition, so the
+    rule-table baseline stays comparable)."""
+    exp = case["expected"]
+    if exp.get("outcome") == "refused":
+        return None
+    got = (resp.get("computed") or {}).get("net_payable")
+    if exp.get("net_payable") is not None and got != exp["net_payable"]:
+        return f"wrong net payable: {got} (expected {exp['net_payable']})"
+    missing = [c for c in exp.get("must_cite", []) if c not in (resp.get("citations") or [])]
+    if missing and resp.get("outcome") == exp.get("outcome"):
+        return f"missing required citation(s): {', '.join(missing)}"
+    return None
+
+
 def gate_passes(m, overall=None):
     """DEPLOY GATE (D-007, floor raised to 90% by M2 D-028): overall >= GATE_OVERALL (or a HIGHER bar passed in;
     never lower) AND every adversarial case passes AND every verdict model-produced."""
