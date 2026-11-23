@@ -154,6 +154,9 @@ route '$default' "$AUTH"                               # everything: a valid Cog
 route 'GET /healthz' NONE
 route 'GET /.well-known/{proxy+}' NONE                 # JWKS + RFC 9728 metadata
 route 'POST /oauth/token' NONE                         # authenticated by the subject_token it exchanges (door verifies)
+route 'POST /mcp' NONE                                 # agents carry the door's OWN delegated (OBO) token, which the Cognito
+                                                       # authorizer can't verify: the door verifies every token itself,
+                                                       # before routing, and refuses + audits anything invalid (D-049)
 route 'POST /webhooks/ticketing' NONE                  # HMAC-signed by the ticketing system (door verifies)
 aws apigatewayv2 get-stages --api-id "$API_ID" --query "Items[?StageName=='\$default'].StageName | [0]" --output text | \
   grep -q default || aws apigatewayv2 create-stage --api-id "$API_ID" --stage-name '$default' --auto-deploy >/dev/null

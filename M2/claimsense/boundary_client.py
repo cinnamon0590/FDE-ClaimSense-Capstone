@@ -288,7 +288,12 @@ class McpBoundary(HttpBoundary):
         h = self._headers(user_id, agent, **{"MCP-Protocol-Version": self.PROTOCOL})
         r = self.http.post(self.mcp_url, json={"jsonrpc": "2.0", "id": self._n, "method": method, "params": params},
                            headers=h)
-        body = r.json()
+        try:
+            body = r.json()
+        except ValueError:
+            body = {}
+        if "result" not in body and "error" not in body:     # e.g. a gateway refusal ({"message": "Unauthorized"})
+            body = {"error": {"message": body.get("message") or f"HTTP {r.status_code} from the door"}}
         if "error" in body:                                  # transport refusal (401) or a JSON-RPC error
             data = body["error"].get("data") or {}
             code = "unauthenticated" if r.status_code == 401 else "invalid_request"
