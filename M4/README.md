@@ -15,7 +15,9 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | 7 | **Handover pack** | ✅ start-here page, artefact index, eval contract, escalation map, 10 monthly signals, RCA template + archive | [`handover/`](handover/README.md) |
 | H | **Held-out set: 20 claims never tuned against** (pre-registered, run once, live) | ✅ **19/20**; the miss found a real privacy gap, now fixed | [`evidence/holdout-live.txt`](evidence/holdout-live.txt), [`holdout-ho20-postfix.txt`](evidence/holdout-ho20-postfix.txt) |
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
-| F | Final submission: observation document, final tag, CI on the submitted commit | planned | |
+| F2 | **Observation document** (deployment, evaluation, observability, platform reliability, handover, observations) | ✅ | [`OBSERVATIONS.md`](OBSERVATIONS.md) |
+| F3 | **Multi-release evidence**: `v1.0-rc1` green → a deliberate regression caught red → `v1.0-final` green | ✅ (the drill also fixed a gate blind spot, D-057) | [`evidence/multi-release.txt`](evidence/multi-release.txt) |
+| F4 | Final tag `v1.0-final` + CI on the submitted commit | on merge | |
 
 ## 1 · The 150-case suite and the gate
 

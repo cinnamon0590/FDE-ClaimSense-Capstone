@@ -168,7 +168,7 @@ def evaluate(a, cases, pipe, out, label=""):
     for cid, r in results.items():
         c = by_id[cid]
         resp = for_scoring(r)
-        reason = score.fail_reason(c, resp)
+        reason = score.fail_reason(c, resp) or score.evidence_fail(c, resp)
         engine = engine_of(r)
         if engine == "crashed":
             reason = f"CRASHED: {r['response']['error']}"
@@ -204,7 +204,12 @@ def evaluate(a, cases, pipe, out, label=""):
     thr = threshold_pct()
     crashes = [cid for cid, r in results.items() if engine_of(r) == "crashed"]
     not_model = [cid for cid, r in results.items() if engine_of(r) != "model"]
-    gate = score.gate_passes(m, overall=thr / 100) and not crashes and not (LLM_REQUIRED and not_model)
+    evidence = [cid for cid, r in results.items() if score.evidence_fail(by_id[cid], for_scoring(r))]
+    gate = (score.gate_passes(m, overall=thr / 100) and not crashes and not (LLM_REQUIRED and not_model)
+            and not evidence)                       # D-057: the money and the required citations must be right too
+    lines += [f"money and evidence (net payable + required citations, D-057): "
+              f"{len(results) - len(evidence)}/{len(results)} right (gate: all)"
+              + (f" · wrong: {evidence}" if evidence else "")]
     passed, total = m["model_verdicts"]
     division = "mock" if a.brain == "replay" else "live"
     to_date = record_spend(a, cost, len(results)) if division == "live" else 0.0

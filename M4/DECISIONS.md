@@ -6,6 +6,32 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-057 · 2026-11-23 · Multi-release evidence, and the gate now scores the money and the citations
+- **Why:** the W17 Architect tier asks for two tagged releases, both gate-green, with the eval suite catching a
+  deliberately introduced regression in between.
+- **What happened:**
+  - `v1.0-rc1` was tagged on b0391d1, with every CI job green, including the live 150 and the second grader.
+  - PR #33 (DO NOT MERGE) introduced a realistic money bug: the net payable no longer subtracted the deductible.
+  - CI went **red** and the image push was **blocked**, but **only because unit tests caught it**: 5 money tests in
+    `pipeline-tests` and `m3-door`.
+  - The 150-case gate and the Promptfoo agreement runner would have **passed** it. Both use
+    `score.fail_reason`, which compared the decision, route, forbidden content and guardrails, but never the net
+    payable or the required citations, although the labels carry both.
+- **Decision:**
+  - `score.evidence_fail(case, resp)`: the code-computed net payable must equal the label, and every required
+    citation must be present (when the decision is right).
+  - The gate (`run_evals.py`), the second grader (`golden_provider.py`) and the continuous eval all require it.
+    Each run prints a "money and evidence: N/150 right" line.
+  - SC-1 keeps its M0 definition (decision codes), so the rule-table baseline (25%) stays comparable.
+- **Proof:**
+  - the real system: 150/150 with money and evidence 150/150;
+  - the same deductible bug, re-run locally: money and evidence 85/150 right, **DEPLOY GATE: BLOCKED**, exit 1;
+  - `M0/evals/test_harness.py` pins both checks;
+  - `M4/evidence/multi-release.txt` has the red CI runs.
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-056 · 2026-11-23 · Each person signs in as themself: no user picker, no shared passcode (replaces D-049's demo mode)
 - **Why:** the owner spotted it. D-049's demo mode let anyone holding one shared passcode **pick any synthetic user**
   from a dropdown. Each pick did get that user's own Cognito token, and the door enforced that user's rights. But one

@@ -91,3 +91,13 @@ class GateTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_evidence_fail_catches_a_dropped_deductible_and_a_missing_citation():   # D-057
+    import score
+    case = {"expected": {"outcome": "approve", "net_payable": 2700, "must_cite": ["CLS-COL-001", "CLS-DED-002"]}}
+    good = {"outcome": "approve", "computed": {"net_payable": 2700}, "citations": ["CLS-COL-001", "CLS-DED-002"]}
+    assert score.evidence_fail(case, good) is None
+    assert "net payable" in score.evidence_fail(case, dict(good, computed={"net_payable": 3200}))
+    assert "citation" in score.evidence_fail(case, dict(good, citations=["CLS-COL-001"]))
+    assert score.evidence_fail({"expected": {"outcome": "refused"}}, {"outcome": "refused"}) is None
