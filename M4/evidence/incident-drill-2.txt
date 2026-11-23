@@ -1,0 +1,28 @@
+# incident-drill-2 — incident drill on the deployed system (M4 step 5)
+# command: python M4/drill/incident_drill.py run --label drill-2
+# fault: door config: CLAIMSENSE_DOCS_BUCKET -> wrong bucket · door https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com
+
+TIMELINE (UTC)
+16:19:42  preflight: alarm OK; last-good door config saved (image abb02a2)
+16:20:00  canary green: 4/4 door routes 200 (alice, real Cognito token)
+16:20:00  INJECT: release a config change: CLAIMSENSE_DOCS_BUCKET -> '<bucket>-staging' (wrong bucket)
+16:20:07  bad config live on the door (Lambda updated)
+16:20:30  user impact: alice runs CLM-2024-1800 -> outcome 'unavailable', decided_by 'unavailable', error 'upstream_unavailable'
+16:20:30  DETECTED by the canary: 3 failed door calls in a row (last: /policy-kb/search?q=collision -> 500)
+16:22:22  DETECTED by the alarm: ClaimSense-door-error-rate -> ALARM (SNS email sent)
+16:22:22  ROLLBACK: restore the last-good door config (runbook: Roll back a release)
+16:22:28  rollback live (Lambda updated)
+16:23:01  canary green again: 5 door calls in a row 200
+16:24:16  M3 deployed route check: RESULT: PASS
+16:24:18  M3 S3 document-store check: RESULT: PASS
+16:24:39  alice runs CLM-2024-1800 again -> outcome 'approve', net payable 2700, decided_by 'agents'
+16:24:39  VERIFIED RECOVERY: yes
+16:25:25  alarm state after recovery: OK
+
+time to detect:            26 s (by the canary; alarm fired: True)
+time to rollback:          148 s
+time to verified recovery: 279 s
+canary: 58 calls, 20 failed (500)
+user impact during the incident: {"user": "alice", "claim": "CLM-2024-1800", "outcome": "unavailable", "net_payable": null, "decided_by": "unavailable", "route_to": null, "error": "upstream_unavailable"}
+
+RESULT: PASS — recovered and verified

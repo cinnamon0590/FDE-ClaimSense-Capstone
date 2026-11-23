@@ -116,6 +116,9 @@ URL="https://$API_ID.execute-api.$REGION.amazonaws.com"
 say "Lambda $FN (image, 1024 MB, 30 s, reserved concurrency 1)"
 ENVV="Variables={COGNITO_JWKS_URL=$ISSUER/.well-known/jwks.json,CLAIMSENSE_JWT_ISSUER=$ISSUER,CLAIMSENSE_JWT_AUDIENCE=$CLIENT_ID,CLAIMSENSE_AUTH_SERVER=$ISSUER,CLAIMSENSE_AUDIT_TABLE=$AUDIT_TABLE,CLAIMSENSE_PUBLIC_URL=$URL,CLAIMSENSE_DOCS_BUCKET=$DOCS_BUCKET}"
 if aws lambda get-function --function-name "$FN" >/dev/null 2>&1; then
+  # the release we may need to go back to (D-050): image + configuration, kept outside the repo
+  aws lambda get-function --function-name "$FN" --query '{image: Code.ImageUri, env: Configuration.Environment}' \
+    --output json > "$CONF_DIR/door-previous.json"
   aws lambda update-function-code --function-name "$FN" --image-uri "$IMAGE" >/dev/null
   aws lambda wait function-updated --function-name "$FN"
   aws lambda update-function-configuration --function-name "$FN" --environment "$ENVV" >/dev/null
@@ -175,7 +178,23 @@ aws lambda add-permission --function-name "$FN" --statement-id apigw-invoke --ac
 
 say "Wait for the door to answer"
 for _ in $(seq 1 30); do curl -fs "$URL/healthz" >/dev/null && break; sleep 4; done
-curl -fs "$URL/healthz"; echo
+curl -fs "$URL/healthz" || true; echo
+say "Post-deploy smoke: a real adjuster reads a claim, a policy, its documents and the KB (D-050)"
+PY=${PYTHON:-$ROOT/.venv/bin/python}
+if ! "$PY" "$ROOT/M4/ops/door_smoke.py"; then
+  if [ -s "$CONF_DIR/door-previous.json" ]; then
+    say "SMOKE FAILED: restoring the previous door release (image + configuration)"
+    PREV_IMAGE=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["image"])' "$CONF_DIR/door-previous.json")
+    PREV_ENV=$(python3 -c 'import json,sys; print(json.dumps(json.load(open(sys.argv[1]))["env"]))' "$CONF_DIR/door-previous.json")
+    aws lambda update-function-code --function-name "$FN" --image-uri "$PREV_IMAGE" >/dev/null
+    aws lambda wait function-updated --function-name "$FN"
+    aws lambda update-function-configuration --function-name "$FN" --environment "$PREV_ENV" >/dev/null
+    aws lambda wait function-updated --function-name "$FN"
+    "$PY" "$ROOT/M4/ops/door_smoke.py" || true
+  fi
+  echo "deploy FAILED its smoke test and was rolled back; the previous release is live" >&2
+  exit 1
+fi
 python3 - "$CONF_DIR/deploy.json" "$URL" "$TAG" "$DIGEST" <<'PY'
 import json, os, sys
 out, url, tag, digest = sys.argv[1:]
