@@ -6,6 +6,36 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-056 · 2026-11-23 · Each person signs in as themself: no user picker, no shared passcode (replaces D-049's demo mode)
+- **Why:** the owner spotted it. D-049's demo mode let anyone holding one shared passcode **pick any synthetic user**
+  from a dropdown. Each pick did get that user's own Cognito token, and the door enforced that user's rights. But one
+  secret unlocked every identity, so the system couldn't say *who* was acting, and the audit trail recorded the
+  chosen identity, not the human. That is impersonation, and it would weaken the trust-boundary area (D) under
+  grading.
+- **Decision:**
+  - **The console** has a Username + Password form (cleared on submit) and, once signed in, "Signed in as <user>"
+    with a Sign out button. There is **no user dropdown** on AWS (the local stack keeps its dev-issuer picker, which
+    exists only on localhost). Switching users means signing out and signing in with the other person's password.
+  - **The orchestrator's `POST /signin`:** checks the user is in the directory (an unknown user never reaches
+    Cognito), then calls Cognito `AdminInitiateAuth` with the password supplied, then returns that user's token with
+    the directory's groups.
+    - One message for every refusal, and an audit row for allow and deny. The password is never logged.
+    - 5 refused tries a minute per username, or 20 overall, gives a 429.
+    - Off (404) unless the pool and client are configured.
+  - **Retired:** the `claimsense/demo-signin` secret (7-day recovery window) and the task role's access to it.
+    - The task role now reads only the OpenAI key.
+    - `M4/ops/set_password.py` gives a person a strong, typeable password (≈ 95 bits), set in Cognito, kept only in
+      `~/.claimsense` (0600), never printed. Graders get two users' logins (alice, carol) in the submission form.
+- **Proof:** `M4/evidence/signin-per-user.txt`:
+  - real Cognito: alice's own password → alice; alice's password for carol → refused; carol's own → carol;
+  - the owner's browser test on AWS, with its audit rows;
+  - `M2/tests/test_signin.py` (11). The M3 route check now covers `/signin`.
+- The demo video was re-recorded with the new sign-in: alice and carol each type their own password, and the
+  carol scene shows a sign-out, then her sign-in (9 min 54 s).
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-055 · 2026-11-23 · The client presentation: a 6-slide steering deck and a 9-minute recording of the deployed system
 - **Why:** brief Milestone 5 #5 ("client presentation with a live demonstration") and Submission 2's "demonstration
   recording of no more than ten minutes". The W17 floor: steering deck ≤ 6 slides, business value first, no
@@ -27,7 +57,7 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
     - stills of the deck and **real output**: the DynamoDB audit rows of the calls just recorded, CI's log on
       `main`, the live dashboard, the rollback listing with the drill timeline, the held-out run, the handover pack;
     - OpenAI TTS narration (`narration.json`), soft English captions plus an `.srt`.
-    - **9 min 52 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
+    - **9 min 54 s**, under the 10-minute limit; the owner asked for close to 10 minutes.
   - **No credential handled by the tooling:** the owner typed the demo passcode in the browser window, and the
     footage before sign-in is cut.
 - **What the takes found:**

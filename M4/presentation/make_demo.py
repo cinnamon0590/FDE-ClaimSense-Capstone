@@ -1,13 +1,13 @@
 """Build the ≤10-minute demo video of the DEPLOYED system (Submission 2), from demo-script.md's storyline.
 
     python M4/presentation/make_demo.py tts        # narration per scene (OpenAI TTS, ≈ $0.05), durations measured
-    python M4/presentation/make_demo.py record     # headed browser on the deployed console; YOU type the passcode
+    python M4/presentation/make_demo.py record     # headed browser on the deployed console; YOU sign in (own passwords)
     python M4/presentation/make_demo.py stills     # title cards + real command output rendered as stills
     python M4/presentation/make_demo.py assemble   # one MP4 (H.264 + AAC) with soft captions, plus an .srt
 
 Nothing is staged: console scenes are a screen recording of the deployed console answering live; the other scenes
 are the deck's own slides and real output (the audit trail, CI's log, the CloudWatch dashboard, the rollback
-listing), captured after the recording so they show the same calls. The demo passcode is typed by a person in the
+listing), captured after the recording so they show the same calls. Each user's password is typed by a person in the
 browser window, never by this script, and the footage before sign-in is cut. Output: M4/presentation/out/ (not in git).
 """
 import json
@@ -79,9 +79,23 @@ def record(only=None):
         t0 = time.monotonic()
         now = lambda: round(time.monotonic() - t0, 2)
         pg.goto(url)
-        pg.get_by_label("Demo passcode", exact=True).wait_for(timeout=60_000)
-        print("\n>>> In the browser window: paste the demo passcode into 'Demo passcode' and press Enter. <<<\n", flush=True)
-        pg.get_by_text("role adjuster").first.wait_for(timeout=600_000)      # signed in as alice (blue box)
+        def wait_signed_in(who, timeout=600):       # read the sidebar text (robust to how Streamlit splits it)
+            print(f"\n>>> In the browser window: sign in as {who.upper()} (her own password, ~/.claimsense/logins.json). <<<\n",
+                  flush=True)
+            end = time.time() + timeout
+            while time.time() < end:
+                try:
+                    if re.search(rf"Signed in as\s+{who}\b", pg.locator('[data-testid="stSidebar"]').inner_text()):
+                        return
+                except Exception:
+                    pass
+                time.sleep(1)
+            raise TimeoutError(f"{who} did not sign in within {timeout} s")
+
+        pg.get_by_label("Username", exact=True).wait_for(timeout=180_000)
+        first = "carol" if only == ["refused"] else "alice"  # a carol-only re-take starts with carol
+        switch = "refused" in (only or ["refused"]) and first == "alice"   # sign out, then carol signs in
+        wait_signed_in(first)
         pg.mouse.move(800, 300)
         time.sleep(1.5)
 
@@ -99,6 +113,19 @@ def record(only=None):
             marks[sid] = (start, now())
             print(f"{sid:10} {start:7.2f} → {marks[sid][1]:7.2f}", flush=True)
 
+        stories = {}
+        for f in ("M0/evals/cases.json", "M2/evals/cases-m2.json", "M4/evals/cases-m4.json"):
+            for c in json.loads((ROOT / f).read_text())["cases"]:
+                stories.setdefault(c["claim"]["claim_id"], c["claim"]["narrative"])
+
+        def claim_shown(claim_id):                  # the MAIN panel shows that claim's own story (can't be faked
+            want = stories[claim_id][:40]           #  by text typed into the dropdown)
+            for _ in range(10):
+                if want in pg.locator('[data-testid="stMain"]').inner_text():
+                    return True
+                time.sleep(0.8)
+            return False
+
         def pick(label, text):                     # Streamlit's combobox: type to filter, click the option, verify
             cb = pg.get_by_role("combobox", name=label)
             shown = lambda: pg.evaluate("document.body.innerText")   # the selected value is rendered text
@@ -110,7 +137,8 @@ def record(only=None):
                 time.sleep(0.5)
                 opt.click()
                 time.sleep(3)
-                if text.split()[0] in shown():
+                ok = claim_shown(text) if label == "Claim" else text.split()[0] in shown()
+                if ok:
                     return
                 pg.keyboard.press("Escape")
             raise RuntimeError(f"could not select {text!r} in {label!r}")
@@ -155,9 +183,14 @@ def record(only=None):
                                     pick("Claim", "CLM-2024-1946"), run_and_wait("ROUTE", heading=True)))
         scene("fraud", lambda: (to_top(), pick("Claim", "CLM-2024-1873"), run_and_wait("ROUTE", heading=True)))
         scene("injection", lambda: (to_top(), pick("Claim", "CLM-2024-3602"), run_and_wait("Guardrails fired")))
-        scene("refused", lambda: (to_top(), pick("Sign in as (synthetic user, real Cognito sign-in)", "Carol"),
-                                  pg.get_by_text("role fraud-investigator").first.wait_for(timeout=60_000),
-                                  pick("Claim", "CLM-2024-1800"), run_and_wait("No claim data returned")))
+        if switch:                                    # switching users = sign out, then carol's OWN password (D-056)
+            to_top()
+            pg.get_by_role("button", name="Sign out").click()
+            pg.get_by_label("Username", exact=True).wait_for(timeout=60_000)
+            wait_signed_in("carol")
+            pg.mouse.move(800, 300)
+            time.sleep(1.5)
+        scene("refused", lambda: (to_top(), pick("Claim", "CLM-2024-1800"), run_and_wait("No claim data returned")))
         video = pg.video.path()
         ctx.close()
         b.close()

@@ -76,7 +76,7 @@ box(225, 95, 175, 50, "code", ["Keycloak (local)", "RFC 8693 exchange at the IdP
 box(430, 95, 200, 50, "human", ["Adjuster (alice)", "reads only claims assigned to her"])
 box(660, 95, 200, 50, "human", ["Senior adjuster (bob)", "all claims · audit reader"])
 box(890, 95, 180, 50, "human", ["Specialists", "carol (fraud) · eve (total loss)"])
-box(420, 190, 400, 50, "code", ["Adjuster Console — CloudFront → ALB → ECS Fargate", "Streamlit · Cognito sign-in · queue · Ask ClaimSense"])
+box(420, 190, 400, 50, "code", ["Adjuster Console — CloudFront → ALB → ECS Fargate", "Streamlit · own-password Cognito sign-in · queue · Ask"])
 
 box(40, 300, 260, 75, "code", ["Orchestrator (same Fargate task)", "OpenAI Agents SDK · fixed order", "token exchange → 5-min delegated token"])
 box(330, 300, 230, 75, "code", ["Deterministic checks", "term · net payable · repair÷ACV · $25K", "checklist · risk indicators (m2-v10)"])
@@ -102,7 +102,7 @@ box(860, 722, 110, 65, "store", ["Slack", "on-call page", "link, no data"], dash
 box(980, 722, 120, 65, "store", ["Amazon S3", "policies/ · documents/", "door reads"])
 box(1110, 722, 130, 65, "store", ["DynamoDB", "append-only audit"])
 
-box(1300, 105, 275, 60, "ops", ["Secrets Manager", "OpenAI key + demo sign-in → task role"])
+box(1300, 105, 275, 60, "ops", ["Secrets Manager", "OpenAI key → task role at runtime"])
 box(1300, 300, 275, 60, "ops", ["Amazon ECR", "the gated image (immutable tags)"])
 box(1300, 455, 275, 60, "ops", ["GitHub Actions", "live gate ≥ 90% · push THE tested build"])
 box(1300, 600, 275, 60, "ops", ["CloudWatch", "dashboard · alarm (app + edge 5xx) → SNS"])

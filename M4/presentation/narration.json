@@ -19,7 +19,7 @@
   {
    "id": "signin",
    "kind": "console",
-   "text": "Now the live system. This is the adjuster console, served from AutoSure's AWS account. Alice is a front-line adjuster. She has signed in through Amazon Cognito, the company's identity provider, and the blue box confirms her role. That role comes from the signed token and is re-checked against the directory on every call. Nothing she types on this page can change it."
+   "text": "Now the live system. This is the adjuster console, served from AutoSure's AWS account. Alice is a front-line adjuster. She has signed in with her own username and password, checked by Amazon Cognito, the company's identity provider. There is no way to choose a different user: her role comes from her signed token, and it is re-checked against the directory on every call."
   },
   {
    "id": "approve",
@@ -59,7 +59,7 @@
   {
    "id": "refused",
    "kind": "console",
-   "text": "Now Carol signs in. She's a fraud investigator, and this claim was never routed to her. She gets nothing back: no claim data, and no agents run at all. The refusal is decided by plain code before any model is involved, and she can't even tell whether the claim exists."
+   "text": "Alice signs out, and Carol signs in with her own password. She's a fraud investigator, and this claim was never routed to her. She gets nothing back: no claim data, and no agents run at all. The refusal is decided by plain code before any model is involved. And Carol could not have signed in as Alice: that would take Alice's own password."
   },
   {
    "id": "audit",
