@@ -19,6 +19,14 @@ import sys
 import boto3
 
 REGION = os.environ.get("AWS_REGION", "us-east-1")
+
+
+def api_id():
+    """The door's API Gateway id (from the deploy record), for the EDGE metrics: AWS/ApiGateway 5xx and Count see
+    what the app's own EMF can't, e.g. a door that crashes at start-up (incident-drill-1, D-050)."""
+    from pathlib import Path
+    url = json.loads((Path.home() / ".claimsense" / "deploy.json").read_text())["door_url"]
+    return url.split("//", 1)[1].split(".", 1)[0]
 NS, DASH, ALARM, TOPIC = "ClaimSense", "ClaimSense-Operations", "ClaimSense-door-error-rate", "claimsense-alerts"
 SLO = {"eval_pass_pct": 90, "claim_p95_ms": 90_000, "door_error_pct": 5}   # M0 SC-1 gate floor, SC-2, ops alarm
 
@@ -47,7 +55,10 @@ def dashboard(alarm_arn):
                [m("Requests", "door", label="door"), m("Requests", "orchestrator", label="orchestrator"),
                 m("ClaimRuns", "orchestrator", label="claims decided")]),
         widget(8, 2, 8, 6, "Error rate (% of requests with a 5xx)",
-               [[{"expression": "100*FILL(e1,0)/FILL(r1,1)", "label": "door error %", "id": "er1"}],
+               [[{"expression": "100*FILL(e1,0)/FILL(r1,1)", "label": "door error % (app)", "id": "er1"}],
+                [{"expression": "100*FILL(ge,0)/FILL(gr,1)", "label": "door error % (edge: API Gateway)", "id": "erg"}],
+                ["AWS/ApiGateway", "5xx", "ApiId", api_id(), {"id": "ge", "visible": False}],
+                ["AWS/ApiGateway", "Count", "ApiId", api_id(), {"id": "gr", "visible": False}],
                 [NS, "ServerErrors", "Service", "door", {"id": "e1", "visible": False}],
                 [NS, "Requests", "Service", "door", {"id": "r1", "visible": False}],
                 [{"expression": "100*FILL(e2,0)/FILL(r2,1)", "label": "orchestrator error %", "id": "er2"}],
@@ -91,10 +102,16 @@ def apply():
         print("ALARM_EMAIL not set: the alarm is created; add a subscriber later")
     cw.put_metric_alarm(
         AlarmName=ALARM, AlarmDescription="Door server-error rate above 5% (2 of 3 one-minute periods). Runbook: "
-        "M4/RUNBOOK.md, 'Door error rate alarm'.", ActionsEnabled=True, AlarmActions=[topic], OKActions=[topic],
+        "M4/RUNBOOK.md, 'Door error rate alarm'. The worse of the app's own count (EMF) and the edge's (API Gateway), "
+        "so a door that can't start still alarms (incident-drill-1, D-050).", ActionsEnabled=True, AlarmActions=[topic], OKActions=[topic],
         EvaluationPeriods=3, DatapointsToAlarm=2, Threshold=SLO["door_error_pct"],
         ComparisonOperator="GreaterThanThreshold", TreatMissingData="notBreaching",
-        Metrics=[{"Id": "rate", "Expression": "100*FILL(e,0)/FILL(r,1)", "Label": "door error %", "ReturnData": True},
+        Metrics=[{"Id": "rate", "Expression": "MAX([100*FILL(e,0)/FILL(r,1), 100*FILL(ge,0)/FILL(gr,1)])",
+                  "Label": "door error % (worse of app and edge)", "ReturnData": True},
+                 {"Id": "ge", "ReturnData": False, "MetricStat": {"Metric": {"Namespace": "AWS/ApiGateway", "MetricName": "5xx",
+                  "Dimensions": [{"Name": "ApiId", "Value": api_id()}]}, "Period": 60, "Stat": "Sum"}},
+                 {"Id": "gr", "ReturnData": False, "MetricStat": {"Metric": {"Namespace": "AWS/ApiGateway", "MetricName": "Count",
+                  "Dimensions": [{"Name": "ApiId", "Value": api_id()}]}, "Period": 60, "Stat": "Sum"}},
                  {"Id": "e", "ReturnData": False, "MetricStat": {"Metric": {"Namespace": NS, "MetricName": "ServerErrors",
                   "Dimensions": [{"Name": "Service", "Value": "door"}]}, "Period": 60, "Stat": "Sum"}},
                  {"Id": "r", "ReturnData": False, "MetricStat": {"Metric": {"Namespace": NS, "MetricName": "Requests",

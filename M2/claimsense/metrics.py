@@ -74,6 +74,6 @@ def request(service, status, started):
 
 def claim_run(result):
     decided = result.get("decided_by")
-    emit("orchestrator", ClaimRuns=1, ClaimErrors=int(decided == "fallback"),
+    emit("orchestrator", ClaimRuns=1, ClaimErrors=int(decided in ("fallback", "unavailable")),
          ClaimLatencyMs=round(result.get("latency_s", 0) * 1000, 1), CostUSD=round(result.get("cost_usd", 0), 6),
          Fallbacks=int(decided == "fallback"), GuardrailHolds=int(decided in ("guardrail_hold", "consistency_hold")))

@@ -1,0 +1,49 @@
+{
+ "label": "drill-1",
+ "date": "2026-11-23",
+ "fault": "door config: CLAIMSENSE_DOCS_BUCKET -> wrong bucket",
+ "times_utc": {
+  "preflight": "2026-11-23T16:05:53.065760+00:00",
+  "baseline": "2026-11-23T16:06:17.115122+00:00",
+  "inject": "2026-11-23T16:06:17.115419+00:00",
+  "released": "2026-11-23T16:06:23.211209+00:00",
+  "impact": "2026-11-23T16:06:32.836981+00:00",
+  "canary_detect": "2026-11-23T16:06:48.311931+00:00",
+  "rollback_start": "2026-11-23T16:12:17.352074+00:00",
+  "rollback_done": "2026-11-23T16:12:23.692441+00:00",
+  "canary_green": "2026-11-23T16:12:50.163876+00:00",
+  "verified": "2026-11-23T16:14:17.908190+00:00"
+ },
+ "first_failed_call": "2026-11-23T16:06:25.373412+00:00",
+ "time_to_detect_s": 31,
+ "detected_by": "canary",
+ "alarm_fired": false,
+ "time_to_rollback_s": 367,
+ "time_to_verified_recovery_s": 481,
+ "verified": true,
+ "impact_claim": {
+  "user": "alice",
+  "claim": "CLM-2024-1800",
+  "outcome": "refused",
+  "net_payable": null,
+  "decided_by": "boundary_refusal",
+  "route_to": null,
+  "error": "invalid_request"
+ },
+ "recovered_claim": {
+  "user": "alice",
+  "claim": "CLM-2024-1800",
+  "outcome": "approve",
+  "net_payable": 2700,
+  "decided_by": "agents",
+  "route_to": null,
+  "error": null
+ },
+ "canary": {
+  "calls": 80,
+  "failed": 54,
+  "failed_statuses": [
+   "500"
+  ]
+ }
+}

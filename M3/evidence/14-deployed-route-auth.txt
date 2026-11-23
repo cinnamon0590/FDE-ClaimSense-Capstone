@@ -1,5 +1,5 @@
 # 14-deployed-route-auth — D-1 + D-2 on AWS: every route and tool refuses a bad token
-# run: 2026-11-22 21:35:01 EST
+# run: 2026-11-23 11:13:58 EST
 # door: http://localhost:8002 · orchestrator: http://localhost:8003
 # command: python evals/deployed_route_check.py
 # exit: 0   status: PASS
@@ -38,8 +38,8 @@ door: https://4n6qqi6rjd.execute-api.us-east-1.amazonaws.com (API Gateway HTTP A
   PASS  token exchange with alice's real Cognito token issues a narrowed delegated token (OBO on a real IdP)  (scope: create_escalation_ticket get_claim get_document get_escalation get_latest_draft get_policy list_documents post_recommendation search_policy_clauses · expires_in 300s)
 
 bad-credential requests sent: 150
-  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 83)
-   e.g. edge: {"requestId":"HRbkWi_sIAMEceQ=","ip":"<masked>","time":"23/Nov/2026:02:34:03 +0000","route":"POST /mcp","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"-"}
-  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (231 rows read back through GET /audit as bob (senior-adjuster))
+  PASS  every refusal is recorded: at the edge (API Gateway access log) or in the door's DynamoDB audit trail  (edge 401 log lines: 150 · door anonymous deny rows: 150)
+   e.g. edge: {"requestId":"HTTjLgz2oAMEYEQ=","ip":"<masked>","time":"23/Nov/2026:16:13:07 +0000","route":"POST /mcp","path":"/mcp","method":"POST","status":"401","user":"-:username","authError":"-"}
+  PASS  the door's audit trail on AWS is the DynamoDB table (append-only rows carry user, action, resource)  (333 rows read back through GET /audit as bob (senior-adjuster))
 
 RESULT: PASS

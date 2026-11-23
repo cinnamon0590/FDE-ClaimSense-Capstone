@@ -19,6 +19,7 @@ REGION = os.environ.get("AWS_REGION", "us-east-1")
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--hours", type=int, default=3)
+    ap.add_argument("--name", default="dashboard.png", help="file name under M4/evidence/")
     a = ap.parse_args(argv)
     cw = boto3.client("cloudwatch", region_name=REGION)
     body = json.loads(cw.get_dashboard(DashboardName="ClaimSense-Operations")["DashboardBody"])
@@ -43,8 +44,8 @@ def main(argv=None):
     for i, im in enumerate(imgs):
         sheet.paste(im.resize((tw, th)), ((i % cols) * tw, 60 + (i // cols) * th))
     OUT.mkdir(parents=True, exist_ok=True)
-    sheet.save(OUT / "dashboard.png")
-    print(f"wrote {OUT / 'dashboard.png'} ({len(imgs)} widgets) · alarm state {alarm['StateValue']}")
+    sheet.save(OUT / a.name)
+    print(f"wrote {OUT / a.name} ({len(imgs)} widgets) · alarm state {alarm['StateValue']}")
 
 
 if __name__ == "__main__":
