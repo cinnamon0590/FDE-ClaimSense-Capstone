@@ -1,0 +1,40 @@
+# runbook-rollback — 'Roll back a deployment', executed on AWS 2026-11-23 17:04 UTC (python M4/ops/rollback.py)
+# * = live. Images are tagged with the commit and immutable: a rollback re-points, it never rebuilds.
+
+$ python M4/ops/rollback.py list
+door         *3667059   220090f   abb02a2   557b89d   64f1ba8   1c4ae41
+orchestrator  220090f  *3667059   1bd5973   abb02a2   c2f46e0   a1285d6
+console      *3667059   220090f   1bd5973   abb02a2   c2f46e0   a1285d6
+
+$ python M4/ops/rollback.py door --to 220090f
+door: 3667059 -> 220090f
+door live on 220090f after 9 s; smoke:
+  PASS  GET /claims/CLM-2024-1800                -> 200
+  PASS  GET /policies/POL-AU-10418               -> 200
+  PASS  GET /claims/CLM-2024-1800/documents      -> 200
+  PASS  GET /policy-kb/search?q=collision        -> 200
+door smoke: PASS
+door rollback to 220090f: OK (15 s)
+
+$ python M4/ops/rollback.py door --to 3667059
+door: 220090f -> 3667059
+door live on 3667059 after 9 s; smoke:
+  PASS  GET /claims/CLM-2024-1800                -> 200
+  PASS  GET /policies/POL-AU-10418               -> 200
+  PASS  GET /claims/CLM-2024-1800/documents      -> 200
+  PASS  GET /policy-kb/search?q=collision        -> 200
+door smoke: PASS
+door rollback to 3667059: OK (14 s)
+
+$ python M4/ops/rollback.py frontend --to 1bd5973
+frontend: {'orchestrator': '3667059', 'console': '3667059'} -> 1bd5973
+frontend rollback to 1bd5973: OK · console health 'ok' · 154 s
+
+$ python M4/ops/rollback.py frontend --to 3667059
+frontend: {'orchestrator': '1bd5973', 'console': '1bd5973'} -> 3667059
+frontend rollback to 3667059: OK · console health 'ok' · 164 s
+
+$ python M4/ops/rollback.py list
+door         *3667059   220090f   abb02a2   557b89d   64f1ba8   1c4ae41
+orchestrator  220090f  *3667059   1bd5973   abb02a2   c2f46e0   a1285d6
+console      *3667059   220090f   1bd5973   abb02a2   c2f46e0   a1285d6

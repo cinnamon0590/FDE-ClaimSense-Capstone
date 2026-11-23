@@ -18,6 +18,7 @@ import hashlib
 import hmac
 import json
 import os
+import threading
 import time
 
 from claimsense import audit_trail
@@ -176,6 +177,7 @@ class GrantedBoundary(LocalBoundary):
 
     # ── the 4th backend: SIU / escalation ticketing (idempotent write, retry/backoff, breaker, never lost) ──────
     def escalate(self, user_id, claim_id, reason, idempotency_key, priority="normal", agent=None):
+        self.flush_outbox_in_background()
         c = self.caller(user_id)
         if (denied := self._gate(c, "create_escalation_ticket", claim_id, agent)):
             return denied
@@ -215,6 +217,7 @@ class GrantedBoundary(LocalBoundary):
                 "idempotent_replay": bool(replay or ticket.get("idempotent_replay"))}
 
     def escalation(self, user_id, claim_id, agent=None):
+        self.flush_outbox_in_background()
         c = self.caller(user_id)
         if (denied := self._gate(c, "get_escalation", claim_id, agent)):
             return denied
@@ -225,8 +228,28 @@ class GrantedBoundary(LocalBoundary):
         self._audit(c, "get_escalation", claim_id, "allow", esc.get("status", ""), agent)
         return {k: esc.get(k) for k in ("claim_id", "ticket_id", "status", "seq", "updated_at", "history")}
 
+    _flush_lock = threading.Lock()
+
+    def queued(self):
+        return sum(1 for e in self.escalations.values() if e.get("outbox"))
+
+    def flush_outbox_in_background(self):
+        """Called by the health check: deliver parked escalations without making the health check wait on ticketing
+        (a ticketing outage must never make the door look unhealthy). M4 runbook test found nothing called this."""
+        if self.queued() and self.ticketing is not None and not self._flush_lock.locked():
+            threading.Thread(target=self.flush_outbox, daemon=True).start()
+
     def flush_outbox(self):
-        """Retry escalations parked while ticketing was down (called on each webhook and on health checks)."""
+        """Retry escalations parked while ticketing was down. Triggered by: every health check (in the background),
+        every escalation read or new escalation, every ticketing webhook. One flush at a time."""
+        if not self._flush_lock.acquire(blocking=False):
+            return
+        try:
+            self._flush()
+        finally:
+            self._flush_lock.release()
+
+    def _flush(self):
         for claim_id, esc in list(self.escalations.items()):
             ob = esc.get("outbox")
             if not ob or self.ticketing is None:
