@@ -38,7 +38,8 @@ qp = st.query_params
 with st.sidebar:
     users = list(USERS)
     if DEMO_SIGNIN:
-        passcode = st.text_input("Demo passcode", type="password",
+        # key= keeps it in session state for the whole browser session (switching user or claim never drops it)
+        passcode = st.text_input("Demo passcode", type="password", key="demo_passcode",
                                  help="From the submission form. Unlocks sign-in as the five SYNTHETIC users.")
     user = st.selectbox("Sign in as" + (" (synthetic user, real Cognito sign-in)" if DEMO_SIGNIN
                                         else " (dev login; M3: Cognito)"), users, format_func=USERS.get,
@@ -78,7 +79,10 @@ with st.sidebar:
         st.caption(f"fast {h['models']['fast']} · smart {h['models']['smart']}")
     except httpx.HTTPError:
         st.error("orchestrator not reachable")
-    run = st.button("Run co-pilot", type="primary", use_container_width=True)
+    run = st.button("Run co-pilot", type="primary", use_container_width=True, disabled=not AUTH,
+                    help=None if AUTH else "Sign in first (sidebar)")
+    if not AUTH:
+        st.warning("Sign in first: enter the demo passcode in the sidebar." if DEMO_SIGNIN else "Not signed in.")
 
 claim_id = case["claim"]["claim_id"]
 
@@ -123,6 +127,15 @@ with tab_run:
         with c2, st.status(label, expanded=True) as status:
             with httpx.stream("POST", f"{ORCH}/claims/{claim_id}/recommend/stream",
                               json={"run_id": run_id}, headers=AUTH, timeout=180) as r:
+                if r.status_code != 200:                 # refused (e.g. signed out): say so, never crash
+                    r.read()
+                    try:
+                        msg = r.json().get("error", {}).get("message", r.text)
+                    except ValueError:
+                        msg = r.text
+                    status.update(label=f"Refused ({r.status_code})", state="error")
+                    st.error(f"{msg} Sign in again in the sidebar." if r.status_code == 401 else msg)
+                    st.stop()
                 for line in r.iter_lines():
                     ev = json.loads(line)
                     k = ev["kind"]
