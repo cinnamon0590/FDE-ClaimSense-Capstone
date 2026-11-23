@@ -8,12 +8,13 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 |---|---|---|---|
 | 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
-| 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live (orchestrator panels fill in Step 4) | [`evidence/dashboard.png`](evidence/dashboard.png) |
+| 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
 | 4 | Incident drill + one-page RCA with time to verified recovery | planned | |
 | 5 | Runbook: add a user, roll back, escalate a flagged claim manually, update the policy corpus | planned | |
 | 6 | Client presentation with a live demonstration (+ the ≤10-minute recording) | planned | |
 | 7 | Handover pack | planned | |
-| F | Final submission: deployed frontend URL, observation document, final tag, CI on the submitted commit | planned | |
+| F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
+| F | Final submission: observation document, final tag, CI on the submitted commit | planned | |
 
 ## 1 · The 150-case suite and the gate
 
@@ -73,3 +74,26 @@ the image push.
 - **Metrics:** EMF lines from both services (`M2/claimsense/metrics.py`), no agent. **Continuous eval:**
   `python M4/ops/continuous_eval.py` (first run 10/10, published).
 - Rebuild: `ALARM_EMAIL=… python M4/ops/observability.py apply` · snapshot: `python M4/ops/dashboard_snapshot.py`.
+
+## 4 · The deployed frontend (D-049)
+
+**https://d2jfndltae6j40.cloudfront.net** · sign in with the demo passcode (given in the submission form, never in
+this repo), pick one of the five synthetic users, choose a claim, **Run co-pilot**.
+
+```
+browser ──HTTPS──▶ CloudFront ──▶ ALB (CloudFront-only ingress) ──▶ ECS Fargate task
+                                                                     ├─ console       :8501  (Streamlit)
+                                                                     └─ orchestrator  :8003  (localhost only)
+                                                                           │ 5-min delegated token, MCP
+                                                                           ▼
+                                                     the door: API Gateway → Lambda → S3 · DynamoDB audit
+```
+
+- **Sign-in:** real Cognito tokens, unlocked by one passcode (SHA-256 in Secrets Manager; brute-force brake;
+  audited). Role always comes from the token checked against the directory.
+- **Secrets:** the OpenAI key and the demo secret are read at runtime by the task role; nothing secret is in an
+  image, the repo or a log.
+- **Proof:** Susan's two-user test through the browser: alice → approve $2,700; carol → refused at the door, no
+  claim data ([`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt), audit rows included).
+- Deploy: `python M4/cloud/frontend.py apply` (commit first; images are tagged with the commit) · `status` ·
+  `rotate-passcode` then `apply` · `destroy` after grading (≈ $35–40/month while up).

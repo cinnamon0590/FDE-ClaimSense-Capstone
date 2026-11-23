@@ -149,7 +149,7 @@ governance) it picks a **managed hub** (iPaaS 5, event mesh 4).
 | OpenAI API cost and latency | Four model calls per claim; 150-case CI runs | Small model by default, large model only on Coverage/Decision; mock brain in CI except the gate run; token budget alarm |
 | The retrieval index | Re-indexing shifts chunk IDs and breaks citations | Clause IDs are stable keys (not chunk positions); manifest version pinned per run |
 
-## 10. As built (through M3)
+## 10. As built (through M4)
 
 ![ClaimSense architecture as built](architecture-as-built.png)
 
@@ -162,7 +162,7 @@ locally in containers. Flows B1–B20 are in the diagram's legend.* Last updated
 
 | M1 design | As built | Runs | Why / decision | Proof |
 |---|---|---|---|---|
-| One data boundary (MCP server) on API Gateway + Lambda | **The governed door**: MCP 2025-06-18 (`/mcp`, stdio) + REST, one service. Authenticates before routing, then `grants.json` (deny-by-default, per action), then `entitled()` (per record) | **AWS** (Lambda container image behind an HTTP API + Cognito JWT authorizer) and locally | D-036, D-037, D-040, D-043 | M3 evidence 05, 13, 14 |
+| One data boundary (MCP server) on API Gateway + Lambda | **The governed door**: MCP 2025-06-18 (`/mcp`, stdio) + REST, one service. Authenticates before routing, then `grants.json` (deny-by-default, per action), then `entitled()` (per record) | **AWS** (Lambda container image behind an HTTP API + Cognito JWT authorizer; `/mcp` carries the door's own delegated token, so the door verifies it, D-049) and locally | D-036, D-037, D-040, D-043 | M3 evidence 05, 13, 14 |
 | Entitlement: group → claim scope | Group **and** assigned adjuster: an adjuster reads only claims assigned to them; a senior adjuster reads all; specialists read claims handed to their group; no owner = denied | AWS + local | D-030, D-042 | M3 evidence 20, 21 |
 | Same error for missing / forbidden | Same body **and** the same status: REST 403 for both; MCP keeps JSON-RPC `isError` | AWS + local | D-042 | M3 evidence 20 |
 | JWT carries the user to the boundary | **On-behalf-of:** the orchestrator trades the user's token for a 5-minute delegated token (aud = the door, scope = the actions the agent needs). Keycloak does the RFC 8693 exchange locally; on AWS the door's `/oauth/token` does it. Confirm, audit read and webhooks can never be delegated | AWS + local | D-039, D-041 | M3 evidence 14, 19 |
@@ -171,7 +171,7 @@ locally in containers. Flows B1–B20 are in the diagram's legend.* Last updated
 | Audit in DynamoDB, streamed to CloudWatch | One append-only row per call (allow, deny, 401, invalid, replay) in DynamoDB, **and** the same row as an `AUDIT {json}` line in the Lambda's CloudWatch log group; edge 401s in the API Gateway access log | AWS (local: `/state` + container log) | D-037, D-042 | M3 evidence 09, 21 |
 | Logs, dashboard, alarm in CloudWatch | **Dashboard `ClaimSense-Operations`** (call volume, error rate, p50/p95 latency, eval pass, cost per claim, refusals, holds) from EMF metrics both services print; **alarm** on the door's 5xx rate → SNS email; continuous eval publishes the live pass rate | AWS | D-048 | M4 evidence dashboard.png |
 | OpenSearch clause index | OpenSearch in the local stack; the deployed door uses BM25 over the same corpus, so it never holds a model key | local / AWS (BM25) | D-033, D-040 | M2 evidence container-wiring |
-| Orchestrator + console on ECS Fargate | Containers (one command, non-root, health checks). **Not deployed to AWS**: only the door is; the orchestrator image is gated in CI and pushed to ECR, and also speaks AgentCore Runtime's contract | local; image in ECR | D-033, D-035, D-028 | M2 evidence stack-smoke, ci-gate-proof |
+| Orchestrator + console on ECS Fargate | **Deployed:** one Fargate task (console :8501 + orchestrator on localhost :8003) behind an ALB that admits only CloudFront, and CloudFront for HTTPS. Real Cognito sign-in unlocked by a demo passcode (hash in Secrets Manager). Task role reads two secrets, signs in to one pool, writes audit + metrics. Images tagged with the commit; also run locally with one command | **AWS** + local | D-033, D-035, D-049 | M4 evidence frontend-deployed |
 | Four agents, fixed sequence | Four, plus **Ask ClaimSense** (follow-up chat that explains, never decides). Pinned model snapshots; a second, independent Decision Draft sends disagreements to a senior adjuster. Intake moved to the smart model in m2-v13 (the fast one was inconsistent at spotting contradictions) | local | D-011, D-025, D-028, D-046 | M4 evidence gate-run, release gate |
 | Claim Assessment: fraud from narrative inconsistency | Plus code-computed **risk indicators** (late night, no police report on theft/vandalism, 2+ prior claims) on the card, which never refer on their own; a **high-value** flag | local | D-045 | M2 `tests/test_viewer_agent_fields.py` |
 | Guardrails in code | G1–G7 plus G1b (model classifier for injected instructions) and G8 (second opinion); fuzzed | local | D-020, D-026, D-025 | M2 evidence guardrail-fuzz |

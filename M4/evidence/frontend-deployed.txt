@@ -1,0 +1,42 @@
+# frontend-deployed — the deployed frontend (Submission 2), exercised by a person through the browser (D-049)
+# written: 2026-11-22 21:33 EST · console https://d2jfndltae6j40.cloudfront.net · images abb02a2 · claimsense-frontend:5
+# shape: CloudFront (HTTPS) -> ALB (CloudFront-only ingress) -> ECS Fargate task (console + orchestrator) -> the door (API Gateway + Lambda)
+
+GET https://d2jfndltae6j40.cloudfront.net/                -> HTTP 200
+GET https://d2jfndltae6j40.cloudfront.net/_stcore/health  -> ok
+direct ALB (bypassing CloudFront) -> refused: ConnectTimeout (CloudFront-only ingress)
+
+The two-user test, run by the client through the deployed console (2026-11-23 02:31 UTC): alice approves, carol
+is refused. Every row below is from the DynamoDB audit trail (via: rest = console, mcp = agents through the door
+with the 5-minute delegated token, sts = the token exchange, orchestrator = the run's entry point):
+
+  02:31:03  orchestrator alice  demo_signin                  alice                    allow                                    Cognito sign-in via the demo passcode
+  02:31:06  rest         alice  list_pending_recommendations queue                    allow                                    0 drafts
+  02:31:12  sts          alice  token_exchange               agent:claimsense-pipelin allow         agent:claimsense-pipeline  delegated 300s; scope: create_escalation_ticket ge
+  02:31:12  orchestrator alice  run_recommendation           CLM-2024-1800            authenticated                            request accepted; data access decided at the door
+  02:31:12  mcp          alice  get_claim                    CLM-2024-1800            allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  get_policy                   POL-AU-10418             allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  list_documents               CLM-2024-1800            allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  get_document                 DOC-2024-1800-POLICE-REP allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  get_document                 DOC-2024-1800-REPAIR-EST allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  get_document                 DOC-2024-1800-PHOTOS     allow         agent:claimsense-pipeline  
+  02:31:14  mcp          alice  get_document                 DOC-2024-1800-FNOL-FORM  allow         agent:claimsense-pipeline  
+  02:31:19  mcp          alice  search_policy_clauses        policy-kb?q=collision da allow         agent:claimsense-pipeline  3 kept, 0 quarantined (G2)
+  02:31:20  mcp          alice  search_policy_clauses        policy-kb?q=deductible a allow         agent:claimsense-pipeline  3 kept, 0 quarantined (G2)
+  02:31:28  mcp          alice  post_recommendation          CLM-2024-1800            allow         agent:claimsense-pipeline  draft v1
+  02:31:28  sts          alice  token_exchange               agent:claimsense-pipelin allow         agent:claimsense-pipeline  delegated 300s; scope: create_escalation_ticket ge
+  02:31:29  orchestrator alice  read_ask_history             CLM-2024-1800            authenticated                            request accepted; data access decided at the door
+  02:31:29  mcp          alice  get_claim                    CLM-2024-1800            allow         agent:claimsense-pipeline  
+  02:31:29  rest         alice  list_pending_recommendations queue                    allow                                    1 drafts
+  02:32:06  orchestrator carol  demo_signin                  carol                    allow                                    Cognito sign-in via the demo passcode
+  02:32:06  sts          carol  token_exchange               agent:claimsense-pipelin allow         agent:claimsense-pipeline  delegated 300s; scope: create_escalation_ticket ge
+  02:32:06  orchestrator carol  read_ask_history             CLM-2024-1800            authenticated                            request accepted; data access decided at the door
+  02:32:06  mcp          carol  get_claim                    CLM-2024-1800            deny          agent:claimsense-pipeline  not_entitled
+  02:32:06  rest         carol  list_pending_recommendations queue                    allow                                    0 drafts
+  02:32:08  sts          carol  token_exchange               agent:claimsense-pipelin allow         agent:claimsense-pipeline  delegated 300s; scope: create_escalation_ticket ge
+  02:32:08  orchestrator carol  run_recommendation           CLM-2024-1800            authenticated                            request accepted; data access decided at the door
+  02:32:08  mcp          carol  get_claim                    CLM-2024-1800            deny          agent:claimsense-pipeline  not_entitled
+  02:32:09  rest         carol  list_pending_recommendations queue                    allow                                    0 drafts
+
+RESULT: PASS — alice: approve (net payable $2,700, drafted by the agents, cited); carol: refused at the door
+(not_entitled), no claim data, no agent run; demo sign-in is real Cognito; the ALB is reachable only through CloudFront.

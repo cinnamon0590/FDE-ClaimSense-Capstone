@@ -22,7 +22,7 @@ import os
 import time
 import uuid
 
-from fastapi import FastAPI, Header
+from fastapi import FastAPI, Header, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
@@ -87,7 +87,8 @@ def authenticate(authorization, claimed_user, action="invoke", resource="-"):
     return user
 
 
-PUBLIC = {"/healthz", "/ping", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc"}
+PUBLIC = {"/healthz", "/ping", "/openapi.json", "/docs", "/docs/oauth2-redirect", "/redoc",
+          "/demo/signin"}   # authenticated by the demo passcode itself (404 unless enabled)
 
 
 @app.middleware("http")
@@ -200,6 +201,55 @@ def write_back(result):
         return None
     key = hashlib.sha256(f"{result['run_id']}|{json.dumps(card, sort_keys=True)}".encode()).hexdigest()[:32]
     return PIPE.boundary.recommend(result["user_id"], result["claim_id"], card, key)
+
+
+# ── demo sign-in for the deployed console (M4, D-049) ────────────────────────────────────────────────────────────
+# Graders sign in as one of the five SYNTHETIC users with a shared passcode (given in the submission form, never in
+# the repo). This endpoint checks the passcode, then signs in to COGNITO as that user (ADMIN_USER_PASSWORD_AUTH) and
+# returns the real ID token, so every later call is authenticated, authorised and audited exactly as in production.
+# Disabled (404) unless CLAIMSENSE_DEMO_SECRET_ID is set; the orchestrator is not exposed publicly (only the console).
+DEMO_SECRET_ID = os.environ.get("CLAIMSENSE_DEMO_SECRET_ID", "")
+_demo_cache, _demo_fails = {}, []
+
+
+def _demo_secret():
+    if "v" not in _demo_cache:
+        import boto3
+        _demo_cache["v"] = json.loads(boto3.client("secretsmanager").get_secret_value(
+            SecretId=DEMO_SECRET_ID)["SecretString"])
+    return _demo_cache["v"]
+
+
+@app.post("/demo/signin")
+async def demo_signin(request: Request):
+    import hmac
+    if not DEMO_SECRET_ID:
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
+    audit_trail.VIA.set("orchestrator")
+    now = time.time()
+    _demo_fails[:] = [t for t in _demo_fails if now - t < 60]
+    if len(_demo_fails) >= 10:                                    # brute-force brake: 10 wrong passcodes a minute
+        return _bad("rate_limited", "Too many attempts; wait a minute.", 429)
+    try:
+        body = await request.json()
+    except ValueError:
+        body = {}
+    user = str(body.get("user_id", ""))
+    code = str(body.get("passcode", "")).strip().strip('"\'').strip()      # forgive pasted quotes and spaces
+    sec = _demo_secret()
+    ok = hmac.compare_digest(hashlib.sha256(code.encode()).hexdigest(), sec["passcode_sha256"]) and user in sec["users"]
+    if not ok:
+        _demo_fails.append(now)
+        rid = audit_trail.record("anonymous", [], "demo_signin", user or "-", "deny", "wrong passcode or unknown user")
+        return _bad("unauthenticated", "Sign-in refused.", 401, rid)
+    import boto3
+    res = boto3.client("cognito-idp").admin_initiate_auth(
+        UserPoolId=sec["pool_id"], ClientId=sec["client_id"], AuthFlow="ADMIN_USER_PASSWORD_AUTH",
+        AuthParameters={"USERNAME": user, "PASSWORD": sec["users"][user]})
+    groups = (DIRECTORY.get(user) or {}).get("groups", [])
+    audit_trail.record(user, groups, "demo_signin", user, "allow", "Cognito sign-in via the demo passcode")
+    return {"token": res["AuthenticationResult"]["IdToken"], "user_id": user, "groups": groups,
+            "issuer": "Amazon Cognito (demo sign-in)"}
 
 
 @app.get("/healthz")
