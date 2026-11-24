@@ -24,6 +24,15 @@ please file it as an issue.
 | [RCA template and incident archive](rca-template.md) | after any incident over 15 minutes |
 | [Risk register, looked back on](../risk-retrospective.md) | planning: what was anticipated, what happened, and two risks to add |
 
+## For the steering committee and the submission
+| What | Where |
+|---|---|
+| Steering-committee deck (6 slides, value first) | [`steering-deck.pdf`](steering-deck.pdf) · speaker notes and backup plan: [`steering-deck-notes.md`](steering-deck-notes.md) |
+| Demonstration recording (9 min 54 s, the deployed system, captioned) | uploaded with the submission; storyline and timestamps: [`../presentation/demo-script.md`](../presentation/demo-script.md) |
+| Observation document | [`../OBSERVATIONS.md`](../OBSERVATIONS.md) |
+| The adversarial cases as `ADV-*`, traced to the incidents they guard against | [`../evals/adversarial-index.md`](../evals/adversarial-index.md) |
+| Release history | `v1.0-rc1` → a deliberate regression caught red → `v1.0-final` ([`../evidence/multi-release.txt`](../evidence/multi-release.txt)) |
+
 ## Your first day (about an hour, $0 except where marked)
 1. **Clone, then run the tests and the $0 gate:**
    ```bash

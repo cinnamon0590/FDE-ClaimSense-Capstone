@@ -20,4 +20,11 @@
    DEPLOY GATE: BLOCKED · exit code 1
    (without the regression: money and evidence 150/150, DEPLOY GATE: PASS)
 
-4. v1.0-final (tag) = the submitted commit, CI green on it (filled in when tagged).
+3b. The same regression in CI against the fixed gate: PR #33 rebased onto main (24d8f5a, D-057 merged)
+   CI run 45284383276: RED · second-grader FAILED: "85 passed (56.67%) · 65 failed (43.33%)" (the 65 approvals with
+   a wrong payout) · pipeline-tests and m3-door failed (money unit tests) · push-image SKIPPED.
+   PR #33 closed unmerged; branch deleted.
+
+4. v1.0-final (annotated tag) = the commit that carries this file, after its CI on main is green: every job incl.
+   live-eval (150/150, model required, money and evidence 150/150) and second-grader. The tag's message names that
+   CI run (git show v1.0-final).

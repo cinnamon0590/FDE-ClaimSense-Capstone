@@ -6,7 +6,8 @@
 # M2 (W15): the orchestrator image is built ONCE (build-image); the scan, the container checks and the LIVE
 #           LLM-required eval gate all test that exact build, and push-image ships that same build (same image id,
 #           no rebuild) only if every job passes and the repo variable ECR_PUSH_ENABLED is "true" (D-035).
-#           Gate: overall >= EVAL_THRESHOLD (90, never lower), adversarial = 100%, every case decided by the model.
+#           Gate: overall >= EVAL_THRESHOLD (95 in CI, W17 checklist; floor 90, never lower), adversarial = 100%,
+#           every case decided by the model, every net payable + required citation right (D-057).
 #           The replay-brain run on every PR is a $0 harness regression check, not the gate.
 name: eval-gate
 on:
@@ -93,7 +94,7 @@ jobs:
         working-directory: M2
         env:
           CLAIMSENSE_LLM_REQUIRED: "false"
-        run: python3 evals/run_evals.py --brain replay --out evals/results-ci-${{ matrix.python-version }}.txt
+        run: EVAL_THRESHOLD=95 python3 evals/run_evals.py --brain replay --out evals/results-ci-${{ matrix.python-version }}.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -240,7 +241,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}     # from GitHub secrets only; passed by name, never echoed
-      EVAL_THRESHOLD: ${{ vars.EVAL_THRESHOLD || '90' }}  # may be raised; the runner refuses anything below 90
+      EVAL_THRESHOLD: ${{ vars.EVAL_THRESHOLD || '95' }}  # the W17 checklist's --min-pass 0.95; the runner refuses < 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4

@@ -6,7 +6,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 
 | # | Deliverable | Status | Evidence |
 |---|---|---|---|
-| 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
+| 1 | **150-case suite incl. prompt injection, cross-record leakage, forced auto-decision; the gate passes with the model required** (CI bar 95%; money + citations scored, D-057; [`ADV-*` index](evals/adversarial-index.md)) | ✅ | [`evidence/release-gate-live.txt`](evidence/release-gate-live.txt), [`gate-run-live.txt`](evidence/gate-run-live.txt), [`gate-run.txt`](evidence/gate-run.txt) |
 | 2 | **Second grader (Promptfoo) + calibrated judge** | ✅ | [`evidence/second-grader.txt`](evidence/second-grader.txt), [`judge-calibration.txt`](evidence/judge-calibration.txt) |
 | 3 | **Dashboard (error rate, call volume, p95 latency, eval pass, cost per claim) + one alarm** | ✅ live | [`evidence/dashboard.png`](evidence/dashboard.png) |
 | 4 | **Incident drill + one-page RCA with time to verified recovery + the eval case it spawned** | ✅ two drills on AWS; recovery 481 s → 279 s · **plus RCA-2 for a real incident** (31 min to verified recovery) · [risk register looked back on](risk-retrospective.md) | [`drill/RCA-2026-11-23.md`](drill/RCA-2026-11-23.md), [`evidence/incident-drill-2.txt`](evidence/incident-drill-2.txt) |
@@ -17,7 +17,7 @@ brief's Milestone 5 and Submission 2, the W17 deck and notebook, and the graded 
 | F1 | **Deployed frontend URL** (console + orchestrator on AWS) | ✅ https://d2jfndltae6j40.cloudfront.net | [`evidence/frontend-deployed.txt`](evidence/frontend-deployed.txt) |
 | F2 | **Observation document** (deployment, evaluation, observability, platform reliability, handover, observations) | ✅ | [`OBSERVATIONS.md`](OBSERVATIONS.md) |
 | F3 | **Multi-release evidence**: `v1.0-rc1` green → a deliberate regression caught red → `v1.0-final` green | ✅ (the drill also fixed a gate blind spot, D-057) | [`evidence/multi-release.txt`](evidence/multi-release.txt) |
-| F4 | Final tag `v1.0-final` + CI on the submitted commit | on merge | |
+| F4 | **Final tag `v1.0-final` + CI on the submitted commit** | ✅ (`git show v1.0-final` names the green run) | [`evidence/multi-release.txt`](evidence/multi-release.txt) |
 
 ## 1 · The 150-case suite and the gate
 
