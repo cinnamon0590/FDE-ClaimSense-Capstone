@@ -6,6 +6,27 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-058 · 2026-11-24 · Final M4 review: four gaps closed to exceed the checklist
+- **Why:** before the final tag, every M4 source was re-read: the W17 assignment, the brief (Milestone 5,
+  Submission 2, acceptance criteria, rubric A–E), the graded M4 checklist (all tiers), the W17 deck and the
+  handover-artifacts slide. Four gaps were closed.
+- **Decision:**
+  1. **The gate bar in CI is 95%** (the checklist's `--min-pass 0.95`) for both the replay and live gates. The
+     runner's floor stays 90%, and we score 100%.
+  2. **`ADV-*` names:** `M4/evals/adversarial-index.md/.json` maps the 45 adversarial cases to ADV-01..45, each
+     traced to the incident it guards against, including the two W16 class incidents (an injected document; an
+     uncited money claim). `M2/tests/test_adversarial_index.py` keeps the index equal to the gate's cases.
+  3. **Fresh gate evidence:** `gate-run.txt` (replay at the 95% bar) and `gate-run-live.txt` (the live gate on
+     `main` @ 24d8f5a, run 45284368168) both include D-057's money-and-evidence line, 150/150.
+  4. **The handover pack holds the steering deck** (`steering-deck.pdf` + speaker notes and backup plan) and
+     links the recording, the observation document, the `ADV-*` index and the release history.
+- **Left for the owner to decide** (each changes settings or adds scope):
+  - making the eval gate a **required** status check (branch protection on `main`);
+  - the optional Architect item "managed guardrails".
+- **Owner:** Susan Wellington.
+
+---
+
 ## D-057 · 2026-11-23 · Multi-release evidence, and the gate now scores the money and the citations
 - **Why:** the W17 Architect tier asks for two tagged releases, both gate-green, with the eval suite catching a
   deliberately introduced regression in between.

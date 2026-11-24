@@ -57,4 +57,7 @@ every file there was written by a command shown in its first lines.
 | Deployed frontend | [`M4/cloud/frontend.py`](../cloud/frontend.py) | console + orchestrator on ECS behind CloudFront |
 | Incident drill + RCAs | [`M4/drill/`](rca-template.md#incident-archive) | a staged and a real incident, both recovered |
 | Runbook | [`M4/RUNBOOK.md`](../RUNBOOK.md) | the six procedures, each executed |
-| Decisions D-046..D-053 | [`M4/DECISIONS.md`](../DECISIONS.md) | |
+| Steering deck + notes | [`steering-deck.pdf`](steering-deck.pdf), [`steering-deck-notes.md`](steering-deck-notes.md) | the value story; speaker notes; backup plan |
+| Observation document | [`M4/OBSERVATIONS.md`](../OBSERVATIONS.md) | deployment, evaluation, observability, reliability, handover, observations |
+| `ADV-*` index | [`M4/evals/adversarial-index.md`](../evals/adversarial-index.md) | the 45 adversarial cases, each traced to the incident it guards against |
+| Decisions D-046..D-058 | [`M4/DECISIONS.md`](../DECISIONS.md) | |
