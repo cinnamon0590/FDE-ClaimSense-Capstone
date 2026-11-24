@@ -36,6 +36,9 @@ class RunCtx:
     classifier: object = None                              # G1b (injection_classifier.py); None = off
     g1b: list = field(default_factory=list)                # [(category, reason)] for flagged passages
     g1b_usage: list = field(default_factory=list)
+    moderation: object = None                              # G9 (moderation.py, managed); None = off
+    moderation_holds: list = field(default_factory=list)   # [(category, where)] that hold the claim
+    moderation_noted: list = field(default_factory=list)   # other categories, recorded only
     claim_file_calls: int = 0                              # loop guard: Intake needs the file exactly once
     intake_view: bool = False                              # pipeline Intake: no policy term in its file (m2-v13)
     events: list = field(default_factory=list)
@@ -127,7 +130,7 @@ async def screen_packet(c: RunCtx, packet, meter=True):
     """G1b: classify every untrusted text (already PII-masked) BEFORE the model sees it. A passage aimed at
     an AI is withheld and counted as an injection hit, so the Intake tripwire holds the claim for a human."""
     if c.classifier is None:
-        return packet
+        return await moderate_packet(c, packet)
     slots = [("narrative", None, packet["claim"]["narrative"])] + \
             [("document", i, d["content_text"]) for i, d in enumerate(packet["documents"])]
     verdicts = dict(await c.classifier.classify([t for *_, t in slots]))
@@ -150,6 +153,26 @@ async def screen_packet(c: RunCtx, packet, meter=True):
             c.g1b.append((v["category"], v["reason"]))
             c.auto_decision_pressure.append("G1b: pressure to skip review")
     c.classifier.save()
+    return await moderate_packet(c, packet)
+
+
+async def moderate_packet(c: RunCtx, packet):
+    """G9 (managed, D-059): the provider's moderation model on every untrusted text. A high-severity category holds
+    the claim for a human (Intake tripwire); anything else it flags is recorded only. Never reaches the model."""
+    if c.moderation is None:
+        return packet
+    slots = [("narrative", packet["claim"]["narrative"])] + [(d["doc_id"], d["content_text"]) for d in packet["documents"]]
+    results = dict(await c.moderation.check([t for _, t in slots]))
+    for where, text in slots:
+        r = results.get(text)
+        if not r:
+            continue
+        for cat in r.get("hold", []):
+            c.moderation_holds.append((cat, where))
+            c.injection_hits.append(f"G9 managed moderation: {cat} in {where}")
+        for cat in set(r.get("flagged", [])) - set(r.get("hold", [])):
+            c.moderation_noted.append((cat, where))
+    c.moderation.save()
     return packet
 
 
@@ -167,7 +190,8 @@ async def get_claim_file(ctx: RunContextWrapper[RunCtx]) -> str:
     packet = await screen_packet(c, claim_packet(c))
     c.emit("tool", "get_claim_file", documents=len(packet["documents"]), pii_masked=c.pii_masked,
            injection_hits=len(c.injection_hits), foreign_claims_masked=c.foreign_claims_masked,
-           g1b_flags=[cat for cat, _ in c.g1b])
+           g1b_flags=[cat for cat, _ in c.g1b], g9_holds=[cat for cat, _ in c.moderation_holds],
+           g9_noted=sorted({cat for cat, _ in c.moderation_noted}))
     return json.dumps(packet)
 
 

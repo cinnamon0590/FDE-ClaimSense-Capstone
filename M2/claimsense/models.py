@@ -16,7 +16,7 @@ AssessmentRoute = Literal["fraud-investigator", "injury-specialist", "total-loss
 CoverageFinding = Literal["covered", "not_covered", "ambiguous"]
 GuardrailName = Literal["injection_detected", "poisoned_chunk_quarantined", "auto_decision_blocked",
                         "uncited_claim_blocked", "pii_masked", "cross_record_blocked",
-                        "model_disagreement"]
+                        "model_disagreement", "moderation_flagged"]                 # G9 managed layer (D-059)
 
 
 class Strict(BaseModel):

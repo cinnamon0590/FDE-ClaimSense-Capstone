@@ -6,6 +6,35 @@ D-036 to D-044 in [`../M3/DECISIONS.md`](../M3/DECISIONS.md). Newest first.
 
 ---
 
+## D-059 · 2026-11-24 · G9: a managed guardrail in front of the agents (when managed, when hand-rolled)
+- **Why:** the W17 Architect item asks for a managed policy layered in front of the agent, with a written
+  managed-vs-hand-rolled rationale. The owner chose to add it after the final review (D-058).
+- **Decision:** `M2/claimsense/moderation.py` runs OpenAI's moderation model (`omni-moderation-latest`, free) on
+  every untrusted text: the narrative and every document, after PII masking and G1/G1b, before any agent sees them.
+  - **It only escalates.** A category in `HOLD_CATEGORIES` holds the claim for a senior adjuster through the Intake
+    tripwire, with `moderation_flagged` on the card. The categories are threats, self-harm intent or instructions,
+    sexual content involving minors, and violent illicit activity.
+  - **It is scoped.** Everything else it flags is recorded, never acted on.
+  - **It fails closed.** If the service is down, the claim is held.
+  - **It is cached.** CI and replay never call the API.
+- **When managed, when hand-rolled:**
+  - **Hand-roll** what is domain-specific, auditable and must be exact: access, money, dates, citations,
+    provenance, injection markers, other claims' ids, PII formats (G1–G8). These are our rules, tested
+    case by case, and a provider can't know them.
+  - **Use managed** for broad harm categories we would otherwise write and maintain ourselves: threats,
+    self-harm, abuse, across languages, updated by the provider.
+  - **Never let a managed layer decide.** It sits in front, can only hold, is scoped by us, and is proven on our
+    own suite before it ships.
+- **Proof:** `M4/evidence/managed-guardrails.txt`:
+  - the live probe: a threat is held, an injury is recorded only, an ordinary claim is clean;
+  - the live 150-case gate with G9 on: 150/150, money and evidence 150/150, 0 adversarial failures, at the 95%
+    bar. 513 texts were moderated and **0 claims held**; 16 were flagged "violence", all crash descriptions,
+    recorded only. Scoping is what kept those 16 legitimate claims from being held;
+  - `M2/tests/test_managed_moderation.py` (5).
+- **Cost:** $0 for moderation; $3.63 for the live gate run. **Owner:** Susan Wellington.
+
+---
+
 ## D-058 · 2026-11-24 · Final M4 review: four gaps closed to exceed the checklist
 - **Why:** before the final tag, every M4 source was re-read: the W17 assignment, the brief (Milestone 5,
   Submission 2, acceptance criteria, rubric A–E), the graded M4 checklist (all tiers), the W17 deck and the

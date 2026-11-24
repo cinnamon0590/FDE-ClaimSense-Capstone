@@ -103,6 +103,9 @@ the edge as well fixed it.
 - **Restart survival:** the orchestrator, killed mid-claim, resumes from checkpoints without re-billing (CI tests
   it on every push).
 - **The packaged drill** (`M4/drill/incident_drill.py`) lets AutoSure's team re-run it themselves.
+- **A managed guardrail (G9, OpenAI moderation)** sits in front of the agents and can only hold a claim. On the live
+  gate it held 0 of 150 legitimate claims while recording 16 crash descriptions as "violence"; a live threat was
+  held (D-059).
 
 **Observed:** both production-path failures were **integration gaps between things that were each tested alone**: a
 config change outside the release path, and a token valid at the door but not at the gateway. The fix was the same
