@@ -32,23 +32,6 @@ the eval suite on every push from M0, and from M2 it gates the build.
 code decides (`->`) versus what the model reasons (`|`), the tools each agent may use, the fixed flow of control,
 escalation to humans, and the adjuster each call runs as.
 
-## How this was built
-
-I built ClaimSense with **Claude Code as my AI pair**, the way the course encourages. The judgment stayed mine:
-- **I set the scope** and the success criteria.
-- **I chose the design trade-offs** (stack, hosting, sign-in) and **signed off the golden labels**: the 150, the
-  held-out 20, and the coverage judgments.
-- **I tested the deployed system myself.** I found the user-picker impersonation issue (D-056), and I approved
-  every pull request before merging it.
-
-Claude Code drafted code, documents and evidence to my direction. **Every decision record lists me as owner**,
-and I reviewed each one, along with the charter, the SoW, the risk register, the RCAs and the runbook, before it
-was merged. Where the AI's first draft was wrong, the history says so: the decision logs and RCAs record the
-mistakes and what changed.
-
-**The CI eval gate, not the assistant, decides what ships:** no green gate, no merge (enforced by branch
-protection on `main`).
-
 ## Working locally
 
 ```bash
