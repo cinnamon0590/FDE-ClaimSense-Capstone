@@ -32,7 +32,7 @@ Real output of every check: [`evidence/ci-gate-proof.txt`](evidence/ci-gate-proo
 | 3. Red-gate test | break CS-001 (approve → deny), run, revert | **BLOCKED, exit 1, `FAIL CS-001 … (wrong decision code)`**; file restored, `git diff` empty |
 | 4. Threshold 101 | `EVAL_THRESHOLD=101 python evals/run_evals.py --cases 3` | **3/3 pass, still BLOCKED, exit 1** |
 | 4b. Lower bar refused | `EVAL_THRESHOLD=50 …` | **BLOCKED, exit 1**: "would lower the gate below its 90% floor: refused" |
-| 5. Workflow parses | `actionlint` (rhysd/actionlint:1.7.4, with shellcheck) | **0 findings, exit 0** |
+| 5. Workflow parses | `actionlint` (rhysd/actionlint:1.7.4, with shellcheck) | **0 findings, exit 0** (M2); re-run on the final workflow (95% bar, second grader, 10 jobs) on 2026-11-24: **0 findings, exit 0** |
 | 6. Cost of one CI run | 20 cases × measured tokens × list price | **$0.33** ($0.0166 per case); everything else in CI is $0 |
 | **First `main` run** (run 43847120072) | merge of #13 | **all 11 jobs green**; live gate in the image 20/20, all model-decided, PASS, $0.34; pushed digest `sha256:7a7a4aa4…0af85` = the tested build (image id verified in 4 jobs) |
 | Unit tests for the gate rules | `make test` | no key, replay refused, 101, lower bar refused and a crashed case are all tested (`tests/test_eval_gate.py`) |
