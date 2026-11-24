@@ -178,3 +178,13 @@ where every secret lives (never what it is), what it costs to run, and the known
   dashboard, drill, held-out run), narrated and captioned.
   - Storyline with timestamps: [`presentation/demo-script.md`](presentation/demo-script.md).
   - Rebuild: `python M4/presentation/make_demo.py tts | record | stills <deck> | assemble`.
+
+## 10 · Managed guardrails (D-059, W17 Architect)
+
+G9 runs OpenAI's moderation model on every untrusted text before any agent sees it. It **only holds**: threats,
+self-harm, sexual content involving minors and violent illicit activity go to a senior adjuster. Everything else it
+flags is recorded, never acted on. On the live 150-case gate it moderated 513 texts and held **0** legitimate
+claims; 16 crash descriptions were flagged "violence" and recorded only. A live threat was held
+([`evidence/managed-guardrails.txt`](evidence/managed-guardrails.txt)). The managed-vs-hand-rolled rationale is in
+D-059: hand-roll the domain rules that must be exact (G1–G8); use managed for broad harm categories; never let the
+managed layer decide.

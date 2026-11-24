@@ -25,6 +25,7 @@ from . import PROMPT_VERSION, config
 from ._m1 import SCHEMAS, guardrails as G, jsonschema_lite
 from .agents_def import ALL_SPECS as SPECS, build_agents, model_name
 from .injection_classifier import InjectionClassifier
+from .moderation import ManagedModeration
 from .brains import usage_dict
 from .boundary_client import AGENT_IDS, make_boundary
 from .deterministic import (FRAUD_SCORE_ROUTE, compute, coverage_questions, fallback_card, missing_documents,
@@ -63,6 +64,7 @@ class Pipeline:
         self.index = index or get_index(None if config.OPENSEARCH_URL else ("lexical" if self.brain == "replay" else None))
         self.checkpoints = Checkpoints()
         self.classifier = InjectionClassifier(self.brain) if config.G1B_CLASSIFIER else None
+        self.moderation = ManagedModeration(self.brain) if config.G9_MODERATION and self.brain != "mock" else None
 
     def model_label(self, key, claim_id):
         tier = SPECS[key][3]
@@ -122,7 +124,7 @@ class Pipeline:
         t0 = time.time()
         run_id = run_id or f"{claim_id}:{uuid.uuid4().hex[:8]}"
         ctx = RunCtx(boundary=self.boundary, user_id=user_id, claim_id=claim_id, index=self.index, on_event=on_event,
-                     classifier=self.classifier, intake_view=True)
+                     classifier=self.classifier, moderation=self.moderation, intake_view=True)
         usage = []
         result = {"claim_id": claim_id, "user_id": user_id, "run_id": run_id, "brain": self.brain,
                   "replay_source": self.store.source(claim_id) if self.brain == "replay" else None}
@@ -265,7 +267,8 @@ class Pipeline:
                                          quarantined=len(ctx.quarantined))
             extra = (["pii_masked"] if ctx.pii_masked else []) + (["cross_record_blocked"] if ctx.foreign_claims_masked else [])
             extra += (["injection_detected"] if any(cat == "ai_instruction" for cat, _ in ctx.g1b) else []) + \
-                     (["auto_decision_blocked"] if any(cat == "pressure_to_skip_review" for cat, _ in ctx.g1b) else [])
+                     (["auto_decision_blocked"] if any(cat == "pressure_to_skip_review" for cat, _ in ctx.g1b) else []) + \
+                     (["moderation_flagged"] if ctx.moderation_holds else [])       # G9 managed layer (D-059)
             card["guardrails_fired"] = sorted(set(card["guardrails_fired"]) | set(extra))
             for gname in card["guardrails_fired"]:
                 ctx.emit("guardrail", gname, fired=True)

@@ -51,6 +51,7 @@ if MODEL_PROVIDER == "bedrock":   # the pilot's region (M1); LiteLLM otherwise p
 CONSISTENCY_CHECK = os.environ.get("CONSISTENCY_CHECK", "1") == "1"
 # G1b: model-based injection classifier behind the G1 regexes (D-026); replay reads cached verdicts
 G1B_CLASSIFIER = os.environ.get("G1B_CLASSIFIER", "1") == "1"
+G9_MODERATION = os.environ.get("G9_MODERATION", "1") == "1"   # managed policy layer (D-059)
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 BOUNDARY_URL = os.environ.get("BOUNDARY_URL", "")             # empty = in-process boundary
 MCP_URL = os.environ.get("CLAIMSENSE_MCP_URL", "")            # M3: agents reach data as MCP tools on the door

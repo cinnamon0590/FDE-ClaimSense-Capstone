@@ -32,7 +32,7 @@ COPY M1/6-synthetic-data/fixtures M1/6-synthetic-data/fixtures
 COPY M1/tools/jsonschema_lite.py M1/tools/
 COPY M2/claimsense M2/claimsense
 COPY M2/evals/replays M2/evals/replays
-COPY M2/evals/cases-m2.json M2/evals/g1b-cache.json M2/evals/
+COPY M2/evals/cases-m2.json M2/evals/g1b-cache.json M2/evals/g9-moderation-cache.json M2/evals/
 COPY M4/evals/cases-m4.json M4/evals/
 COPY M2/services/orchestrator M2/services/orchestrator
 USER app

@@ -254,7 +254,8 @@
               "uncited_claim_blocked",
               "pii_masked",
               "cross_record_blocked",
-              "model_disagreement"
+              "model_disagreement",
+              "moderation_flagged"
             ]
           }
         },
